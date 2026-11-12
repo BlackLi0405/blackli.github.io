@@ -41,7 +41,7 @@ def cover():
         <div style="font-size:44px;font-weight:700;line-height:1.35">{e(s['headline'].replace(chr(10),' '))}</div></div></div>"""
         for i, s in enumerate(d["stories"]))
     body = f"""<div class="wrap">
-      <div class="brand">曹濬騰自主學習</div>
+      <div class="brand">曹濬騰早起工作</div>
       <div class="date">{e(d['date'])}　{e(d['weekday'])}</div>
       <div style="font-size:104px;font-weight:900;line-height:1.15;margin:70px 0 60px">{e(d['title'])}</div>
       {items}
