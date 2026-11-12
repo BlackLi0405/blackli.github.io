@@ -8,6 +8,7 @@ out = Path(sys.argv[2] if len(sys.argv) > 2 else "out")
 out.mkdir(exist_ok=True)
 d = json.loads(src.read_text(encoding="utf-8"))
 e = lambda s: html.escape(s).replace("\n", "<br>")
+BRAND = "曹濬騰早起工作"
 UP, DOWN = "#FF4D5E", "#22C55E"  # 台灣慣例：漲紅跌綠
 
 BASE = """
@@ -41,7 +42,7 @@ def cover():
         <div style="font-size:44px;font-weight:700;line-height:1.35">{e(s['headline'].replace(chr(10),' '))}</div></div></div>"""
         for i, s in enumerate(d["stories"]))
     body = f"""<div class="wrap">
-      <div class="brand">曹濬騰早起工作</div>
+      <div class="brand">{BRAND}</div>
       <div class="date">{e(d['date'])}　{e(d['weekday'])}</div>
       <div style="font-size:104px;font-weight:900;line-height:1.15;margin:70px 0 60px">{e(d['title'])}</div>
       {items}
@@ -70,11 +71,33 @@ def card(i, s):
     <div class="foot"><span>資料來源：{e(s['source'])}</span><span>{i+1} / {len(d['stories'])}</span></div>"""
     return page(body, col + "55", "right:-500px;top:-500px;")
 
-pages = [cover()] + [card(i, s) for i, s in enumerate(d["stories"])]
+def digest():
+    acc = d.get("accent", "#4FB3D9")
+    items = "".join(
+        f"""<div style="padding:30px 0;border-top:2px solid #2A3850">
+        <div style="display:flex;align-items:center;gap:22px;margin-bottom:16px">
+          <div style="font-size:56px;font-weight:900;color:{acc};line-height:1">{i+1:02d}</div>
+          <div style="font-size:26px;font-weight:700;color:#0E1726;background:{acc};padding:6px 20px;border-radius:30px">{e(s['tag'])}</div></div>
+        <div style="font-size:50px;font-weight:900;line-height:1.3;margin-bottom:14px">{e(s['headline'])}</div>
+        <div style="font-size:32px;line-height:1.5;color:#CBD3DF">{e(s['summary'])}</div></div>"""
+        for i, s in enumerate(d["stories"]))
+    body = f"""<div class="wrap">
+      <div class="brand">{BRAND}</div>
+      <div class="date">{e(d['date'])}　{e(d['weekday'])}</div>
+      <div style="font-size:88px;font-weight:900;line-height:1.15;margin:40px 0 24px">{e(d['title'])}</div>
+      {items}
+    </div>
+    <div class="foot"><span>完整報導點連結 →</span><span>資料來源：{e(d.get('source',''))}</span></div>"""
+    return page(body, acc + "66", "left:-300px;top:-400px;")
+
+if d.get("mode") == "digest":
+    pages = [digest()]
+else:
+    pages = [cover()] + [card(i, s) for i, s in enumerate(d["stories"])]
 with sync_playwright() as p:
     b = p.chromium.launch(executable_path="/usr/bin/google-chrome")
     pg = b.new_page(viewport={"width": 1080, "height": 1920})
     for n, h in enumerate(pages):
         pg.set_content(h); pg.wait_for_timeout(200)
-        f = out / f"story_{n+1}.png"; pg.screenshot(path=str(f)); print(f)
+        f = out / (f"world_{n+1}.png" if d.get("mode") == "digest" else f"story_{n+1}.png"); pg.screenshot(path=str(f)); print(f)
     b.close()
