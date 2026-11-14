@@ -26,7 +26,7 @@ def page_key(rel):
     return {"index.html": "home", "news.html": "news", "finance.html": "news", "world.html": "news",
             "weekly.html": "weekly", "deep.html": "weekly", "mind.html": "mind", "fun.html": "fun",
             "tools.html": "tools", "calc.html": "tools", "trip.html": "tools", "travel.html": "tools",
-            "about.html": "about", "method.html": "about"}.get(rel, "")
+            "about.html": "about", "method.html": "about", "app.html": "tools", "offline.html": ""}.get(rel, "")
 
 def logo(pre):
     return f'<img src="{pre}assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b>'
@@ -53,7 +53,7 @@ def foot(pre):
             f'<div><h5>每天讀</h5><ul><li><a href="{p}index.html">今天的課表</a></li><li><a href="{p}news.html">新聞</a></li>'
             f'<li><a href="{p}weekly.html">專欄</a></li><li><a href="{p}mind.html">身心</a></li><li><a href="{p}fun.html">輕鬆</a></li></ul></div>'
             f'<div><h5>工具</h5><ul><li><a href="{p}travel.html">出遊情報</a></li><li><a href="{p}trip.html">幫我排行程</a></li>'
-            f'<li><a href="{p}calc.html">理財小工具</a></li></ul></div>'
+            f'<li><a href="{p}calc.html">理財小工具</a></li><li><a href="{p}app.html">裝到手機</a></li></ul></div>'
             f'<div><h5>關於</h5><ul><li><a href="{p}about.html">關於小曹</a></li>'
             f'<li><a href="{p}method.html">我怎麼拆解資訊</a></li><li><a href="{p}method.html#sources">來源原則</a></li>'
             f'<li><a href="{p}about.html#disclaimer">免責聲明</a></li></ul></div>'
@@ -67,6 +67,12 @@ def apply(path):
     head = (f'<link rel="icon" href="{pre}assets/logo.svg" type="image/svg+xml">\n'
             f'<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">\n'
             f'<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">\n'
+            f'<link rel="manifest" href="{pre}manifest.webmanifest">\n'
+            f'<link rel="apple-touch-icon" href="{pre}assets/icons/apple-touch-icon.png">\n'
+            f'<meta name="mobile-web-app-capable" content="yes">\n'
+            f'<meta name="apple-mobile-web-app-capable" content="yes">\n'
+            f'<meta name="apple-mobile-web-app-title" content="BlackLi">\n'
+            f'<meta name="apple-mobile-web-app-status-bar-style" content="default">\n'
             f'<link rel="stylesheet" href="{pre}site.css">\n<script src="{pre}assets/site.js" defer></script>')
     s = re.sub(r'<!-- SITE-HEAD:START -->.*?<!-- SITE-HEAD:END -->\n?', '', s, flags=re.S)
     s = s.replace("</head>", f"<!-- SITE-HEAD:START -->\n{head}\n<!-- SITE-HEAD:END -->\n</head>", 1)

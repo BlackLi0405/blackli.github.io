@@ -18,6 +18,7 @@ _最後更新：2026-11-15_
 - **今日小考**：`data/quiz.json`，首頁與「輕鬆」頁可作答（目前有 11-14 一份）。
 - **工具頁**：出遊情報（`travel.html`）、幫我排行程（`trip.html`）、理財小工具（`calc.html`）。
 - **關於頁**：關於小曹、我怎麼拆解資訊、來源原則、免責聲明。
+- **裝到手機（App）**（2026-11-15）：網站可以加到手機主畫面，像 App 一樣全螢幕打開；讀過的文章沒網路也能看。安裝教學在 `app.html`（工具頁與頁尾都有連結），Android／電腦會出現「一鍵安裝」按鈕。
 
 ### 已建好、等第一篇內容
 
@@ -34,6 +35,8 @@ _最後更新：2026-11-15_
 
 - [ ] 深度拆解（`deep.html`）還沒有固定的更新排程。
 - [ ] 確認週日第一次專欄、週一第一次盤後／盤前發佈後版面正常。
+- [ ] 用 iPhone 與 Android 實際加到主畫面測一次。
+- [ ] （之後再評估）推播通知、上架 App Store／Google Play。
 
 ---
 
@@ -64,11 +67,14 @@ deep.html         深度拆解（DEEP 標記）
 fun.html          輕鬆・下課十分鐘（FUN 標記）＋今日小考
 tools.html        工具總覽；travel.html、trip.html、calc.html
 about.html        關於；method.html 拆解方法與來源原則
+app.html          裝到手機（安裝教學）；offline.html 沒網路時顯示的頁面
+manifest.webmanifest  App 名稱、圖示、顏色設定
+sw.js             離線功能（網頁先抓最新、沒網路才用手機裡的版本；改快取規則時把 VERSION 加 1）
 reports/          所有文章
 data/quiz.json    今日小考（保留最近 14 天）
-assets/           logo.svg、site.js
+assets/           logo.svg、site.js（含 App 安裝按鈕）、icons/（App 圖示）
 site.css          全站樣式與配色變數
-tools/            文章範本（brief／close／pre／deep／mind／fun）、render.py、site_chrome.py、圖卡設定檔
+tools/            文章範本（brief／close／pre／deep／mind／fun）、render.py、site_chrome.py（共用頁首含 App 設定，改完重跑）、圖卡設定檔
 ```
 
 ## 寫作原則

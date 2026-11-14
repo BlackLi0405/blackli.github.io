@@ -29,7 +29,26 @@
     '有什麼事你其實已經做得很好，只是沒注意到？', '你最近一次為自己做了什麼？', '今天睡前，想對自己說哪一句話？'
   ];
   const question = (d = today()) => { const n = Math.floor(new Date(d + 'T12:00:00+08:00').getTime() / 864e5); return QUESTIONS[((n % QUESTIONS.length) + QUESTIONS.length) % QUESTIONS.length]; };
-  window.BB = {store, today, streak, question, total: () => days.length};
+  window.BB = {store, today, streak, question, total: () => days.length, app: () => document.documentElement.dataset.bbPlatform};
+  /* ---------- 裝到手機（App）：離線功能與安裝按鈕 ---------- */
+  const me = document.currentScript && document.currentScript.src;
+  if ('serviceWorker' in navigator && me && window.isSecureContext) {
+    navigator.serviceWorker.register(new URL('../sw.js', me), {scope: new URL('../', me).pathname}).catch(() => {});
+  }
+  const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  const ua = navigator.userAgent;
+  const platform = standalone ? 'installed' : /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) ? 'ios' : /Android/.test(ua) ? 'android' : 'desktop';
+  document.documentElement.dataset.bbPlatform = platform;
+  let deferred = null;
+  const showBtns = () => document.querySelectorAll('[data-bb-install]').forEach(b => { b.hidden = !deferred; });
+  window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; showBtns(); });
+  window.addEventListener('appinstalled', () => { deferred = null; showBtns(); document.documentElement.dataset.bbPlatform = 'installed'; });
+  document.addEventListener('click', async e => {
+    const b = e.target.closest && e.target.closest('[data-bb-install]'); if (!b || !deferred) return;
+    deferred.prompt(); await deferred.userChoice.catch(() => {}); deferred = null; showBtns();
+  });
+  document.addEventListener('DOMContentLoaded', showBtns);
+
   document.querySelectorAll('[data-bb-question]').forEach(el => { el.textContent = question(); });
   document.querySelectorAll('[data-bb-streak]').forEach(el => {
     const n = streak();
