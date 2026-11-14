@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  早報範本（財經與國際共用）：一則深入拆解＋兩則快訊
+  使用方式：
+    財經 → 複製成 reports/YYYY-MM-DD.html，品牌列寫「財經早報」，<title>「YYYY.MM.DD 今日財經｜【主題短標】｜曹濬騰早起工作」
+    國際 → 複製成 reports/world-YYYY-MM-DD.html，品牌列寫「國際早報」，<title>「YYYY.MM.DD 今日國際｜【主題短標】｜曹濬騰早起工作」
+  把所有【】換成實際內容，刪掉這段說明與檔案最下方的註解。
+  篇幅：深入拆解 1200～1800 字；每則快訊約 150 字。
+  原則：只寫有來源的內容；不加入個人評價；未證實的消息標明「據報導」「尚未獲官方證實」；觀點與立場要寫出是誰說的。
+-->
+<title>【YYYY.MM.DD】今日財經｜【主題短標】｜曹濬騰早起工作</title>
+<meta name="description" content="【一句話說明今天的主題】">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0E1726;--panel:#152238;--panel2:#1B2A44;--line:#2A3850;--ink:#F5F1E8;--mute:#9AA6B8;--gold:#E8B44C;--up:#FF4D5E;--down:#22C55E;--fact:#5A93E0;--view:#B98AE0;--stance:#E0A04F;--interest:#4FB89A}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.8;font-size:17px;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px}
+.wrap{max-width:720px;margin:0 auto;padding:0 22px}
+header.hero{padding:52px 0 30px;border-bottom:1px solid var(--line)}
+.brand{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
+.brand a{color:inherit;text-decoration:none}
+.date{color:var(--mute);font-size:14px;margin-top:6px;letter-spacing:.06em}
+h1{font-size:clamp(30px,7.5vw,46px);font-weight:900;line-height:1.25;margin:18px 0 12px}
+.lede{color:#CBD3DF}
+nav.toc{position:sticky;top:0;z-index:5;background:rgba(14,23,38,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:12px;padding-bottom:12px}
+nav.toc a{flex:none;color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;border:1px solid var(--line);border-radius:99px;padding:6px 14px}
+nav.toc a b{color:var(--gold);margin-right:6px}
+article{padding:44px 0 36px;border-bottom:1px solid var(--line)}
+.tag{display:inline-block;background:var(--gold);color:var(--bg);font-weight:700;font-size:14px;border-radius:99px;padding:3px 14px}
+.kind{color:var(--gold);font-weight:900;font-size:14px;margin-left:10px;letter-spacing:.1em}
+h2{font-size:clamp(26px,6vw,36px);font-weight:900;line-height:1.3;margin:14px 0 18px}
+.tldr{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:0 0 22px}
+.tldr b{color:var(--gold);font-size:14px;letter-spacing:.08em;display:block;margin-bottom:4px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:0 0 10px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.stat .l{color:var(--mute);font-size:13px}
+.stat .v{font-size:26px;font-weight:900;line-height:1.3}
+.up{color:var(--up)}.down{color:var(--down)}
+h3{font-size:20px;font-weight:900;margin:32px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.lab{font-size:12px;font-weight:700;border-radius:99px;padding:2px 10px;color:#0E1726}
+.lab.fact{background:var(--fact)}.lab.view{background:var(--view)}.lab.stance{background:var(--stance)}.lab.interest{background:var(--interest)}
+h3.plain::before{content:"";width:6px;height:20px;background:var(--gold);border-radius:3px}
+p{margin:0 0 14px;color:#DDE3EC}
+ul{margin:0 0 14px 1.2em;color:#DDE3EC}
+li{margin-bottom:8px}
+li::marker{color:var(--gold)}
+.tbl{overflow-x:auto;margin:0 0 16px}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:480px}
+td,th{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500;font-size:13px}
+td:first-child{font-weight:700;white-space:nowrap}
+.box{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:16px 18px;margin:24px 0}
+.box strong{color:var(--gold)}
+.note{font-size:14px;color:var(--mute)}
+.src{font-size:14px;color:var(--mute);margin-top:18px}
+.src a{color:var(--mute)}
+.briefs h2.sec{font-size:22px;margin:40px 0 4px}
+.briefs .sub{color:var(--mute);font-size:14px;margin-bottom:6px}
+article.brief{padding:22px 0 20px}
+article.brief h2{font-size:21px;margin:10px 0 8px}
+article.brief:last-child{border-bottom:0}
+footer{padding:40px 0 70px;font-size:14px;color:var(--mute)}
+footer h4{color:var(--ink);font-size:16px;margin-bottom:10px}
+footer a{color:#B8C2D1}
+.top{display:inline-block;margin-top:24px;color:var(--gold);text-decoration:none}
+</style>
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8B44C'/%3E%3Ctext x='32' y='45' font-size='36' font-weight='900' text-anchor='middle' fill='%230E1726' font-family='sans-serif'%3E%E6%97%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../site.css">
+<!-- SITE-HEAD:END -->
+</head>
+<body>
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="../index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="../index.html">首頁</a><a href="../finance.html">財經早報</a><a href="../world.html">國際早報</a><a href="../weekly.html">每週專欄</a><a href="../travel.html">出遊情報</a><a href="../calc.html">理財小工具</a><a href="../about.html">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="../index.html">首頁</a><a href="../finance.html">財經早報</a><a href="../world.html">國際早報</a><a href="../weekly.html">每週專欄</a><a href="../travel.html">出遊情報</a><a href="../calc.html">理財小工具</a><a href="../about.html">關於本站</a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+<header class="hero"><div class="wrap">
+  <div class="brand"><a href="../">曹濬騰早起工作</a> · 【財經早報／國際早報】</div>
+  <div class="date">【YYYY.MM.DD（週X）】・閱讀約【N】分鐘</div>
+  <h1>【今日主題標題：中性描述或問句】</h1>
+  <p class="lede">【兩三句話：今天深入拆解哪件事，另外兩則快訊各是什麼】</p>
+</div></header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#main"><b>01</b>【主題短標】</a>
+  <a href="#b1"><b>02</b>【快訊一短標】</a>
+  <a href="#b2"><b>03</b>【快訊二短標】</a>
+</div></nav>
+
+<main class="wrap">
+
+<!-- 01 深入拆解 -->
+<article id="main">
+  <span class="tag">【2 字分類，例如：台股、美股、總經、台海、中東】</span><span class="kind">今日拆解</span>
+  <h2>【標題】</h2>
+  <div class="tldr"><b>一句話看懂</b>【用一兩句話說清楚這件事是什麼、為什麼重要】</div>
+  <div class="stats">
+    <div class="stat"><div class="l">【指標】</div><div class="v">【數字】</div></div>
+    <div class="stat"><div class="l">【指標】</div><div class="v">【數字】</div></div>
+    <div class="stat"><div class="l">【指標】</div><div class="v">【數字】</div></div>
+  </div>
+
+  <h3><span class="lab fact">事實</span>發生了什麼</h3>
+  <p>【只寫可以查證、各方都不爭執的部分：數字、日期、誰在何時說了什麼、文件內容。可加背景：這件事是怎麼走到今天的】</p>
+
+  <h3><span class="lab view">觀點</span>各方怎麼解讀</h3>
+  <div class="tbl"><table>
+    <tr><th>誰</th><th>怎麼解讀</th></tr>
+    <tr><td>【A 方】</td><td>【他們的說法（附出處）】</td></tr>
+    <tr><td>【B 方】</td><td>【他們的說法（附出處）】</td></tr>
+  </table></div>
+
+  <h3><span class="lab stance">立場</span>各方站在哪裡</h3>
+  <ul><li><strong>【A 方】：</strong>【公開立場】</li><li><strong>【B 方】：</strong>【公開立場】</li></ul>
+
+  <h3><span class="lab interest">利益</span>背後的動機</h3>
+  <p>【各方在這件事上可能得到或失去什麼。只引用公開報導或專家說法，例如「分析師指出」「據○○報導」】</p>
+  <p class="note">※ 利益分析引用自公開報導與專家說法，不代表當事人承認。</p>
+
+  <h3 class="plain">還不知道的事</h3>
+  <ul><li>【尚未證實、仍待觀察，或各方說法矛盾的地方】</li></ul>
+
+  <div class="box"><strong>這跟你有什麼關係</strong><br>【具體說明對台灣一般讀者的影響：荷包、工作、物價、出國、投資風險等；最後一句寫接下來要觀察的時間點或指標】</div>
+
+  <p class="src">資料來源：<a href="【網址】">【媒體名稱】</a>、<a href="【網址】">【媒體名稱】</a></p>
+</article>
+
+<section class="briefs">
+  <h2 class="sec">其他快訊</h2>
+  <p class="sub">知道發生了什麼就好的兩件事</p>
+
+  <!-- 02 快訊 -->
+  <article class="brief" id="b1">
+    <span class="tag">【分類】</span><span class="kind">快訊</span>
+    <h2>【標題】</h2>
+    <p>【約 150 字：發生了什麼、關鍵數字、為什麼值得知道】</p>
+    <p class="src">資料來源：<a href="【網址】">【媒體名稱】</a></p>
+  </article>
+
+  <!-- 03 快訊 -->
+  <article class="brief" id="b2">
+    <span class="tag">【分類】</span><span class="kind">快訊</span>
+    <h2>【標題】</h2>
+    <p>【約 150 字】</p>
+    <p class="src">資料來源：<a href="【網址】">【媒體名稱】</a></p>
+  </article>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <h4>免責聲明</h4>
+  <p class="note">本頁內容整理自公開新聞報導，只呈現各方說法，不加入個人評價，僅供參考，不構成任何投資建議。發現錯誤歡迎告訴我，確認後會更正並註明。</p>
+  <a class="top" href="#main">↑ 回到今日拆解</a>　<a class="top" href="../">看更多日報 →</a>
+</div></footer>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div><div><h5>內容</h5><ul><li><a href="../finance.html">財經早報</a></li><li><a href="../world.html">國際早報</a></li><li><a href="../weekly.html">每週專欄</a></li><li><a href="../travel.html">出遊情報</a></li><li><a href="../calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="../about.html">關於本站</a></li><li><a href="../method.html">我怎麼拆解資訊</a></li><li><a href="../method.html#sources">來源原則</a></li><li><a href="../about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>
+<!--
+  首頁卡片（財經加在 index.html 的 REPORTS:START 後面，國際加在 WORLD:START 後面），第一行是今日拆解：
+  <a class="card" href="reports/YYYY-MM-DD.html">
+    <div class="d">YYYY.MM.DD（週X）</div>
+    <ol>
+      <li><span>拆解</span>【主題標題】</li>
+      <li><span>【分類】</span>【快訊一標題】</li>
+      <li><span>【分類】</span>【快訊二標題】</li>
+    </ol>
+    <div class="more">閱讀完整報導 →</div>
+  </a>
+-->
