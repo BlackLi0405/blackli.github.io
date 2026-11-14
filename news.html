@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>新聞｜BlackLi Board</title>
+<meta name="description" content="每天的財經早報、國際早報、台股盤後與美股盤前，依日期整理。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+.day{display:grid;grid-template-columns:160px 1fr;gap:24px;padding:22px 0;border-top:1px solid var(--line)}
+.day:first-child{border-top:0}
+.day h2{font-size:22px;font-weight:900;margin:0;line-height:1.3}
+.day h2 small{display:block;font-size:14px;color:var(--mute);font-weight:600}
+.day .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.day .card{margin:0}
+.kind{display:inline-block;font-size:11px;font-weight:800;border-radius:6px;padding:1px 7px;margin-right:6px;color:#fff;vertical-align:2px}
+.kind.brief{background:var(--accent);color:var(--on-accent)}.kind.world{background:var(--fact)}.kind.close{background:var(--stance)}.kind.pre{background:var(--view)}
+.count{font-size:14px;color:var(--chalk);opacity:.8;margin-top:12px}
+.msg{color:var(--mute);padding:30px 0}
+@media (max-width:760px){.day{grid-template-columns:1fr;gap:10px}}
+</style>
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="site.css">
+<script src="assets/site.js" defer></script>
+<!-- SITE-HEAD:END -->
+</head>
+<body class="hub">
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html" aria-current="page">新聞</a><a href="weekly.html">專欄</a><a href="mind.html">身心</a><a href="fun.html">輕鬆</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今天的課表</small></a><a href="news.html" aria-current="page">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・深度拆解</small></a><a href="mind.html">身心<small>保健室</small></a><a href="fun.html">輕鬆<small>下課十分鐘</small></a><a href="tools.html">工具<small>出遊情報・理財小工具</small></a><a href="about.html">關於<small>導師室</small></a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+<section class="chalkboard"><div class="w ph">
+  <div class="kick">新聞・每天三次</div>
+  <h1>新聞</h1>
+  <p>早上 07:45 的<b>早報</b>深入拆解一則重要消息；交易日 16:30 的<b>盤後</b>整理台股與亞洲股市；21:00 的<b>盤前</b>預告今晚美股的數據和事件。</p>
+  <div class="pills" id="tabs" role="group" aria-label="篩選"></div>
+  <div class="count" id="count"></div>
+</div></section>
+<main><div class="w sec" id="list"><p class="msg">載入中…</p></div></main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const KINDS = [['all', '全部'], ['brief', '財經早報'], ['world', '國際早報'], ['close', '台股盤後'], ['pre', '美股盤前']];
+  const LABEL = {brief: '財經', world: '國際', close: '盤後', pre: '盤前'};
+  const kindOf = h => /\/close-/.test(h) ? 'close' : /\/pre-/.test(h) ? 'pre' : /\/world-/.test(h) ? 'world' : 'brief';
+  const ORDER = {brief: 0, world: 1, close: 2, pre: 3};
+  const WD = '日一二三四五六';
+  let ALL = [], cur = new URLSearchParams(location.search).get('type') || 'all';
+  if (!KINDS.some(k => k[0] === cur)) cur = 'all';
+  function render() {
+    document.getElementById('tabs').innerHTML = KINDS.map(([k, l]) => `<button type="button" data-k="${k}" aria-pressed="${k === cur}">${l}</button>`).join('');
+    const list = ALL.filter(c => cur === 'all' || c.kind === cur);
+    document.getElementById('count').textContent = `共 ${list.length} 篇`;
+    const box = document.getElementById('list');
+    if (!list.length) { box.innerHTML = '<p class="msg">' + (ALL.length ? '這個類型還沒有文章，交易日會自動更新。' : '目前還沒有文章。') + '</p>'; return; }
+    const g = new Map(); list.forEach(c => { if (!g.has(c.date)) g.set(c.date, []); g.get(c.date).push(c); });
+    box.innerHTML = [...g].map(([d, cs]) => { const w = WD[new Date(d + 'T12:00:00+08:00').getDay()];
+      return `<div class="day"><h2>${+d.slice(5, 7)} 月 ${+d.slice(8)} 日<small>${d.slice(0, 4)}・星期${w}</small></h2><div class="cards">${cs.sort((a, b) => ORDER[a.kind] - ORDER[b.kind]).map(c => c.html).join('')}</div></div>`; }).join('');
+  }
+  document.getElementById('tabs').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return; cur = b.dataset.k;
+    history.replaceState(null, '', location.pathname + (cur === 'all' ? '' : '?type=' + cur)); render();
+  });
+  fetch('index.html', {cache: 'no-cache'}).then(r => r.text()).then(t => {
+    const doc = new DOMParser().parseFromString(t, 'text/html');
+    ALL = [...doc.querySelectorAll('.feed a.card')].map(a => {
+      const href = a.getAttribute('href') || ''; const kind = kindOf(href); const m = href.match(/(\d{4}-\d{2}-\d{2})/);
+      const d = a.querySelector('.d'); if (d) d.innerHTML = `<span class="kind ${kind}">${LABEL[kind]}</span>` + d.innerHTML.replace(/・(盤後|盤前)$/, '');
+      return {href, kind, date: m ? m[1] : '', html: a.outerHTML};
+    }).sort((a, b) => b.date.localeCompare(a.date));
+    render();
+  }).catch(() => { document.getElementById('list').innerHTML = '<p class="msg">列表暫時無法載入，請回到<a href="index.html">首頁</a>。</p>'; });
+});
+</script>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天的課表</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">身心</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>

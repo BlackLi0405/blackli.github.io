@@ -3,32 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>幫我排行程｜出遊情報｜曹濬騰早起工作</title>
+<title>幫我排行程｜出遊情報｜BlackLi Board</title>
 <meta name="description" content="輸入日期、出發地、時間長度和偏好，自動排出有時間軸、地圖、天氣與預算的出門行程，依體力和心情調整節奏。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
-:root{--bg:#0E1726;--panel:#152238;--panel2:#1B2A44;--line:#2A3850;--ink:#F5F1E8;--mute:#9AA6B8;--gold:#E8B44C;--up:#FF4D5E;--ok:#22C55E;--blue:#5A93E0}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.7;font-size:16px;
-  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.7;font-size:16px;}
 .wrap{max-width:760px;margin:0 auto;padding:0 18px}
 header.hero{padding:44px 0 24px}
 .subnav{display:flex;gap:8px;margin:16px 0 0}
-.subnav a{flex:1;text-align:center;text-decoration:none;font-weight:700;font-size:15px;padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:#CBD3DF}
+.subnav a{flex:1;text-align:center;text-decoration:none;font-weight:700;font-size:15px;padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink2)}
 .subnav a.on{background:var(--gold);color:var(--bg);border-color:var(--gold)}
-.evbox{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--gold);background:rgba(232,180,76,.08);border-radius:16px;padding:14px;margin-bottom:14px}
+.evbox{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--gold);background:color-mix(in srgb,var(--gold) 8%,transparent);border-radius:16px;padding:14px;margin-bottom:14px}
 .evbox .ic{font-size:30px;line-height:1}
 .evbox b{display:block;font-size:16px}
-.evbox small{display:block;color:#CBD3DF;font-size:13px;margin-top:2px}
+.evbox small{display:block;color:var(--ink2);font-size:13px;margin-top:2px}
 .evbox button{margin-left:auto;background:none;border:1px solid var(--line);color:var(--mute);font:inherit;font-size:13px;border-radius:9px;padding:4px 10px;cursor:pointer;white-space:nowrap}
 .kicker{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
 h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 8px}
-.lede{color:#CBD3DF}
-.tabs{position:sticky;top:0;z-index:30;display:flex;gap:6px;padding:10px 0;background:rgba(14,23,38,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-bottom:18px}
-.tabs button{flex:1;background:var(--panel);border:1px solid var(--line);color:#CBD3DF;font:inherit;font-size:15px;font-weight:700;padding:9px 6px;border-radius:12px;cursor:pointer}
+.lede{color:var(--ink2)}
+.tabs{position:sticky;top:0;z-index:30;display:flex;gap:6px;padding:10px 0;background:var(--glass);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-bottom:18px}
+.tabs button{flex:1;background:var(--panel);border:1px solid var(--line);color:var(--ink2);font:inherit;font-size:15px;font-weight:700;padding:9px 6px;border-radius:12px;cursor:pointer}
 .tabs button[aria-selected="true"]{background:var(--gold);color:var(--bg);border-color:var(--gold)}
 .panel[hidden]{display:none}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
@@ -44,11 +42,11 @@ h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 
 .inp .u{color:var(--mute);font-size:14px;white-space:nowrap}
 .inp button{background:none;border:0;color:var(--gold);font:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;padding:6px 0}
 .seg,.chips{display:flex;flex-wrap:wrap;gap:8px}
-.seg button,.chips button{background:var(--panel2);border:1px solid var(--line);color:#DDE3EC;font:inherit;font-size:15px;font-weight:500;padding:8px 14px;border-radius:99px;cursor:pointer}
-.seg button[aria-pressed="true"],.chips button[aria-pressed="true"]{background:rgba(232,180,76,.16);border-color:var(--gold);color:var(--gold);font-weight:700}
-.chips.avoid button[aria-pressed="true"]{background:rgba(255,77,94,.12);border-color:var(--up);color:#FF8A95}
+.seg button,.chips button{background:var(--panel2);border:1px solid var(--line);color:var(--ink2);font:inherit;font-size:15px;font-weight:500;padding:8px 14px;border-radius:99px;cursor:pointer}
+.seg button[aria-pressed="true"],.chips button[aria-pressed="true"]{background:color-mix(in srgb,var(--gold) 16%,transparent);border-color:var(--gold);color:var(--gold);font-weight:700}
+.chips.avoid button[aria-pressed="true"]{background:rgba(255,77,94,.12);border-color:var(--up);color:var(--up)}
 .mood{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.mood-note{margin-top:10px;background:var(--panel2);border-radius:12px;padding:10px 12px;font-size:14px;color:#DDE3EC}
+.mood-note{margin-top:10px;background:var(--panel2);border-radius:12px;padding:10px 12px;font-size:14px;color:var(--ink2)}
 .mood-note b{color:var(--gold)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--gold);color:var(--bg);border:0;font:inherit;font-size:16px;font-weight:900;padding:12px 18px;border-radius:14px;cursor:pointer;text-decoration:none}
 .btn.wide{width:100%}
@@ -57,18 +55,18 @@ h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 
 .btn:disabled{opacity:.5;cursor:wait}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .status{color:var(--mute);font-size:14px;margin-top:10px;min-height:1.4em}
-.status.err{color:#FF8A95}
+.status.err{color:var(--up)}
 .banner{border-radius:14px;padding:12px 14px;margin-bottom:12px;font-size:15px;border:1px solid var(--line);background:var(--panel2)}
 .banner.warn{border-color:rgba(255,77,94,.5);background:rgba(255,77,94,.08)}
-.banner.gold{border-color:rgba(232,180,76,.5);background:rgba(232,180,76,.08)}
+.banner.gold{border-color:color-mix(in srgb,var(--gold) 50%,transparent);background:color-mix(in srgb,var(--gold) 8%,transparent)}
 .banner b{color:var(--gold)}
 .wx{display:flex;align-items:center;gap:14px}
 .wx .ic{font-size:34px;line-height:1}
 .wx .t{font-size:22px;font-weight:900}
 .wx .s{color:var(--mute);font-size:14px}
-#map{height:320px;border-radius:16px;border:1px solid var(--line);margin-bottom:14px;background:#0B1220;z-index:1}
+#map{height:320px;border-radius:16px;border:1px solid var(--line);margin-bottom:14px;background:var(--paper);z-index:1}
 .leaflet-container{font-family:inherit}
-.pin{background:var(--gold);color:var(--bg);border:2px solid #0E1726;border-radius:50%;width:28px;height:28px;display:grid;place-items:center;font-weight:900;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.pin{background:var(--gold);color:var(--bg);border:2px solid var(--bg);border-radius:50%;width:28px;height:28px;display:grid;place-items:center;font-weight:900;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.4)}
 .pin.home{background:#5A93E0;color:#fff}
 .day-h{font-size:15px;font-weight:900;color:var(--gold);margin:18px 0 8px}
 .tl{list-style:none}
@@ -82,12 +80,12 @@ h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 
 .stop .name{font-size:17px;font-weight:900;line-height:1.35;word-break:break-word}
 .stop .meta{font-size:13px;color:var(--mute);margin-top:2px}
 .stop .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.tag{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:1px 8px;color:#CBD3DF}
-.tag.rain{border-color:rgba(90,147,224,.6);color:#9CC0F0}
-.tag.warn{border-color:rgba(255,77,94,.5);color:#FF8A95}
-.tag.star{border-color:rgba(232,180,76,.5);color:var(--gold)}
+.tag{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:1px 8px;color:var(--ink2)}
+.tag.rain{border-color:color-mix(in srgb,var(--blue) 60%,transparent);color:var(--blue)}
+.tag.warn{border-color:rgba(255,77,94,.5);color:var(--up)}
+.tag.star{border-color:color-mix(in srgb,var(--gold) 50%,transparent);color:var(--gold)}
 .stop .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.stop .acts button,.stop .acts a{background:var(--panel2);border:1px solid var(--line);color:#DDE3EC;font:inherit;font-size:13px;font-weight:700;padding:5px 10px;border-radius:9px;cursor:pointer;text-decoration:none}
+.stop .acts button,.stop .acts a{background:var(--panel2);border:1px solid var(--line);color:var(--ink2);font:inherit;font-size:13px;font-weight:700;padding:5px 10px;border-radius:9px;cursor:pointer;text-decoration:none}
 .stop .acts button.on{border-color:var(--gold);color:var(--gold)}
 .handle{position:absolute;right:8px;top:8px;width:34px;height:34px;display:grid;place-items:center;color:var(--mute);cursor:grab;touch-action:none;border-radius:8px;font-size:18px;user-select:none}
 .handle:active{cursor:grabbing;background:var(--panel2)}
@@ -98,16 +96,16 @@ h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 
 .tot{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:10px 12px;min-width:0}
 .tot .l{font-size:12px;color:var(--mute)}
 .tot .v{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
-.v.neg{color:#FF8A95}.v.pos{color:var(--ok)}
+.v.neg{color:var(--up)}.v.pos{color:var(--ok)}
 .note{font-size:13px;color:var(--mute);margin-top:8px}
 .backup{display:grid;gap:8px;margin-top:8px}
 .backup div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:14px}
 /* 出發當天 */
-.now{background:linear-gradient(160deg,#1B2A44,#152238);border:1px solid var(--gold);border-radius:20px;padding:20px;text-align:center}
+.now{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--gold);border-radius:20px;padding:20px;text-align:center}
 .now .k{color:var(--gold);font-weight:700;letter-spacing:.1em;font-size:14px}
 .now .big{font-size:clamp(28px,8vw,40px);font-weight:900;line-height:1.25;margin:8px 0;word-break:break-word}
 .now .cd{font-size:clamp(40px,12vw,64px);font-weight:900;font-variant-numeric:tabular-nums;color:var(--gold);line-height:1.1}
-.now .sub{color:#CBD3DF;font-size:15px;margin-top:6px}
+.now .sub{color:var(--ink2);font-size:15px;margin-top:6px}
 .now .row{justify-content:center;margin-top:14px}
 .exp-list{list-style:none;margin-top:8px}
 .exp-list li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
@@ -120,25 +118,28 @@ h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 
 .rv{border-bottom:1px solid var(--line);padding:12px 0}
 .rv .name{font-weight:900}
 .stars{display:flex;gap:4px;margin:6px 0}
-.stars button{background:none;border:0;font-size:26px;line-height:1;color:#3A4A66;cursor:pointer;padding:0 2px}
+.stars button{background:none;border:0;font-size:26px;line-height:1;color:var(--line);cursor:pointer;padding:0 2px}
 .stars button.on{color:var(--gold)}
 .hist{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px;background:var(--panel2)}
 .hist .h{font-weight:900}
 .hist .s{font-size:13px;color:var(--mute)}
 .empty{color:var(--mute);font-size:15px;padding:10px 0}
 textarea{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:12px;color:var(--ink);font:inherit;font-size:14px;padding:10px;min-height:80px}
-.shared{border:1px solid var(--blue);background:rgba(90,147,224,.08)}
+.shared{border:1px solid var(--blue);background:color-mix(in srgb,var(--blue) 8%,transparent)}
 main{padding-bottom:60px}
 @media (max-width:520px){.totals{grid-template-columns:repeat(2,minmax(0,1fr))}.tot.wide{grid-column:1/-1}}
 </style>
 <!-- SITE-HEAD:START -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8B44C'/%3E%3Ctext x='32' y='45' font-size='36' font-weight='900' text-anchor='middle' fill='%230E1726' font-family='sans-serif'%3E%E6%97%A9%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
 <link rel="stylesheet" href="site.css">
+<script src="assets/site.js" defer></script>
 <!-- SITE-HEAD:END -->
 </head>
 <body>
 <!-- SITE-NAV:START -->
-<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="weekly.html">每週專欄</a><a href="travel.html" aria-current="page">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="weekly.html">每週專欄</a><a href="travel.html" aria-current="page">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav></details></div></div>
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="mind.html">身心</a><a href="fun.html">輕鬆</a><a href="tools.html" aria-current="page">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今天的課表</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・深度拆解</small></a><a href="mind.html">身心<small>保健室</small></a><a href="fun.html">輕鬆<small>下課十分鐘</small></a><a href="tools.html" aria-current="page">工具<small>出遊情報・理財小工具</small></a><a href="about.html">關於<small>導師室</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
 <header class="hero"><div class="wrap">
   <div class="kicker">出遊情報</div>
@@ -713,7 +714,7 @@ function renderMap() {
     L.marker([s.lat, s.lng], {icon: L.divIcon({className: '', html: `<div class="pin">${s.no}</div>`, iconSize: [28, 28]})}).addTo(S.layer)
       .bindPopup(`<b>${s.no}. ${esc(s.name)}</b><br>${hm(s.arrive)}–${hm(s.leave)}`);
   });
-  if (pts.length > 1) L.polyline(pts, {color: '#E8B44C', weight: 3, opacity: .8, dashArray: '6 6'}).addTo(S.layer);
+  if (pts.length > 1) L.polyline(pts, {color: 'var(--gold)', weight: 3, opacity: .8, dashArray: '6 6'}).addTo(S.layer);
   setTimeout(() => { S.map.invalidateSize(); if (pts.length) S.map.fitBounds(pts, {padding: [30, 30], maxZoom: 16}); else S.map.setView([S.plan.center.lat, S.plan.center.lng], 14); }, 50);
 }
 function navLinks(s, mode) {
@@ -1094,7 +1095,7 @@ document.querySelector('.tabs').addEventListener('click', e => { const b = e.tar
 })();
 </script>
 <!-- SITE-FOOT:START -->
-<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div><div><h5>內容</h5><ul><li><a href="finance.html">財經早報</a></li><li><a href="world.html">國際早報</a></li><li><a href="weekly.html">每週專欄</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天的課表</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">身心</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
 </body>
 </html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>輕鬆｜BlackLi Board</title>
+<meta name="description" content="下課十分鐘：每天 3 題小考，看看你看懂今天的新聞了沒；還有冷知識和一張圖看懂。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+.quiz{background:var(--paper);border:1.5px solid var(--ink);border-radius:18px;padding:26px;max-width:820px}
+.qhead{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.qhead select{font:inherit;font-size:14px;font-weight:700;background:var(--bg);color:var(--ink);border:1.5px solid var(--line);border-radius:10px;padding:5px 10px}
+.prog{display:flex;gap:6px;margin:12px 0 18px}
+.prog i{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.prog i.ok{background:var(--down)}.prog i.ng{background:var(--up)}.prog i.cur{background:var(--hl)}
+.qt{font-size:clamp(20px,2.6vw,25px);font-weight:900;line-height:1.5;margin:0 0 16px}
+.opts{display:grid;gap:10px}
+.opts button{text-align:left;font:inherit;font-size:16px;font-weight:700;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:13px 16px;cursor:pointer;display:flex;gap:12px}
+.opts button b{font-family:Inter,sans-serif;color:var(--mute)}
+.opts button:hover:not(:disabled){border-color:var(--ink)}
+.opts button.ok{border-color:var(--down);background:color-mix(in srgb,var(--down) 12%,var(--bg))}
+.opts button.ng{border-color:var(--up);background:color-mix(in srgb,var(--up) 10%,var(--bg))}
+.opts button:disabled{cursor:default}
+.ex{margin-top:16px;background:var(--hl-soft);border-radius:12px;padding:14px 16px;font-size:15px;line-height:1.7;display:none}
+.ex.on{display:block}
+.ex a{color:var(--accent);font-weight:700}
+.next{margin-top:16px}
+.done{text-align:center;padding:20px 0}
+.done .big{font-family:Inter,sans-serif;font-size:64px;font-weight:900;color:var(--accent);line-height:1}
+.done p{color:var(--ink2)}
+.side{display:grid;grid-template-columns:minmax(0,820px) 1fr;gap:24px;align-items:start}
+@media (max-width:980px){.side{grid-template-columns:1fr}}
+.stat{background:var(--board);color:var(--chalk);border-radius:18px;padding:22px}
+.stat h3{margin:0 0 10px;font-size:18px}
+.stat .n{font-family:Inter,sans-serif;font-size:40px;font-weight:900;color:var(--hl);line-height:1.1}
+.stat p{opacity:.85;font-size:14px;margin:4px 0 14px}
+.feed .card{border-left:6px solid var(--hl)}
+.empty{background:var(--paper);border:1.5px dashed var(--line);border-radius:14px;padding:18px 20px;color:var(--mute);font-size:15px}
+.empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:2px}
+.feed:has(a.card) .empty{display:none}
+</style>
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="site.css">
+<script src="assets/site.js" defer></script>
+<!-- SITE-HEAD:END -->
+</head>
+<body class="hub">
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="mind.html">身心</a><a href="fun.html" aria-current="page">輕鬆</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今天的課表</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・深度拆解</small></a><a href="mind.html">身心<small>保健室</small></a><a href="fun.html" aria-current="page">輕鬆<small>下課十分鐘</small></a><a href="tools.html">工具<small>出遊情報・理財小工具</small></a><a href="about.html">關於<small>導師室</small></a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+<section class="chalkboard"><div class="w ph">
+  <div class="kick">輕鬆・下課十分鐘</div>
+  <h1>下課<em>十分鐘</em></h1>
+  <p>每天 3 題小考，看看你看懂今天的新聞了沒；每週還有冷知識和一張圖看懂，輕鬆讀、順便記起來。</p>
+  <nav class="pills" aria-label="輕鬆"><a href="#quiz">📝 今日小考</a><a href="#more">🍬 冷知識・一張圖</a></nav>
+</div></section>
+<main><div class="w">
+<section class="sec side">
+  <div class="quiz" id="quiz"><p class="muted">小考載入中…</p></div>
+  <aside class="stat">
+    <h3>你的成績單</h3>
+    <div class="n" id="s-days">0</div><p>連續上課天數</p>
+    <div class="n" id="s-q">0</div><p>做過的小考</p>
+    <div class="n" id="s-rate">—</div><p>答對率</p>
+  </aside>
+</section>
+<section class="sec" id="more" style="padding-top:0">
+  <div class="k">冷知識・一張圖看懂・每週更新</div>
+  <div class="feed" data-feed="fun">
+<!-- FUN:START -->
+<!-- FUN:END -->
+    <div class="empty"><b>第一篇準備中</b>每週六更新：把這週的新聞變成冷知識和一張圖，輕鬆看。</div>
+  </div>
+</section>
+</div></main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const S = window.BB.store; const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+  const box = document.getElementById('quiz');
+  const results = S.get('quiz', {});
+  function stats() {
+    const r = Object.values(results); const right = r.reduce((a, x) => a + x.score, 0), all = r.reduce((a, x) => a + x.total, 0);
+    document.getElementById('s-days').textContent = window.BB.streak();
+    document.getElementById('s-q').textContent = r.length;
+    document.getElementById('s-rate').textContent = all ? Math.round(right / all * 100) + '%' : '—';
+  }
+  stats();
+  fetch('data/quiz.json', {cache: 'no-cache'}).then(r => r.json()).then(j => {
+    const qs = (j.quizzes || []).filter(q => q.questions && q.questions.length);
+    if (!qs.length) { box.innerHTML = '<p class="muted">今天的小考還沒出好，早上 8 點半後再來看看。</p>'; return; }
+    let qi = 0;
+    function start(k) {
+      const qz = qs[k]; let i = 0; const marks = [];
+      const md = d => `${+d.slice(5, 7)}/${+d.slice(8)}`;
+      const head = `<div class="qhead"><span class="tag">${qz.date === window.BB.today() ? '今日小考' : md(qz.date) + ' 的小考'}</span>
+        ${qs.length > 1 ? `<select id="pick" aria-label="選擇日期">${qs.map((q, n) => `<option value="${n}"${n === k ? ' selected' : ''}>${md(q.date)}${results[q.date] ? '（已作答）' : ''}</option>`).join('')}</select>` : ''}</div>`;
+      function show() {
+        const q = qz.questions[i];
+        box.innerHTML = head + `<div class="prog">${qz.questions.map((_, n) => `<i class="${n < i ? (marks[n] ? 'ok' : 'ng') : n === i ? 'cur' : ''}"></i>`).join('')}</div>
+          <p class="qt">${i + 1}. ${esc(q.q)}</p><div class="opts">${q.options.map((o, n) => `<button type="button" data-n="${n}"><b>${'ABCD'[n]}</b>${esc(o)}</button>`).join('')}</div>
+          <div class="ex" id="ex"></div>`;
+        bindPick();
+        box.querySelector('.opts').addEventListener('click', e => {
+          const b = e.target.closest('button'); if (!b || b.disabled) return;
+          const n = +b.dataset.n, ok = n === q.answer; marks[i] = ok;
+          box.querySelectorAll('.opts button').forEach(x => { x.disabled = true; if (+x.dataset.n === q.answer) x.classList.add('ok'); });
+          if (!ok) b.classList.add('ng');
+          const ex = document.getElementById('ex'); ex.classList.add('on');
+          ex.innerHTML = `<b>${ok ? '答對了！' : '差一點！'}</b>${esc(q.explain)}${q.link ? ` <a href="${esc(q.link)}">看原文 →</a>` : ''}
+            <div class="next"><button class="btn" type="button" id="nx">${i < qz.questions.length - 1 ? '下一題 →' : '看成績'}</button></div>`;
+          document.getElementById('nx').onclick = () => { i++; i < qz.questions.length ? show() : finish(); };
+        });
+      }
+      function finish() {
+        const score = marks.filter(Boolean).length, total = qz.questions.length;
+        results[qz.date] = {score, total}; S.set('quiz', results); stats();
+        const msg = score === total ? '全對！今天的黑板你都看懂了。' : score >= total - 1 ? '很不錯，差一點點就全對。' : '沒關係，點進原文再看一次就記住了。';
+        box.innerHTML = head + `<div class="done"><div class="big">${score}/${total}</div><p>${msg}</p>
+          <div class="row" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn ghost" type="button" id="again">再做一次</button><a class="btn" href="index.html">回今天的課表</a></div></div>`;
+        bindPick(); document.getElementById('again').onclick = () => start(k);
+      }
+      function bindPick() { const p = document.getElementById('pick'); if (p) p.onchange = () => start(+p.value); }
+      show();
+    }
+    start(qi);
+  }).catch(() => { box.innerHTML = '<p class="muted">小考暫時載入不了，請稍後再試。</p>'; });
+});
+</script>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天的課表</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">身心</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>

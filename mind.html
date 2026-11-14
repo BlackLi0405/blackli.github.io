@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>身心｜BlackLi Board</title>
+<meta name="description" content="向外看世界，也向內看自己。今日一問、1 分鐘呼吸，以及每週一篇身心專欄。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+.two{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:start}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+.panel{background:var(--paper);border:1.5px solid var(--ink);border-radius:18px;padding:24px}
+.panel h2{font-size:22px;font-weight:900;margin:6px 0 8px}
+.qq{font-size:clamp(22px,3vw,28px);font-weight:900;line-height:1.45;margin:10px 0 16px}
+textarea{width:100%;min-height:120px;background:var(--bg);border:1.5px solid var(--line);border-radius:12px;color:var(--ink);font:inherit;font-size:16px;padding:12px;resize:vertical}
+textarea:focus{outline:none;border-color:var(--accent)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+.note{font-size:13px;color:var(--mute)}
+details.book{margin-top:16px}
+details.book summary{cursor:pointer;font-weight:800;color:var(--accent)}
+.entry{border-top:1px solid var(--line);padding:10px 0;font-size:15px}
+.entry b{display:block;font-size:13px;color:var(--mute)}
+.breathe{background:var(--board);color:var(--chalk);border-radius:18px;padding:24px;text-align:center}
+.breathe h2{font-size:22px;font-weight:900;margin:6px 0 4px}
+.circle{width:180px;height:180px;margin:22px auto;border-radius:50%;border:3px solid var(--hl);display:grid;place-items:center;transform:scale(.62);transition:transform 4s ease-in-out}
+.circle span{font-size:20px;font-weight:900;transform:scale(1.4)}
+.circle.in{transform:scale(1)}
+.circle.out{transform:scale(.62);transition-duration:6s}
+.btimer{font-family:Inter,sans-serif;font-weight:800;font-size:15px;opacity:.85;min-height:1.4em}
+.care{margin-top:26px;font-size:14px;color:var(--mute);border-top:1px solid var(--line);padding-top:16px}
+.feed .card{border-left:6px solid var(--view)}
+.empty{background:var(--paper);border:1.5px dashed var(--line);border-radius:14px;padding:18px 20px;color:var(--mute);font-size:15px}
+.empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:2px}
+.feed:has(a.card) .empty{display:none}
+@media (prefers-reduced-motion:reduce){.circle,.circle.in,.circle.out{transition:none}}
+</style>
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="site.css">
+<script src="assets/site.js" defer></script>
+<!-- SITE-HEAD:END -->
+</head>
+<body class="hub">
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="mind.html" aria-current="page">身心</a><a href="fun.html">輕鬆</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今天的課表</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・深度拆解</small></a><a href="mind.html" aria-current="page">身心<small>保健室</small></a><a href="fun.html">輕鬆<small>下課十分鐘</small></a><a href="tools.html">工具<small>出遊情報・理財小工具</small></a><a href="about.html">關於<small>導師室</small></a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+<section class="chalkboard"><div class="w ph">
+  <div class="kick">身心・保健室</div>
+  <h1>向外看世界，<em>也向內看自己</em></h1>
+  <p>新聞讓我們知道外面發生什麼，這裡留一點時間給自己。每天一個問題、一分鐘呼吸，每週一篇用研究和證據說清楚的身心專欄。</p>
+  <nav class="pills" aria-label="身心"><a href="#ask">✏️ 今日一問</a><a href="#breathe">🌬️ 喘口氣</a><a href="#column">🌿 身心專欄</a></nav>
+</div></section>
+<main><div class="w">
+
+<section class="sec two">
+  <div class="panel" id="ask">
+    <span class="tag">今日一問</span>
+    <div class="qq" data-bb-question></div>
+    <textarea id="ans" placeholder="想到什麼就寫什麼，一句話也可以。只會存在你自己的手機或電腦裡。"></textarea>
+    <div class="row"><button class="btn" type="button" id="save">寫進小本子</button><span class="note" id="st"></span></div>
+    <details class="book"><summary>我的小本子（<span id="n">0</span> 則）</summary><div id="book"></div></details>
+  </div>
+  <div class="breathe" id="breathe">
+    <span class="tag">喘口氣</span>
+    <h2>跟著黑板呼吸 1 分鐘</h2>
+    <p style="opacity:.85;margin:0">圓圈變大時吸氣 4 秒，變小時慢慢吐氣 6 秒，一共 6 次。</p>
+    <div class="circle" id="circle"><span id="cw">準備</span></div>
+    <div class="btimer" id="bt"></div>
+    <button class="btn chalk" type="button" id="bstart">開始</button>
+  </div>
+</section>
+
+<section class="sec" id="column" style="padding-top:0">
+  <div class="k">身心專欄・每週日更新</div>
+  <div class="feed" data-feed="mind">
+<!-- MIND:START -->
+<!-- MIND:END -->
+    <div class="empty"><b>第一篇準備中</b>情緒、睡眠、壓力、習慣、人際：研究怎麼說、哪些還不確定，以及你今天就能試的一件小事。</div>
+  </div>
+  <p class="care">這裡的內容是一般知識整理，不能取代專業的醫療或心理諮詢。如果你長期覺得很難受，可以撥打衛福部 1925 安心專線（24 小時，免付費），或找信任的人聊聊。</p>
+</section>
+
+</div></main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const S = window.BB.store, T = window.BB.today();
+  const book = S.get('journal', {});
+  const ans = document.getElementById('ans');
+  if (book[T]) ans.value = book[T].a;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+  function list() {
+    const ks = Object.keys(book).sort().reverse();
+    document.getElementById('n').textContent = ks.length;
+    document.getElementById('book').innerHTML = ks.map(k => `<div class="entry"><b>${k.replace(/-/g, '.')}・${esc(book[k].q)}</b>${esc(book[k].a)}</div>`).join('') || '<p class="note">還沒有寫過。</p>';
+  }
+  list();
+  document.getElementById('save').onclick = () => {
+    const a = ans.value.trim(); if (!a) { document.getElementById('st').textContent = '先寫一點點吧。'; return; }
+    book[T] = {q: window.BB.question(T), a}; S.set('journal', book); list();
+    document.getElementById('st').textContent = '寫好了，明天會有新的問題。';
+  };
+  // 呼吸
+  const c = document.getElementById('circle'), w = document.getElementById('cw'), bt = document.getElementById('bt'), b = document.getElementById('bstart');
+  let timers = [];
+  const stop = () => { timers.forEach(clearTimeout); timers = []; c.className = 'circle'; w.textContent = '準備'; b.textContent = '開始'; b.dataset.on = ''; };
+  b.onclick = () => {
+    if (b.dataset.on) { stop(); bt.textContent = ''; return; }
+    b.dataset.on = '1'; b.textContent = '停止';
+    for (let i = 0; i < 6; i++) {
+      timers.push(setTimeout(() => { c.className = 'circle in'; w.textContent = '吸氣'; bt.textContent = `第 ${i + 1} / 6 次`; }, i * 10000));
+      timers.push(setTimeout(() => { c.className = 'circle out'; w.textContent = '吐氣'; }, i * 10000 + 4000));
+    }
+    timers.push(setTimeout(() => { stop(); bt.textContent = '完成了，辛苦了。'; }, 60000));
+  };
+});
+</script>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天的課表</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">身心</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>

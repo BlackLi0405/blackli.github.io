@@ -3,24 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>理財小工具｜曹濬騰早起工作</title>
+<title>理財小工具｜BlackLi Board</title>
 <meta name="description" content="定期定額試算、存股殖利率試算、匯率換算，三個簡單好用的理財小工具。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0E1726;--panel:#152238;--panel2:#1B2A44;--line:#2A3850;--ink:#F5F1E8;--mute:#9AA6B8;--gold:#E8B44C;--up:#FF4D5E;--down:#22C55E;
-  --s-asset:#B8851E;--s-principal:#5A93E0}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:72px}
-body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.7;font-size:16px;
-  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.7;font-size:16px;}
 .wrap{max-width:720px;margin:0 auto;padding:0 18px}
 header.hero{padding:52px 0 30px;border-bottom:1px solid var(--line)}
 .brand{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
 .brand a{color:inherit;text-decoration:none}
 h1{font-size:clamp(34px,8vw,50px);font-weight:900;line-height:1.2;margin:16px 0 10px}
-.lede{color:#CBD3DF}
-nav.toc{position:sticky;top:0;z-index:5;background:rgba(14,23,38,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.lede{color:var(--ink2)}
+nav.toc{position:sticky;top:0;z-index:5;background:var(--glass);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 nav.toc .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:12px;padding-bottom:12px}
 nav.toc a{flex:none;color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;border:1px solid var(--line);border-radius:99px;padding:6px 14px}
 nav.toc a b{color:var(--gold);margin-right:6px}
@@ -38,7 +35,7 @@ h2{font-size:clamp(24px,6vw,32px);font-weight:900;line-height:1.3;margin:12px 0 
 .inp select{cursor:pointer}
 .inp select option{background:var(--panel);color:var(--ink)}
 .inp .u{color:var(--mute);font-size:14px;margin-left:8px;white-space:nowrap}
-.check{display:flex;flex-direction:row!important;align-items:center;gap:10px;font-size:15px;color:#DDE3EC;cursor:pointer;padding:6px 0}
+.check{display:flex;flex-direction:row!important;align-items:center;gap:10px;font-size:15px;color:var(--ink2);cursor:pointer;padding:6px 0}
 .check input{width:18px;height:18px;accent-color:var(--gold)}
 .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 18px}
 .stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px 15px;min-width:0}
@@ -54,9 +51,9 @@ h2{font-size:clamp(24px,6vw,32px);font-weight:900;line-height:1.3;margin:12px 0 
 .legend i{display:inline-block;width:14px;height:3px;border-radius:2px}
 .legend i.dash{background:repeating-linear-gradient(90deg,var(--s-principal) 0 4px,transparent 4px 7px)!important}
 svg{display:block;width:100%;height:auto;overflow:visible}
-.tip{position:absolute;pointer-events:none;background:#0B1220;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.5;white-space:nowrap;opacity:0;transition:opacity .1s;z-index:3;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.tip{position:absolute;pointer-events:none;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.5;white-space:nowrap;opacity:0;transition:opacity .1s;z-index:3;box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .tip b{display:block;color:var(--ink);margin-bottom:2px}
-.tip .row{display:flex;align-items:center;gap:6px;color:#DDE3EC}
+.tip .row{display:flex;align-items:center;gap:6px;color:var(--ink2)}
 .tip .row i{width:10px;height:3px;border-radius:2px;display:inline-block}
 details{margin-top:6px}
 summary{cursor:pointer;color:var(--mute);font-size:14px;padding:6px 0}
@@ -65,7 +62,7 @@ td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right;font-
 th{color:var(--mute);font-weight:500;font-size:13px}
 td:first-child,th:first-child{text-align:left}
 .note{font-size:13px;color:var(--mute);margin-top:10px}
-.box{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:14px 16px;margin:16px 0 0;font-size:15px;color:#DDE3EC}
+.box{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:14px 16px;margin:16px 0 0;font-size:15px;color:var(--ink2)}
 .box strong{color:var(--gold)}
 .swap{grid-column:1/-1;justify-self:center;background:var(--panel);border:1px solid var(--line);color:var(--gold);border-radius:99px;padding:6px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
 .swap:hover{border-color:var(--gold)}
@@ -82,16 +79,19 @@ footer h4{color:var(--ink);font-size:16px;margin-bottom:10px}
 @media (max-width:420px){.stat .v{font-size:21px}}
 </style>
 <!-- SITE-HEAD:START -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8B44C'/%3E%3Ctext x='32' y='45' font-size='36' font-weight='900' text-anchor='middle' fill='%230E1726' font-family='sans-serif'%3E%E6%97%A9%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
 <link rel="stylesheet" href="site.css">
+<script src="assets/site.js" defer></script>
 <!-- SITE-HEAD:END -->
 </head>
 <body>
 <!-- SITE-NAV:START -->
-<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="weekly.html">每週專欄</a><a href="travel.html">出遊情報</a><a href="calc.html" aria-current="page">理財小工具</a><a href="about.html">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="weekly.html">每週專欄</a><a href="travel.html">出遊情報</a><a href="calc.html" aria-current="page">理財小工具</a><a href="about.html">關於本站</a></nav></details></div></div>
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="mind.html">身心</a><a href="fun.html">輕鬆</a><a href="tools.html" aria-current="page">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今天的課表</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・深度拆解</small></a><a href="mind.html">身心<small>保健室</small></a><a href="fun.html">輕鬆<small>下課十分鐘</small></a><a href="tools.html" aria-current="page">工具<small>出遊情報・理財小工具</small></a><a href="about.html">關於<small>導師室</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
 <header class="hero"><div class="wrap">
-  <div class="brand"><a href="./">曹濬騰早起工作</a> · 理財小工具</div>
+  <div class="brand"><a href="./">BlackLi Board</a> · 理財小工具</div>
   <h1>理財小工具</h1>
   <p class="lede">定期定額能存到多少？存股一年領多少股利？出國換匯要準備多少台幣？輸入數字，馬上幫你算。</p>
 </div></header>
@@ -253,23 +253,23 @@ function drawDCA(rows){
   const y = v => T + (H - T - B) * (1 - (v - bot) / (top - bot || 1));
   let s = '';
   for (let v = bot; v <= top + 1e-6; v += tick){
-    s += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="#2A3850" stroke-width="1"/>`;
-    s += `<text x="${L-8}" y="${y(v)+4}" fill="#9AA6B8" font-size="11" text-anchor="end">${wan(v)}</text>`;
+    s += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/>`;
+    s += `<text x="${L-8}" y="${y(v)+4}" fill="var(--mute)" font-size="11" text-anchor="end">${wan(v)}</text>`;
   }
   const xs = n > 20 ? 5 : n > 10 ? 2 : 1;
-  for (let i = 0; i <= n; i += xs) s += `<text x="${x(i)}" y="${H-8}" fill="#9AA6B8" font-size="11" text-anchor="middle">${i}</text>`;
-  s += `<text x="${W-R+8}" y="${H-8}" fill="#9AA6B8" font-size="11">年</text>`;
+  for (let i = 0; i <= n; i += xs) s += `<text x="${x(i)}" y="${H-8}" fill="var(--mute)" font-size="11" text-anchor="middle">${i}</text>`;
+  s += `<text x="${W-R+8}" y="${H-8}" fill="var(--mute)" font-size="11">年</text>`;
   const path = k => rows.map((o,i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(o[k]).toFixed(1)).join(' ');
   s += `<path d="${path('principal')}" fill="none" stroke="var(--s-principal)" stroke-width="2" stroke-dasharray="6 4" stroke-linecap="round"/>`;
   s += `<path d="${path('bal')}" fill="none" stroke="var(--s-asset)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
   const last = rows[n];
   let ya = y(last.bal), yp = y(last.principal);
   if (Math.abs(ya - yp) < 14){ if (ya <= yp){ ya = yp - 14; } else { yp = ya - 14; } }
-  s += `<text x="${W-R+8}" y="${ya+4}" fill="#F5F1E8" font-size="11" font-weight="700">${wan(last.bal)}</text>`;
-  s += `<text x="${W-R+8}" y="${yp+4}" fill="#9AA6B8" font-size="11">${wan(last.principal)}</text>`;
-  s += `<line id="dca-cross" x1="0" x2="0" y1="${T}" y2="${H-B}" stroke="#9AA6B8" stroke-width="1" opacity="0"/>`;
-  s += `<circle id="dca-dot-a" r="5" fill="var(--s-asset)" stroke="#152238" stroke-width="2" opacity="0"/>`;
-  s += `<circle id="dca-dot-p" r="5" fill="var(--s-principal)" stroke="#152238" stroke-width="2" opacity="0"/>`;
+  s += `<text x="${W-R+8}" y="${ya+4}" fill="var(--ink)" font-size="11" font-weight="700">${wan(last.bal)}</text>`;
+  s += `<text x="${W-R+8}" y="${yp+4}" fill="var(--mute)" font-size="11">${wan(last.principal)}</text>`;
+  s += `<line id="dca-cross" x1="0" x2="0" y1="${T}" y2="${H-B}" stroke="var(--mute)" stroke-width="1" opacity="0"/>`;
+  s += `<circle id="dca-dot-a" r="5" fill="var(--s-asset)" stroke="var(--panel)" stroke-width="2" opacity="0"/>`;
+  s += `<circle id="dca-dot-p" r="5" fill="var(--s-principal)" stroke="var(--panel)" stroke-width="2" opacity="0"/>`;
   s += `<rect id="dca-hit" x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="transparent"/>`;
   svg.innerHTML = s;
 
@@ -376,7 +376,7 @@ $('dv-re').addEventListener('change', calcDiv);
 calcDCA(); calcDiv(); calcFX();
 </script>
 <!-- SITE-FOOT:START -->
-<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div><div><h5>內容</h5><ul><li><a href="finance.html">財經早報</a></li><li><a href="world.html">國際早報</a></li><li><a href="weekly.html">每週專欄</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天的課表</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">身心</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
 </body>
 </html>

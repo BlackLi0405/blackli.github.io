@@ -3,24 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>出遊情報｜曹濬騰早起工作</title>
+<title>出遊情報｜BlackLi Board</title>
 <meta name="description" content="台灣各縣市的展覽、演出、節慶與觀光活動一次看，可以分享給朋友，也能一鍵排進出門行程。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0E1726;--panel:#152238;--panel2:#1B2A44;--line:#2A3850;--ink:#F5F1E8;--mute:#9AA6B8;--gold:#E8B44C;--ok:#22C55E;--blue:#5A93E0}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.7;font-size:16px;
-  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.7;font-size:16px;}
 .wrap{max-width:860px;margin:0 auto;padding:0 18px}
 header.hero{padding:44px 0 20px}
 .kicker{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
 h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 8px}
-.lede{color:#CBD3DF}
+.lede{color:var(--ink2)}
 .subnav{display:flex;gap:8px;margin:16px 0 0}
-.subnav a{flex:1;text-align:center;text-decoration:none;font-weight:700;font-size:15px;padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:#CBD3DF}
+.subnav a{flex:1;text-align:center;text-decoration:none;font-weight:700;font-size:15px;padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink2)}
 .subnav a.on{background:var(--gold);color:var(--bg);border-color:var(--gold)}
-.filters{position:sticky;top:0;z-index:20;background:rgba(14,23,38,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0;margin:18px 0 14px}
+.filters{position:sticky;top:0;z-index:20;background:var(--glass);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0;margin:18px 0 14px}
 .frow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .frow+.frow{margin-top:8px}
 .sel,.search{display:flex;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:0 10px;min-width:0}
@@ -29,10 +27,10 @@ h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 
 .sel{flex:1 1 130px}.search{flex:2 1 200px}
 .chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .chips::-webkit-scrollbar{display:none}
-.chips button{flex:none;background:var(--panel2);border:1px solid var(--line);color:#DDE3EC;font:inherit;font-size:14px;font-weight:500;padding:6px 12px;border-radius:99px;cursor:pointer;white-space:nowrap}
-.chips button[aria-pressed="true"]{background:rgba(232,180,76,.16);border-color:var(--gold);color:var(--gold);font-weight:700}
+.chips button{flex:none;background:var(--panel2);border:1px solid var(--line);color:var(--ink2);font:inherit;font-size:14px;font-weight:500;padding:6px 12px;border-radius:99px;cursor:pointer;white-space:nowrap}
+.chips button[aria-pressed="true"]{background:color-mix(in srgb,var(--gold) 16%,transparent);border-color:var(--gold);color:var(--gold);font-weight:700}
 .chips button small{color:var(--mute);font-weight:500;margin-left:3px}
-.chk{display:flex;align-items:center;gap:6px;font-size:14px;color:#DDE3EC;cursor:pointer;white-space:nowrap}
+.chk{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--ink2);cursor:pointer;white-space:nowrap}
 .chk input{width:17px;height:17px;accent-color:var(--gold)}
 .bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
 .count{color:var(--mute);font-size:14px}
@@ -44,9 +42,9 @@ h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 
 .cityhead small{color:var(--mute);font-size:14px;font-weight:500}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
 .ev{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
-.ev.hl{border-color:var(--gold);box-shadow:0 0 0 2px rgba(232,180,76,.35)}
+.ev.hl{border-color:var(--gold);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold) 35%,transparent)}
 .ev .img{aspect-ratio:16/9;background:var(--panel2) center/cover no-repeat;position:relative}
-.ev .img .ty{position:absolute;left:10px;top:10px;background:rgba(14,23,38,.85);color:var(--gold);font-size:12px;font-weight:700;border-radius:99px;padding:2px 10px}
+.ev .img .ty{position:absolute;left:10px;top:10px;background:var(--glass);color:var(--gold);font-size:12px;font-weight:700;border-radius:99px;padding:2px 10px}
 .ev .img .ty.free{left:auto;right:10px;color:var(--ok)}
 .ev .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev .img .ph{display:none}
@@ -54,38 +52,41 @@ h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 
 .ev .noimg .ph{display:block}
 .ev .bd{padding:12px 14px 12px;display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
 .ev .date{font-size:13px;color:var(--gold);font-weight:700}
-.ev .date .end{color:#FF8A95;margin-left:4px}
+.ev .date .end{color:var(--up);margin-left:4px}
 .ev h3{font-size:16px;font-weight:900;line-height:1.4;word-break:break-word}
-.ev .where{font-size:13px;color:#CBD3DF;word-break:break-word}
+.ev .where{font-size:13px;color:var(--ink2);word-break:break-word}
 .ev .price{font-size:13px;color:var(--mute);word-break:break-word}
-.ev .src{font-size:12px;color:#7D8899}
-.ev details{font-size:14px;color:#DDE3EC}
+.ev .src{font-size:12px;color:var(--mute)}
+.ev details{font-size:14px;color:var(--ink2)}
 .ev summary{cursor:pointer;color:var(--mute);font-size:13px}
 .ev details p{margin-top:6px;white-space:pre-line;max-height:240px;overflow:auto}
 .ev .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px}
-.ev .acts a,.ev .acts button{background:var(--panel2);border:1px solid var(--line);color:#DDE3EC;font:inherit;font-size:13px;font-weight:700;padding:5px 10px;border-radius:9px;cursor:pointer;text-decoration:none}
+.ev .acts a,.ev .acts button{background:var(--panel2);border:1px solid var(--line);color:var(--ink2);font:inherit;font-size:13px;font-weight:700;padding:5px 10px;border-radius:9px;cursor:pointer;text-decoration:none}
 .ev .acts .plan{background:var(--gold);color:var(--bg);border-color:var(--gold)}
 .more{display:block;margin:18px auto 0}
 .msg{color:var(--mute);padding:30px 0;text-align:center}
-.msg.err{color:#FF8A95}
+.msg.err{color:var(--up)}
 .note{font-size:13px;color:var(--mute);margin-top:22px;line-height:1.7}
-.note a{color:#B8C2D1}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0B1220;border:1px solid var(--gold);color:var(--ink);padding:10px 16px;border-radius:12px;font-size:14px;z-index:99;opacity:0;transition:opacity .2s;pointer-events:none}
+.note a{color:var(--ink2)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--paper);border:1px solid var(--gold);color:var(--ink);padding:10px 16px;border-radius:12px;font-size:14px;z-index:99;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
 main{padding-bottom:60px}
 @media (max-width:560px){.grid{grid-template-columns:1fr}.filters{position:static}}
-.ev .img.noimg{aspect-ratio:auto;height:96px;font-size:40px;background:linear-gradient(135deg,var(--tc,#2A3850),var(--panel2) 75%)}
+.ev .img.noimg{aspect-ratio:auto;height:96px;font-size:40px;background:linear-gradient(135deg,var(--tc,var(--line)),var(--panel2) 75%)}
 .ev .img.noimg .ph{filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
 .ev[data-ty=expo]{--tc:#3D5A8C}.ev[data-ty=music]{--tc:#7A4E8F}.ev[data-ty=stage]{--tc:#8C4A5A}.ev[data-ty=kids]{--tc:#3F7F6B}.ev[data-ty=talk]{--tc:#5A6B8C}.ev[data-ty=film]{--tc:#5C5470}.ev[data-ty=fest]{--tc:#8C6A2E}.ev[data-ty=other]{--tc:#4A5A70}
 </style>
 <!-- SITE-HEAD:START -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8B44C'/%3E%3Ctext x='32' y='45' font-size='36' font-weight='900' text-anchor='middle' fill='%230E1726' font-family='sans-serif'%3E%E6%97%A9%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
 <link rel="stylesheet" href="site.css">
+<script src="assets/site.js" defer></script>
 <!-- SITE-HEAD:END -->
 </head>
 <body>
 <!-- SITE-NAV:START -->
-<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="weekly.html">每週專欄</a><a href="travel.html" aria-current="page">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="weekly.html">每週專欄</a><a href="travel.html" aria-current="page">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav></details></div></div>
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="mind.html">身心</a><a href="fun.html">輕鬆</a><a href="tools.html" aria-current="page">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今天的課表</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・深度拆解</small></a><a href="mind.html">身心<small>保健室</small></a><a href="fun.html">輕鬆<small>下課十分鐘</small></a><a href="tools.html" aria-current="page">工具<small>出遊情報・理財小工具</small></a><a href="about.html">關於<small>導師室</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
 <header class="hero"><div class="wrap">
   <div class="kicker">出遊情報</div>
@@ -419,7 +420,7 @@ $('list').addEventListener('click', e => {
 })();
 </script>
 <!-- SITE-FOOT:START -->
-<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div><div><h5>內容</h5><ul><li><a href="finance.html">財經早報</a></li><li><a href="world.html">國際早報</a></li><li><a href="weekly.html">每週專欄</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天的課表</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">身心</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
 </body>
 </html>

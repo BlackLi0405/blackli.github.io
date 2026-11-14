@@ -3,25 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>我怎麼拆解資訊｜曹濬騰早起工作</title>
+<title>我怎麼拆解資訊｜BlackLi Board</title>
 <meta name="description" content="一則訊息裡常混著事實、觀點、立場和利益。這裡說明本站怎麼把它們分開，以及怎麼選擇與標示資料來源。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0E1726;--panel:#152238;--panel2:#1B2A44;--line:#2A3850;--ink:#F5F1E8;--mute:#9AA6B8;--gold:#E8B44C;--fact:#5A93E0;--view:#B98AE0;--stance:#E0A04F;--interest:#4FB89A}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.8;font-size:17px;
-  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.8;font-size:17px;}
 .wrap{max-width:720px;margin:0 auto;padding:0 22px}
 header.hero{padding:56px 0 32px;border-bottom:1px solid var(--line)}
 .kicker{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
 h1{font-size:clamp(32px,8vw,48px);font-weight:900;line-height:1.25;margin:14px 0}
-.lede{color:#CBD3DF}
+.lede{color:var(--ink2)}
 section{padding:42px 0 10px;scroll-margin-top:16px}
 h2{font-size:24px;font-weight:900;margin:0 0 16px;display:flex;align-items:center;gap:10px}
 h2::before{content:"";width:6px;height:24px;background:var(--gold);border-radius:3px}
-p{margin:0 0 14px;color:#DDE3EC}
+p{margin:0 0 14px;color:var(--ink2)}
 .layers{display:grid;gap:12px;margin:8px 0 18px}
 .layer{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:14px;padding:16px 18px}
 .layer .t{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
@@ -30,36 +28,39 @@ p{margin:0 0 14px;color:#DDE3EC}
 .layer p{margin:0;font-size:15px}
 .layer .q{display:block;margin-top:8px;font-size:14px;color:var(--mute)}
 .f{--c:var(--fact)}.v{--c:var(--view)}.s{--c:var(--stance)}.i{--c:var(--interest)}
-.flow{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:0 0 14px;color:#DDE3EC}
+.flow{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:0 0 14px;color:var(--ink2)}
 .flow b{color:var(--gold)}
 .ex{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:6px 0 10px}
 .ex .head{padding:14px 18px;border-bottom:1px solid var(--line);font-weight:700}
 .ex .head small{display:block;color:var(--mute);font-weight:400;font-size:13px}
-.ex .row{display:grid;grid-template-columns:62px 1fr;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);font-size:15px;color:#DDE3EC}
+.ex .row{display:grid;grid-template-columns:62px 1fr;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);font-size:15px;color:var(--ink2)}
 .ex .row:last-child{border-bottom:0}
 .ex .row span{font-weight:700;font-size:13px;color:var(--c);padding-top:2px}
 ol.rules{list-style:none;counter-reset:r;margin:0 0 14px}
-ol.rules li{counter-increment:r;position:relative;padding:12px 0 12px 40px;border-bottom:1px solid var(--line);color:#DDE3EC}
+ol.rules li{counter-increment:r;position:relative;padding:12px 0 12px 40px;border-bottom:1px solid var(--line);color:var(--ink2)}
 ol.rules li::before{content:counter(r);position:absolute;left:0;top:12px;width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--bg);font-weight:900;font-size:14px;display:grid;place-items:center}
 ol.rules li b{color:var(--ink)}
 .tbl{overflow-x:auto;margin:0 0 16px}
 table{width:100%;border-collapse:collapse;font-size:15px}
 @media (max-width:560px){table{font-size:14px}td,th{padding:9px 5px}td:first-child{white-space:normal;min-width:4.5em}}
-td,th{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;color:#DDE3EC}
+td,th{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;color:var(--ink2)}
 th{color:var(--mute);font-weight:500;font-size:13px}
 td:first-child{font-weight:700;color:var(--ink);white-space:nowrap}
-.box{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:16px 18px;margin:10px 0 0;font-size:15px;color:#CBD3DF}
+.box{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:16px 18px;margin:10px 0 0;font-size:15px;color:var(--ink2)}
 .box strong{color:var(--gold)}
 main{padding-bottom:56px}
 </style>
 <!-- SITE-HEAD:START -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8B44C'/%3E%3Ctext x='32' y='45' font-size='36' font-weight='900' text-anchor='middle' fill='%230E1726' font-family='sans-serif'%3E%E6%97%A9%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
 <link rel="stylesheet" href="site.css">
+<script src="assets/site.js" defer></script>
 <!-- SITE-HEAD:END -->
 </head>
 <body>
 <!-- SITE-NAV:START -->
-<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="weekly.html">每週專欄</a><a href="travel.html">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html" aria-current="page">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="weekly.html">每週專欄</a><a href="travel.html">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html" aria-current="page">關於本站</a></nav></details></div></div>
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="mind.html">身心</a><a href="fun.html">輕鬆</a><a href="tools.html">工具</a><a href="about.html" aria-current="page">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今天的課表</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・深度拆解</small></a><a href="mind.html">身心<small>保健室</small></a><a href="fun.html">輕鬆<small>下課十分鐘</small></a><a href="tools.html">工具<small>出遊情報・理財小工具</small></a><a href="about.html" aria-current="page">關於<small>導師室</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
 <header class="hero"><div class="wrap">
   <div class="kicker">我怎麼拆解資訊</div>
@@ -127,7 +128,7 @@ main{padding-bottom:56px}
 
 </main>
 <!-- SITE-FOOT:START -->
-<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div><div><h5>內容</h5><ul><li><a href="finance.html">財經早報</a></li><li><a href="world.html">國際早報</a></li><li><a href="weekly.html">每週專欄</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天的課表</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">身心</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
 </body>
 </html>
