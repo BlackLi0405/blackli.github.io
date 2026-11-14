@@ -210,7 +210,7 @@ main{padding-bottom:60px}
       <div id="map"></div>
       <div id="timeline"></div>
       <div class="totals" id="totals"></div>
-      <p class="note">花費和交通時間是依距離與類型估算，不是即時路況；營業時間請出發前再確認。地點資料來自 OpenStreetMap，天氣來自 Open-Meteo。</p>
+      <p class="note">花費和交通時間是依距離與類型估算，不是即時路況；營業時間請出發前再確認。地點資料來自 OpenStreetMap，天氣來自 Open-Meteo（備用：挪威氣象局 MET Norway）。</p>
       <div class="row" style="margin-top:14px">
         <button class="btn" id="b-start" type="button">🚀 開始出發</button>
         <button class="btn ghost" id="b-regen" type="button">🔄 重新排（保留鎖定）</button>
@@ -434,30 +434,58 @@ async function fetchPlaces(c, r) {
  nwr${A}[name][shop~"^(mall|department_store)$"];
  nwr${A}[name][historic];)->.o;
 .f out center tags 220; .o out center tags 320;`;
-  // 同時問三台伺服器，誰先回來就用誰（公開伺服器常常很忙）
+  // 同時問三台伺服器，誰先回來就用誰；10 秒都沒回應，就同時改用備用來源（Nominatim）
   const ctrls = OVERPASS.map(() => new AbortController());
-  const slow = setTimeout(() => status('OpenStreetMap 伺服器比較忙，最多再等 1 分鐘…'), 12000);
   const one = (url, i) => new Promise((ok, bad) => {
-    const t = setTimeout(() => ctrls[i].abort(), 70000);
+    const t = setTimeout(() => ctrls[i].abort(), 60000);
     fetch(url, {method: 'POST', body: 'data=' + encodeURIComponent(q), headers: {'Content-Type': 'application/x-www-form-urlencoded'}, signal: ctrls[i].signal})
       .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(j => { clearTimeout(t); j && j.elements ? ok(j) : bad(new Error('資料格式錯誤')); })
       .catch(e => { clearTimeout(t); bad(e); });
   });
-  let j;
-  try { j = await Promise.any(OVERPASS.map(one)); }
+  const fb = {stop: false};
+  const viaOverpass = Promise.any(OVERPASS.map(one)).then(j => { fb.stop = true;
+    return parseOSM((j.elements || []).map(e => ({id: e.type[0] + e.id, t: e.tags || {}, lat: e.lat ?? e.center?.lat, lng: e.lon ?? e.center?.lon}))); });
+  const viaBackup = new Promise(go => { const t = setTimeout(go, 10000); viaOverpass.catch(() => { clearTimeout(t); go(); }); })
+    .then(() => fb.stop ? Promise.reject(new Error('不需要')) : nominatimPlaces(c, r, fb))
+    .then(a => a.length ? a : Promise.reject(new Error('沒有資料')));
+  let out;
+  try { out = await Promise.any([viaOverpass, viaBackup]); }
   catch (e) { throw new Error('地點資料的伺服器（OpenStreetMap）現在太忙，暫時抓不到。請過幾分鐘再按一次「排出我的行程」。'); }
-  finally { clearTimeout(slow); ctrls.forEach(c => { try { c.abort(); } catch (e) {} }); }
-  const seen = new Set(), out = [];
-  for (const e of j.elements || []) {
-    const t = e.tags || {}; const k = kindOf(t); if (!k) continue;
-    const lat = e.lat ?? e.center?.lat, lng = e.lon ?? e.center?.lon; if (lat == null) continue;
-    const name = t['name:zh-TW'] || t['name:zh-Hant'] || t['name:zh'] || t.name;
-    const dk = name + '|' + k; if (seen.has(dk)) continue; seen.add(dk);
-    out.push({id: e.type[0] + e.id, name, k, lat, lng, cuisine: t.cuisine || '', veg: t['diet:vegetarian'] || t['diet:vegan'] || '',
-      brand: !!(t.brand || t['brand:wikidata']), hours: t.opening_hours || '', rel: t.religion || '', fee: t.fee || ''});
-  }
+  finally { fb.stop = true; ctrls.forEach(x => { try { x.abort(); } catch (e) {} }); }
   plCacheSet(key, out);
   return out;
+}
+function parseOSM(list) {
+  const seen = new Set(), out = [];
+  for (const {id, t, lat, lng} of list) {
+    const k = kindOf(t); if (!k || lat == null) continue;
+    const name = t['name:zh-TW'] || t['name:zh-Hant'] || t['name:zh'] || t.name; if (!name) continue;
+    const dk = name + '|' + k; if (seen.has(dk)) continue; seen.add(dk);
+    out.push({id, name, k, lat: +lat, lng: +lng, cuisine: t.cuisine || '', veg: t['diet:vegetarian'] || t['diet:vegan'] || '',
+      brand: !!(t.brand || t['brand:wikidata']), hours: t.opening_hours || '', rel: t.religion || '', fee: t.fee || ''});
+  }
+  return out;
+}
+// 備用來源：用 Nominatim 依類型搜尋（同樣是 OpenStreetMap 的資料；依使用規範每秒最多查一次）
+const NOMI_TYPES = ['restaurant', 'cafe', 'museum', 'attraction', 'park', 'viewpoint', 'place_of_worship', 'marketplace', 'fast_food'];
+async function nominatimPlaces(c, r, fb) {
+  const dy = r / 111000, dx = dy / Math.cos(c.lat * Math.PI / 180);
+  const vb = [c.lng - dx, c.lat + dy, c.lng + dx, c.lat - dy].map(v => v.toFixed(5)).join(',');
+  const types = NOMI_TYPES.concat(r >= 4000 ? ['hotel'] : []);
+  const list = []; let ok = 0;
+  for (let i = 0; i < types.length && !fb.stop; i++) {
+    status(`OpenStreetMap 主伺服器很忙，改用備用來源搜尋（${i + 1}/${types.length}）…`);
+    if (i) await new Promise(res => setTimeout(res, 1100));
+    try {
+      const j = await fetchJSON(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=40&bounded=1&extratags=1&namedetails=1&accept-language=zh-TW&viewbox=${vb}&amenity=${types[i]}`, {headers: {'Accept': 'application/json'}}, 15000);
+      ok++;
+      j.forEach(e => list.push({id: e.osm_type[0] + e.osm_id, lat: e.lat, lng: e.lon,
+        t: {...(e.extratags || {}), ...(e.namedetails || {}), [e.category]: e.type, name: (e.namedetails && e.namedetails.name) || e.name}}));
+    } catch (e) {}
+  }
+  if (fb.stop) return [];
+  if (!ok) throw new Error('備用來源也沒有回應');
+  return parseOSM(list);
 }
 async function fetchWeather(c, date, days) {
   const end = days > 1 ? new Date(new Date(date).getTime() + 864e5).toISOString().slice(0, 10) : date;
@@ -656,7 +684,7 @@ function renderWeather() {
   if (!w) { el.innerHTML = '<div class="wx"><div class="ic">🗓️</div><div><div class="t">天氣尚無預報</div><div class="s">只能查未來 16 天內的天氣，出發前幾天再回來看看。</div></div></div>'; return; }
   if (w.error) { el.innerHTML = `<div class="wx"><div class="ic">⚠️</div><div><div class="t">天氣暫時查不到</div><div class="s">${esc(w.error)}</div></div></div>`; return; }
   const days = w.days.map((d, i) => { const [ic, tx] = WMO(d.code);
-    return `<div class="wx" style="${i ? 'margin-top:10px' : ''}"><div class="ic">${ic}</div><div><div class="t">${tx}　${Math.round(d.min)}–${Math.round(d.max)}°C</div><div class="s">${w.days.length > 1 ? (i ? '第二天' : '第一天') + '・' : ''}降雨機率最高 ${d.rain ?? '—'}%</div></div></div>`; }).join('');
+    return `<div class="wx" style="${i ? 'margin-top:10px' : ''}"><div class="ic">${ic}</div><div><div class="t">${tx}　${Math.round(d.min)}–${Math.round(d.max)}°C</div><div class="s">${w.days.length > 1 ? (i ? '第二天' : '第一天') + '・' : ''}${d.mm != null ? '預估雨量 ' + d.mm + ' 毫米' : '降雨機率最高 ' + (d.rain ?? '—') + '%'}</div></div></div>`; }).join('');
   let extra = '';
   if (w.rainy) {
     const used = new Set(S.plan.stops.map(s => s.id));
@@ -830,7 +858,28 @@ async function loadWeather(center, f) {
     const days = (j.daily.time || []).map((t, i) => ({code: j.daily.weather_code[i], max: j.daily.temperature_2m_max[i], min: j.daily.temperature_2m_min[i], rain: j.daily.precipitation_probability_max[i]}));
     const hourly = {}; (j.hourly.time || []).forEach((t, i) => { const d = t.slice(0, 10), h = +t.slice(11, 13); const off = d === f.date ? 0 : 24; hourly[h + off] = j.hourly.precipitation_probability[i]; });
     S.weather = {days, hourly, rainy: days.some(d => (d.rain ?? 0) >= 60)};
-  } catch (e) { S.weather = {error: '天氣服務暫時沒有回應，請稍後再試。'}; }
+  } catch (e) {
+    // 備用：挪威氣象局（MET Norway），大約可查未來 9 天
+    try { S.weather = await metNoWeather(center, f.date, DUR[f.dur].length); }
+    catch (e2) { S.weather = {error: '天氣服務暫時沒有回應，請稍後再試。'}; }
+  }
+}
+const MET_CODE = s => /thunder/.test(s) ? 95 : /snow|sleet/.test(s) ? 71 : /showers/.test(s) ? 80 : /drizzle/.test(s) ? 53 : /rain/.test(s) ? 63 : /fog/.test(s) ? 45 : /^cloudy/.test(s) ? 3 : /partlycloudy/.test(s) ? 2 : /fair/.test(s) ? 1 : 0;
+async function metNoWeather(c, date, nd) {
+  const j = await fetchJSON(`https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${c.lat.toFixed(4)}&lon=${c.lng.toFixed(4)}`, null, 15000);
+  const want = nd > 1 ? [date, new Date(new Date(date).getTime() + 864e5).toISOString().slice(0, 10)] : [date];
+  const D = {}, hourly = {};
+  for (const p of j.properties.timeseries) {
+    const lt = new Date(new Date(p.time).getTime() + 8 * 36e5).toISOString(); const d = lt.slice(0, 10), h = +lt.slice(11, 13);
+    const di = want.indexOf(d); if (di < 0) continue;
+    const dd = D[d] = D[d] || {temps: [], mm: 0, codes: []};
+    dd.temps.push(p.data.instant.details.air_temperature);
+    const n1 = p.data.next_1_hours, n6 = p.data.next_6_hours;
+    if (n1) { const mm = n1.details.precipitation_amount || 0; dd.mm += mm; hourly[h + di * 24] = mm >= 1 ? 80 : mm >= 0.3 ? 55 : mm > 0 ? 30 : 0; if (h >= 8 && h <= 20) dd.codes.push(MET_CODE(n1.summary.symbol_code)); }
+    else if (n6) { const mm = n6.details.precipitation_amount || 0; dd.mm += mm; for (let k = 0; k < 6; k++) hourly[h + k + di * 24] = mm >= 3 ? 70 : mm >= 1 ? 50 : 0; if (h >= 6 && h <= 18) dd.codes.push(MET_CODE(n6.summary.symbol_code)); }
+  }
+  const days = want.filter(d => D[d]).map(d => { const x = D[d]; return {code: x.codes.length ? Math.max(...x.codes) : 2, max: Math.max(...x.temps), min: Math.min(...x.temps), rain: null, mm: Math.round(x.mm * 10) / 10}; });
+  return days.length ? {days, hourly, rainy: days.some(d => d.mm >= 3)} : null;
 }
 async function build(keep) {
   const f = readForm(); const btn = $('go'); btn.disabled = true;
