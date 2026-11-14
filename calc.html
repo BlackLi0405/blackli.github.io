@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>理財小工具｜曹濬騰早起工作</title>
+<meta name="description" content="定期定額試算、存股殖利率試算、匯率換算，三個簡單好用的理財小工具。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0E1726;--panel:#152238;--panel2:#1B2A44;--line:#2A3850;--ink:#F5F1E8;--mute:#9AA6B8;--gold:#E8B44C;--up:#FF4D5E;--down:#22C55E;
+  --s-asset:#B8851E;--s-principal:#5A93E0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.7;font-size:16px;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px}
+header.hero{padding:52px 0 30px;border-bottom:1px solid var(--line)}
+.brand{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
+.brand a{color:inherit;text-decoration:none}
+h1{font-size:clamp(34px,8vw,50px);font-weight:900;line-height:1.2;margin:16px 0 10px}
+.lede{color:#CBD3DF}
+nav.toc{position:sticky;top:0;z-index:5;background:rgba(14,23,38,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:12px;padding-bottom:12px}
+nav.toc a{flex:none;color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;border:1px solid var(--line);border-radius:99px;padding:6px 14px}
+nav.toc a b{color:var(--gold);margin-right:6px}
+section.tool{padding:44px 0 36px;border-bottom:1px solid var(--line)}
+.tag{display:inline-block;background:var(--gold);color:var(--bg);font-weight:700;font-size:14px;border-radius:99px;padding:3px 14px}
+h2{font-size:clamp(24px,6vw,32px);font-weight:900;line-height:1.3;margin:12px 0 6px}
+.desc{color:var(--mute);font-size:15px;margin-bottom:20px}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;color:var(--mute)}
+.inp{min-width:0;display:flex;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0 12px;transition:border-color .15s}
+.inp:focus-within{border-color:var(--gold)}
+.inp input,.inp select{flex:1;min-width:0;width:100%;background:transparent;border:0;color:var(--ink);font:inherit;font-size:17px;font-weight:700;padding:11px 0;outline:none;font-variant-numeric:tabular-nums}
+.inp select{cursor:pointer}
+.inp select option{background:var(--panel);color:var(--ink)}
+.inp .u{color:var(--mute);font-size:14px;margin-left:8px;white-space:nowrap}
+.check{display:flex;flex-direction:row!important;align-items:center;gap:10px;font-size:15px;color:#DDE3EC;cursor:pointer;padding:6px 0}
+.check input{width:18px;height:18px;accent-color:var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 18px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px 15px;min-width:0}
+.stat.hero{grid-column:1/-1;background:var(--panel2)}
+.stat .l{color:var(--mute);font-size:13px}
+.stat .v{font-size:24px;font-weight:900;line-height:1.3;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.stat.hero .v{font-size:clamp(30px,8vw,40px)}
+.up{color:var(--up)}.down{color:var(--down)}
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 12px 8px;margin-bottom:12px;position:relative}
+.chart .ttl{font-size:14px;font-weight:700;margin:0 4px 6px}
+.legend{display:flex;gap:16px;font-size:13px;color:var(--mute);margin:0 4px 6px;flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px}
+.legend i.dash{background:repeating-linear-gradient(90deg,var(--s-principal) 0 4px,transparent 4px 7px)!important}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.tip{position:absolute;pointer-events:none;background:#0B1220;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.5;white-space:nowrap;opacity:0;transition:opacity .1s;z-index:3;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.tip b{display:block;color:var(--ink);margin-bottom:2px}
+.tip .row{display:flex;align-items:center;gap:6px;color:#DDE3EC}
+.tip .row i{width:10px;height:3px;border-radius:2px;display:inline-block}
+details{margin-top:6px}
+summary{cursor:pointer;color:var(--mute);font-size:14px;padding:6px 0}
+table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-size:14px}
+td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+th{color:var(--mute);font-weight:500;font-size:13px}
+td:first-child,th:first-child{text-align:left}
+.note{font-size:13px;color:var(--mute);margin-top:10px}
+.box{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:14px 16px;margin:16px 0 0;font-size:15px;color:#DDE3EC}
+.box strong{color:var(--gold)}
+.swap{grid-column:1/-1;justify-self:center;background:var(--panel);border:1px solid var(--line);color:var(--gold);border-radius:99px;padding:6px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.swap:hover{border-color:var(--gold)}
+.fx-out{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.fx-out .l{color:var(--mute);font-size:13px}
+.fx-out .v{font-size:clamp(28px,8vw,38px);font-weight:900;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.3}
+.fx-out .r{color:var(--mute);font-size:13px;margin-top:4px}
+.rates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.rates .inp input{font-size:15px;padding:8px 0}
+.rates .inp .u{min-width:42px;margin:0 8px 0 0;color:var(--ink);font-weight:700}
+footer{padding:40px 0 70px;font-size:14px;color:var(--mute)}
+footer h4{color:var(--ink);font-size:16px;margin-bottom:10px}
+.top{display:inline-block;margin-top:20px;color:var(--gold);text-decoration:none}
+@media (max-width:420px){.stat .v{font-size:21px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <div class="brand"><a href="./">曹濬騰早起工作</a> · 理財小工具</div>
+  <h1>理財小工具</h1>
+  <p class="lede">定期定額能存到多少？存股一年領多少股利？出國換匯要準備多少台幣？輸入數字，馬上幫你算。</p>
+</div></header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#dca"><b>01</b>定期定額</a>
+  <a href="#div"><b>02</b>存股殖利率</a>
+  <a href="#fx"><b>03</b>匯率換算</a>
+</div></nav>
+
+<main class="wrap">
+
+<!-- 01 定期定額 -->
+<section class="tool" id="dca">
+  <span class="tag">試算 01</span>
+  <h2>定期定額試算</h2>
+  <p class="desc">每個月固定投入一筆錢，在固定年化報酬率下，看看幾年後會變成多少。</p>
+
+  <div class="form">
+    <div class="field"><label for="dca-m">每月投入</label><div class="inp"><input id="dca-m" type="number" inputmode="numeric" min="0" step="1000" value="5000"><span class="u">元</span></div></div>
+    <div class="field"><label for="dca-i">一開始先投入</label><div class="inp"><input id="dca-i" type="number" inputmode="numeric" min="0" step="10000" value="0"><span class="u">元</span></div></div>
+    <div class="field"><label for="dca-r">預估年化報酬率</label><div class="inp"><input id="dca-r" type="number" inputmode="decimal" step="0.5" value="6"><span class="u">%</span></div></div>
+    <div class="field"><label for="dca-y">投資年數</label><div class="inp"><input id="dca-y" type="number" inputmode="numeric" min="1" max="60" step="1" value="20"><span class="u">年</span></div></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat hero"><div class="l" id="dca-final-l">20 年後資產</div><div class="v" id="dca-final">—</div></div>
+    <div class="stat"><div class="l">總共投入本金</div><div class="v" id="dca-total">—</div></div>
+    <div class="stat"><div class="l">累積獲利</div><div class="v" id="dca-gain">—</div></div>
+    <div class="stat"><div class="l">總報酬率</div><div class="v" id="dca-roi">—</div></div>
+    <div class="stat"><div class="l">資產是本金的</div><div class="v" id="dca-mult">—</div></div>
+  </div>
+
+  <div class="chart" id="dca-chart">
+    <div class="ttl">每年年底資產變化</div>
+    <div class="legend"><span><i style="background:var(--s-asset)"></i>資產總值</span><span><i class="dash"></i>投入本金</span></div>
+    <svg id="dca-svg" viewBox="0 0 360 240" role="img" aria-label="定期定額每年資產與本金折線圖"></svg>
+    <div class="tip" id="dca-tip"></div>
+  </div>
+  <details><summary>看逐年明細表</summary><table id="dca-table"></table></details>
+
+  <div class="box"><strong>小提醒</strong><br>報酬率是假設每年都一樣，實際市場有漲有跌，結果只供參考。計算方式為每月月底投入、按月複利，未扣除手續費、管理費與稅。</div>
+</section>
+
+<!-- 02 存股 -->
+<section class="tool" id="div">
+  <span class="tag">試算 02</span>
+  <h2>存股殖利率試算</h2>
+  <p class="desc">輸入股價和每年配多少現金股利，算出殖利率、一年能領多少，以及股利拿去再買股票的效果。</p>
+
+  <div class="form">
+    <div class="field"><label for="dv-p">股價</label><div class="inp"><input id="dv-p" type="number" inputmode="decimal" min="0" step="0.1" value="40"><span class="u">元</span></div></div>
+    <div class="field"><label for="dv-d">每股年配息</label><div class="inp"><input id="dv-d" type="number" inputmode="decimal" min="0" step="0.1" value="2"><span class="u">元</span></div></div>
+    <div class="field"><label for="dv-a">投入金額</label><div class="inp"><input id="dv-a" type="number" inputmode="numeric" min="0" step="10000" value="1000000"><span class="u">元</span></div></div>
+    <div class="field"><label for="dv-y">持有年數</label><div class="inp"><input id="dv-y" type="number" inputmode="numeric" min="1" max="60" step="1" value="10"><span class="u">年</span></div></div>
+    <label class="check field full"><input id="dv-re" type="checkbox" checked>股利領到後再買進同一檔股票（股價、配息假設不變）</label>
+  </div>
+
+  <div class="stats">
+    <div class="stat hero"><div class="l">現金殖利率</div><div class="v" id="dv-yield">—</div></div>
+    <div class="stat"><div class="l">可買股數</div><div class="v" id="dv-sh">—</div></div>
+    <div class="stat"><div class="l">第一年領股利</div><div class="v" id="dv-y1">—</div></div>
+    <div class="stat"><div class="l">平均每月約</div><div class="v" id="dv-mo">—</div></div>
+    <div class="stat"><div class="l" id="dv-yn-l">第 10 年領股利</div><div class="v" id="dv-yn">—</div></div>
+    <div class="stat"><div class="l" id="dv-cum-l">10 年累積股利</div><div class="v" id="dv-cum">—</div></div>
+    <div class="stat"><div class="l" id="dv-shn-l">10 年後股數</div><div class="v" id="dv-shn">—</div></div>
+  </div>
+  <details><summary>看逐年明細表</summary><table id="dv-table"></table></details>
+
+  <div class="box"><strong>小提醒</strong><br>1 張 = 1,000 股，不足 1 張可以買零股。殖利率高不一定代表好，還要看公司能不能穩定配息、股價會不會下跌（賺了股利、賠了價差）。試算未計入手續費、證交稅、股利所得稅及健保補充保費。</div>
+</section>
+
+<!-- 03 匯率 -->
+<section class="tool" id="fx">
+  <span class="tag">試算 03</span>
+  <h2>匯率換算</h2>
+  <p class="desc">選擇幣別、輸入金額，馬上換算。下方匯率可以自己修改成銀行當下的報價。</p>
+
+  <div class="form">
+    <div class="field full"><label for="fx-amt">金額</label><div class="inp"><input id="fx-amt" type="number" inputmode="decimal" min="0" step="100" value="10000"></div></div>
+    <div class="field"><label for="fx-from">從</label><div class="inp"><select id="fx-from"></select></div></div>
+    <div class="field"><label for="fx-to">換成</label><div class="inp"><select id="fx-to"></select></div></div>
+    <button class="swap" id="fx-swap" type="button">⇅ 對調</button>
+  </div>
+
+  <div class="fx-out">
+    <div class="l" id="fx-out-l">可換得</div>
+    <div class="v" id="fx-out">—</div>
+    <div class="r" id="fx-rate">—</div>
+  </div>
+
+  <details open><summary>參考匯率（1 單位外幣 = 多少新台幣，可修改）</summary>
+    <div class="rates" id="fx-rates"></div>
+    <p class="note">預設值為臺灣銀行 2026/11/13 牌告「即期買入與賣出的中間價」，僅供參考。實際換匯時，銀行賣給你外幣用「賣出價」，現鈔匯率通常更差。</p>
+  </details>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <h4>免責聲明</h4>
+  <p>本頁試算結果僅供參考，不構成任何投資建議。投資有風險，請自行判斷並承擔風險。</p>
+  <a class="top" href="#dca">↑ 回到最上面</a>　<a class="top" href="./">看每日早報 →</a>
+</div></footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const num = id => { const v = parseFloat($(id).value); return isFinite(v) ? v : 0; };
+const nf0 = new Intl.NumberFormat('zh-TW', {maximumFractionDigits:0});
+const money = v => nf0.format(Math.round(v)) + ' 元';
+// 台灣習慣：一萬以上用「萬」顯示
+const wan = v => {
+  const a = Math.abs(v);
+  if (a >= 1e8) return (v/1e8).toFixed(2).replace(/\.?0+$/,'') + ' 億';
+  if (a >= 1e4) return (v/1e4).toFixed(1).replace(/\.0$/,'') + ' 萬';
+  return nf0.format(Math.round(v));
+};
+const signCls = v => v > 0 ? 'up' : v < 0 ? 'down' : '';
+
+/* ---------- 01 定期定額 ---------- */
+function calcDCA(){
+  const m = Math.max(0, num('dca-m')), init = Math.max(0, num('dca-i'));
+  const r = num('dca-r') / 100, years = Math.min(60, Math.max(1, Math.round(num('dca-y'))));
+  const rm = Math.pow(1 + r, 1/12) - 1;
+  let bal = init, principal = init;
+  const rows = [{y:0, bal, principal}];
+  for (let y = 1; y <= years; y++){
+    for (let k = 0; k < 12; k++){ bal = bal * (1 + rm) + m; principal += m; }
+    rows.push({y, bal, principal});
+  }
+  const gain = bal - principal;
+  $('dca-final-l').textContent = years + ' 年後資產';
+  $('dca-final').textContent = money(bal);
+  $('dca-total').textContent = money(principal);
+  $('dca-gain').textContent = (gain > 0 ? '+' : '') + money(gain);
+  $('dca-gain').className = 'v ' + signCls(gain);
+  const roi = principal > 0 ? gain / principal * 100 : 0;
+  $('dca-roi').textContent = (roi > 0 ? '+' : '') + roi.toFixed(1) + '%';
+  $('dca-roi').className = 'v ' + signCls(roi);
+  $('dca-mult').textContent = principal > 0 ? (bal / principal).toFixed(2) + ' 倍' : '—';
+  drawDCA(rows);
+  const step = years > 30 ? 5 : years > 15 ? 2 : 1;
+  let h = '<tr><th>年</th><th>投入本金</th><th>資產總值</th><th>累積獲利</th></tr>';
+  rows.slice(1).forEach(o => { if (o.y % step === 0 || o.y === years)
+    h += `<tr><td>第 ${o.y} 年</td><td>${nf0.format(Math.round(o.principal))}</td><td>${nf0.format(Math.round(o.bal))}</td><td class="${signCls(o.bal-o.principal)}">${nf0.format(Math.round(o.bal-o.principal))}</td></tr>`; });
+  $('dca-table').innerHTML = h;
+}
+
+function drawDCA(rows){
+  const svg = $('dca-svg'), W = 360, H = 240, L = 40, R = 52, T = 10, B = 26;
+  const n = rows.length - 1;
+  const maxV = Math.max(1, ...rows.map(o => Math.max(o.bal, o.principal)));
+  const minV = Math.min(0, ...rows.map(o => o.bal));
+  const mag = Math.pow(10, Math.floor(Math.log10(maxV)));
+  const nice = [1,2,2.5,5,10].map(s => s*mag).find(s => s*4 >= maxV) || 10*mag;
+  const tick = nice; const top = Math.ceil(maxV / tick) * tick;
+  const bot = minV < 0 ? -Math.ceil(-minV / tick) * tick : 0;
+  const x = i => L + (W - L - R) * (n ? i / n : 0);
+  const y = v => T + (H - T - B) * (1 - (v - bot) / (top - bot || 1));
+  let s = '';
+  for (let v = bot; v <= top + 1e-6; v += tick){
+    s += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="#2A3850" stroke-width="1"/>`;
+    s += `<text x="${L-8}" y="${y(v)+4}" fill="#9AA6B8" font-size="11" text-anchor="end">${wan(v)}</text>`;
+  }
+  const xs = n > 20 ? 5 : n > 10 ? 2 : 1;
+  for (let i = 0; i <= n; i += xs) s += `<text x="${x(i)}" y="${H-8}" fill="#9AA6B8" font-size="11" text-anchor="middle">${i}</text>`;
+  s += `<text x="${W-R+8}" y="${H-8}" fill="#9AA6B8" font-size="11">年</text>`;
+  const path = k => rows.map((o,i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(o[k]).toFixed(1)).join(' ');
+  s += `<path d="${path('principal')}" fill="none" stroke="var(--s-principal)" stroke-width="2" stroke-dasharray="6 4" stroke-linecap="round"/>`;
+  s += `<path d="${path('bal')}" fill="none" stroke="var(--s-asset)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+  const last = rows[n];
+  let ya = y(last.bal), yp = y(last.principal);
+  if (Math.abs(ya - yp) < 14){ if (ya <= yp){ ya = yp - 14; } else { yp = ya - 14; } }
+  s += `<text x="${W-R+8}" y="${ya+4}" fill="#F5F1E8" font-size="11" font-weight="700">${wan(last.bal)}</text>`;
+  s += `<text x="${W-R+8}" y="${yp+4}" fill="#9AA6B8" font-size="11">${wan(last.principal)}</text>`;
+  s += `<line id="dca-cross" x1="0" x2="0" y1="${T}" y2="${H-B}" stroke="#9AA6B8" stroke-width="1" opacity="0"/>`;
+  s += `<circle id="dca-dot-a" r="5" fill="var(--s-asset)" stroke="#152238" stroke-width="2" opacity="0"/>`;
+  s += `<circle id="dca-dot-p" r="5" fill="var(--s-principal)" stroke="#152238" stroke-width="2" opacity="0"/>`;
+  s += `<rect id="dca-hit" x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="transparent"/>`;
+  svg.innerHTML = s;
+
+  const tip = $('dca-tip'), box = $('dca-chart');
+  const show = ev => {
+    const pt = svg.createSVGPoint(); const e = ev.touches ? ev.touches[0] : ev;
+    pt.x = e.clientX; pt.y = e.clientY;
+    const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+    const i = Math.max(0, Math.min(n, Math.round((p.x - L) / ((W - L - R) / (n || 1)))));
+    const o = rows[i];
+    const cross = $('dca-cross'); cross.setAttribute('x1', x(i)); cross.setAttribute('x2', x(i)); cross.setAttribute('opacity', .6);
+    const da = $('dca-dot-a'), dp = $('dca-dot-p');
+    da.setAttribute('cx', x(i)); da.setAttribute('cy', y(o.bal)); da.setAttribute('opacity', 1);
+    dp.setAttribute('cx', x(i)); dp.setAttribute('cy', y(o.principal)); dp.setAttribute('opacity', 1);
+    tip.innerHTML = `<b>${i === 0 ? '一開始' : '第 ' + i + ' 年底'}</b>
+      <div class="row"><i style="background:var(--s-asset)"></i>資產總值 ${money(o.bal)}</div>
+      <div class="row"><i style="background:var(--s-principal)"></i>投入本金 ${money(o.principal)}</div>`;
+    const br = box.getBoundingClientRect(), sr = svg.getBoundingClientRect();
+    const px = sr.left - br.left + x(i) * sr.width / W;
+    tip.style.opacity = 1;
+    const tw = tip.offsetWidth;
+    tip.style.left = Math.max(6, Math.min(br.width - tw - 6, px - tw / 2)) + 'px';
+    tip.style.top = '64px';
+  };
+  const hide = () => { tip.style.opacity = 0; ['dca-cross','dca-dot-a','dca-dot-p'].forEach(k => $(k).setAttribute('opacity', 0)); };
+  const hit = $('dca-hit');
+  hit.addEventListener('mousemove', show); hit.addEventListener('mouseleave', hide);
+  hit.addEventListener('touchstart', show, {passive:true}); hit.addEventListener('touchmove', show, {passive:true}); hit.addEventListener('touchend', () => setTimeout(hide, 1500));
+}
+
+/* ---------- 02 存股 ---------- */
+function calcDiv(){
+  const p = num('dv-p'), d = Math.max(0, num('dv-d')), amt = Math.max(0, num('dv-a'));
+  const years = Math.min(60, Math.max(1, Math.round(num('dv-y')))), re = $('dv-re').checked;
+  if (p <= 0){ ['dv-yield','dv-sh','dv-y1','dv-mo','dv-yn','dv-cum','dv-shn'].forEach(k => $(k).textContent = '—'); $('dv-table').innerHTML=''; return; }
+  const yld = d / p * 100;
+  let sh = Math.floor(amt / p);
+  const sh0 = sh;
+  $('dv-yield').textContent = yld.toFixed(2) + '%';
+  const lots = Math.floor(sh0 / 1000), odd = sh0 % 1000;
+  $('dv-sh').textContent = nf0.format(sh0) + ' 股';
+  $('dv-sh').title = lots + ' 張又 ' + odd + ' 股';
+  const y1 = sh0 * d;
+  $('dv-y1').textContent = money(y1);
+  $('dv-mo').textContent = money(y1 / 12);
+  let cum = 0, cash = amt - sh0 * p, lastDiv = 0;
+  let h = '<tr><th>年</th><th>持有股數</th><th>當年股利</th><th>累積股利</th></tr>';
+  for (let y = 1; y <= years; y++){
+    const dv = sh * d; cum += dv; lastDiv = dv;
+    h += `<tr><td>第 ${y} 年</td><td>${nf0.format(sh)}</td><td>${nf0.format(Math.round(dv))}</td><td>${nf0.format(Math.round(cum))}</td></tr>`;
+    if (re){ cash += dv; const buy = Math.floor(cash / p); sh += buy; cash -= buy * p; }
+  }
+  $('dv-yn-l').textContent = '第 ' + years + ' 年領股利';
+  $('dv-yn').textContent = money(lastDiv);
+  $('dv-cum-l').textContent = years + ' 年累積股利';
+  $('dv-cum').textContent = money(cum);
+  $('dv-shn-l').textContent = years + ' 年後股數';
+  $('dv-shn').textContent = nf0.format(sh) + ' 股';
+  $('dv-table').innerHTML = h;
+}
+
+/* ---------- 03 匯率 ---------- */
+const CUR = [
+  ['TWD','新台幣',1],
+  ['USD','美元',32.835],
+  ['JPY','日圓',0.2055],
+  ['EUR','歐元',36.225],
+  ['CNY','人民幣',4.923],
+  ['HKD','港幣',4.186],
+  ['GBP','英鎊',43.4]
+];
+const rate = {};
+function buildFX(){
+  const opts = CUR.map(([c,n]) => `<option value="${c}">${n} ${c}</option>`).join('');
+  $('fx-from').innerHTML = opts; $('fx-to').innerHTML = opts;
+  $('fx-from').value = 'TWD'; $('fx-to').value = 'JPY';
+  $('fx-rates').innerHTML = CUR.filter(c => c[0] !== 'TWD').map(([c,n,r]) =>
+    `<div class="inp"><span class="u">${c}</span><input type="number" inputmode="decimal" step="any" min="0" data-c="${c}" value="${r}" aria-label="${n}匯率"></div>`).join('');
+  CUR.forEach(([c,,r]) => rate[c] = r);
+  $('fx-rates').addEventListener('input', e => { const c = e.target.dataset.c; if (c){ const v = parseFloat(e.target.value); rate[c] = v > 0 ? v : 0; calcFX(); } });
+  $('fx-swap').addEventListener('click', () => { const a = $('fx-from').value; $('fx-from').value = $('fx-to').value; $('fx-to').value = a; calcFX(); });
+}
+function fmtCur(v, c){
+  const dp = (c === 'JPY' || c === 'TWD') ? 0 : 2;
+  return new Intl.NumberFormat('zh-TW', {minimumFractionDigits:dp, maximumFractionDigits:dp}).format(v);
+}
+function calcFX(){
+  const a = Math.max(0, num('fx-amt')), f = $('fx-from').value, t = $('fx-to').value;
+  const name = c => CUR.find(x => x[0] === c)[1];
+  if (!rate[f] || !rate[t]){ $('fx-out').textContent = '—'; $('fx-rate').textContent = '請輸入有效匯率'; return; }
+  const out = a * rate[f] / rate[t];
+  $('fx-out-l').textContent = fmtCur(a, f) + ' ' + name(f) + ' 可換得';
+  $('fx-out').textContent = fmtCur(out, t) + ' ' + name(t);
+  const one = rate[f] / rate[t];
+  $('fx-rate').textContent = '1 ' + f + ' ≈ ' + (one >= 1 ? one.toFixed(3) : one.toFixed(5)) + ' ' + t;
+}
+
+/* ---------- 啟動 ---------- */
+buildFX();
+['dca-m','dca-i','dca-r','dca-y'].forEach(k => $(k).addEventListener('input', calcDCA));
+['dv-p','dv-d','dv-a','dv-y','dv-re'].forEach(k => $(k).addEventListener('input', calcDiv));
+$('dv-re').addEventListener('change', calcDiv);
+['fx-amt','fx-from','fx-to'].forEach(k => $(k).addEventListener('input', calcFX));
+calcDCA(); calcDiv(); calcFX();
+</script>
+</body>
+</html>
