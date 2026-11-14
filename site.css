@@ -4,7 +4,7 @@
 .sb-logo{display:flex;align-items:center;gap:10px;color:#F5F1E8;text-decoration:none;font-weight:900;font-size:16px;letter-spacing:.04em;white-space:nowrap}
 .sb-mark{width:30px;height:30px;border-radius:9px;background:#E8B44C;color:#0E1726;display:grid;place-items:center;font-size:16px;font-weight:900;flex:none}
 .sb-links{display:flex;gap:4px}
-.sb-links a{color:#CBD3DF;text-decoration:none;font-size:15px;font-weight:500;padding:8px 12px;border-radius:10px;white-space:nowrap}
+.sb-links a{color:#CBD3DF;text-decoration:none;font-size:15px;font-weight:500;padding:8px 11px;border-radius:10px;white-space:nowrap}
 .sb-links a:hover{color:#F5F1E8;background:#152238}
 .sb-links a[aria-current="page"]{color:#E8B44C;font-weight:700}
 .sb-menu{display:none;position:relative}
@@ -16,7 +16,7 @@
 .sb-drop a{display:block;color:#F5F1E8;text-decoration:none;font-size:16px;padding:11px 14px;border-radius:10px}
 .sb-drop a:hover{background:#1B2A44}
 .sb-drop a[aria-current="page"]{color:#E8B44C;font-weight:700}
-@media (max-width:720px){.sb-links{display:none}.sb-menu{display:block}}
+@media (max-width:880px){.sb-links{display:none}.sb-menu{display:block}}
 
 .sf{border-top:1px solid #2A3850;background:#0B1220;color:#9AA6B8;font-size:14px;line-height:1.7}
 .sf-in{max-width:1080px;margin:0 auto;padding:40px 18px 28px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:28px}

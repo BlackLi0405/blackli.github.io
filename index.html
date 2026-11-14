@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>曹濬騰早起工作｜每日早報</title>
-<meta name="description" content="每天整理 3 則最重要的財經新聞：台股、美股、總經，看懂重點與來龍去脈。">
+<meta name="description" content="資訊轉譯站：每天早上整理過去 24 小時最重要的財經與國際新聞，分清楚事實、觀點、立場與利益。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -24,9 +24,18 @@ h2{font-size:15px;color:var(--mute);font-weight:500;letter-spacing:.1em;margin:4
 .card ol{list-style:none;margin-top:10px}
 .card li{font-size:18px;font-weight:700;padding:6px 0;border-top:1px solid var(--line);display:flex;gap:12px}
 .card li:first-child{border-top:0}
-.card li span{color:var(--mute);font-weight:500;font-size:13px;min-width:34px;padding-top:4px}
+.card li span{color:var(--mute);font-weight:500;font-size:13px;min-width:3.2em;padding-top:4px}
 .card .more{color:var(--mute);font-size:14px;margin-top:8px}
 h2[id]{scroll-margin-top:16px}
+.sec{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:40px 0 14px}
+.sec h2{margin:0}
+.sec .all{color:var(--gold);text-decoration:none;font-size:14px;font-weight:700;white-space:nowrap}
+.feed a.card:nth-of-type(n+2){display:none}
+.card.soon{border-style:dashed}
+.card.soon li{font-size:16px;font-weight:500;color:#DDE3EC}
+.intro{display:block;margin:34px 0 0;padding:18px 20px;border-radius:16px;background:linear-gradient(135deg,rgba(232,180,76,.14),rgba(232,180,76,.04));border:1px solid rgba(232,180,76,.35);color:inherit;text-decoration:none}
+.intro b{display:block;color:var(--gold);font-size:16px;margin-bottom:4px}
+.intro span{color:#DDE3EC;font-size:15px}
 main{padding-bottom:48px}
 </style>
 <!-- SITE-HEAD:START -->
@@ -36,15 +45,16 @@ main{padding-bottom:48px}
 </head>
 <body>
 <!-- SITE-NAV:START -->
-<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="index.html" aria-current="page">首頁</a><a href="index.html#finance">財經早報</a><a href="index.html#world">國際早報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html" aria-current="page">首頁</a><a href="index.html#finance">財經早報</a><a href="index.html#world">國際早報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav></details></div></div>
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="index.html" aria-current="page">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="deep.html">深度拆解</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html" aria-current="page">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="deep.html">深度拆解</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav></details></div></div>
 <!-- SITE-NAV:END -->
 <header><div class="wrap">
-  <div class="kicker">每天早上更新</div>
+  <div class="kicker">資訊轉譯站</div>
   <h1>每日早報</h1>
-  <p>每天整理最重要的財經與國際新聞，一次看懂重點和來龍去脈。</p>
+  <p>每天早上整理過去 24 小時最重要的財經與國際新聞，分清楚事實、觀點、立場與利益，幾分鐘看懂來龍去脈。</p>
 </div></header>
 <main class="wrap">
-  <h2 id="finance">財經早報</h2>
+  <div class="sec"><h2 id="finance">今日財經</h2><a class="all" href="finance.html">全部財經早報 →</a></div>
+  <div class="feed" data-feed="finance">
 <!-- REPORTS:START -->
   <a class="card" href="reports/2026-11-14.html">
     <div class="d">2026.11.14（週六）</div>
@@ -74,7 +84,9 @@ main{padding-bottom:48px}
     <div class="more">閱讀完整報導 →</div>
   </a>
 <!-- REPORTS:END -->
-  <h2 id="world">國際早報</h2>
+  </div>
+  <div class="sec"><h2 id="world">今日國際</h2><a class="all" href="world.html">全部國際早報 →</a></div>
+  <div class="feed" data-feed="world">
 <!-- WORLD:START -->
   <a class="card" href="reports/world-2026-11-14.html">
     <div class="d">2026.11.14（週六）</div>
@@ -104,7 +116,16 @@ main{padding-bottom:48px}
     <div class="more">閱讀完整報導 →</div>
   </a>
 <!-- WORLD:END -->
-  <h2 id="tools">理財小工具</h2>
+  </div>
+  <div class="sec"><h2 id="deep">深度拆解</h2><a class="all" href="deep.html">全部文章 →</a></div>
+  <div id="deep-latest">
+    <a class="card soon" href="method.html">
+      <div class="d">每週一篇・準備中</div>
+      <ol><li><span>拆解</span>挑一件複雜或容易被誤解的事，把事實、各方觀點、立場與利益完整拆開</li></ol>
+      <div class="more">先看看我怎麼拆解資訊 →</div>
+    </a>
+  </div>
+  <div class="sec"><h2 id="tools">理財小工具</h2></div>
   <a class="card" href="calc.html">
     <div class="d">隨時可用</div>
     <ol>
@@ -114,9 +135,21 @@ main{padding-bottom:48px}
     </ol>
     <div class="more">打開小工具 →</div>
   </a>
+  <a class="intro" href="method.html">
+    <b>第一次來嗎？</b>
+    <span>一則訊息裡，常混著事實、觀點、立場和利益。看看這裡怎麼把它們分開 →</span>
+  </a>
 </main>
+<script>
+// 首頁的「深度拆解」區塊：自動顯示 deep.html 裡最新的一篇；還沒有文章時維持「準備中」
+fetch('deep.html', {cache: 'no-cache'}).then(r => r.ok ? r.text() : '').then(t => {
+  if (!t) return;
+  const card = new DOMParser().parseFromString(t, 'text/html').querySelector('.feed a.card');
+  if (card) document.getElementById('deep-latest').innerHTML = card.outerHTML;
+}).catch(() => {});
+</script>
 <!-- SITE-FOOT:START -->
-<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>每天早上整理最重要的財經與國際新聞，搭配實用的理財小工具，幫你用幾分鐘看懂世界。</p></div><div><h5>每日內容</h5><ul><li><a href="index.html#finance">財經早報</a></li><li><a href="index.html#world">國際早報</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div><div><h5>內容</h5><ul><li><a href="finance.html">財經早報</a></li><li><a href="world.html">國際早報</a></li><li><a href="deep.html">深度拆解</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
 </body>
 </html>

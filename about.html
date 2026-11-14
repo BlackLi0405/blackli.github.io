@@ -4,32 +4,35 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>關於本站｜曹濬騰早起工作</title>
-<meta name="description" content="曹濬騰早起工作每日早報：每天早上整理財經與國際重點新聞，以及實用的理財小工具。">
+<meta name="description" content="在資訊爆炸的時代，我們缺的不是訊息，而是看清全貌的能力。曹濬騰早起工作是一個資訊轉譯站，幫你把複雜的事情梳理清楚。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0E1726;--panel:#152238;--line:#2A3850;--ink:#F5F1E8;--mute:#9AA6B8;--gold:#E8B44C}
+:root{--bg:#0E1726;--panel:#152238;--line:#2A3850;--ink:#F5F1E8;--mute:#9AA6B8;--gold:#E8B44C;--fact:#5A93E0;--view:#B98AE0;--stance:#E0A04F;--interest:#4FB89A}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.8;font-size:17px;
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.9;font-size:17px;
   background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px}
 .wrap{max-width:720px;margin:0 auto;padding:0 22px}
-header.hero{padding:56px 0 32px;border-bottom:1px solid var(--line)}
+header.hero{padding:56px 0 34px;border-bottom:1px solid var(--line)}
 .kicker{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
 h1{font-size:clamp(34px,8vw,50px);font-weight:900;line-height:1.2;margin:14px 0}
-.lede{color:#CBD3DF}
+.lede{color:#CBD3DF;font-size:19px;font-weight:500}
 section{padding:40px 0 8px;scroll-margin-top:16px}
 h2{font-size:22px;font-weight:900;margin:0 0 14px;display:flex;align-items:center;gap:10px}
 h2::before{content:"";width:6px;height:22px;background:var(--gold);border-radius:3px}
-p{margin:0 0 14px;color:#DDE3EC}
+p{margin:0 0 16px;color:#DDE3EC}
+p strong{color:var(--ink)}
+.four{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:4px 0 18px}
+.four div{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:14px;padding:12px 14px;font-size:14px;color:#CBD3DF;line-height:1.6}
+.four b{display:block;color:var(--ink);font-size:16px;margin-bottom:2px}
+.f{--c:var(--fact)}.v{--c:var(--view)}.s{--c:var(--stance)}.i{--c:var(--interest)}
+.quote{border-left:4px solid var(--gold);padding:4px 0 4px 16px;margin:6px 0 18px;color:var(--ink);font-size:18px;font-weight:700}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:6px 0 10px}
 .item{display:block;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;color:inherit;text-decoration:none;transition:border-color .2s}
 a.item:hover{border-color:var(--gold)}
 .item b{display:block;font-size:17px;margin-bottom:4px}
 .item span{color:var(--mute);font-size:14px;line-height:1.6;display:block}
-ul.rules{list-style:none;margin:0 0 14px}
-ul.rules li{position:relative;padding:12px 0 12px 30px;border-bottom:1px solid var(--line);color:#DDE3EC}
-ul.rules li::before{content:"✓";position:absolute;left:4px;top:12px;color:var(--gold);font-weight:900}
-ul.rules li b{color:var(--ink)}
+.link{color:var(--gold);text-decoration:none;font-weight:700}
 .box{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:16px 18px;margin:6px 0 0;font-size:15px;color:#CBD3DF}
 main{padding-bottom:56px}
 </style>
@@ -40,46 +43,64 @@ main{padding-bottom:56px}
 </head>
 <body>
 <!-- SITE-NAV:START -->
-<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="index.html">首頁</a><a href="index.html#finance">財經早報</a><a href="index.html#world">國際早報</a><a href="calc.html">理財小工具</a><a href="about.html" aria-current="page">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">首頁</a><a href="index.html#finance">財經早報</a><a href="index.html#world">國際早報</a><a href="calc.html">理財小工具</a><a href="about.html" aria-current="page">關於本站</a></nav></details></div></div>
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="deep.html">深度拆解</a><a href="calc.html">理財小工具</a><a href="about.html" aria-current="page">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="deep.html">深度拆解</a><a href="calc.html">理財小工具</a><a href="about.html" aria-current="page">關於本站</a></nav></details></div></div>
 <!-- SITE-NAV:END -->
 <header class="hero"><div class="wrap">
   <div class="kicker">關於本站</div>
-  <h1>每天早上，<br>幾分鐘看懂世界</h1>
-  <p class="lede">「曹濬騰早起工作」每天早上整理前一天最重要的財經與國際新聞，用簡單的文字說清楚發生了什麼、為什麼重要，以及跟台灣有什麼關係。</p>
+  <h1>資訊轉譯站</h1>
+  <p class="lede">在資訊爆炸的時代，我們缺的不是訊息，而是看清全貌的能力。</p>
 </div></header>
 
 <main class="wrap">
 
+<section id="why">
+  <h2>為什麼做這個網站</h2>
+  <p>在生活與工作中，我常發現許多事情之所以卡關、甚至走向失敗，往往不是因為大家不夠努力，而是<strong>「資訊出現了斷層」</strong>。傳達者有自己的立場，接收者有不同的理解程度，一來一往之間，訊息很容易在無形中失真。</p>
+  <p>當我們接收到一則訊息時，裡面其實混雜了四種完全不同的東西：</p>
+  <div class="four">
+    <div class="f"><b>事實</b>客觀發生、不帶情緒的原始狀態。</div>
+    <div class="v"><b>觀點</b>基於個人經驗與視角的解讀。</div>
+    <div class="s"><b>立場</b>說話者所站的位置與態度。</div>
+    <div class="i"><b>利益</b>驅動這則訊息背後、真正想達成的目的。</div>
+  </div>
+  <p>很多時候，傳達者會因為利益決定了立場，進而把立場包裝成事實；而接收者受限於時間與視角，很容易在資訊不對稱的情況下全盤接收，溝通自然會出問題。</p>
+  <p class="quote">我一直相信，正確且透明的資訊流通，是解決問題的第一步。</p>
+  <p>大家平時都很忙，沒有時間層層剝開這些迷霧。而梳理脈絡、整理資訊剛好是我最擅長也最熱愛的事。建立這個網站的初衷，就是希望能充當一個「資訊轉譯站」：替大家省去過濾雜訊的時間，盡力釐清什麼是客觀事實、什麼是主觀解讀，讓對的資訊能真正被看見、被理解。</p>
+  <p><a class="link" href="method.html">看看我怎麼拆解資訊、怎麼選擇來源 →</a></p>
+</section>
+
+<section id="interest">
+  <h2>我的利益，先說在前面</h2>
+  <p>當然，我也會有自己的視角限制與盲點。如果問我做這件事的「利益」是什麼？那就是希望透過不斷地整理與練習，讓自己能更全面地洞悉所有事物。</p>
+</section>
+
 <section id="content">
   <h2>這裡有什麼</h2>
   <div class="grid">
-    <a class="item" href="index.html#finance"><b>財經早報</b><span>台股、美股、總體經濟與重大企業消息，每天精選 3 則。</span></a>
-    <a class="item" href="index.html#world"><b>國際早報</b><span>地緣政治、外交與重大國際事件，每天精選 3 則。</span></a>
+    <a class="item" href="finance.html"><b>財經早報</b><span>每天早上，整理過去 24 小時的台股、美股、總經與重大企業消息，精選 3 則。</span></a>
+    <a class="item" href="world.html"><b>國際早報</b><span>每天早上，整理過去 24 小時的地緣政治、外交與重大國際事件，精選 3 則。</span></a>
+    <a class="item" href="deep.html"><b>深度拆解</b><span>每週一篇，把一件複雜的事分成事實、觀點、立場、利益完整說清楚。</span></a>
     <a class="item" href="calc.html"><b>理財小工具</b><span>定期定額、存股殖利率、匯率換算，輸入數字馬上算。</span></a>
   </div>
-  <p>每天的重點也會做成 IG 限時動態圖卡，限動上的連結會帶你回到這裡看完整報導。</p>
+  <p>每天的重點也會做成 IG 限時動態圖卡，限動上的連結會帶你回到這裡看完整內容。</p>
 </section>
 
-<section id="principles">
-  <h2>整理原則</h2>
-  <ul class="rules">
-    <li><b>先查證再寫：</b>每個數字和日期都會回到當天的原始報導核對，並在每則新聞下方附上資料來源連結。</li>
-    <li><b>用自己的話說：</b>不照抄原文，把專有名詞講成一般人也看得懂的說法。</li>
-    <li><b>立場中立：</b>涉及政治與爭議的新聞，會同時呈現各方的說法與回應，不加入個人評價。</li>
-    <li><b>標明未證實：</b>還沒有官方證實的消息，會清楚標註「據報導」或「尚未獲官方證實」。</li>
-  </ul>
+<section id="talk">
+  <h2>歡迎交流</h2>
+  <p>這裡不只是我的單向輸出，我更期待聽見你們的聲音。每個人所站的位置不同，才造就了多元的觀點。我非常喜歡了解這些不同的角度，因為唯有把所有拼圖湊在一起，我們才能一起看得夠廣、夠深、走得更遠。</p>
+  <p>歡迎你來這裡逛逛，也歡迎把你的觀點分享給我！</p>
 </section>
 
 <section id="disclaimer">
   <h2>免責聲明</h2>
-  <p>本站內容整理自公開新聞報導，目的是幫助讀者快速了解時事，僅供參考，不構成任何投資建議或買賣邀約。</p>
+  <p>本站內容整理自公開新聞報導與資料，目的是幫助讀者快速了解時事，僅供參考，不構成任何投資建議或買賣邀約。</p>
   <p>理財小工具的計算結果以簡化假設試算，未計入手續費、稅負等實際成本，實際結果可能不同。</p>
   <div class="box">投資一定有風險，做任何投資決定前，請自行判斷並承擔風險，必要時請諮詢專業人士。</div>
 </section>
 
 </main>
 <!-- SITE-FOOT:START -->
-<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>每天早上整理最重要的財經與國際新聞，搭配實用的理財小工具，幫你用幾分鐘看懂世界。</p></div><div><h5>每日內容</h5><ul><li><a href="index.html#finance">財經早報</a></li><li><a href="index.html#world">國際早報</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div><div><h5>內容</h5><ul><li><a href="finance.html">財經早報</a></li><li><a href="world.html">國際早報</a></li><li><a href="deep.html">深度拆解</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
 </body>
 </html>
