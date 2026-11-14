@@ -74,7 +74,9 @@ h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 
 .toast.on{opacity:1}
 main{padding-bottom:60px}
 @media (max-width:560px){.grid{grid-template-columns:1fr}.filters{position:static}}
-.ev .img.noimg{aspect-ratio:auto;height:64px;font-size:30px}
+.ev .img.noimg{aspect-ratio:auto;height:96px;font-size:40px;background:linear-gradient(135deg,var(--tc,#2A3850),var(--panel2) 75%)}
+.ev .img.noimg .ph{filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
+.ev[data-ty=expo]{--tc:#3D5A8C}.ev[data-ty=music]{--tc:#7A4E8F}.ev[data-ty=stage]{--tc:#8C4A5A}.ev[data-ty=kids]{--tc:#3F7F6B}.ev[data-ty=talk]{--tc:#5A6B8C}.ev[data-ty=film]{--tc:#5C5470}.ev[data-ty=fest]{--tc:#8C6A2E}.ev[data-ty=other]{--tc:#4A5A70}
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8B44C'/%3E%3Ctext x='32' y='45' font-size='36' font-weight='900' text-anchor='middle' fill='%230E1726' font-family='sans-serif'%3E%E6%97%A9%3C/text%3E%3C/svg%3E">
@@ -83,7 +85,7 @@ main{padding-bottom:60px}
 </head>
 <body>
 <!-- SITE-NAV:START -->
-<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="deep.html">深度拆解</a><a href="travel.html" aria-current="page">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="deep.html">深度拆解</a><a href="travel.html" aria-current="page">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav></details></div></div>
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="weekly.html">每週專欄</a><a href="travel.html" aria-current="page">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="weekly.html">每週專欄</a><a href="travel.html" aria-current="page">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav></details></div></div>
 <!-- SITE-NAV:END -->
 <header class="hero"><div class="wrap">
   <div class="kicker">出遊情報</div>
@@ -330,13 +332,15 @@ function dateText(e) {
   if (e.end && e.end >= t && e.end <= todayStr(6)) s += '<span class="end">・快結束</span>';
   return s;
 }
+// 文化部有些圖片網址重複了網域（https://cloud.culture.twhttps://…），先修正
+const fixImg = u => (u || '').replace(/^https?:\/\/[^/]+(?=https?:\/\/)/, '').replace(/^http:/, 'https:');
 function card(e) {
-  const [tl, ti] = TYPES[e.type];
+  const [tl, ti] = TYPES[e.type]; const imgUrl = fixImg(e.img);
   const badges = `<span class="ty">${ti} ${tl}</span>${e.free ? '<span class="ty free">免費</span>' : ''}`;
-  const img = e.img ? `<div class="img"><img src="${esc(e.img)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('noimg');this.remove()"><span class="ph">${ti}</span>${badges}</div>`
+  const img = imgUrl ? `<div class="img"><img src="${esc(imgUrl)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('noimg');this.remove()"><span class="ph">${ti}</span>${badges}</div>`
     : `<div class="img noimg"><span class="ph">${ti}</span>${badges}</div>`;
   const mapQ = e.lat ? `${e.lat},${e.lng}` : encodeURIComponent(e.city + ' ' + (e.venue || e.title));
-  return `<article class="ev${F.event === e.id ? ' hl' : ''}" id="ev-${esc(e.id)}">${img}<div class="bd">
+  return `<article class="ev${F.event === e.id ? ' hl' : ''}" data-ty="${e.type}" id="ev-${esc(e.id)}">${img}<div class="bd">
     <div class="date">${dateText(e)}</div>
     <h3>${esc(e.title)}</h3>
     <div class="where">📍 ${esc(e.city)}${e.venue ? '・' + esc(e.venue) : ''}</div>
@@ -415,7 +419,7 @@ $('list').addEventListener('click', e => {
 })();
 </script>
 <!-- SITE-FOOT:START -->
-<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div><div><h5>內容</h5><ul><li><a href="finance.html">財經早報</a></li><li><a href="world.html">國際早報</a></li><li><a href="deep.html">深度拆解</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div><div><h5>內容</h5><ul><li><a href="finance.html">財經早報</a></li><li><a href="world.html">國際早報</a></li><li><a href="weekly.html">每週專欄</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
 </body>
 </html>
