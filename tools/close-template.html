@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  台股盤後範本：交易日 16:30 左右發佈。複製成 reports/close-YYYY-MM-DD.html。
+  篇幅約 500～800 字，重點放數字和表格；不做四層拆解，不預測漲跌，不給投資建議。
+  每個數字都要在當天的官方資料或通訊社確認，標明資料時間。台灣慣例：漲用 class="up"（紅）、跌用 class="down"（綠）。
+  把所有【】換成實際內容，刪掉這段說明與檔案最下方的註解。
+-->
+<title>【YYYY.MM.DD】台股盤後｜【一句話標題】｜曹濬騰早起工作</title>
+<meta name="description" content="【一句話摘要】">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0E1726;--panel:#152238;--panel2:#1B2A44;--line:#2A3850;--ink:#F5F1E8;--mute:#9AA6B8;--gold:#E8B44C;--up:#FF4D5E;--down:#22C55E}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.8;font-size:17px;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px}
+.wrap{max-width:720px;margin:0 auto;padding:0 22px}
+header.hero{padding:48px 0 26px;border-bottom:1px solid var(--line)}
+.brand{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
+.brand a{color:inherit;text-decoration:none}
+.pill{display:inline-block;background:var(--gold);color:var(--bg);font-weight:900;font-size:13px;border-radius:99px;padding:2px 12px;margin-left:8px;letter-spacing:.05em}
+.date{color:var(--mute);font-size:14px;margin-top:6px;letter-spacing:.04em}
+h1{font-size:clamp(28px,7vw,42px);font-weight:900;line-height:1.3;margin:16px 0 10px}
+.lede{color:#CBD3DF}
+main{padding:28px 22px 20px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:0 0 8px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.stat .l{color:var(--mute);font-size:13px}
+.stat .v{font-size:24px;font-weight:900;line-height:1.3;font-variant-numeric:tabular-nums}
+.stat .c{font-size:14px;font-weight:700}
+.up{color:var(--up)}.down{color:var(--down)}
+h2{font-size:21px;font-weight:900;margin:34px 0 10px;display:flex;align-items:center;gap:10px}
+h2::before{content:"";width:6px;height:20px;background:var(--gold);border-radius:3px;flex:none}
+p{margin:0 0 14px;color:#DDE3EC}
+ul{margin:0 0 14px 1.2em;color:#DDE3EC}
+li{margin-bottom:8px}
+li::marker{color:var(--gold)}
+.tbl{overflow-x:auto;margin:0 0 14px}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:420px}
+td,th{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500;font-size:13px}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.t{color:var(--gold);font-weight:700;white-space:nowrap}
+td:first-child{white-space:nowrap}
+.box{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:16px 18px;margin:26px 0}
+.box strong{color:var(--gold)}
+.note{font-size:13px;color:var(--mute)}
+.src{font-size:14px;color:var(--mute);margin-top:18px}
+.src a{color:var(--mute)}
+footer{padding:30px 0 70px;font-size:14px;color:var(--mute)}
+footer a{color:var(--gold);text-decoration:none}
+</style>
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8B44C'/%3E%3Ctext x='32' y='45' font-size='36' font-weight='900' text-anchor='middle' fill='%230E1726' font-family='sans-serif'%3E%E6%97%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../site.css">
+<!-- SITE-HEAD:END -->
+</head>
+<body>
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="../index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="../index.html">首頁</a><a href="../finance.html">財經早報</a><a href="../world.html">國際早報</a><a href="../weekly.html">每週專欄</a><a href="../travel.html">出遊情報</a><a href="../calc.html">理財小工具</a><a href="../about.html">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="../index.html">首頁</a><a href="../finance.html">財經早報</a><a href="../world.html">國際早報</a><a href="../weekly.html">每週專欄</a><a href="../travel.html">出遊情報</a><a href="../calc.html">理財小工具</a><a href="../about.html">關於本站</a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+<header class="hero"><div class="wrap">
+  <div class="brand"><a href="../finance.html">財經早報</a><span class="pill">盤後</span></div>
+  <div class="date">【YYYY.MM.DD（週X）】・資料時間【HH:MM】</div>
+  <h1>【一句話標題，例如：台股收漲 312 點，外資連三買】</h1>
+  <p class="lede">【兩三句話：今天台股怎麼收、主要原因、亞洲股市整體表現】</p>
+</div></header>
+<main class="wrap">
+  <div class="stats">
+    <div class="stat"><div class="l">加權指數</div><div class="v">【收盤】</div><div class="c 【up/down】">【▲ 312.5（+0.73%）】</div></div>
+    <div class="stat"><div class="l">成交金額</div><div class="v">【億元】</div><div class="c">【與前一日比較】</div></div>
+    <div class="stat"><div class="l">櫃買指數</div><div class="v">【收盤】</div><div class="c 【up/down】">【漲跌】</div></div>
+  </div>
+
+  <h2>台股今天怎麼走</h2>
+  <p>【開盤、盤中高低點、收盤；推升或拖累指數的主要原因（附來源說法）】</p>
+
+  <h2>類股與個股焦點</h2>
+  <ul><li>【類股或個股：漲跌與原因】</li><li>【…】</li><li>【…】</li></ul>
+
+  <h2>三大法人</h2>
+  <div class="tbl"><table>
+    <tr><th>法人</th><th class="r">買賣超（億元）</th><th>備註</th></tr>
+    <tr><td>外資</td><td class="r 【up/down】">【+52.3】</td><td>【例如：連三買、主要買超台積電】</td></tr>
+    <tr><td>投信</td><td class="r 【up/down】">【】</td><td>【】</td></tr>
+    <tr><td>自營商</td><td class="r 【up/down】">【】</td><td>【】</td></tr>
+  </table></div>
+  <p class="note">※ 法人資料來自臺灣證券交易所，若撰寫時尚未公布，改寫「法人資料約 15:00 後公布」並刪掉表格。</p>
+
+  <h2>亞洲股市收盤</h2>
+  <div class="tbl"><table>
+    <tr><th>市場</th><th class="r">收盤</th><th class="r">漲跌幅</th><th>重點</th></tr>
+    <tr><td>日本日經 225</td><td class="r">【】</td><td class="r 【up/down】">【】</td><td>【一句話】</td></tr>
+    <tr><td>韓國 KOSPI</td><td class="r">【】</td><td class="r 【up/down】">【】</td><td>【】</td></tr>
+    <tr><td>上海綜合</td><td class="r">【】</td><td class="r 【up/down】">【】</td><td>【】</td></tr>
+    <tr><td>香港恒生</td><td class="r">【】</td><td class="r 【up/down】">【】</td><td>【】</td></tr>
+  </table></div>
+
+  <div class="box"><strong>接下來要注意</strong><br>【今晚或明天會影響市場的事件、數據公布時間（只列事實與時間，不預測漲跌）】</div>
+
+  <p class="src">資料來源：<a href="【網址】">【臺灣證券交易所／中央社等】</a>、<a href="【網址】">【】</a></p>
+</main>
+<footer><div class="wrap">
+  <p class="note">本頁內容整理自公開資料與新聞報導，僅供參考，不構成任何投資建議。</p>
+  <p><a href="../finance.html?type=close">← 看其他盤後</a>　<a href="../">回首頁 →</a></p>
+</div></footer>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div><div><h5>內容</h5><ul><li><a href="../finance.html">財經早報</a></li><li><a href="../world.html">國際早報</a></li><li><a href="../weekly.html">每週專欄</a></li><li><a href="../travel.html">出遊情報</a></li><li><a href="../calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="../about.html">關於本站</a></li><li><a href="../method.html">我怎麼拆解資訊</a></li><li><a href="../method.html#sources">來源原則</a></li><li><a href="../about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>
+<!--
+  首頁卡片（加在 index.html 的 REPORTS:START 後面，最新的放最上面）：
+  <a class="card" href="reports/close-YYYY-MM-DD.html">
+    <div class="d">YYYY.MM.DD（週X）・盤後</div>
+    <ol>
+      <li><span>台股</span>【台股收盤一句話】</li>
+      <li><span>法人</span>【三大法人一句話】</li>
+      <li><span>亞洲</span>【亞洲股市一句話】</li>
+    </ol>
+    <div class="more">看完整盤後整理 →</div>
+  </a>
+-->
