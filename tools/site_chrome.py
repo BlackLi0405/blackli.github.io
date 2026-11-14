@@ -10,8 +10,9 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 BRAND = "曹濬騰早起工作"
 LINKS = [  # (文字, 路徑, 判斷目前頁面用的 key)
     ("首頁", "index.html", "home"),
-    ("財經早報", "index.html#finance", "finance"),
-    ("國際早報", "index.html#world", "world"),
+    ("財經早報", "finance.html", "finance"),
+    ("國際早報", "world.html", "world"),
+    ("深度拆解", "deep.html", "deep"),
     ("理財小工具", "calc.html", "calc"),
     ("關於本站", "about.html", "about"),
 ]
@@ -21,8 +22,10 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
 
 def page_key(rel):
     if rel.startswith("reports/world-"): return "world"
+    if rel.startswith("reports/deep-") or rel.startswith("tools/deep"): return "deep"
     if rel.startswith("reports/"): return "finance"
-    return {"index.html": "home", "calc.html": "calc", "about.html": "about"}.get(rel, "")
+    return {"index.html": "home", "finance.html": "finance", "world.html": "world", "deep.html": "deep",
+            "calc.html": "calc", "about.html": "about", "method.html": "about"}.get(rel, "")
 
 def nav(pre, key):
     def a(t, href, k, cls=""):
@@ -40,17 +43,19 @@ def foot(pre):
     p = pre
     return (f'<!-- SITE-FOOT:START -->\n<div class="sf"><div class="sf-in">'
             f'<div><div class="sf-brand"><span class="sb-mark">早</span>{BRAND}</div>'
-            f'<p>每天早上整理最重要的財經與國際新聞，搭配實用的理財小工具，幫你用幾分鐘看懂世界。</p></div>'
-            f'<div><h5>每日內容</h5><ul><li><a href="{p}index.html#finance">財經早報</a></li>'
-            f'<li><a href="{p}index.html#world">國際早報</a></li><li><a href="{p}calc.html">理財小工具</a></li></ul></div>'
+            f'<p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div>'
+            f'<div><h5>內容</h5><ul><li><a href="{p}finance.html">財經早報</a></li>'
+            f'<li><a href="{p}world.html">國際早報</a></li><li><a href="{p}deep.html">深度拆解</a></li>'
+            f'<li><a href="{p}calc.html">理財小工具</a></li></ul></div>'
             f'<div><h5>網站資訊</h5><ul><li><a href="{p}about.html">關於本站</a></li>'
+            f'<li><a href="{p}method.html">我怎麼拆解資訊</a></li><li><a href="{p}method.html#sources">來源原則</a></li>'
             f'<li><a href="{p}about.html#disclaimer">免責聲明</a></li></ul></div>'
             f'</div><div class="sf-bottom"><span>© 2026 {BRAND}</span>'
             f'<span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>\n<!-- SITE-FOOT:END -->')
 
 def apply(path):
     rel = path.relative_to(ROOT).as_posix()
-    pre = "../" if rel.startswith("reports/") else ""
+    pre = "../" if "/" in rel else ""
     s = path.read_text(encoding="utf-8")
     head = f'<link rel="icon" href="{FAVICON}">\n<link rel="stylesheet" href="{pre}site.css">'
     s = re.sub(r'<!-- SITE-HEAD:START -->.*?<!-- SITE-HEAD:END -->\n?', '', s, flags=re.S)
@@ -68,6 +73,6 @@ def apply(path):
     return rel
 
 if __name__ == "__main__":
-    pages = [ROOT / "index.html", ROOT / "calc.html", ROOT / "about.html"] + sorted((ROOT / "reports").glob("*.html"))
+    pages = sorted(ROOT.glob("*.html")) + sorted((ROOT / "reports").glob("*.html")) + sorted((ROOT / "tools").glob("*.html"))
     for p in pages:
         if p.exists(): print("updated", apply(p))

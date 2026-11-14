@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  深度拆解文章範本
+  使用方式：複製成 reports/deep-YYYY-MM-DD.html，把所有【】的地方換成實際內容。
+  原則：只寫有來源的內容；不加入個人評價；未證實的消息標明「據報導」「尚未獲官方證實」。
+  發佈時：在 deep.html 的 DEEP:START 標記後面加一張卡片（格式見檔案最下方註解）。
+-->
+<title>【標題】｜深度拆解｜曹濬騰早起工作</title>
+<meta name="description" content="【一句話說明這篇在拆解什麼】">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0E1726;--panel:#152238;--panel2:#1B2A44;--line:#2A3850;--ink:#F5F1E8;--mute:#9AA6B8;--gold:#E8B44C;--fact:#5A93E0;--view:#B98AE0;--stance:#E0A04F;--interest:#4FB89A}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.8;font-size:17px;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px}
+.wrap{max-width:720px;margin:0 auto;padding:0 22px}
+header.hero{padding:52px 0 32px;border-bottom:1px solid var(--line)}
+.brand{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
+.brand a{color:inherit;text-decoration:none}
+.date{color:var(--mute);font-size:14px;margin-top:6px}
+h1{font-size:clamp(30px,7vw,46px);font-weight:900;line-height:1.25;margin:18px 0 14px}
+.tldr{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-top:8px}
+.tldr b{color:var(--gold);font-size:14px;letter-spacing:.08em;display:block;margin-bottom:4px}
+nav.toc{position:sticky;top:0;z-index:5;background:rgba(14,23,38,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:12px;padding-bottom:12px}
+nav.toc a{flex:none;color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;border:1px solid var(--line);border-radius:99px;padding:6px 14px}
+section{padding:40px 0 10px;border-bottom:1px solid var(--line)}
+h2{font-size:24px;font-weight:900;margin:0 0 16px;display:flex;align-items:center;gap:10px}
+.lab{font-size:12px;font-weight:700;border-radius:99px;padding:2px 10px;color:#0E1726}
+.lab.fact{background:var(--fact)}.lab.view{background:var(--view)}.lab.stance{background:var(--stance)}.lab.interest{background:var(--interest)}
+p{margin:0 0 14px;color:#DDE3EC}
+ul{margin:0 0 14px 1.2em;color:#DDE3EC}
+li{margin-bottom:8px}
+.timeline{list-style:none;margin:0;border-left:2px solid var(--line);padding-left:18px}
+.timeline li{position:relative;margin-bottom:16px}
+.timeline li::before{content:"";position:absolute;left:-25px;top:9px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid var(--bg)}
+.timeline time{display:block;color:var(--gold);font-weight:700;font-size:14px}
+.tbl{overflow-x:auto;margin:0 0 16px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+@media (max-width:560px){table{font-size:14px}td,th{padding:9px 5px}td:first-child{white-space:normal;min-width:4.5em}}
+td,th{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500;font-size:13px}
+td:first-child{font-weight:700;white-space:nowrap}
+.note{font-size:14px;color:var(--mute)}
+.box{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:16px 18px;margin:16px 0}
+.box strong{color:var(--gold)}
+.src{font-size:14px;color:var(--mute)}
+.src a{color:#B8C2D1}
+.src li{margin-bottom:6px}
+footer{padding:36px 0 60px;font-size:14px;color:var(--mute)}
+footer a{color:var(--gold);text-decoration:none}
+</style>
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8B44C'/%3E%3Ctext x='32' y='45' font-size='36' font-weight='900' text-anchor='middle' fill='%230E1726' font-family='sans-serif'%3E%E6%97%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../site.css">
+<!-- SITE-HEAD:END -->
+</head>
+<body>
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="../index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="../index.html">首頁</a><a href="../finance.html">財經早報</a><a href="../world.html">國際早報</a><a href="../deep.html" aria-current="page">深度拆解</a><a href="../calc.html">理財小工具</a><a href="../about.html">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="../index.html">首頁</a><a href="../finance.html">財經早報</a><a href="../world.html">國際早報</a><a href="../deep.html" aria-current="page">深度拆解</a><a href="../calc.html">理財小工具</a><a href="../about.html">關於本站</a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+<header class="hero"><div class="wrap">
+  <div class="brand"><a href="../deep.html">深度拆解</a> · 曹濬騰早起工作</div>
+  <div class="date">【YYYY.MM.DD】・閱讀約【N】分鐘</div>
+  <h1>【標題：用問句或中性描述，例如「○○事件到底在吵什麼？」】</h1>
+  <div class="tldr"><b>一句話看懂</b>【用一兩句話說清楚這件事是什麼、為什麼大家在討論】</div>
+</div></header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#timeline">時間線</a><a href="#facts">事實</a><a href="#views">各方觀點</a><a href="#stances">立場</a><a href="#interests">利益</a><a href="#unknown">還不知道的事</a><a href="#sources">來源</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="timeline">
+  <h2>時間線</h2>
+  <ul class="timeline">
+    <li><time>【YYYY.MM.DD】</time>【發生了什麼】</li>
+    <li><time>【YYYY.MM.DD】</time>【發生了什麼】</li>
+  </ul>
+</section>
+
+<section id="facts">
+  <h2><span class="lab fact">事實</span>確定發生了什麼</h2>
+  <p>【只寫可以被查證、各方都不爭執的部分：數字、日期、誰在何時說了什麼、文件內容】</p>
+  <ul><li>【事實 1（附來源）】</li><li>【事實 2（附來源）】</li></ul>
+</section>
+
+<section id="views">
+  <h2><span class="lab view">觀點</span>各方怎麼解讀</h2>
+  <p>【同一件事，不同的人怎麼解讀它？每個觀點都註明是誰的看法】</p>
+  <div class="tbl"><table>
+    <tr><th>誰</th><th>怎麼解讀</th><th>依據</th></tr>
+    <tr><td>【A 方】</td><td>【他們的說法】</td><td>【出處】</td></tr>
+    <tr><td>【B 方】</td><td>【他們的說法】</td><td>【出處】</td></tr>
+  </table></div>
+</section>
+
+<section id="stances">
+  <h2><span class="lab stance">立場</span>各方站在哪裡</h2>
+  <p>【各方的公開立場與態度：支持、反對、有條件支持……】</p>
+  <ul><li><strong>【A 方】：</strong>【立場】</li><li><strong>【B 方】：</strong>【立場】</li></ul>
+</section>
+
+<section id="interests">
+  <h2><span class="lab interest">利益</span>背後的動機</h2>
+  <p>【各方在這件事上可能得到或失去什麼。只寫有來源的分析，例如「分析師指出」「據○○報導」，不自行推測】</p>
+  <p class="note">※ 利益分析引用自公開報導與專家說法，不代表當事人承認。</p>
+</section>
+
+<section id="unknown">
+  <h2>還不知道的事</h2>
+  <ul><li>【尚未證實、仍待觀察，或各方說法矛盾的地方】</li></ul>
+  <div class="box"><strong>接下來可以觀察</strong><br>【下一個關鍵時間點或指標】</div>
+</section>
+
+<section id="sources">
+  <h2>資料來源</h2>
+  <ol class="src">
+    <li><a href="【網址】">【媒體名稱：標題】</a>（【來源性質：官方資料／通訊社／媒體報導／某方說法】）</li>
+  </ol>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <p>本文整理自公開資料，只呈現各方說法，不加入個人評價，僅供參考，不構成任何投資建議。發現錯誤歡迎告訴我，確認後會更正並註明。</p>
+  <p><a href="../deep.html">← 看其他深度拆解</a>　<a href="../method.html">我怎麼拆解資訊 →</a></p>
+</div></footer>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div><div><h5>內容</h5><ul><li><a href="../finance.html">財經早報</a></li><li><a href="../world.html">國際早報</a></li><li><a href="../deep.html">深度拆解</a></li><li><a href="../calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="../about.html">關於本站</a></li><li><a href="../method.html">我怎麼拆解資訊</a></li><li><a href="../method.html#sources">來源原則</a></li><li><a href="../about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>
+<!--
+  deep.html 卡片格式（加在 DEEP:START 標記後面，最新的放最上面）：
+  <a class="card" href="reports/deep-YYYY-MM-DD.html">
+    <div class="d">YYYY.MM.DD・深度拆解</div>
+    <ol><li><span>主題</span>【標題】</li></ol>
+    <div class="more">閱讀完整拆解 →</div>
+  </a>
+-->
