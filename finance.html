@@ -29,6 +29,10 @@ h2{font-size:15px;color:var(--mute);font-weight:500;letter-spacing:.1em;margin:3
 .card .more{color:var(--mute);font-size:14px;margin-top:8px}
 .msg{color:var(--mute);padding:40px 0}
 .msg a{color:var(--gold)}
+.tabs{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.tabs button{background:var(--panel);border:1px solid var(--line);color:#DDE3EC;font:inherit;font-size:15px;font-weight:700;padding:7px 16px;border-radius:99px;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--bg)}
+.tabs small{font-weight:500;opacity:.75;margin-left:4px}
 .switch{display:inline-block;margin-top:18px;color:var(--gold);text-decoration:none;font-weight:700;font-size:15px}
 main{padding-bottom:56px}
 </style>
@@ -42,9 +46,10 @@ main{padding-bottom:56px}
 <div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html" aria-current="page">財經早報</a><a href="world.html">國際早報</a><a href="weekly.html">每週專欄</a><a href="travel.html">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html" aria-current="page">財經早報</a><a href="world.html">國際早報</a><a href="weekly.html">每週專欄</a><a href="travel.html">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav></details></div></div>
 <!-- SITE-NAV:END -->
 <header><div class="wrap">
-  <div class="kicker">每日早報</div>
+  <div class="kicker">每日更新</div>
   <h1>財經早報</h1>
-  <p>每天精選 3 則台股、美股、總體經濟與重大企業消息，最新的在最上面。</p>
+  <p>一天三次：早上的<b>早報</b>深入拆解一則重要消息；交易日下午的<b>盤後</b>整理台股與亞洲股市收盤；晚上的<b>盤前</b>預告今晚美股要注意的數據和事件。最新的在最上面。</p>
+  <div class="tabs" id="tabs" role="group" aria-label="篩選"></div>
   <div class="count" id="count"></div>
 </div></header>
 <main class="wrap">
@@ -53,21 +58,34 @@ main{padding-bottom:56px}
 </main>
 <noscript><div class="wrap"><p class="msg">請開啟瀏覽器的 JavaScript 才能顯示列表，或回到<a href="index.html">首頁</a>。</p></div></noscript>
 <script>
-// 列表直接讀取首頁 index.html 裡的卡片（每天的早報只需要加在首頁一次），再依月份分組顯示
-fetch('index.html', {cache: 'no-cache'}).then(r => r.text()).then(t => {
-  const doc = new DOMParser().parseFromString(t, 'text/html');
-  const cards = [...doc.querySelectorAll('[data-feed="finance"] a.card')];
+// 列表直接讀取首頁 index.html 裡的卡片（每篇只需要加在首頁一次），可依類型篩選，再依月份分組顯示
+const KINDS = [['all', '全部'], ['brief', '早報'], ['close', '盤後'], ['pre', '盤前']];
+const kindOf = href => /reports\/close-/.test(href) ? 'close' : /reports\/pre-/.test(href) ? 'pre' : 'brief';
+let ALL = [], cur = 'all';
+try { cur = new URLSearchParams(location.search).get('type') || 'all'; } catch (e) {}
+function render() {
   const box = document.getElementById('list');
-  if (!cards.length) { box.innerHTML = '<p class="msg">目前還沒有文章。</p>'; return; }
-  document.getElementById('count').textContent = '共 ' + cards.length + ' 天';
+  const cards = ALL.filter(c => cur === 'all' || c.kind === cur);
+  document.getElementById('tabs').innerHTML = KINDS.map(([k, l]) => `<button type="button" data-k="${k}" aria-pressed="${k === cur}">${l}<small>${k === 'all' ? ALL.length : ALL.filter(c => c.kind === k).length}</small></button>`).join('');
+  document.getElementById('count').textContent = '共 ' + cards.length + ' 篇';
+  if (!cards.length) { box.innerHTML = '<p class="msg">' + (ALL.length ? '這個類型還沒有文章。' : '目前還沒有文章。') + '</p>'; return; }
   const groups = new Map();
   for (const c of cards) {
-    const m = (c.getAttribute('href') || '').match(/(\d{4})-(\d{2})-\d{2}/);
+    const m = c.href.match(/(\d{4})-(\d{2})-\d{2}/);
     const key = m ? m[1] + ' 年 ' + Number(m[2]) + ' 月' : '其他';
     if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(c.outerHTML);
+    groups.get(key).push(c.html);
   }
   box.innerHTML = [...groups].map(([k, v]) => '<h2>' + k + '</h2>' + v.join('')).join('');
+}
+document.getElementById('tabs').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return; cur = b.dataset.k;
+  history.replaceState(null, '', location.pathname + (cur === 'all' ? '' : '?type=' + cur)); render();
+});
+fetch('index.html', {cache: 'no-cache'}).then(r => r.text()).then(t => {
+  const doc = new DOMParser().parseFromString(t, 'text/html');
+  ALL = [...doc.querySelectorAll('[data-feed="finance"] a.card')].map(c => { const href = c.getAttribute('href') || ''; return {href, kind: kindOf(href), html: c.outerHTML}; });
+  render();
 }).catch(() => {
   document.getElementById('list').innerHTML = '<p class="msg">列表暫時無法載入，請回到<a href="index.html">首頁</a>。</p>';
 });
