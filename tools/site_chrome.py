@@ -12,7 +12,7 @@ LINKS = [  # (文字, 路徑, 判斷目前頁面用的 key)
     ("首頁", "index.html", "home"),
     ("財經早報", "finance.html", "finance"),
     ("國際早報", "world.html", "world"),
-    ("深度拆解", "deep.html", "deep"),
+    ("每週專欄", "weekly.html", "weekly"),
     ("出遊情報", "travel.html", "trip"),
     ("理財小工具", "calc.html", "calc"),
     ("關於本站", "about.html", "about"),
@@ -23,9 +23,9 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
 
 def page_key(rel):
     if rel.startswith("reports/world-"): return "world"
-    if rel.startswith("reports/deep-") or rel.startswith("tools/deep"): return "deep"
+    if re.match(r"(reports/(deep|life|tech|society)-|tools/deep)", rel): return "weekly"
     if rel.startswith("reports/"): return "finance"
-    return {"index.html": "home", "finance.html": "finance", "world.html": "world", "deep.html": "deep",
+    return {"index.html": "home", "finance.html": "finance", "world.html": "world", "weekly.html": "weekly", "deep.html": "weekly",
             "calc.html": "calc", "trip.html": "trip", "travel.html": "trip", "about.html": "about", "method.html": "about"}.get(rel, "")
 
 def nav(pre, key):
@@ -46,7 +46,7 @@ def foot(pre):
             f'<div><div class="sf-brand"><span class="sb-mark">早</span>{BRAND}</div>'
             f'<p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div>'
             f'<div><h5>內容</h5><ul><li><a href="{p}finance.html">財經早報</a></li>'
-            f'<li><a href="{p}world.html">國際早報</a></li><li><a href="{p}deep.html">深度拆解</a></li>'
+            f'<li><a href="{p}world.html">國際早報</a></li><li><a href="{p}weekly.html">每週專欄</a></li>'
             f'<li><a href="{p}travel.html">出遊情報</a></li>'
             f'<li><a href="{p}calc.html">理財小工具</a></li></ul></div>'
             f'<div><h5>網站資訊</h5><ul><li><a href="{p}about.html">關於本站</a></li>'
