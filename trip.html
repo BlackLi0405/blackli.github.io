@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>幫我排行程｜出遊情報｜曹濬騰早起工作</title>
+<meta name="description" content="輸入日期、出發地、時間長度和偏好，自動排出有時間軸、地圖、天氣與預算的出門行程，依體力和心情調整節奏。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{--bg:#0E1726;--panel:#152238;--panel2:#1B2A44;--line:#2A3850;--ink:#F5F1E8;--mute:#9AA6B8;--gold:#E8B44C;--up:#FF4D5E;--ok:#22C55E;--blue:#5A93E0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.7;font-size:16px;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+header.hero{padding:44px 0 24px}
+.subnav{display:flex;gap:8px;margin:16px 0 0}
+.subnav a{flex:1;text-align:center;text-decoration:none;font-weight:700;font-size:15px;padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:#CBD3DF}
+.subnav a.on{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.evbox{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--gold);background:rgba(232,180,76,.08);border-radius:16px;padding:14px;margin-bottom:14px}
+.evbox .ic{font-size:30px;line-height:1}
+.evbox b{display:block;font-size:16px}
+.evbox small{display:block;color:#CBD3DF;font-size:13px;margin-top:2px}
+.evbox button{margin-left:auto;background:none;border:1px solid var(--line);color:var(--mute);font:inherit;font-size:13px;border-radius:9px;padding:4px 10px;cursor:pointer;white-space:nowrap}
+.kicker{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
+h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 8px}
+.lede{color:#CBD3DF}
+.tabs{position:sticky;top:0;z-index:30;display:flex;gap:6px;padding:10px 0;background:rgba(14,23,38,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-bottom:18px}
+.tabs button{flex:1;background:var(--panel);border:1px solid var(--line);color:#CBD3DF;font:inherit;font-size:15px;font-weight:700;padding:9px 6px;border-radius:12px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.panel[hidden]{display:none}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
+.card h2{font-size:18px;font-weight:900;margin-bottom:12px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0;margin-bottom:12px}
+.field>label,.lbl{font-size:13px;color:var(--mute);font-weight:500}
+.inp{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:0 12px;min-width:0}
+.inp:focus-within{border-color:var(--gold)}
+.inp[hidden]{display:none}
+.inp input,.inp select{flex:1;min-width:0;width:100%;background:transparent;border:0;color:var(--ink);font:inherit;font-size:16px;font-weight:700;padding:10px 0;outline:none}
+.inp select option,.inp select optgroup{background:var(--panel2);color:var(--ink)}
+.inp .u{color:var(--mute);font-size:14px;white-space:nowrap}
+.inp button{background:none;border:0;color:var(--gold);font:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;padding:6px 0}
+.seg,.chips{display:flex;flex-wrap:wrap;gap:8px}
+.seg button,.chips button{background:var(--panel2);border:1px solid var(--line);color:#DDE3EC;font:inherit;font-size:15px;font-weight:500;padding:8px 14px;border-radius:99px;cursor:pointer}
+.seg button[aria-pressed="true"],.chips button[aria-pressed="true"]{background:rgba(232,180,76,.16);border-color:var(--gold);color:var(--gold);font-weight:700}
+.chips.avoid button[aria-pressed="true"]{background:rgba(255,77,94,.12);border-color:var(--up);color:#FF8A95}
+.mood{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.mood-note{margin-top:10px;background:var(--panel2);border-radius:12px;padding:10px 12px;font-size:14px;color:#DDE3EC}
+.mood-note b{color:var(--gold)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--gold);color:var(--bg);border:0;font:inherit;font-size:16px;font-weight:900;padding:12px 18px;border-radius:14px;cursor:pointer;text-decoration:none}
+.btn.wide{width:100%}
+.btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.btn.sm{font-size:14px;padding:8px 12px;border-radius:10px}
+.btn:disabled{opacity:.5;cursor:wait}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.status{color:var(--mute);font-size:14px;margin-top:10px;min-height:1.4em}
+.status.err{color:#FF8A95}
+.banner{border-radius:14px;padding:12px 14px;margin-bottom:12px;font-size:15px;border:1px solid var(--line);background:var(--panel2)}
+.banner.warn{border-color:rgba(255,77,94,.5);background:rgba(255,77,94,.08)}
+.banner.gold{border-color:rgba(232,180,76,.5);background:rgba(232,180,76,.08)}
+.banner b{color:var(--gold)}
+.wx{display:flex;align-items:center;gap:14px}
+.wx .ic{font-size:34px;line-height:1}
+.wx .t{font-size:22px;font-weight:900}
+.wx .s{color:var(--mute);font-size:14px}
+#map{height:320px;border-radius:16px;border:1px solid var(--line);margin-bottom:14px;background:#0B1220;z-index:1}
+.leaflet-container{font-family:inherit}
+.pin{background:var(--gold);color:var(--bg);border:2px solid #0E1726;border-radius:50%;width:28px;height:28px;display:grid;place-items:center;font-weight:900;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.pin.home{background:#5A93E0;color:#fff}
+.day-h{font-size:15px;font-weight:900;color:var(--gold);margin:18px 0 8px}
+.tl{list-style:none}
+.stop{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 12px 10px;display:grid;grid-template-columns:auto 1fr;gap:10px;position:relative}
+.stop.locked{border-color:var(--gold)}
+.stop.virtual{border-style:dashed}
+.stop.done{opacity:.6}
+.stop .no{width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--bg);display:grid;place-items:center;font-weight:900;font-size:13px}
+.stop.virtual .no{background:var(--panel2);color:var(--mute);border:1px solid var(--line)}
+.stop .time{font-size:13px;color:var(--gold);font-weight:700}
+.stop .name{font-size:17px;font-weight:900;line-height:1.35;word-break:break-word}
+.stop .meta{font-size:13px;color:var(--mute);margin-top:2px}
+.stop .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tag{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:1px 8px;color:#CBD3DF}
+.tag.rain{border-color:rgba(90,147,224,.6);color:#9CC0F0}
+.tag.warn{border-color:rgba(255,77,94,.5);color:#FF8A95}
+.tag.star{border-color:rgba(232,180,76,.5);color:var(--gold)}
+.stop .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.stop .acts button,.stop .acts a{background:var(--panel2);border:1px solid var(--line);color:#DDE3EC;font:inherit;font-size:13px;font-weight:700;padding:5px 10px;border-radius:9px;cursor:pointer;text-decoration:none}
+.stop .acts button.on{border-color:var(--gold);color:var(--gold)}
+.handle{position:absolute;right:8px;top:8px;width:34px;height:34px;display:grid;place-items:center;color:var(--mute);cursor:grab;touch-action:none;border-radius:8px;font-size:18px;user-select:none}
+.handle:active{cursor:grabbing;background:var(--panel2)}
+.leg{font-size:13px;color:var(--mute);padding:6px 0 6px 50px;position:relative}
+.leg::before{content:"";position:absolute;left:25px;top:0;bottom:0;border-left:2px dotted var(--line)}
+.sortable-ghost{opacity:.35}
+.totals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}
+.tot{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:10px 12px;min-width:0}
+.tot .l{font-size:12px;color:var(--mute)}
+.tot .v{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.v.neg{color:#FF8A95}.v.pos{color:var(--ok)}
+.note{font-size:13px;color:var(--mute);margin-top:8px}
+.backup{display:grid;gap:8px;margin-top:8px}
+.backup div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:14px}
+/* 出發當天 */
+.now{background:linear-gradient(160deg,#1B2A44,#152238);border:1px solid var(--gold);border-radius:20px;padding:20px;text-align:center}
+.now .k{color:var(--gold);font-weight:700;letter-spacing:.1em;font-size:14px}
+.now .big{font-size:clamp(28px,8vw,40px);font-weight:900;line-height:1.25;margin:8px 0;word-break:break-word}
+.now .cd{font-size:clamp(40px,12vw,64px);font-weight:900;font-variant-numeric:tabular-nums;color:var(--gold);line-height:1.1}
+.now .sub{color:#CBD3DF;font-size:15px;margin-top:6px}
+.now .row{justify-content:center;margin-top:14px}
+.exp-list{list-style:none;margin-top:8px}
+.exp-list li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+.exp-list li span:last-child{font-variant-numeric:tabular-nums;font-weight:700}
+.dl{list-style:none}
+.dl li{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.dl li .n{flex:1;min-width:0}
+.dl li .n small{display:block;color:var(--mute);font-size:12px}
+/* 回顧 */
+.rv{border-bottom:1px solid var(--line);padding:12px 0}
+.rv .name{font-weight:900}
+.stars{display:flex;gap:4px;margin:6px 0}
+.stars button{background:none;border:0;font-size:26px;line-height:1;color:#3A4A66;cursor:pointer;padding:0 2px}
+.stars button.on{color:var(--gold)}
+.hist{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px;background:var(--panel2)}
+.hist .h{font-weight:900}
+.hist .s{font-size:13px;color:var(--mute)}
+.empty{color:var(--mute);font-size:15px;padding:10px 0}
+textarea{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:12px;color:var(--ink);font:inherit;font-size:14px;padding:10px;min-height:80px}
+.shared{border:1px solid var(--blue);background:rgba(90,147,224,.08)}
+main{padding-bottom:60px}
+@media (max-width:520px){.totals{grid-template-columns:repeat(2,minmax(0,1fr))}.tot.wide{grid-column:1/-1}}
+</style>
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8B44C'/%3E%3Ctext x='32' y='45' font-size='36' font-weight='900' text-anchor='middle' fill='%230E1726' font-family='sans-serif'%3E%E6%97%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="site.css">
+<!-- SITE-HEAD:END -->
+</head>
+<body>
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="deep.html">深度拆解</a><a href="travel.html" aria-current="page">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="deep.html">深度拆解</a><a href="travel.html" aria-current="page">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+<header class="hero"><div class="wrap">
+  <div class="kicker">出遊情報</div>
+  <h1>今天想去哪？</h1>
+  <p class="lede">填好條件，自動排出有時間、地圖、天氣和預算的行程。依你今天的體力和心情調整節奏，雷點自動避開。</p>
+  <nav class="subnav"><a href="travel.html">🎪 活動總覽</a><a class="on" href="trip.html">🧭 幫我排行程</a></nav>
+</div></header>
+
+<main class="wrap">
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="plan">規劃</button>
+    <button role="tab" aria-selected="false" data-tab="go">出發中</button>
+    <button role="tab" aria-selected="false" data-tab="log">回顧與紀錄</button>
+  </div>
+
+  <!-- 規劃 -->
+  <section class="panel" id="p-plan">
+    <div id="shared-box"></div>
+    <div id="ev-box"></div>
+    <form id="f" class="card" autocomplete="off">
+      <h2>1. 行程條件</h2>
+      <div class="grid2">
+        <div class="field"><label for="date">日期</label><div class="inp"><input id="date" type="date" required></div></div>
+        <div class="field"><label for="start">出發時間</label><div class="inp"><input id="start" type="time" value="10:00" required></div></div>
+      </div>
+      <div class="field"><label for="origin">出發地</label>
+        <div class="inp"><input id="origin" placeholder="例如：台北車站、板橋、你家附近的地標"><button type="button" id="geo">📍 目前位置</button></div>
+      </div>
+      <div class="field"><label for="area">想去區域</label>
+        <div class="inp"><select id="area"></select></div>
+        <div class="inp" id="area-custom-wrap" hidden><input id="area-custom" placeholder="輸入地名，例如：三峽老街、台南安平"></div>
+      </div>
+      <div class="field"><span class="lbl">時間長度</span><div class="seg" data-name="dur">
+        <button type="button" data-v="2h">2 小時</button><button type="button" data-v="half" aria-pressed="true">半天</button><button type="button" data-v="day">一天</button><button type="button" data-v="2d">兩天一夜</button>
+      </div></div>
+      <div class="field"><span class="lbl">跟誰去</span><div class="seg" data-name="who">
+        <button type="button" data-v="solo" aria-pressed="true">自己</button><button type="button" data-v="couple">情侶</button><button type="button" data-v="friends">朋友</button><button type="button" data-v="family">家人</button>
+      </div></div>
+      <div class="grid2">
+        <div class="field"><label for="people">人數</label><div class="inp"><input id="people" type="number" inputmode="numeric" min="1" max="20" value="1"><span class="u">人</span></div></div>
+        <div class="field"><label for="budget">總預算</label><div class="inp"><input id="budget" type="number" inputmode="numeric" min="0" step="100" value="1500"><span class="u">元</span></div></div>
+      </div>
+      <div class="field"><span class="lbl">交通方式</span><div class="seg" data-name="mode">
+        <button type="button" data-v="car">開車</button><button type="button" data-v="scooter">機車</button><button type="button" data-v="transit" aria-pressed="true">大眾運輸</button><button type="button" data-v="walk">走路</button>
+      </div></div>
+      <div class="field"><span class="lbl">偏好（可複選）</span><div class="chips" data-name="pref" data-multi>
+        <button type="button" data-v="food" aria-pressed="true">美食</button><button type="button" data-v="scenery">風景</button><button type="button" data-v="photo">拍照</button><button type="button" data-v="indoor">室內</button><button type="button" data-v="chill">放空</button>
+      </div></div>
+      <div class="field"><span class="lbl">雷點（會自動避開）</span><div class="chips avoid" data-name="avoid" data-multi>
+        <button type="button" data-v="spicy">不吃辣</button><button type="button" data-v="beef">不吃牛</button><button type="button" data-v="veg">吃素</button><button type="button" data-v="hike">不爬山</button><button type="button" data-v="crowd">怕人多</button><button type="button" data-v="sun">怕曬</button><button type="button" data-v="walk">不想走太多路</button>
+      </div>
+        <div class="inp" style="margin-top:8px"><input id="avoid-kw" placeholder="其他想避開的關鍵字，用逗號分隔，例如：燒烤, 夜市"></div>
+      </div>
+
+      <h2 style="margin-top:6px">2. 今天的狀態</h2>
+      <div class="mood">
+        <div class="field"><span class="lbl">體力</span><div class="seg" data-name="energy"><button type="button" data-v="good" aria-pressed="true">💪 好</button><button type="button" data-v="bad">😮‍💨 差</button></div></div>
+        <div class="field"><span class="lbl">心情</span><div class="seg" data-name="moodv"><button type="button" data-v="good" aria-pressed="true">😊 好</button><button type="button" data-v="bad">😞 差</button></div></div>
+      </div>
+      <div class="mood-note" id="mood-note"></div>
+
+      <button class="btn wide" id="go" type="submit" style="margin-top:16px">排出我的行程</button>
+      <div class="status" id="status"></div>
+    </form>
+
+    <div id="result" hidden>
+      <div id="banners"></div>
+      <div class="card" id="wx-card"></div>
+      <div id="map"></div>
+      <div id="timeline"></div>
+      <div class="totals" id="totals"></div>
+      <p class="note">花費和交通時間是依距離與類型估算，不是即時路況；營業時間請出發前再確認。地點資料來自 OpenStreetMap，天氣來自 Open-Meteo。</p>
+      <div class="row" style="margin-top:14px">
+        <button class="btn" id="b-start" type="button">🚀 開始出發</button>
+        <button class="btn ghost" id="b-regen" type="button">🔄 重新排（保留鎖定）</button>
+        <button class="btn ghost" id="b-share" type="button">🔗 分享連結</button>
+        <button class="btn ghost" id="b-save" type="button">💾 存到紀錄</button>
+      </div>
+      <div class="status" id="status2"></div>
+    </div>
+  </section>
+
+  <!-- 出發中 -->
+  <section class="panel" id="p-go" hidden>
+    <div id="go-body"></div>
+  </section>
+
+  <!-- 回顧與紀錄 -->
+  <section class="panel" id="p-log" hidden>
+    <div class="card" id="review-card"></div>
+    <div class="card">
+      <h2>歷史行程</h2>
+      <div id="hist"></div>
+    </div>
+    <div class="card">
+      <h2>備份</h2>
+      <p class="note" style="margin:0 0 10px">歷史行程、評分和記帳只存在這個瀏覽器。換手機或清除瀏覽資料前，記得先匯出備份。</p>
+      <div class="row"><button class="btn sm ghost" id="b-export" type="button">匯出備份</button><button class="btn sm ghost" id="b-import" type="button">匯入備份</button><input type="file" id="imp-file" accept="application/json" hidden></div>
+      <div class="status" id="status3"></div>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<script>
+'use strict';
+/* ====================== 基本工具 ====================== */
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nf = new Intl.NumberFormat('zh-TW', {maximumFractionDigits: 0});
+const money = v => 'NT$' + nf.format(Math.round(v));
+const hm = m => { m = Math.round(m); const d = Math.floor(m / 1440); m = ((m % 1440) + 1440) % 1440; return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0') + (d > 0 ? '⁺' : ''); };
+const toMin = s => { const [h, m] = (s || '10:00').split(':').map(Number); return h * 60 + (m || 0); };
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('trip.' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('trip.' + k, JSON.stringify(v)); return true; } catch (e) { return false; } },
+  del(k) { try { localStorage.removeItem('trip.' + k); } catch (e) {} }
+};
+function hav(a, b) { const R = 6371, r = x => x * Math.PI / 180; const dLa = r(b.lat - a.lat), dLo = r(b.lng - a.lng);
+  const x = Math.sin(dLa / 2) ** 2 + Math.cos(r(a.lat)) * Math.cos(r(b.lat)) * Math.sin(dLo / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(x)); }
+function todayStr(off = 0) { const d = new Date(Date.now() + off * 864e5); return d.toLocaleDateString('sv-SE', {timeZone: 'Asia/Taipei'}); }
+
+/* ====================== 內建熱門區域 ====================== */
+// 座標為區域大略中心點；tags 用來配合偏好與雷點挑選
+const AREAS = [
+  ['台北', '大稻埕', 25.0563, 121.5100, '老街 美食 拍照'], ['台北', '中山・赤峰街', 25.0530, 121.5203, '咖啡 拍照 美食'],
+  ['台北', '西門町', 25.0421, 121.5079, '美食 逛街 人多'], ['台北', '華山・松菸', 25.0441, 121.5294, '室內 拍照 文創'],
+  ['台北', '信義區', 25.0336, 121.5650, '室內 逛街 人多'], ['台北', '永康街・大安', 25.0330, 121.5297, '美食 咖啡'],
+  ['台北', '北投', 25.1367, 121.5066, '溫泉 放空 風景'], ['台北', '陽明山', 25.1555, 121.5480, '風景 山'],
+  ['台北', '貓空', 24.9686, 121.5873, '風景 山 茶'], ['台北', '天母', 25.1170, 121.5320, '美食 咖啡'],
+  ['新北', '淡水', 25.1700, 121.4400, '風景 老街 人多 夕陽'], ['新北', '九份・金瓜石', 25.1092, 121.8446, '風景 拍照 山 人多'],
+  ['新北', '平溪・十分', 25.0430, 121.7740, '拍照 鐵道 風景'], ['新北', '烏來', 24.8650, 121.5510, '溫泉 風景'],
+  ['新北', '三峽老街', 24.9340, 121.3690, '老街 拍照'], ['新北', '鶯歌', 24.9550, 121.3480, '室內 文創 老街'],
+  ['新北', '福隆', 25.0160, 121.9450, '海 風景'], ['基隆', '基隆廟口・正濱', 25.1350, 121.7550, '美食 拍照 海'],
+  ['桃園', '大溪老街', 24.8830, 121.2870, '老街 美食'], ['新竹', '新竹市區', 24.8040, 120.9660, '美食 老街'],
+  ['新竹', '內灣', 24.7050, 121.1830, '老街 山 風景'], ['苗栗', '南庄', 24.5970, 121.0000, '老街 山 風景'],
+  ['台中', '審計新村・草悟道', 24.1450, 120.6630, '文創 拍照 咖啡'], ['台中', '台中舊城區', 24.1380, 120.6830, '美食 老街'],
+  ['台中', '高美濕地', 24.3120, 120.5500, '風景 夕陽 拍照'], ['台中', '新社', 24.2340, 120.8090, '風景 山'],
+  ['彰化', '鹿港老街', 24.0560, 120.4340, '老街 美食 拍照'], ['南投', '日月潭', 23.8650, 120.9150, '風景 湖'],
+  ['南投', '清境', 24.0570, 121.1620, '風景 山'], ['嘉義', '嘉義市區', 23.4790, 120.4490, '美食 老街'],
+  ['嘉義', '阿里山', 23.5100, 120.8040, '風景 山'], ['台南', '台南中西區', 22.9970, 120.1970, '美食 老街 拍照'],
+  ['台南', '安平', 23.0010, 120.1600, '老街 海 美食'], ['高雄', '駁二・鹽埕', 22.6200, 120.2820, '文創 拍照 美食'],
+  ['高雄', '旗津', 22.6100, 120.2700, '海 美食'], ['高雄', '美濃', 22.8980, 120.5420, '老街 風景'],
+  ['屏東', '墾丁', 21.9450, 120.7980, '海 風景'], ['宜蘭', '宜蘭市區', 24.7570, 121.7530, '美食 老街'],
+  ['宜蘭', '礁溪', 24.8270, 121.7700, '溫泉 放空'], ['宜蘭', '羅東', 24.6770, 121.7690, '美食 夜市 人多'],
+  ['宜蘭', '頭城・外澳', 24.8720, 121.8410, '海 風景'], ['花蓮', '花蓮市區', 23.9770, 121.6040, '美食 海'],
+  ['花蓮', '太魯閣', 24.1580, 121.6210, '風景 山'], ['台東', '台東市區', 22.7560, 121.1470, '美食 海'],
+  ['台東', '池上', 23.1250, 121.2190, '風景 放空']
+].map(([city, name, lat, lng, tags]) => ({city, name, lat, lng, tags: tags.split(' ')}));
+
+/* ====================== 地點類型 ====================== */
+// stay：預設停留分鐘；cost：每人估算花費；tire：會不會累（要走路）；indoor：室內；quiet：安靜、不用多說話
+const KINDS = {
+  food:     {label: '餐廳',   icon: '🍜', stay: 70,  cost: 280, tire: 0, indoor: 1, quiet: 0},
+  cafe:     {label: '咖啡甜點', icon: '☕', stay: 50,  cost: 180, tire: 0, indoor: 1, quiet: 1},
+  market:   {label: '市集',   icon: '🏮', stay: 60,  cost: 200, tire: 1, indoor: 0, quiet: 0, crowd: 1},
+  museum:   {label: '展館',   icon: '🏛️', stay: 80,  cost: 120, tire: 1, indoor: 1, quiet: 1},
+  cinema:   {label: '電影院', icon: '🎬', stay: 130, cost: 320, tire: 0, indoor: 1, quiet: 1},
+  shopping: {label: '商場',   icon: '🛍️', stay: 70,  cost: 0,   tire: 1, indoor: 1, quiet: 0, crowd: 1},
+  sight:    {label: '景點',   icon: '📍', stay: 50,  cost: 0,   tire: 1, indoor: 0, quiet: 0},
+  big:      {label: '主題樂園', icon: '🎡', stay: 150, cost: 450, tire: 1, indoor: 0, quiet: 0, crowd: 1},
+  view:     {label: '觀景點', icon: '🌄', stay: 30,  cost: 0,   tire: 1, indoor: 0, quiet: 1},
+  park:     {label: '公園綠地', icon: '🌳', stay: 45,  cost: 0,   tire: 1, indoor: 0, quiet: 1},
+  historic: {label: '古蹟',   icon: '🏯', stay: 30,  cost: 0,   tire: 1, indoor: 0, quiet: 0},
+  temple:   {label: '廟宇',   icon: '⛩️', stay: 25,  cost: 0,   tire: 0, indoor: 0, quiet: 1},
+  spring:   {label: '溫泉泡湯', icon: '♨️', stay: 90,  cost: 450, tire: 0, indoor: 1, quiet: 1},
+  hotel:    {label: '住宿',   icon: '🛏️', stay: 0,   cost: 0,   tire: 0, indoor: 1, quiet: 1},
+  rest:     {label: '休息',   icon: '🪑', stay: 20,  cost: 0,   tire: 0, indoor: 0, quiet: 1},
+  event:    {label: '活動',   icon: '🎟️', stay: 90,  cost: 0,   tire: 1, indoor: 1, quiet: 0}
+};
+const PREF_KINDS = {
+  food: ['food', 'market', 'cafe'], scenery: ['view', 'park', 'sight'], photo: ['view', 'historic', 'sight', 'museum', 'temple'],
+  indoor: ['museum', 'shopping', 'cinema', 'cafe', 'spring'], chill: ['park', 'cafe', 'spring', 'view', 'temple']
+};
+const ACT_KINDS = ['museum', 'sight', 'view', 'park', 'historic', 'temple', 'shopping', 'cinema', 'market', 'spring', 'big', 'cafe'];
+
+function kindOf(t) {
+  const a = t.amenity, to = t.tourism, le = t.leisure, sh = t.shop;
+  if (a === 'restaurant' || a === 'fast_food' || a === 'food_court') return 'food';
+  if (a === 'cafe' || a === 'ice_cream') return 'cafe';
+  if (a === 'marketplace') return 'market';
+  if (a === 'cinema') return 'cinema';
+  if (a === 'arts_centre' || to === 'museum' || to === 'gallery') return 'museum';
+  if (a === 'public_bath' || le === 'spa') return 'spring';
+  if (a === 'place_of_worship') return 'temple';
+  if (to === 'hotel' || to === 'guest_house' || to === 'hostel') return 'hotel';
+  if (to === 'theme_park' || to === 'zoo' || to === 'aquarium') return 'big';
+  if (to === 'viewpoint') return 'view';
+  if (le === 'park' || le === 'garden' || le === 'nature_reserve') return 'park';
+  if (sh === 'mall' || sh === 'department_store') return 'shopping';
+  if (t.historic) return 'historic';
+  if (to === 'attraction') return 'sight';
+  return null;
+}
+
+/* ====================== 表單狀態 ====================== */
+function segVal(name) { const b = document.querySelector(`[data-name="${name}"] [aria-pressed="true"]`); return b ? b.dataset.v : null; }
+function multiVal(name) { return [...document.querySelectorAll(`[data-name="${name}"] [aria-pressed="true"]`)].map(b => b.dataset.v); }
+function setSeg(name, v) { document.querySelectorAll(`[data-name="${name}"] button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === v))); }
+function setMulti(name, arr) { document.querySelectorAll(`[data-name="${name}"] button`).forEach(b => b.setAttribute('aria-pressed', String(arr.includes(b.dataset.v)))); }
+document.querySelectorAll('.seg,.chips').forEach(g => g.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (g.hasAttribute('data-multi')) b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'));
+  else g.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  if (g.dataset.name === 'who') $('people').value = {solo: 1, couple: 2, friends: 3, family: 4}[b.dataset.v];
+  if (g.dataset.name === 'energy' || g.dataset.name === 'moodv') moodNote();
+}));
+function moodKey() { const e = segVal('energy'), m = segVal('moodv');
+  return e === 'good' && m === 'good' ? 'full' : e === 'good' ? 'quiet' : m === 'good' ? 'short' : 'rest'; }
+const MOOD_TEXT = {
+  full: '<b>都好</b>：照完整行程走，盡情玩。',
+  quiet: '<b>體力好、心情差</b>：時間不變，改排不用多說話、能轉換心情的地方，例如散步、看展、看風景、泡湯。',
+  short: '<b>體力差、心情好</b>：行程縮短約四成，多安排可以坐著的點，休息也排得更勤。',
+  rest: '<b>都不太好</b>：只排一個很短、很近的輕鬆行程。老實說，今天也很適合待在家，改天再出門。'
+};
+function moodNote() { $('mood-note').innerHTML = MOOD_TEXT[moodKey()]; }
+
+function initForm() {
+  const sel = $('area'); const groups = {};
+  AREAS.forEach((a, i) => { (groups[a.city] = groups[a.city] || []).push(`<option value="${i}">${esc(a.name)}</option>`); });
+  sel.innerHTML = '<option value="auto">✨ 讓它推薦</option><option value="near">📍 出發地附近</option><option value="custom">✏️ 自己輸入地名…</option>' +
+    Object.entries(groups).map(([c, o]) => `<optgroup label="${c}">${o.join('')}</optgroup>`).join('');
+  sel.addEventListener('change', () => { $('area-custom-wrap').hidden = sel.value !== 'custom'; });
+  const d = $('date'); d.value = todayStr(); d.min = todayStr();
+  moodNote();
+  $('geo').addEventListener('click', () => {
+    if (!navigator.geolocation) { status('這個瀏覽器不支援定位。', true); return; }
+    status('定位中…');
+    navigator.geolocation.getCurrentPosition(p => { S.originPt = {lat: p.coords.latitude, lng: p.coords.longitude, name: '目前位置'}; $('origin').value = '目前位置'; status('已取得目前位置。'); },
+      () => status('無法取得位置，請改用輸入的方式。', true), {timeout: 10000});
+  });
+  $('origin').addEventListener('input', () => { if (S.originPt && S.originPt.name === '目前位置' && $('origin').value !== '目前位置') S.originPt = null; });
+}
+function readForm() {
+  return {
+    date: $('date').value, start: toMin($('start').value), origin: $('origin').value.trim(), area: $('area').value, areaCustom: $('area-custom').value.trim(),
+    dur: segVal('dur'), who: segVal('who'), people: Math.max(1, Math.min(20, parseInt($('people').value) || 1)),
+    budget: Math.max(0, parseFloat($('budget').value) || 0), mode: segVal('mode'), pref: multiVal('pref'), avoid: multiVal('avoid'),
+    avoidKw: $('avoid-kw').value.split(/[,，、\s]+/).map(s => s.trim()).filter(Boolean), mood: moodKey()
+  };
+}
+function fillForm(o) {
+  if (!o) return;
+  if (o.date) $('date').value = o.date < todayStr() ? todayStr() : o.date;
+  if (o.start != null) $('start').value = hm(o.start);
+  ['dur', 'who', 'mode'].forEach(k => o[k] && setSeg(k, o[k]));
+  if (o.pref) setMulti('pref', o.pref); if (o.avoid) setMulti('avoid', o.avoid);
+  if (o.people) $('people').value = o.people; if (o.budget != null) $('budget').value = o.budget;
+  if (o.avoidKw) $('avoid-kw').value = o.avoidKw.join(', ');
+  if (o.area && $('area').querySelector(`option[value="${o.area}"]`)) $('area').value = o.area;
+  if (o.areaCustom) { $('area-custom').value = o.areaCustom; } $('area-custom-wrap').hidden = $('area').value !== 'custom';
+  moodNote();
+}
+
+/* ====================== 外部資料 ====================== */
+async function fetchJSON(url, opt, ms = 30000) {
+  const c = new AbortController(); const t = setTimeout(() => c.abort(), ms);
+  try { const r = await fetch(url, {...(opt || {}), signal: c.signal}); if (!r.ok) throw new Error('HTTP ' + r.status); return await r.json(); }
+  finally { clearTimeout(t); }
+}
+const geoCache = store.get('geo', {});
+async function geocode(q) {
+  if (geoCache[q]) return geoCache[q];
+  const u = 'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=tw&accept-language=zh-TW&q=' + encodeURIComponent(q);
+  const j = await fetchJSON(u, {headers: {'Accept': 'application/json'}}, 15000);
+  if (!j.length) throw new Error('找不到「' + q + '」這個地點，換個說法試試看。');
+  const p = {lat: +j[0].lat, lng: +j[0].lon, name: q};
+  geoCache[q] = p; store.set('geo', geoCache); return p;
+}
+const OVERPASS = ['https://overpass-api.de/api/interpreter', 'https://overpass.private.coffee/api/interpreter', 'https://overpass.kumi.systems/api/interpreter'];
+const PL_TTL = 7 * 864e5;
+function plCacheGet(key) {
+  try { const h = JSON.parse(sessionStorage.getItem(key) || 'null'); if (h) return h; } catch (e) {}
+  const all = store.get('places', {}); const h = all[key]; return h && Date.now() - h.t < PL_TTL ? h.d : null;
+}
+function plCacheSet(key, d) {
+  try { sessionStorage.setItem(key, JSON.stringify(d)); } catch (e) {}
+  const all = store.get('places', {}); all[key] = {t: Date.now(), d};
+  const keys = Object.keys(all).sort((a, b) => all[b].t - all[a].t); keys.slice(8).forEach(k => delete all[k]); // 最多保留 8 個區域
+  if (!store.set('places', all)) { store.set('places', {[key]: all[key]}); }
+}
+async function fetchPlaces(c, r) {
+  const key = 'pl:' + c.lat.toFixed(3) + ',' + c.lng.toFixed(3) + ',' + r;
+  const hit = plCacheGet(key); if (hit) return hit;
+  const A = `(around:${r},${c.lat},${c.lng})`;
+  const q = `[out:json][timeout:50];
+(nwr${A}[name][amenity~"^(restaurant|fast_food|food_court|cafe|ice_cream)$"];)->.f;
+(nwr${A}[name][amenity~"^(marketplace|cinema|arts_centre|public_bath)$"];
+ nwr${A}[name][amenity=place_of_worship][religion~"^(buddhist|taoist|chinese_folk)$"];
+ nwr${A}[name][tourism~"^(attraction|museum|gallery|viewpoint|theme_park|zoo|aquarium|hotel|guest_house|hostel)$"];
+ nwr${A}[name][leisure~"^(park|garden|nature_reserve|spa)$"];
+ nwr${A}[name][shop~"^(mall|department_store)$"];
+ nwr${A}[name][historic];)->.o;
+.f out center tags 220; .o out center tags 320;`;
+  // 同時問三台伺服器，誰先回來就用誰（公開伺服器常常很忙）
+  const ctrls = OVERPASS.map(() => new AbortController());
+  const slow = setTimeout(() => status('OpenStreetMap 伺服器比較忙，最多再等 1 分鐘…'), 12000);
+  const one = (url, i) => new Promise((ok, bad) => {
+    const t = setTimeout(() => ctrls[i].abort(), 70000);
+    fetch(url, {method: 'POST', body: 'data=' + encodeURIComponent(q), headers: {'Content-Type': 'application/x-www-form-urlencoded'}, signal: ctrls[i].signal})
+      .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(j => { clearTimeout(t); j && j.elements ? ok(j) : bad(new Error('資料格式錯誤')); })
+      .catch(e => { clearTimeout(t); bad(e); });
+  });
+  let j;
+  try { j = await Promise.any(OVERPASS.map(one)); }
+  catch (e) { throw new Error('地點資料的伺服器（OpenStreetMap）現在太忙，暫時抓不到。請過幾分鐘再按一次「排出我的行程」。'); }
+  finally { clearTimeout(slow); ctrls.forEach(c => { try { c.abort(); } catch (e) {} }); }
+  const seen = new Set(), out = [];
+  for (const e of j.elements || []) {
+    const t = e.tags || {}; const k = kindOf(t); if (!k) continue;
+    const lat = e.lat ?? e.center?.lat, lng = e.lon ?? e.center?.lon; if (lat == null) continue;
+    const name = t['name:zh-TW'] || t['name:zh-Hant'] || t['name:zh'] || t.name;
+    const dk = name + '|' + k; if (seen.has(dk)) continue; seen.add(dk);
+    out.push({id: e.type[0] + e.id, name, k, lat, lng, cuisine: t.cuisine || '', veg: t['diet:vegetarian'] || t['diet:vegan'] || '',
+      brand: !!(t.brand || t['brand:wikidata']), hours: t.opening_hours || '', rel: t.religion || '', fee: t.fee || ''});
+  }
+  plCacheSet(key, out);
+  return out;
+}
+async function fetchWeather(c, date, days) {
+  const end = days > 1 ? new Date(new Date(date).getTime() + 864e5).toISOString().slice(0, 10) : date;
+  const u = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lng}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&hourly=precipitation_probability,temperature_2m&timezone=Asia%2FTaipei&start_date=${date}&end_date=${end}`;
+  return fetchJSON(u, null, 15000);
+}
+const WMO = c => c === 0 ? ['☀️', '晴天'] : c <= 2 ? ['🌤️', '晴時多雲'] : c === 3 ? ['☁️', '陰天'] : c <= 48 ? ['🌫️', '有霧'] : c <= 57 ? ['🌦️', '毛毛雨'] : c <= 67 ? ['🌧️', '下雨'] : c <= 77 ? ['🌨️', '降雪'] : c <= 82 ? ['🌦️', '陣雨'] : ['⛈️', '雷雨'];
+
+/* ====================== 交通與花費估算 ====================== */
+const MODE = {
+  car: {label: '開車', icon: '🚗', g: 'driving', a: 'd'}, scooter: {label: '機車', icon: '🛵', g: 'driving', a: 'd'},
+  transit: {label: '大眾運輸', icon: '🚇', g: 'transit', a: 'r'}, walk: {label: '走路', icon: '🚶', g: 'walking', a: 'w'}
+};
+function travel(a, b, mode, people) {
+  if (!a || !b || a.lat == null || b.lat == null) return {min: 0, km: 0, cost: 0};
+  const raw = hav(a, b); const km = raw * (mode === 'walk' ? 1.2 : 1.35);
+  let min, cost = 0;
+  if (raw < 0.05) return {min: 0, km: 0, cost: 0};
+  if (mode === 'walk') min = km / 4.5 * 60;
+  else if (mode === 'scooter') { min = km / (km > 15 ? 45 : 26) * 60 + 3; cost = km * 1.5 + 10; }
+  else if (mode === 'car') { min = km / (km > 15 ? 65 : 28) * 60 + 6; cost = km * 4 + 40; }
+  else { min = km > 25 ? km / 55 * 60 + 18 : km / 16 * 60 + 8; cost = people * (km <= 5 ? 20 : km > 25 ? 60 + km * 1.6 : 20 + (km - 5) * 2); }
+  if (mode === 'walk' && km > 3) min += 0; // 走路距離過遠時會在行程中提醒
+  return {min: Math.max(3, Math.ceil(min / 5) * 5), km, cost: Math.round(cost)};
+}
+function costScale(f) { const per = f.budget / f.people / ({'2h': 1, half: 1.6, day: 3, '2d': 6}[f.dur]); return per < 250 ? .7 : per > 900 ? 1.4 : 1; }
+
+/* ====================== 狀態 ====================== */
+const S = { originPt: null, plan: null, cands: [], map: null, layer: null, sortables: [], weather: null };
+function status(t, err, id = 'status') { const el = $(id); el.textContent = t || ''; el.classList.toggle('err', !!err); }
+
+/* ====================== 產生行程 ====================== */
+const DUR = {'2h': [120], half: [240], day: [540], '2d': [540, 420]};
+const RADIUS = {'2h': 1500, half: 3000, day: 5000, '2d': 8000};
+function bannedName(p, f) {
+  const n = p.name; const c = p.cuisine.toLowerCase();
+  if (f.avoidKw.some(k => k && n.includes(k))) return true;
+  if (p.k === 'food' || p.k === 'market') {
+    if (f.avoid.includes('spicy') && (/麻辣|辣|川味|川菜|湘|火鍋|鍋物/.test(n) || /sichuan|hunan|spicy|hot_pot/.test(c))) return true;
+    if (f.avoid.includes('beef') && (/牛/.test(n) || /steak|beef/.test(c))) return true;
+    if (f.avoid.includes('veg') && p.k === 'food' && !(/yes|only/.test(p.veg) || /素|蔬食|vegetarian|vegan/.test(n + c))) return true;
+  }
+  if (f.avoid.includes('hike') && /步道|登山|古道|山頂|峰/.test(n)) return true;
+  return false;
+}
+function score(p, f, ctx) {
+  const K = KINDS[p.k]; let s = Math.random() * 1.2;
+  f.pref.forEach(pr => { if ((PREF_KINDS[pr] || []).includes(p.k)) s += 2.5; });
+  const m = f.mood;
+  if (m === 'quiet') s += ({view: 3, park: 3, museum: 2, spring: 3, temple: 1.5, cinema: 2}[p.k] || 0) - ({market: 4, shopping: 3, big: 3, sight: 1}[p.k] || 0);
+  if (m === 'short' || f.avoid.includes('walk')) s += (K.tire ? -1.5 : 1.5) + ({cinema: 1.5, spring: 1.5, cafe: 1}[p.k] || 0);
+  if (f.avoid.includes('crowd') && K.crowd) s -= 5;
+  if (ctx.rainy) s += K.indoor ? 2.5 : -4;
+  if (f.avoid.includes('sun') && !K.indoor) s -= 1.5;
+  if (p.brand) s -= 1.5;
+  if (p.k === 'temple' && p.rel && !/buddhist|taoist|chinese_folk/.test(p.rel)) s -= 2;
+  const r = ctx.ratings[p.id]; if (r) s += r.s >= 4 ? 2.5 : r.s === 3 ? 0.5 : -99;
+  const d = hav(ctx.pos, p); s -= d * (f.mode === 'walk' ? 2.2 : 0.7);
+  ctx.used.forEach(u => { if (u === p.k) s -= (p.k === 'food' ? 1 : 2.6); });
+  if (ctx.last === p.k) s -= 3;
+  const base = p.name.replace(/[（(].*$|二店|分店|\s.*$/g, '').slice(0, 4);
+  if (base.length >= 2 && (ctx.names || []).some(n => n.startsWith(base))) s -= 8;
+  return s;
+}
+function pick(f, ctx, kinds) {
+  let best = null, bs = -1e9;
+  for (const p of S.cands) {
+    if (!kinds.includes(p.k) || ctx.taken.has(p.id) || bannedName(p, f)) continue;
+    const s = score(p, f, ctx); if (s > bs) { bs = s; best = p; }
+  }
+  return bs > -50 ? best : null;
+}
+function mkStop(p, f, day, extra = {}) {
+  const K = KINDS[p.k]; const sc = costScale(f);
+  let stay = K.stay; if (f.mood === 'short' && K.tire) stay = Math.round(stay * .8 / 5) * 5;
+  const cost = p.k === 'hotel' ? Math.ceil(f.people / 2) * 2200 * sc : Math.round(K.cost * sc / 10) * 10 * f.people;
+  return {id: p.id, name: p.name, k: p.k, lat: p.lat, lng: p.lng, hours: p.hours, stay, cost, day, locked: false, ...extra};
+}
+function restStop(day) { return {id: 'rest' + Math.random().toString(36).slice(2, 7), name: '休息一下：找張椅子坐坐、喝點水', k: 'rest', lat: null, lng: null, stay: 15, cost: 0, day, virtual: true}; }
+
+function generate(f, center, keep) {
+  const ratings = store.get('ratings', {});
+  const rainy = !!(S.weather && S.weather.rainy) || f.forceIndoor;
+  const stops = [];
+  const taken = new Set((keep || []).filter(s => s.locked).map(s => s.id));
+  const days = DUR[f.dur]; const allNames = [];
+  let pos = S.originPt || center;
+  for (let d = 0; d < days.length; d++) {
+    let total = days[d];
+    if (f.mood === 'short') total = Math.round(total * .6);
+    if (f.mood === 'rest') total = Math.min(total, 100);
+    const start = d === 0 ? f.start : 9 * 60 + 30;
+    const end = start + total;
+    let t = start, tireAcc = 0, lunch = false, dinner = false;
+    const ctx = {pos, ratings, rainy, used: [], last: null, taken, names: allNames};
+    const lockedToday = (keep || []).filter(s => s.locked && s.day === d && s.k !== 'hotel' && s.fixedAt == null);
+    let anchor = d === 0 ? (keep || []).find(s => s.locked && s.fixedAt != null) : null;
+    const placeAnchor = () => { const a = {...anchor}; const tr = travel(ctx.pos, a, f.mode, f.people); stops.push(a); taken.add(a.id); ctx.names.push(a.name);
+      t = Math.max(t + tr.min, a.fixedAt) + a.stay; ctx.pos = a; ctx.used.push(a.k); ctx.last = a.k; tireAcc += 30; anchor = null;
+      if (t >= 17 * 60 + 30) dinner = dinner || t > 19 * 60 + 30; };
+    let guard = 0;
+    if (f.mood === 'rest') {
+      const lk0 = lockedToday.find(x => x.k === 'event'); if (lk0) { stops.push({...lk0}); taken.add(lk0.id); ctx.pos = lk0; }
+      const a = pick(f, ctx, ['cafe']); if (a) { stops.push(mkStop(a, f, d, {stay: 45})); taken.add(a.id); ctx.pos = a; }
+      const b = pick(f, ctx, ['park', 'temple', 'view', 'museum']); if (b) { stops.push(mkStop(b, f, d, {stay: 25})); taken.add(b.id); ctx.pos = b; }
+      if (anchor) placeAnchor();
+      break;
+    }
+    while ((t < end - 25 || anchor || (!dinner && total >= 480 && t <= 19 * 60 + 30)) && guard++ < 24) {
+      if (anchor && t + travel(ctx.pos, anchor, f.mode, f.people).min + 45 >= anchor.fixedAt) { placeAnchor(); continue; }
+      const lim = anchor ? anchor.fixedAt - travel(ctx.pos, anchor, f.mode, f.people).min - 5 : end + 15;
+      let group = 'act';
+      const thr = (f.mood === 'short' || f.avoid.includes('walk')) ? 45 : 100;
+      if (!lunch && total >= 200 && t >= 11 * 60 && t <= 13 * 60 + 30) group = 'lunch';
+      else if (!dinner && total >= 200 && t >= (total >= 480 ? 16 * 60 + 45 : 17 * 60) && t <= 19 * 60 + 30) group = 'dinner';
+      else if (tireAcc >= thr) group = 'rest';
+      let p = null;
+      const lk = lockedToday.shift();
+      if (lk) { p = lk; }
+      else if (group === 'lunch' || group === 'dinner') p = pick(f, ctx, f.pref.includes('food') && !f.avoid.includes('crowd') && group === 'dinner' ? ['food', 'market'] : ['food']);
+      else if (group === 'rest') p = pick(f, ctx, ['cafe']);
+      else {
+        const cafeOk = f.pref.includes('chill') || f.mood === 'short' || (total < 200 && !f.pref.includes('food'));
+        let kinds = ACT_KINDS.filter(k => k !== 'cafe' || (cafeOk && !ctx.used.includes('cafe')));
+        if (f.mood === 'quiet') kinds = kinds.filter(k => !KINDS[k].crowd);
+        if (total < 200 && f.pref.includes('food') && !ctx.used.includes('food')) kinds = kinds.concat(['food']);
+        p = pick(f, ctx, kinds) || pick(f, ctx, ['food', 'cafe']);
+      }
+      if (!p && group === 'rest') { stops.push(restStop(d)); t += 15; tireAcc = 0; continue; }
+      if (!p) { if (anchor) { placeAnchor(); continue; } break; }
+      let s = lk ? {...lk} : mkStop(p, f, d);
+      let tr = travel(ctx.pos, s, f.mode, f.people);
+      if (!lk && (group === 'lunch' || group === 'dinner') && t + tr.min + s.stay > lim + 10) { if (anchor) { placeAnchor(); continue; } }
+      if (!lk && group === 'act' && t + tr.min + s.stay > Math.min(lim, end + 15)) {
+        // 時間不夠：改找停留時間短的地點（觀景、廟宇、公園、古蹟）
+        const q = pick(f, ctx, ['view', 'temple', 'historic', 'park', 'sight'].filter(k => t + KINDS[k].stay + 10 <= Math.min(lim, end + 15)));
+        if (!q) { if (anchor) { placeAnchor(); continue; } break; }
+        s = mkStop(q, f, d); tr = travel(ctx.pos, s, f.mode, f.people);
+        if (t + tr.min + s.stay > Math.min(lim + 5, end + 20)) { if (anchor) { placeAnchor(); continue; } break; }
+      }
+      stops.push(s); taken.add(s.id); ctx.names.push(s.name);
+      t += tr.min + s.stay; ctx.pos = s; ctx.used.push(s.k); ctx.last = s.k;
+      if (group === 'lunch' || (s.k === 'food' && t < 15 * 60)) lunch = true;
+      if (group === 'dinner' || (s.k === 'food' && t >= 17 * 60)) dinner = true;
+      if (KINDS[s.k].tire) tireAcc += s.stay + tr.min; else if (s.k === 'cafe' || s.k === 'rest') tireAcc = 0; else tireAcc = Math.max(0, tireAcc - 20);
+      if (KINDS[s.k].tire && tireAcc >= thr && t < end - 60) { const r = pick(f, ctx, ['cafe']); if (r) { const rs = mkStop(r, f, d, {stay: 30, restAfter: true}); const rt = travel(ctx.pos, rs, f.mode, f.people); stops.push(rs); taken.add(rs.id); t += rt.min + rs.stay; ctx.pos = rs; ctx.used.push('cafe'); ctx.last = 'cafe'; } else { stops.push(restStop(d)); t += 15; } tireAcc = 0; }
+    }
+    if (days.length > 1 && d === 0) {
+      const lockedHotel = (keep || []).find(s => s.locked && s.k === 'hotel');
+      const h = lockedHotel || pick(f, {...ctx, used: [], last: null}, ['hotel']);
+      if (h) { const hs = lockedHotel ? {...lockedHotel} : mkStop(h, f, 0); stops.push(hs); taken.add(hs.id); pos = hs; }
+      else { const vs = {id: 'hotel-v', name: '住宿（附近找不到資料，請自行安排）', k: 'hotel', lat: ctx.pos.lat, lng: ctx.pos.lng, stay: 0, cost: Math.ceil(f.people / 2) * 2200 * costScale(f), day: 0, virtual: true}; stops.push(vs); pos = ctx.pos; }
+    } else pos = ctx.pos;
+  }
+  return stops;
+}
+
+/* ====================== 時間重算 ====================== */
+function recompute(plan) {
+  const f = plan.form; const days = DUR[f.dur];
+  let pos = plan.origin; let cur = -1, t = 0, spent = 0, transport = 0;
+  plan.stops.forEach((s, i) => {
+    if (s.day !== cur) { cur = s.day; t = s.day === 0 ? f.start : 9 * 60 + 30 + 1440; if (s.day > 0) { const h = plan.stops.find(x => x.k === 'hotel' && x.day === 0); pos = h && h.lat != null ? h : pos; } }
+    const tr = s.virtual && s.lat == null ? {min: 0, km: 0, cost: 0} : travel(pos, s, f.mode, f.people);
+    s.leg = tr; s.arrive = t + tr.min; if (s.fixedAt != null && s.day === 0 && s.arrive < s.fixedAt) { s.wait = s.fixedAt - s.arrive; s.arrive = s.fixedAt; } else s.wait = 0;
+    s.leave = s.arrive + s.stay; t = s.leave;
+    transport += tr.cost; spent += s.cost || 0;
+    if (s.lat != null) pos = s;
+    s.rainRisk = false;
+    if (S.weather && S.weather.hourly && !KINDS[s.k].indoor) {
+      const hr = Math.floor(s.arrive / 60); const v = S.weather.hourly[hr]; if (v != null && v >= 50) s.rainRisk = true;
+    }
+  });
+  let no = 0; plan.stops.forEach(s => { s.no = (s.virtual && s.k !== 'hotel') ? '' : ++no; });
+  plan.total = spent + transport; plan.transport = transport; plan.items = spent;
+  plan.end = t;
+}
+
+/* ====================== 畫面：結果 ====================== */
+function renderPlan() {
+  const plan = S.plan; if (!plan) return; recompute(plan);
+  const f = plan.form; $('result').hidden = false;
+  // 橫幅
+  const bn = [];
+  if (plan.shared) bn.push('<div class="banner shared">🔗 這是別人分享給你的行程。可以直接用，或按「重新排」改成你的版本。</div>');
+  bn.push(`<div class="banner"><b>${esc(plan.areaName)}</b>｜${esc(plan.dateLabel)}｜${{'2h': '2 小時', half: '半天', day: '一天', '2d': '兩天一夜'}[f.dur]}｜${MODE[f.mode].icon} ${MODE[f.mode].label}｜${f.people} 人<br><span style="color:var(--mute);font-size:14px">${MOOD_TEXT[f.mood]}</span></div>`);
+  if (f.mood === 'rest') bn.push('<div class="banner warn">今天體力和心情都不太好。這裡只排了很短的輕鬆行程；如果可以，<b>建議改天再出門</b>，好好休息也很重要。</div>');
+  if (f.mode === 'walk' && plan.stops.some(s => s.leg && s.leg.km > 3)) bn.push('<div class="banner warn">有些站之間超過 3 公里，走路會比較久，可以考慮改搭車。</div>');
+  if (f.avoid.includes('veg') && !plan.stops.some(s => s.k === 'food')) bn.push('<div class="banner warn">附近的地圖資料裡找不到標示為素食的餐廳，用餐點請自行確認。</div>');
+  if (plan.stops.length === 0) bn.push('<div class="banner warn">這個區域找不到符合條件的地點，試著放寬雷點、換個區域或拉長時間。</div>');
+  $('banners').innerHTML = bn.join('');
+  renderWeather(); renderMap(); renderTimeline(); renderTotals();
+}
+function renderWeather() {
+  const w = S.weather, el = $('wx-card');
+  if (!w) { el.innerHTML = '<div class="wx"><div class="ic">🗓️</div><div><div class="t">天氣尚無預報</div><div class="s">只能查未來 16 天內的天氣，出發前幾天再回來看看。</div></div></div>'; return; }
+  if (w.error) { el.innerHTML = `<div class="wx"><div class="ic">⚠️</div><div><div class="t">天氣暫時查不到</div><div class="s">${esc(w.error)}</div></div></div>`; return; }
+  const days = w.days.map((d, i) => { const [ic, tx] = WMO(d.code);
+    return `<div class="wx" style="${i ? 'margin-top:10px' : ''}"><div class="ic">${ic}</div><div><div class="t">${tx}　${Math.round(d.min)}–${Math.round(d.max)}°C</div><div class="s">${w.days.length > 1 ? (i ? '第二天' : '第一天') + '・' : ''}降雨機率最高 ${d.rain ?? '—'}%</div></div></div>`; }).join('');
+  let extra = '';
+  if (w.rainy) {
+    const used = new Set(S.plan.stops.map(s => s.id));
+    const bk = S.cands.filter(p => KINDS[p.k].indoor && !['hotel', 'food'].includes(p.k) && !used.has(p.id) && !bannedName(p, S.plan.form))
+      .map(p => ({p, d: hav(S.plan.center, p)})).sort((a, b) => a.d - b.d).slice(0, 4);
+    extra = `<div class="banner gold" style="margin:12px 0 0"><b>☔ 下雨機率偏高，室內備案：</b><div class="backup">${bk.length ? bk.map(({p, d}) => `<div>${KINDS[p.k].icon} ${esc(p.name)} <span style="color:var(--mute)">・${KINDS[p.k].label}・離區域中心約 ${d.toFixed(1)} 公里</span></div>`).join('') : '<div>附近找不到室內地點的資料。</div>'}</div>
+      <button class="btn sm" type="button" id="b-indoor" style="margin-top:10px">改成室內為主重新排</button></div>`;
+  }
+  el.innerHTML = days + extra;
+  const bi = $('b-indoor'); if (bi) bi.onclick = () => { const f = S.plan.form; f.forceIndoor = true; fillForm(f); build({stops: S.plan.stops.filter(x => x.locked), forceIndoor: true}); };
+}
+function renderMap() {
+  if (!window.L) { $('map').innerHTML = '<p class="empty" style="padding:16px">地圖元件載入失敗，請重新整理頁面。</p>'; return; }
+  if (!S.map) {
+    S.map = L.map('map', {scrollWheelZoom: false});
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(S.map);
+  }
+  if (S.layer) S.layer.remove();
+  S.layer = L.layerGroup().addTo(S.map);
+  const pts = [];
+  if (S.plan.origin && !S.plan.shared) { const o = S.plan.origin; pts.push([o.lat, o.lng]); L.marker([o.lat, o.lng], {icon: L.divIcon({className: '', html: '<div class="pin home">家</div>', iconSize: [28, 28]})}).addTo(S.layer).bindPopup('出發地'); }
+  let n = 0;
+  S.plan.stops.forEach(s => {
+    if (s.lat == null || s.virtual && s.k !== 'hotel') return; n++;
+    pts.push([s.lat, s.lng]);
+    L.marker([s.lat, s.lng], {icon: L.divIcon({className: '', html: `<div class="pin">${s.no}</div>`, iconSize: [28, 28]})}).addTo(S.layer)
+      .bindPopup(`<b>${s.no}. ${esc(s.name)}</b><br>${hm(s.arrive)}–${hm(s.leave)}`);
+  });
+  if (pts.length > 1) L.polyline(pts, {color: '#E8B44C', weight: 3, opacity: .8, dashArray: '6 6'}).addTo(S.layer);
+  setTimeout(() => { S.map.invalidateSize(); if (pts.length) S.map.fitBounds(pts, {padding: [30, 30], maxZoom: 16}); else S.map.setView([S.plan.center.lat, S.plan.center.lng], 14); }, 50);
+}
+function navLinks(s, mode) {
+  const M = MODE[mode];
+  return `<a href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=${M.g}" target="_blank" rel="noopener">Google 導航</a><a href="https://maps.apple.com/?daddr=${s.lat},${s.lng}&dirflg=${M.a}" target="_blank" rel="noopener">Apple 導航</a>`;
+}
+function renderTimeline() {
+  const plan = S.plan, f = plan.form, box = $('timeline'); const ratings = store.get('ratings', {});
+  S.sortables.forEach(x => x.destroy()); S.sortables = [];
+  const days = [...new Set(plan.stops.map(s => s.day))];
+  box.innerHTML = days.map(d => {
+    const list = plan.stops.map((s, i) => [s, i]).filter(([s]) => s.day === d);
+    return (days.length > 1 ? `<div class="day-h">第 ${d + 1} 天</div>` : '') + `<ol class="tl" data-day="${d}">` + list.map(([s, i]) => {
+      const K = KINDS[s.k]; const leg = s.leg || {};
+      const legTxt = leg.min ? `<div class="leg">${MODE[f.mode].icon} 約 ${leg.min} 分鐘・${leg.km.toFixed(1)} 公里${leg.cost ? '・約 ' + money(leg.cost) : ''}</div>` : '';
+      const tags = [];
+      tags.push(`<span class="tag">${K.icon} ${K.label}</span>`);
+      if (s.restAfter) tags.push('<span class="tag">🪑 休息點</span>');
+      if (s.rainRisk) tags.push('<span class="tag rain">☔ 這時段可能下雨</span>');
+      if (s.hours) tags.push(`<span class="tag" title="以店家公告為準">🕒 ${esc(s.hours.length > 28 ? s.hours.slice(0, 28) + '…' : s.hours)}</span>`);
+      const r = ratings[s.id]; if (r) tags.push(`<span class="tag star">上次 ${'★'.repeat(r.s)}</span>`);
+      if (f.mode === 'walk' && leg.km > 3) tags.push('<span class="tag warn">走路超過 3 公里</span>');
+      const timeTxt = s.k === 'hotel' ? `${hm(s.arrive)} 入住` : `${hm(s.arrive)}–${hm(s.leave)}・停留 ${s.stay} 分` + (s.fixedAt != null ? '・🎫 準時開演' : '');
+      if (s.wait >= 10) tags.push(`<span class="tag">⏳ 提早 ${s.wait} 分到，可先在附近走走</span>`);
+      return `<li data-i="${i}">${legTxt}<div class="stop${s.locked ? ' locked' : ''}${s.virtual ? ' virtual' : ''}">
+        <div class="no">${s.no || '·'}</div>
+        <div style="min-width:0;padding-right:30px">
+          <div class="time">${timeTxt}</div>
+          <div class="name">${esc(s.name)}</div>
+          <div class="meta">${s.cost ? '預估 ' + money(s.cost) + (f.people > 1 && s.k !== 'hotel' ? `（${f.people} 人）` : '') : '免費或自由消費'}</div>
+          <div class="tags">${tags.join('')}</div>
+          <div class="acts">
+            ${s.virtual && s.k !== 'hotel' || s.k === 'event' ? '' : `<button type="button" data-act="swap" data-i="${i}">🔀 換一個</button><button type="button" data-act="lock" data-i="${i}" class="${s.locked ? 'on' : ''}">${s.locked ? '🔒 已鎖定' : '🔓 鎖定'}</button>`}
+            ${s.lat != null && !(s.virtual && s.k !== 'hotel') ? navLinks(s, f.mode) : ''}
+            <button type="button" data-act="del" data-i="${i}">✕ 移除</button>
+          </div>
+        </div>
+        <div class="handle" title="拖曳調整順序" aria-label="拖曳調整順序">⋮⋮</div>
+      </div></li>`;
+    }).join('') + '</ol>';
+  }).join('');
+  if (window.Sortable) box.querySelectorAll('ol.tl').forEach(ol => {
+    S.sortables.push(Sortable.create(ol, {handle: '.handle', animation: 150, ghostClass: 'sortable-ghost', onEnd: () => {
+      const d = +ol.dataset.day; const order = [...ol.children].map(li => plan.stops[+li.dataset.i]);
+      const others = plan.stops.filter(s => s.day !== d); const before = others.filter(s => s.day < d), after = others.filter(s => s.day > d);
+      plan.stops = [...before, ...order, ...after]; persistCurrent(); renderPlan();
+    }}));
+  });
+}
+function renderTotals() {
+  const p = S.plan, f = p.form; const left = f.budget - p.total;
+  $('totals').innerHTML = `<div class="tot"><div class="l">預估總花費</div><div class="v">${money(p.total)}</div></div>
+    <div class="tot"><div class="l">其中交通</div><div class="v">${money(p.transport)}</div></div>
+    <div class="tot wide"><div class="l">剩餘預算（總預算 ${money(f.budget)}）</div><div class="v ${left < 0 ? 'neg' : 'pos'}">${left < 0 ? '超出 ' + money(-left) : money(left)}</div></div>
+    <div class="tot"><div class="l">預計結束</div><div class="v">${hm(p.end)}</div></div>
+    <div class="tot"><div class="l">站數</div><div class="v">${p.stops.filter(s => !s.virtual).length} 站</div></div>`;
+}
+$('timeline').addEventListener('click', e => {
+  const b = e.target.closest('button[data-act]'); if (!b) return;
+  const i = +b.dataset.i, plan = S.plan, s = plan.stops[i];
+  if (b.dataset.act === 'lock') { s.locked = !s.locked; }
+  else if (b.dataset.act === 'del') { plan.stops.splice(i, 1); }
+  else if (b.dataset.act === 'swap') {
+    (plan.skipped = plan.skipped || []).push(s.id);
+    if (!S.cands.length) { status('分享或歷史行程要先按「重新排」載入附近地點，才能換一個。', true, 'status2'); return; }
+    if (!swapAt(plan, i, plan.skipped)) { status('附近沒有其他符合條件的地點了。', true, 'status2'); return; }
+  }
+  persistCurrent(); renderPlan();
+});
+
+/* ====================== 從活動總覽帶進來的活動 ====================== */
+const EV_STAY = {expo: 90, music: 120, stage: 120, kids: 90, talk: 120, film: 130, fest: 120, other: 90};
+function eventFixed() { return S.event && S.event.tm && S.event.ty !== 'expo' && S.event.ty !== 'fest' ? toMin(S.event.tm) : null; }
+async function eventPoint() {
+  const e = S.event; if (e.la && e.ln) return {lat: e.la, lng: e.ln, name: e.v || e.n};
+  try { return await geocode(e.c + (e.v || '')); } catch (x) { return await geocode(e.c); }
+}
+function eventStop(f, c) {
+  const e = S.event; const m = (e.p || '').match(/(\d{2,5})\s*元/);
+  const per = e.f ? 0 : m ? +m[1] : 300;
+  return {id: 'ev:' + e.id, name: e.n, k: 'event', lat: c.lat, lng: c.lng, hours: '', stay: EV_STAY[e.ty] || 90, cost: per * f.people, day: 0, locked: true, fixedAt: eventFixed() ?? undefined};
+}
+function autoStart() {
+  const fx = eventFixed(); if (fx == null) return;
+  const total = DUR[segVal('dur')][0], stay = EV_STAY[S.event.ty] || 90;
+  $('start').value = hm(Math.max(8 * 60, Math.min(fx - 30, fx - (total - stay))));
+}
+function renderEventBox() {
+  const e = S.event, box = $('ev-box');
+  if (!e) { box.innerHTML = ''; return; }
+  const fx = eventFixed();
+  box.innerHTML = `<div class="evbox"><div class="ic">🎟️</div><div><b>${esc(e.n)}</b>
+    <small>${esc(e.c)}${e.v ? '・' + esc(e.v) : ''}｜${esc((e.d || '').replace(/-/g, '/'))}${fx != null ? ' ' + esc(e.tm) + ' 開始' : ''}${e.s && e.e && e.s !== e.e ? `（活動期間 ${esc(e.s.slice(5))}～${esc(e.e.slice(5))}）` : ''}</small>
+    <small>這個活動會固定排進行程${fx != null ? '，並準時到場' : ''}；其他站會依你下面的條件安排在它前後。</small></div>
+    <button type="button" id="ev-x">移除</button></div>`;
+  $('ev-x').onclick = () => { S.event = null; $('area').value = 'auto'; $('area').querySelector('option[value="event"]')?.remove(); history.replaceState(null, '', location.pathname); renderEventBox(); };
+}
+function loadEventParam() {
+  const m = new URLSearchParams(location.search).get('ev'); if (!m) return false;
+  try {
+    const bytes = Uint8Array.from(atob(m.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
+    S.event = JSON.parse(new TextDecoder().decode(bytes));
+  } catch (e) { status('活動資料讀取失敗，請回到活動總覽重新選一次。', true); return false; }
+  const sel = $('area'); const o = document.createElement('option'); o.value = 'event'; o.textContent = '🎟️ 活動地點：' + (S.event.v || S.event.c);
+  sel.insertBefore(o, sel.firstChild); sel.value = 'event'; $('area-custom-wrap').hidden = true;
+  if (S.event.d) { $('date').value = S.event.d < todayStr() ? todayStr() : S.event.d; if (S.event.e) $('date').max = S.event.e; }
+  autoStart(); renderEventBox();
+  document.querySelector('[data-name="dur"]').addEventListener('click', () => setTimeout(autoStart, 0));
+  return true;
+}
+
+/* ====================== 主流程 ====================== */
+async function resolveCenter(f) {
+  if (f.area === 'event' && S.event) { const c = await eventPoint(); return {center: c, name: S.event.c + '・' + (S.event.v || S.event.n)}; }
+  if (f.area === 'custom') { if (!f.areaCustom) throw new Error('請輸入想去的地名。'); const p = await geocode(f.areaCustom); return {center: p, name: f.areaCustom}; }
+  if (f.area === 'near') { if (!S.originPt) throw new Error('選「出發地附近」需要先填出發地。'); return {center: S.originPt, name: '出發地附近'}; }
+  if (f.area !== 'auto') { const a = AREAS[+f.area]; return {center: a, name: a.city + '・' + a.name}; }
+  // 讓它推薦
+  if (!S.originPt) { const a = AREAS[Math.floor(Math.random() * 10)]; return {center: a, name: a.city + '・' + a.name + '（沒有出發地，先隨機推薦台北）'}; }
+  if (f.mode === 'walk' || f.mood === 'rest') return {center: S.originPt, name: '出發地附近'};
+  const maxMin = {'2h': 25, half: 50, day: 100, '2d': 200}[f.dur] * (f.mood === 'short' ? .6 : 1);
+  const want = {food: ['美食', '老街', '咖啡'], scenery: ['風景', '海', '山', '湖', '夕陽'], photo: ['拍照', '文創', '老街'], indoor: ['室內', '文創'], chill: ['放空', '溫泉', '咖啡']};
+  const ratings = store.get('history', []);
+  const scored = AREAS.map(a => {
+    const tr = travel(S.originPt, a, f.mode, 1); if (tr.min > maxMin) return null;
+    let s = Math.random() * 1.5 - tr.min / 40;
+    f.pref.forEach(p => (want[p] || []).forEach(t => { if (a.tags.includes(t)) s += 1.5; }));
+    if (f.avoid.includes('hike') && a.tags.includes('山')) s -= 6;
+    if (f.avoid.includes('crowd') && a.tags.includes('人多')) s -= 4;
+    if (f.mood === 'quiet' && a.tags.includes('人多')) s -= 3;
+    if (ratings.some(h => h.areaName && h.areaName.includes(a.name) && h.avg && h.avg < 2.5)) s -= 3;
+    return {a, s};
+  }).filter(Boolean).sort((x, y) => y.s - x.s);
+  if (!scored.length) return {center: S.originPt, name: '出發地附近（時間內到得了的熱門區域不多）'};
+  const a = scored[0].a; return {center: a, name: a.city + '・' + a.name + '（推薦）'};
+}
+async function loadWeather(center, f) {
+  const today = todayStr(), maxD = todayStr(15);
+  if (f.date < today || f.date > maxD) { S.weather = null; return; }
+  try {
+    const j = await fetchWeather(center, f.date, DUR[f.dur].length);
+    const days = (j.daily.time || []).map((t, i) => ({code: j.daily.weather_code[i], max: j.daily.temperature_2m_max[i], min: j.daily.temperature_2m_min[i], rain: j.daily.precipitation_probability_max[i]}));
+    const hourly = {}; (j.hourly.time || []).forEach((t, i) => { const d = t.slice(0, 10), h = +t.slice(11, 13); const off = d === f.date ? 0 : 24; hourly[h + off] = j.hourly.precipitation_probability[i]; });
+    S.weather = {days, hourly, rainy: days.some(d => (d.rain ?? 0) >= 60)};
+  } catch (e) { S.weather = {error: '天氣服務暫時沒有回應，請稍後再試。'}; }
+}
+async function build(keep) {
+  const f = readForm(); const btn = $('go'); btn.disabled = true;
+  try {
+    if (!f.date) throw new Error('請選擇日期。');
+    if (f.origin && f.origin !== '目前位置' && (!S.originPt || S.originPt.name !== f.origin)) { status('查詢出發地位置…'); S.originPt = await geocode(f.origin); }
+    if (!f.origin) S.originPt = null;
+    status('挑選區域…');
+    const {center, name} = await resolveCenter(f);
+    status('查詢天氣…'); await loadWeather(center, f);
+    status('搜尋附近的景點和餐廳（約 5～20 秒）…');
+    const r = f.mood === 'rest' ? 1200 : RADIUS[f.dur] * (f.mode === 'walk' ? .6 : 1);
+    S.cands = await fetchPlaces(center, r);
+    if (S.cands.length < 5 && r < 8000) S.cands = await fetchPlaces(center, r * 2);
+    if (keep && keep.forceIndoor) f.forceIndoor = true;
+    const keepStops = (keep && keep.stops || []).filter(x => x.k !== 'event');
+    if (S.event && f.area === 'event') keepStops.unshift(eventStop(f, center));
+    const stops = generate(f, center, keepStops);
+    S.plan = {form: f, center: {lat: center.lat, lng: center.lng}, origin: S.originPt, areaName: name, dateLabel: f.date.replace(/-/g, '.'), stops, created: Date.now()};
+    status(''); persistCurrent(); renderPlan();
+    $('result').scrollIntoView({behavior: 'smooth', block: 'start'});
+  } catch (e) { status(e.message || '發生錯誤，請再試一次。', true); }
+  finally { btn.disabled = false; }
+}
+function swapAt(plan, i, extraSkip) {
+  const f = plan.form, s = plan.stops[i];
+  const prev = plan.stops.slice(0, i).reverse().find(x => x.lat != null) || plan.origin || plan.center;
+  const taken = new Set(plan.stops.map(x => x.id)); (extraSkip || []).forEach(x => taken.add(x));
+  const kinds = s.k === 'food' ? ['food'] : s.k === 'cafe' ? ['cafe'] : s.k === 'hotel' ? ['hotel'] : ACT_KINDS.filter(k => k !== 'cafe');
+  const ctx = {pos: prev, ratings: store.get('ratings', {}), rainy: !!(S.weather && S.weather.rainy) || f.forceIndoor, used: plan.stops.map(x => x.k), last: null, taken,
+    names: plan.stops.filter((x, j) => j !== i).map(x => x.name)};
+  const p = pick(f, ctx, kinds);
+  if (!p) return false;
+  plan.stops[i] = mkStop(p, f, s.day); return true;
+}
+async function regenerate() {
+  if (!S.plan) return;
+  const f = readForm(), p = S.plan;
+  const same = p.form.area === f.area && p.form.areaCustom === f.areaCustom && p.form.dur === f.dur && p.form.mood === f.mood && S.cands.length;
+  if (!same) { build({stops: p.stops, forceIndoor: p.form.forceIndoor}); return; }
+  // 同一個區域：鎖定的站留在原位，其他站換成新的地點
+  p.form = {...f, forceIndoor: p.form.forceIndoor}; p.dateLabel = f.date.replace(/-/g, '.');
+  status('更新天氣…', false, 'status2'); await loadWeather(p.center, f); status('', false, 'status2');
+  p.stops.forEach((s, i) => { if (!s.locked && !(s.virtual && s.k !== 'hotel')) swapAt(p, i, [s.id]); });
+  persistCurrent(); renderPlan();
+}
+$('f').addEventListener('submit', e => { e.preventDefault(); build(); });
+$('b-regen').addEventListener('click', regenerate);
+
+/* ====================== 保存、分享 ====================== */
+function persistCurrent() { if (S.plan && !S.plan.shared) store.set('current', {plan: S.plan, cands: S.cands.slice(0, 600), weather: S.weather}); }
+function compactPlan(p) { return {v: 1, f: {...p.form, origin: ''}, a: p.areaName, c: p.center, s: p.stops.map(s => ({i: s.id, n: s.name, k: s.k, la: s.lat && +s.lat.toFixed(5), ln: s.lng && +s.lng.toFixed(5), st: s.stay, c: s.cost, d: s.day, v: s.virtual ? 1 : 0, fx: s.fixedAt}))}; }
+function expandPlan(o) { return {form: o.f, areaName: o.a, center: o.c, origin: null, dateLabel: (o.f.date || '').replace(/-/g, '.'), stops: o.s.map(s => ({id: s.i, name: s.n, k: s.k, lat: s.la ?? null, lng: s.ln ?? null, stay: s.st, cost: s.c, day: s.d, virtual: !!s.v, locked: s.k === 'event', fixedAt: s.fx ?? undefined})), shared: true}; }
+const b64u = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const unb64u = s => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
+async function encodeShare(obj) {
+  const raw = new TextEncoder().encode(JSON.stringify(obj));
+  if (window.CompressionStream) { const cs = new Blob([raw]).stream().pipeThrough(new CompressionStream('deflate-raw')); return 'z' + b64u(await new Response(cs).arrayBuffer()); }
+  return 'u' + b64u(raw);
+}
+async function decodeShare(s) {
+  const bytes = unb64u(s.slice(1));
+  if (s[0] === 'z') { const ds = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw')); return JSON.parse(await new Response(ds).text()); }
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+$('b-share').addEventListener('click', async () => {
+  try {
+    const url = location.origin + location.pathname + '#p=' + await encodeShare(compactPlan(S.plan));
+    if (navigator.share) { try { await navigator.share({title: '出門行程：' + S.plan.areaName, url}); return; } catch (e) { if (e.name === 'AbortError') return; } }
+    await navigator.clipboard.writeText(url); status('分享連結已複製（連結裡不包含你的出發地）。', false, 'status2');
+  } catch (e) { status('無法建立分享連結：' + e.message, true, 'status2'); }
+});
+function saveHistory(extra) {
+  const p = S.plan; if (!p) return null;
+  const hist = store.get('history', []);
+  const id = p.histId || ('h' + Date.now()); p.histId = id;
+  const item = {id, saved: Date.now(), date: p.form.date, areaName: p.areaName, form: {...p.form}, center: p.center,
+    stops: compactPlan(p).s, ...(hist.find(h => h.id === id) || {}), ...(extra || {})};
+  const i = hist.findIndex(h => h.id === id); if (i >= 0) hist[i] = item; else hist.unshift(item);
+  store.set('history', hist.slice(0, 100)); persistCurrent(); return item;
+}
+$('b-save').addEventListener('click', () => { saveHistory(); status('已存到「回顧與紀錄」。', false, 'status2'); renderLog(); });
+
+/* ====================== 出發當天模式 ====================== */
+let tick = null;
+function goState() { return S.plan ? (S.plan.go = S.plan.go || {arrived: {}, expenses: [], startedAt: Date.now()}) : null; }
+function nowMin() { const d = new Date(new Date().toLocaleString('en-US', {timeZone: 'Asia/Taipei'})); return d.getHours() * 60 + d.getMinutes() + d.getSeconds() / 60; }
+function renderGo() {
+  const box = $('go-body'); clearInterval(tick);
+  if (!S.plan || !S.plan.stops.length) { box.innerHTML = '<div class="card"><p class="empty">還沒有行程。先到「規劃」排一個行程，再按「開始出發」。</p></div>'; return; }
+  recompute(S.plan); const g = goState(), p = S.plan, f = p.form;
+  const real = p.stops.filter(s => !(s.virtual && s.k !== 'hotel'));
+  const idx = real.findIndex(s => !g.arrived[s.id]);
+  // 依實際到達時間，把後面的預定時間往後（或往前）平移
+  const lastArr = real.filter(s => g.arrived[s.id]).pop();
+  const shift = lastArr ? Math.round(g.arrived[lastArr.id] - lastArr.arrive) : 0;
+  const spent = g.expenses.reduce((a, e) => a + e.amt, 0);
+  let hero;
+  if (idx < 0) hero = `<div class="now"><div class="k">全部完成 🎉</div><div class="big">辛苦了！</div><div class="sub">到「回顧與紀錄」幫每一站打分數，下次排行程會參考。</div><div class="row"><button class="btn" type="button" id="g-review">去回顧</button></div></div>`;
+  else {
+    const nx = real[idx]; const cur = idx > 0 ? real[idx - 1] : null;
+    const leaveCur = cur ? cur.leave + shift : null;
+    hero = `<div class="now"><div class="k">${cur ? '目前在：' + esc(cur.name) : '準備出發'}</div>
+      <div class="sub">下一站</div><div class="big">${esc(nx.name)}</div>
+      <div class="cd" id="g-cd">--:--</div><div class="sub" id="g-sub"></div>
+      <div class="row"><button class="btn" type="button" id="g-arr">✅ 到了</button>${nx.lat != null ? navLinks(nx, f.mode).replace(/<a /g, '<a class="btn ghost" ') : ''}</div>
+      ${shift ? `<div class="sub" style="margin-top:8px">已依實際時間調整：${shift > 0 ? '比原定晚 ' + shift : '比原定早 ' + -shift} 分鐘</div>` : ''}</div>`;
+    const target = (cur && leaveCur > nowMin()) ? leaveCur : nx.arrive + shift;
+    const label = (cur && leaveCur > nowMin()) ? '離開 ' + esc(cur.name) : '抵達 ' + esc(nx.name);
+    const upd = () => { const el = $('g-cd'); if (!el) return clearInterval(tick); const d = target - nowMin();
+      el.textContent = (d < 0 ? '-' : '') + String(Math.floor(Math.abs(d) / 60)).padStart(2, '0') + ':' + String(Math.floor(Math.abs(d) % 60)).padStart(2, '0');
+      $('g-sub').textContent = `預定 ${hm(target)} ${label.replace(/&amp;/g, '&')}` + (d < 0 ? '（已超過）' : ''); };
+    setTimeout(upd, 0); tick = setInterval(upd, 1000);
+  }
+  box.innerHTML = hero + `
+    <div class="card" style="margin-top:14px"><h2>隨手記帳</h2>
+      <div class="row"><div class="inp" style="flex:1;min-width:120px"><input id="g-amt" type="number" inputmode="numeric" placeholder="金額"><span class="u">元</span></div>
+      <div class="inp" style="flex:2;min-width:140px"><input id="g-note" placeholder="備註，例如：午餐、門票"></div><button class="btn sm" type="button" id="g-add">記一筆</button></div>
+      <ul class="exp-list">${g.expenses.map((e, i) => `<li><span>${hm(e.t)}・${esc(e.note || '花費')} <button type="button" data-del="${i}" style="background:none;border:0;color:var(--mute);cursor:pointer">✕</button></span><span>${money(e.amt)}</span></li>`).join('') || '<li class="empty">還沒有記帳。</li>'}</ul>
+      <div class="totals" style="margin-bottom:0"><div class="tot"><div class="l">已花</div><div class="v">${money(spent)}</div></div><div class="tot"><div class="l">預算</div><div class="v">${money(f.budget)}</div></div><div class="tot"><div class="l">剩下</div><div class="v ${f.budget - spent < 0 ? 'neg' : 'pos'}">${money(f.budget - spent)}</div></div></div>
+    </div>
+    <div class="card"><h2>今天的行程</h2><ul class="dl">${real.map((s, i) => `<li><span>${g.arrived[s.id] ? '✅' : i === idx ? '👉' : '⏳'}</span><span class="n">${esc(s.name)}<small>預定 ${hm(s.arrive + (g.arrived[s.id] ? 0 : shift))}${g.arrived[s.id] ? '・實際 ' + hm(g.arrived[s.id]) + ' 到' : ''}</small></span>${g.arrived[s.id] ? `<button type="button" class="btn sm ghost" data-undo="${s.id}">取消</button>` : ''}</li>`).join('')}</ul></div>`;
+  const arr = $('g-arr'); if (arr) arr.onclick = () => { g.arrived[real[idx].id] = nowMin(); persistCurrent(); renderGo(); };
+  const rv = $('g-review'); if (rv) rv.onclick = () => showTab('log');
+  $('g-add').onclick = () => { const a = parseFloat($('g-amt').value); if (!(a > 0)) return; g.expenses.push({t: nowMin(), amt: a, note: $('g-note').value.trim()}); persistCurrent(); renderGo(); };
+  box.querySelectorAll('[data-del]').forEach(b => b.onclick = () => { g.expenses.splice(+b.dataset.del, 1); persistCurrent(); renderGo(); });
+  box.querySelectorAll('[data-undo]').forEach(b => b.onclick = () => { delete g.arrived[b.dataset.undo]; persistCurrent(); renderGo(); });
+}
+$('b-start').addEventListener('click', () => { if (S.plan && S.plan.shared) { S.plan.shared = false; } goState(); saveHistory(); persistCurrent(); showTab('go'); });
+
+/* ====================== 回顧與紀錄 ====================== */
+function renderLog() {
+  const rc = $('review-card'), p = S.plan;
+  if (!p || !p.stops.length) rc.innerHTML = '<h2>回顧這趟</h2><p class="empty">還沒有行程可以回顧。</p>';
+  else {
+    const rv = p.review = p.review || {};
+    const real = p.stops.filter(s => !s.virtual);
+    rc.innerHTML = `<h2>回顧這趟：${esc(p.areaName)}（${esc(p.dateLabel)}）</h2><p class="note" style="margin:0 0 6px">每站打 1–5 分、寫一句心得。之後排行程時，4 分以上會優先推薦，1–2 分會自動避開。</p>` +
+      real.map(s => { const r = rv[s.id] || {}; return `<div class="rv"><div class="name">${KINDS[s.k].icon} ${esc(s.name)}</div>
+        <div class="stars" data-id="${s.id}">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-s="${n}" class="${(r.s || 0) >= n ? 'on' : ''}" aria-label="${n} 分">★</button>`).join('')}</div>
+        <div class="inp"><input data-note="${s.id}" value="${esc(r.n || '')}" placeholder="一句心得，例如：拿鐵很好喝、人太多"></div></div>`; }).join('') +
+      `<button class="btn" type="button" id="rv-save" style="margin-top:14px">儲存回顧</button><div class="status" id="rv-status"></div>`;
+    rc.querySelectorAll('.stars').forEach(st => st.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
+      const id = st.dataset.id; (rv[id] = rv[id] || {}).s = +b.dataset.s; st.querySelectorAll('button').forEach(x => x.classList.toggle('on', +x.dataset.s <= +b.dataset.s)); }));
+    $('rv-save').onclick = () => {
+      rc.querySelectorAll('[data-note]').forEach(i => { (rv[i.dataset.note] = rv[i.dataset.note] || {}).n = i.value.trim(); });
+      const ratings = store.get('ratings', {}); const scores = [];
+      real.forEach(s => { const r = rv[s.id]; if (r && r.s) { ratings[s.id] = {s: r.s, n: r.n || '', name: s.name, date: p.form.date}; scores.push(r.s); } });
+      store.set('ratings', ratings);
+      const g = p.go || {expenses: []};
+      saveHistory({review: rv, avg: scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null, spent: g.expenses.reduce((a, e) => a + e.amt, 0)});
+      $('rv-status').textContent = '已儲存！下次排行程會參考你的評分。'; renderHist();
+    };
+  }
+  renderHist();
+}
+function renderHist() {
+  const hist = store.get('history', []), box = $('hist');
+  if (!hist.length) { box.innerHTML = '<p class="empty">還沒有存過的行程。</p>'; return; }
+  box.innerHTML = hist.map((h, i) => `<div class="hist"><div class="h">${esc(h.areaName)}</div>
+    <div class="s">${esc((h.date || '').replace(/-/g, '.'))}・${h.stops.filter(s => !s.v).length} 站${h.avg ? '・平均 ' + h.avg.toFixed(1) + ' 分' : ''}${h.spent ? '・實際花 ' + money(h.spent) : ''}</div>
+    <div class="row" style="margin-top:8px"><button class="btn sm" type="button" data-reuse="${i}">再用一次</button><button class="btn sm ghost" type="button" data-open="${i}">打開</button><button class="btn sm ghost" type="button" data-rm="${i}">刪除</button></div></div>`).join('');
+  box.querySelectorAll('[data-reuse],[data-open]').forEach(b => b.onclick = () => {
+    const h = hist[+(b.dataset.reuse ?? b.dataset.open)];
+    const p = expandPlan({f: h.form, a: h.areaName, c: h.center, s: h.stops}); p.shared = false; p.histId = b.dataset.open != null ? h.id : null; p.review = b.dataset.open != null ? h.review : null;
+    if (b.dataset.reuse != null) { p.stops.forEach(s => s.locked = true); p.form = {...p.form, date: $('date').value || todayStr()}; p.dateLabel = p.form.date.replace(/-/g, '.'); }
+    p.origin = S.originPt; S.plan = p; S.weather = null; fillForm(p.form); showTab('plan'); renderPlan(); persistCurrent();
+    if (b.dataset.reuse != null) status('已載入這個行程，所有站都先鎖定。換日期後可以按「重新排」更新天氣。', false, 'status2');
+  });
+  box.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { if (!confirm('確定刪除這筆行程紀錄？')) return; hist.splice(+b.dataset.rm, 1); store.set('history', hist); renderHist(); });
+}
+$('b-export').addEventListener('click', () => {
+  const data = {app: 'trip', v: 1, exported: new Date().toISOString(), history: store.get('history', []), ratings: store.get('ratings', {})};
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 1)], {type: 'application/json'}));
+  a.download = '出門紀錄備份-' + todayStr() + '.json'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+});
+$('b-import').addEventListener('click', () => $('imp-file').click());
+$('imp-file').addEventListener('change', async e => {
+  try { const d = JSON.parse(await e.target.files[0].text()); if (d.app !== 'trip') throw new Error('檔案格式不對');
+    const hist = store.get('history', []); const ids = new Set(hist.map(h => h.id));
+    (d.history || []).forEach(h => { if (!ids.has(h.id)) hist.push(h); });
+    store.set('history', hist.sort((a, b) => b.saved - a.saved)); store.set('ratings', {...(d.ratings || {}), ...store.get('ratings', {})});
+    status('匯入完成。', false, 'status3'); renderHist();
+  } catch (err) { status('匯入失敗：' + err.message, true, 'status3'); }
+  e.target.value = '';
+});
+
+/* ====================== 分頁與啟動 ====================== */
+function showTab(t) {
+  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === t)));
+  ['plan', 'go', 'log'].forEach(k => $('p-' + k).hidden = k !== t);
+  if (t === 'go') renderGo(); else clearInterval(tick);
+  if (t === 'log') renderLog();
+  if (t === 'plan' && S.map) setTimeout(() => S.map.invalidateSize(), 50);
+}
+document.querySelector('.tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) showTab(b.dataset.tab); });
+
+(async function start() {
+  initForm();
+  if (loadEventParam()) return;
+  const m = location.hash.match(/#p=([A-Za-z0-9_-]+)/);
+  if (m) {
+    try { const o = await decodeShare(m[1]); S.plan = expandPlan(o); fillForm(S.plan.form); S.weather = null; renderPlan(); return; }
+    catch (e) { status('分享連結無法讀取，可能不完整。', true); }
+  }
+  const cur = store.get('current', null);
+  if (cur && cur.plan && cur.plan.form && cur.plan.form.date >= todayStr(-1)) {
+    S.plan = cur.plan; S.cands = cur.cands || []; S.weather = cur.weather || null; S.originPt = cur.plan.origin || null;
+    fillForm(S.plan.form); if (S.originPt) $('origin').value = S.originPt.name || ''; renderPlan();
+    status('已載入你上次排的行程。', false, 'status2');
+  }
+})();
+</script>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div><div><h5>內容</h5><ul><li><a href="finance.html">財經早報</a></li><li><a href="world.html">國際早報</a></li><li><a href="deep.html">深度拆解</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>出遊情報｜曹濬騰早起工作</title>
+<meta name="description" content="台灣各縣市的展覽、演出、節慶與觀光活動一次看，可以分享給朋友，也能一鍵排進出門行程。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0E1726;--panel:#152238;--panel2:#1B2A44;--line:#2A3850;--ink:#F5F1E8;--mute:#9AA6B8;--gold:#E8B44C;--ok:#22C55E;--blue:#5A93E0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.7;font-size:16px;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px}
+.wrap{max-width:860px;margin:0 auto;padding:0 18px}
+header.hero{padding:44px 0 20px}
+.kicker{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
+h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 8px}
+.lede{color:#CBD3DF}
+.subnav{display:flex;gap:8px;margin:16px 0 0}
+.subnav a{flex:1;text-align:center;text-decoration:none;font-weight:700;font-size:15px;padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:#CBD3DF}
+.subnav a.on{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.filters{position:sticky;top:0;z-index:20;background:rgba(14,23,38,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0;margin:18px 0 14px}
+.frow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.frow+.frow{margin-top:8px}
+.sel,.search{display:flex;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:0 10px;min-width:0}
+.sel select,.search input{background:transparent;border:0;color:var(--ink);font:inherit;font-size:15px;font-weight:700;padding:8px 0;outline:none;min-width:0;width:100%}
+.sel select option,.sel select optgroup{background:var(--panel2);color:var(--ink)}
+.sel{flex:1 1 130px}.search{flex:2 1 200px}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;background:var(--panel2);border:1px solid var(--line);color:#DDE3EC;font:inherit;font-size:14px;font-weight:500;padding:6px 12px;border-radius:99px;cursor:pointer;white-space:nowrap}
+.chips button[aria-pressed="true"]{background:rgba(232,180,76,.16);border-color:var(--gold);color:var(--gold);font-weight:700}
+.chips button small{color:var(--mute);font-weight:500;margin-left:3px}
+.chk{display:flex;align-items:center;gap:6px;font-size:14px;color:#DDE3EC;cursor:pointer;white-space:nowrap}
+.chk input{width:17px;height:17px;accent-color:var(--gold)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.count{color:var(--mute);font-size:14px}
+.count b{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--gold);color:var(--bg);border:0;font:inherit;font-size:15px;font-weight:900;padding:10px 16px;border-radius:12px;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.btn.sm{font-size:13px;padding:6px 11px;border-radius:9px}
+.cityhead{font-size:20px;font-weight:900;margin:22px 0 10px;display:flex;align-items:baseline;gap:10px}
+.cityhead small{color:var(--mute);font-size:14px;font-weight:500}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ev{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.ev.hl{border-color:var(--gold);box-shadow:0 0 0 2px rgba(232,180,76,.35)}
+.ev .img{aspect-ratio:16/9;background:var(--panel2) center/cover no-repeat;position:relative}
+.ev .img .ty{position:absolute;left:10px;top:10px;background:rgba(14,23,38,.85);color:var(--gold);font-size:12px;font-weight:700;border-radius:99px;padding:2px 10px}
+.ev .img .ty.free{left:auto;right:10px;color:var(--ok)}
+.ev .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ev .img .ph{display:none}
+.ev .noimg{display:grid;place-items:center}
+.ev .noimg .ph{display:block}
+.ev .bd{padding:12px 14px 12px;display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.ev .date{font-size:13px;color:var(--gold);font-weight:700}
+.ev .date .end{color:#FF8A95;margin-left:4px}
+.ev h3{font-size:16px;font-weight:900;line-height:1.4;word-break:break-word}
+.ev .where{font-size:13px;color:#CBD3DF;word-break:break-word}
+.ev .price{font-size:13px;color:var(--mute);word-break:break-word}
+.ev .src{font-size:12px;color:#7D8899}
+.ev details{font-size:14px;color:#DDE3EC}
+.ev summary{cursor:pointer;color:var(--mute);font-size:13px}
+.ev details p{margin-top:6px;white-space:pre-line;max-height:240px;overflow:auto}
+.ev .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px}
+.ev .acts a,.ev .acts button{background:var(--panel2);border:1px solid var(--line);color:#DDE3EC;font:inherit;font-size:13px;font-weight:700;padding:5px 10px;border-radius:9px;cursor:pointer;text-decoration:none}
+.ev .acts .plan{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.more{display:block;margin:18px auto 0}
+.msg{color:var(--mute);padding:30px 0;text-align:center}
+.msg.err{color:#FF8A95}
+.note{font-size:13px;color:var(--mute);margin-top:22px;line-height:1.7}
+.note a{color:#B8C2D1}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0B1220;border:1px solid var(--gold);color:var(--ink);padding:10px 16px;border-radius:12px;font-size:14px;z-index:99;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+main{padding-bottom:60px}
+@media (max-width:560px){.grid{grid-template-columns:1fr}.filters{position:static}}
+.ev .img.noimg{aspect-ratio:auto;height:64px;font-size:30px}
+</style>
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8B44C'/%3E%3Ctext x='32' y='45' font-size='36' font-weight='900' text-anchor='middle' fill='%230E1726' font-family='sans-serif'%3E%E6%97%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="site.css">
+<!-- SITE-HEAD:END -->
+</head>
+<body>
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html"><span class="sb-mark">早</span>曹濬騰早起工作</a><nav class="sb-links" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="deep.html">深度拆解</a><a href="travel.html" aria-current="page">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">首頁</a><a href="finance.html">財經早報</a><a href="world.html">國際早報</a><a href="deep.html">深度拆解</a><a href="travel.html" aria-current="page">出遊情報</a><a href="calc.html">理財小工具</a><a href="about.html">關於本站</a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+<header class="hero"><div class="wrap">
+  <div class="kicker">出遊情報</div>
+  <h1>台灣這陣子有什麼好玩？</h1>
+  <p class="lede">各縣市的展覽、演出、節慶和觀光活動一次看。看到喜歡的可以分享給朋友，或按「排進行程」，依你的預算、交通、同伴和今天的狀態排好一整天。</p>
+  <nav class="subnav"><a class="on" href="travel.html">🎪 活動總覽</a><a href="trip.html">🧭 幫我排行程</a></nav>
+</div></header>
+
+<main class="wrap">
+  <div class="filters">
+    <div class="frow">
+      <div class="sel"><select id="f-city" aria-label="縣市"></select></div>
+      <div class="sel"><select id="f-when" aria-label="時間">
+        <option value="all">全部日期</option><option value="today">今天</option><option value="weekend">這個週末</option><option value="7">未來 7 天</option><option value="30">未來 30 天</option>
+      </select></div>
+      <div class="sel"><select id="f-sort" aria-label="排序"><option value="soon">快結束的在前</option><option value="new">最近開始的在前</option></select></div>
+    </div>
+    <div class="frow">
+      <div class="search"><input id="f-q" type="search" placeholder="搜尋活動、場館、關鍵字" aria-label="搜尋"></div>
+      <label class="chk"><input type="checkbox" id="f-free">只看免費</label>
+      <button class="btn sm ghost" type="button" id="b-share">🔗 分享這個篩選</button>
+    </div>
+    <div class="frow"><div class="chips" id="f-type" role="group" aria-label="活動類型"></div></div>
+  </div>
+
+  <div class="bar"><div class="count" id="count">載入活動資料中…</div></div>
+  <div id="list"><p class="msg">正在讀取文化部與觀光署的活動資料，第一次大約需要 5～15 秒…</p></div>
+  <button class="btn ghost more" id="b-more" type="button" hidden>看更多</button>
+
+  <p class="note">資料來源：<a href="https://opendata.culture.tw/" target="_blank" rel="noopener">文化部文化資料開放服務網</a>（藝文活動）、<a href="https://media.taiwan.net.tw/zh-tw/portal" target="_blank" rel="noopener">交通部觀光署觀光資訊資料庫</a>（觀光活動），依政府資料開放授權條款使用，每天自動更新。活動時間、票價可能異動，出發前請以主辦單位公告為準。</p>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const todayStr = (off = 0) => new Date(Date.now() + off * 864e5).toLocaleDateString('sv-SE', {timeZone: 'Asia/Taipei'});
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('travel.' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('travel.' + k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+};
+function toast(t) { const el = $('toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2400); }
+
+/* ---------- 縣市 ---------- */
+const REGIONS = {
+  '北部': ['臺北市', '新北市', '基隆市', '桃園市', '新竹市', '新竹縣', '宜蘭縣'],
+  '中部': ['苗栗縣', '臺中市', '彰化縣', '南投縣', '雲林縣'],
+  '南部': ['嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣'],
+  '東部': ['花蓮縣', '臺東縣'],
+  '離島': ['澎湖縣', '金門縣', '連江縣']
+};
+const CITIES = Object.values(REGIONS).flat();
+const CITY_RE = new RegExp('(' + CITIES.map(c => c.replace('臺', '[臺台]')).join('|') + ')');
+const normCity = s => { const m = (s || '').match(CITY_RE); return m ? m[1].replace('台', '臺') : ''; };
+// 有些地址沒寫縣市，只寫「中正區…」：用行政區和知名場館來判斷
+const DISTRICTS = {
+  '臺北市': '中正 大同 中山 松山 大安 萬華 信義 士林 北投 內湖 南港 文山',
+  '新北市': '板橋 三重 中和 永和 新莊 新店 樹林 鶯歌 三峽 淡水 汐止 瑞芳 土城 蘆洲 五股 泰山 林口 深坑 石碇 坪林 三芝 石門 八里 平溪 雙溪 貢寮 金山 萬里 烏來',
+  '基隆市': '七堵 暖暖 仁愛 安樂',
+  '桃園市': '桃園 中壢 大溪 楊梅 蘆竹 大園 龜山 八德 龍潭 平鎮 新屋 觀音 復興',
+  '臺中市': '北屯 西屯 南屯 太平 大里 霧峰 烏日 豐原 后里 石岡 東勢 和平 新社 潭子 大雅 神岡 大肚 沙鹿 龍井 梧棲 清水 大甲 外埔',
+  '臺南市': '新營 鹽水 白河 柳營 後壁 東山 麻豆 下營 六甲 官田 大內 佳里 學甲 西港 七股 將軍 北門 新化 善化 新市 安定 山上 玉井 楠西 南化 左鎮 仁德 歸仁 關廟 龍崎 永康 安南 安平 中西',
+  '高雄市': '鹽埕 鼓山 左營 楠梓 三民 新興 前金 苓雅 前鎮 旗津 小港 鳳山 林園 大寮 大樹 大社 仁武 鳥松 岡山 橋頭 燕巢 田寮 阿蓮 路竹 湖內 茄萣 永安 彌陀 梓官 旗山 美濃 六龜 甲仙 杉林 內門 茂林 桃源 那瑪夏'
+};
+const DIST_CITY = {}; Object.entries(DISTRICTS).forEach(([c, ds]) => ds.split(' ').forEach(d => DIST_CITY[d] = c));
+const VENUES = [[/兩廳院|國家戲劇院|國家音樂廳|臺北表演藝術中心|北藝中心|中山堂|松山文創|華山1914|臺北流行音樂中心/, '臺北市'], [/衛武營|高雄流行音樂中心|駁二/, '高雄市'],
+  [/臺中國家歌劇院|台中國家歌劇院|國立自然科學博物館/, '臺中市'], [/臺南文化中心|奇美博物館|臺南市美術館/, '臺南市'], [/新北市藝文中心|淡水古蹟/, '新北市']];
+const CENTERS = {'臺北市': [25.04, 121.56], '新北市': [25.01, 121.46], '基隆市': [25.13, 121.74], '桃園市': [24.99, 121.30], '新竹市': [24.80, 120.97], '新竹縣': [24.83, 121.01],
+  '宜蘭縣': [24.75, 121.75], '苗栗縣': [24.56, 120.82], '臺中市': [24.15, 120.67], '彰化縣': [24.08, 120.54], '南投縣': [23.91, 120.68], '雲林縣': [23.71, 120.43],
+  '嘉義市': [23.48, 120.45], '嘉義縣': [23.46, 120.25], '臺南市': [22.99, 120.21], '高雄市': [22.63, 120.30], '屏東縣': [22.67, 120.49], '花蓮縣': [23.99, 121.60],
+  '臺東縣': [22.76, 121.14], '澎湖縣': [23.57, 119.58], '金門縣': [24.44, 118.32], '連江縣': [26.16, 119.95]};
+function guessCity(loc, name, lat, lng) {
+  const all = (loc || '') + ' ' + (name || '');
+  const c = normCity(loc) || normCity(name); if (c) return c;
+  for (const [re, city] of VENUES) if (re.test(all)) return city;
+  const m = (loc || '').match(/^\s*([\u4e00-\u9fff]{1,3})區/); if (m && DIST_CITY[m[1]]) return DIST_CITY[m[1]];
+  if (lat > 21 && lat < 27 && lng > 118 && lng < 123) { let best = '', bd = 9; for (const [k, [a, b]] of Object.entries(CENTERS)) { const d = (a - lat) ** 2 + (b - lng) ** 2; if (d < bd) { bd = d; best = k; } } if (bd < 0.06) return best; }
+  return '';
+}
+
+/* ---------- 類型 ---------- */
+// 文化部藝文活動的分類代碼
+const CULTURE_CATS = {1: 'music', 2: 'stage', 3: 'stage', 4: 'kids', 5: 'music', 6: 'expo', 7: 'talk', 8: 'film', 11: 'stage', 15: 'other', 17: 'music', 19: 'talk'};
+const TYPES = {expo: ['展覽', '🖼️'], music: ['音樂演出', '🎵'], stage: ['戲劇舞蹈', '🎭'], kids: ['親子', '🧸'], talk: ['講座課程', '🎤'], film: ['電影', '🎬'], fest: ['節慶觀光', '🏮'], other: ['其他', '✨']};
+
+/* ---------- 讀取資料 ---------- */
+async function getJSON(url, ms = 30000) {
+  const c = new AbortController(); const t = setTimeout(() => c.abort(), ms);
+  try { const r = await fetch(url, {signal: c.signal}); if (!r.ok) throw new Error('HTTP ' + r.status); return JSON.parse((await r.text()).replace(/^﻿/, '')); }
+  finally { clearTimeout(t); }
+}
+const ymd = s => (s || '').replace(/\//g, '-').slice(0, 10);
+const hhmm = s => { const m = (s || '').match(/[ T](\d{2}):(\d{2})/); return m ? m[1] + ':' + m[2] : ''; };
+async function loadCulture() {
+  const cats = Object.keys(CULTURE_CATS);
+  const res = await Promise.allSettled(cats.map(c => getJSON('https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=' + c)));
+  const out = []; const today = todayStr(); let ok = 0;
+  res.forEach((r, i) => {
+    if (r.status !== 'fulfilled' || !Array.isArray(r.value)) return; ok++;
+    const type = CULTURE_CATS[cats[i]];
+    r.value.forEach(e => {
+      const end = ymd(e.endDate) || ymd((e.showInfo || []).slice(-1)[0]?.endTime);
+      if (end && end < today) return;
+      // 同一個活動可能在不同縣市巡演：依縣市拆成不同卡片
+      const byCity = {};
+      (e.showInfo || []).forEach(s => {
+        const sEnd = ymd(s.endTime) || ymd(s.time); if (sEnd && sEnd < today) return;
+        const city = guessCity(s.location, s.locationName, parseFloat(s.latitude), parseFloat(s.longitude)); if (!city) return;
+        (byCity[city] = byCity[city] || []).push(s);
+      });
+      Object.entries(byCity).forEach(([city, ss]) => {
+        const s0 = ss[0]; const lat = parseFloat(s0.latitude), lng = parseFloat(s0.longitude);
+        const price = (s0.price || '').trim();
+        const sessions = ss.map(s => s.time).filter(Boolean).sort();
+        out.push({id: 'c' + e.UID + (Object.keys(byCity).length > 1 ? '-' + city : ''), src: 'c', type, title: (e.title || '').trim(), city,
+          venue: (s0.locationName || '').trim(), addr: (s0.location || '').replace(/^[^\d\s]*?\d{3,6}\s*/, '').trim(),
+          lat: isFinite(lat) && lat > 20 ? lat : null, lng: isFinite(lng) && lng > 110 ? lng : null,
+          start: ymd(e.startDate) || ymd(sessions[0]), end: end || ymd(sessions.slice(-1)[0]),
+          sessions: sessions.length > 1 && sessions.length <= 30 ? sessions.map(x => x.slice(5, 16).replace('/', '/')) : [],
+          time: type === 'expo' ? '' : hhmm(sessions[0]),
+          price: price.slice(0, 80), free: !price || /免費|免票|自由入場|free/i.test(price) && !/元/.test(price),
+          img: (e.imageUrl || '').replace(/^http:/, 'https:'), url: e.sourceWebPromote || e.webSales || '',
+          desc: (e.descriptionFilterHtml || '').replace(/\s+\n/g, '\n').trim().slice(0, 600), org: e.showUnit || (e.masterUnit || []).join('、')});
+      });
+    });
+  });
+  if (!ok) throw new Error('文化部資料讀取失敗');
+  return out;
+}
+async function unzipFirstJSON(url) {
+  const c = new AbortController(); const tm = setTimeout(() => c.abort(), 40000);
+  try {
+    const r = await fetch(url, {signal: c.signal}); if (!r.ok) throw new Error('HTTP ' + r.status);
+    const buf = new Uint8Array(await r.arrayBuffer()); const dv = new DataView(buf.buffer);
+    let eocd = buf.length - 22; while (eocd > 0 && dv.getUint32(eocd, true) !== 0x06054b50) eocd--;
+    const n = dv.getUint16(eocd + 10, true); let p = dv.getUint32(eocd + 16, true);
+    for (let i = 0; i < n; i++) {
+      const method = dv.getUint16(p + 10, true), csize = dv.getUint32(p + 20, true), nlen = dv.getUint16(p + 28, true), xlen = dv.getUint16(p + 30, true), clen = dv.getUint16(p + 32, true), off = dv.getUint32(p + 42, true);
+      const name = new TextDecoder().decode(buf.slice(p + 46, p + 46 + nlen));
+      if (name.endsWith('.json')) {
+        const start = off + 30 + dv.getUint16(off + 26, true) + dv.getUint16(off + 28, true);
+        const data = buf.slice(start, start + csize);
+        const txt = method === 8 ? await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text() : new TextDecoder().decode(data);
+        return JSON.parse(txt.replace(/^﻿/, ''));
+      }
+      p += 46 + nlen + xlen + clen;
+    }
+    throw new Error('壓縮檔裡沒有資料');
+  } finally { clearTimeout(tm); }
+}
+async function loadTourism() {
+  const j = await unzipFirstJSON('https://media.taiwan.net.tw/XMLReleaseAll_public/v2.0/Zh_tw/Event-json.zip');
+  const today = todayStr(); const out = [];
+  (j.Events || []).forEach(e => {
+    const end = ymd(e.EndDateTime); if (end && end < today) return;
+    if (/Cancelled|Postponed/i.test(e.EventStatus || '')) return;
+    const pa = e.PostalAddress || {}; const city = normCity(pa.City) || normCity((e.LocatedCities || []).join(''));
+    if (!city) return;
+    const fee = (e.FeeInfo || '').trim();
+    out.push({id: 't' + e.EventID, src: 't', type: 'fest', title: (e.EventName || '').trim(), city,
+      venue: [pa.Town, pa.StreetAddress].filter(Boolean).join(' ').trim(), addr: '',
+      lat: e.PositionLat > 20 ? e.PositionLat : null, lng: e.PositionLon > 110 ? e.PositionLon : null,
+      start: ymd(e.StartDateTime), end, sessions: [], time: '',
+      price: fee.slice(0, 80), free: e.IsAccessibleForFree === 1 || /免費/.test(fee),
+      img: (e.Images && e.Images[0] && e.Images[0].URL || '').replace(/^http:/, 'https:'), url: e.WebsiteURL || (e.SameAsURLs || [])[0] || '',
+      desc: (e.Description || '').trim().slice(0, 600), org: (e.Organizations || []).map(o => o.Name).filter(Boolean).join('、')});
+  });
+  return out;
+}
+async function loadAll() {
+  const key = 'events-' + todayStr();
+  const cached = store.get('cache', null);
+  if (cached && cached.key === key && cached.items && cached.items.length) return cached;
+  const [c, t] = await Promise.allSettled([loadCulture(), loadTourism()]);
+  const items = [...(c.status === 'fulfilled' ? c.value : []), ...(t.status === 'fulfilled' ? t.value : [])];
+  const failed = [c.status !== 'fulfilled' && '文化部', t.status !== 'fulfilled' && '觀光署'].filter(Boolean);
+  if (!items.length) throw new Error('活動資料暫時讀不到，請稍後重新整理。');
+  const data = {key, items, failed};
+  if (!failed.length && !store.set('cache', data)) { /* 空間不足時不快取 */ }
+  return data;
+}
+
+/* ---------- 篩選 ---------- */
+const F = {city: 'all', when: 'all', sort: 'soon', q: '', free: false, type: 'all', event: ''};
+let ALL = [], shown = 0; const PAGE = 24;
+function readURL() {
+  const u = new URLSearchParams(location.search);
+  ['city', 'when', 'sort', 'type', 'q', 'event'].forEach(k => { if (u.get(k)) F[k] = u.get(k); });
+  F.free = u.get('free') === '1';
+  if (!u.toString()) { const last = store.get('filters', null); if (last) Object.assign(F, last, {event: '', q: ''}); }
+}
+function writeURL() {
+  const u = new URLSearchParams();
+  if (F.city !== 'all') u.set('city', F.city); if (F.when !== 'all') u.set('when', F.when); if (F.type !== 'all') u.set('type', F.type);
+  if (F.sort !== 'soon') u.set('sort', F.sort); if (F.q) u.set('q', F.q); if (F.free) u.set('free', '1'); if (F.event) u.set('event', F.event);
+  history.replaceState(null, '', location.pathname + (u.toString() ? '?' + u : ''));
+  store.set('filters', {city: F.city, when: F.when, sort: F.sort, type: F.type, free: F.free});
+}
+function windowRange() {
+  const t = todayStr();
+  if (F.when === 'today') return [t, t];
+  if (F.when === '7') return [t, todayStr(6)];
+  if (F.when === '30') return [t, todayStr(29)];
+  if (F.when === 'weekend') {
+    const dow = new Date(t + 'T12:00:00+08:00').getDay(); // 0 = 週日
+    const toSat = dow === 0 ? -1 : 6 - dow; const sat = todayStr(toSat), sun = todayStr(toSat + 1);
+    return [sat < t ? t : sat, sun];
+  }
+  return null;
+}
+function filtered() {
+  const r = windowRange(); const q = F.q.trim().toLowerCase();
+  return ALL.filter(e => {
+    if (F.city !== 'all' && e.city !== F.city && !(REGIONS[F.city] || []).includes(e.city)) return false;
+    if (F.type !== 'all' && e.type !== F.type) return false;
+    if (F.free && !e.free) return false;
+    if (r && !((e.start || '0000') <= r[1] && (e.end || '9999') >= r[0])) return false;
+    if (q && !(e.title + ' ' + e.venue + ' ' + e.city + ' ' + e.org + ' ' + e.desc).toLowerCase().includes(q)) return false;
+    return true;
+  }).sort((a, b) => F.sort === 'new' ? (b.start || '').localeCompare(a.start || '') : (a.end || '9999').localeCompare(b.end || '9999'));
+}
+
+/* ---------- 畫面 ---------- */
+function buildFilters() {
+  const counts = {}; ALL.forEach(e => counts[e.city] = (counts[e.city] || 0) + 1);
+  $('f-city').innerHTML = `<option value="all">全台灣（${ALL.length}）</option>` + Object.entries(REGIONS).map(([r, cs]) =>
+    `<optgroup label="${r}"><option value="${r}">${r}全部（${cs.reduce((a, c) => a + (counts[c] || 0), 0)}）</option>${cs.map(c => `<option value="${c}">${c}（${counts[c] || 0}）</option>`).join('')}</optgroup>`).join('');
+  const tc = {}; ALL.forEach(e => tc[e.type] = (tc[e.type] || 0) + 1);
+  $('f-type').innerHTML = `<button type="button" data-v="all">全部</button>` + Object.entries(TYPES).filter(([k]) => tc[k]).map(([k, [l, i]]) => `<button type="button" data-v="${k}">${i} ${l}<small>${tc[k]}</small></button>`).join('');
+  syncControls();
+}
+function syncControls() {
+  $('f-city').value = F.city; if ($('f-city').value !== F.city) { F.city = 'all'; $('f-city').value = 'all'; }
+  $('f-when').value = F.when; $('f-sort').value = F.sort; $('f-q').value = F.q; $('f-free').checked = F.free;
+  document.querySelectorAll('#f-type button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === F.type)));
+}
+const fmtD = s => s ? s.slice(5).replace('-', '/') : '';
+function dateText(e) {
+  const t = todayStr();
+  let s = e.start && e.end && e.start !== e.end ? `${fmtD(e.start)}–${fmtD(e.end)}` : fmtD(e.start || e.end);
+  if (e.start && e.start < t && e.end) s = `${e.type === 'expo' ? '展期' : e.type === 'fest' ? '活動' : '演出'}至 ${fmtD(e.end)}`;
+  if (e.time) s += ' ' + e.time;
+  if (e.end && e.end >= t && e.end <= todayStr(6)) s += '<span class="end">・快結束</span>';
+  return s;
+}
+function card(e) {
+  const [tl, ti] = TYPES[e.type];
+  const badges = `<span class="ty">${ti} ${tl}</span>${e.free ? '<span class="ty free">免費</span>' : ''}`;
+  const img = e.img ? `<div class="img"><img src="${esc(e.img)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('noimg');this.remove()"><span class="ph">${ti}</span>${badges}</div>`
+    : `<div class="img noimg"><span class="ph">${ti}</span>${badges}</div>`;
+  const mapQ = e.lat ? `${e.lat},${e.lng}` : encodeURIComponent(e.city + ' ' + (e.venue || e.title));
+  return `<article class="ev${F.event === e.id ? ' hl' : ''}" id="ev-${esc(e.id)}">${img}<div class="bd">
+    <div class="date">${dateText(e)}</div>
+    <h3>${esc(e.title)}</h3>
+    <div class="where">📍 ${esc(e.city)}${e.venue ? '・' + esc(e.venue) : ''}</div>
+    ${e.price ? `<div class="price">🎟️ ${esc(e.price)}</div>` : ''}
+    ${e.sessions.length ? `<details><summary>共 ${e.sessions.length} 場</summary><p>${esc(e.sessions.join('、'))}</p></details>` : ''}
+    ${e.desc ? `<details><summary>活動介紹</summary><p>${esc(e.desc)}${e.desc.length >= 600 ? '…' : ''}</p></details>` : ''}
+    <div class="src">${e.src === 'c' ? '文化部' : '觀光署'}${e.org ? '・' + esc(e.org.slice(0, 30)) : ''}</div>
+    <div class="acts">
+      <button type="button" class="plan" data-plan="${esc(e.id)}">🧭 排進行程</button>
+      ${e.url ? `<a href="${esc(e.url)}" target="_blank" rel="noopener">官方資訊</a>` : ''}
+      <a href="https://www.google.com/maps/search/?api=1&query=${mapQ}" target="_blank" rel="noopener">地圖</a>
+      <button type="button" data-share="${esc(e.id)}">分享</button>
+    </div></div></article>`;
+}
+function render(reset = true) {
+  const list = filtered();
+  if (reset) shown = 0;
+  const target = F.event ? Math.max(PAGE, list.findIndex(e => e.id === F.event) + 1) : PAGE;
+  shown = reset ? Math.min(list.length, target) : Math.min(list.length, shown + PAGE);
+  const r = windowRange();
+  $('count').innerHTML = `找到 <b>${list.length}</b> 個活動` + (r ? `（${fmtD(r[0])}${r[0] !== r[1] ? '–' + fmtD(r[1]) : ''}）` : '');
+  if (!list.length) { $('list').innerHTML = '<p class="msg">沒有符合條件的活動，試著放寬縣市、日期或類型。</p>'; $('b-more').hidden = true; return; }
+  const part = list.slice(0, shown);
+  let html;
+  if (F.city === 'all' || REGIONS[F.city]) {
+    const g = {}; part.forEach(e => (g[e.city] = g[e.city] || []).push(e));
+    const total = {}; list.forEach(e => total[e.city] = (total[e.city] || 0) + 1);
+    html = CITIES.filter(c => g[c]).map(c => `<h2 class="cityhead">${c}<small>${total[c]} 個活動</small></h2><div class="grid">${g[c].map(card).join('')}</div>`).join('');
+  } else html = `<div class="grid">${part.map(card).join('')}</div>`;
+  $('list').innerHTML = html;
+  $('b-more').hidden = shown >= list.length; $('b-more').textContent = `看更多（還有 ${list.length - shown} 個）`;
+  if (F.event && reset) { const el = document.getElementById('ev-' + F.event); if (el) setTimeout(() => el.scrollIntoView({behavior: 'smooth', block: 'center'}), 80); }
+}
+function update() { F.event = ''; writeURL(); render(); }
+
+$('f-city').addEventListener('change', e => { F.city = e.target.value; update(); });
+$('f-when').addEventListener('change', e => { F.when = e.target.value; update(); });
+$('f-sort').addEventListener('change', e => { F.sort = e.target.value; update(); });
+$('f-free').addEventListener('change', e => { F.free = e.target.checked; update(); });
+let qt; $('f-q').addEventListener('input', e => { clearTimeout(qt); qt = setTimeout(() => { F.q = e.target.value; update(); }, 250); });
+$('f-type').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; F.type = b.dataset.v; syncControls(); update(); });
+$('b-more').addEventListener('click', () => render(false));
+
+async function share(url, title) {
+  if (navigator.share) { try { await navigator.share({title, url}); return; } catch (e) { if (e.name === 'AbortError') return; } }
+  try { await navigator.clipboard.writeText(url); toast('連結已複製，可以貼給朋友了'); } catch (e) { prompt('複製這個連結：', url); }
+}
+$('b-share').addEventListener('click', () => {
+  F.event = ''; writeURL();
+  const parts = [F.city !== 'all' ? F.city : '全台灣', F.type !== 'all' ? TYPES[F.type][0] : '', {today: '今天', weekend: '這個週末', 7: '未來 7 天', 30: '未來 30 天'}[F.when] || ''].filter(Boolean);
+  share(location.href, parts.join('・') + '的活動');
+});
+$('list').addEventListener('click', e => {
+  const sb = e.target.closest('[data-share]');
+  if (sb) { const ev = ALL.find(x => x.id === sb.dataset.share); const u = new URL(location.origin + location.pathname); u.searchParams.set('event', ev.id); u.searchParams.set('city', ev.city); share(u.toString(), ev.title); return; }
+  const pb = e.target.closest('[data-plan]');
+  if (pb) {
+    const ev = ALL.find(x => x.id === pb.dataset.plan);
+    const r = windowRange(); const t = todayStr();
+    let date = r ? r[0] : t; if (ev.start && ev.start > date) date = ev.start; if (ev.end && ev.end < date) date = ev.end;
+    const payload = {id: ev.id, n: ev.title, ty: ev.type, c: ev.city, v: ev.venue, la: ev.lat, ln: ev.lng, d: date, tm: ev.time, f: ev.free ? 1 : 0, p: ev.price, s: ev.start, e: ev.end};
+    const b64 = btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(payload)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    location.href = 'trip.html?ev=' + b64;
+  }
+});
+
+(async function start() {
+  readURL();
+  try {
+    const data = await loadAll(); ALL = data.items;
+    buildFilters(); render();
+    if (data.failed && data.failed.length) toast(data.failed.join('、') + '的資料暫時讀不到，先顯示其他來源');
+  } catch (e) {
+    $('count').textContent = ''; $('list').innerHTML = `<p class="msg err">${esc(e.message)}</p>`;
+  }
+})();
+</script>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><span class="sb-mark">早</span>曹濬騰早起工作</div><p>資訊轉譯站：幫你分清楚事實、觀點、立場與利益，用幾分鐘看懂複雜的事。</p></div><div><h5>內容</h5><ul><li><a href="finance.html">財經早報</a></li><li><a href="world.html">國際早報</a></li><li><a href="deep.html">深度拆解</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="calc.html">理財小工具</a></li></ul></div><div><h5>網站資訊</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 曹濬騰早起工作</span><span>內容整理自公開新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>
