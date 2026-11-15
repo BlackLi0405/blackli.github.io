@@ -72,20 +72,33 @@ def card(i, s):
     <div class="foot"><span>資料來源：{e(s['source'])}</span><span>{i+1} / {len(d['stories'])}</span></div>"""
     return page(body, col + "55", "right:-500px;top:-500px;")
 
+def stat_row(s):
+    """財經單張：每則可加 stat／stat_label／change／dir（選填），國際不填就不顯示。"""
+    if not s.get("stat"):
+        return ""
+    col = UP if s.get("dir", "up") == "up" else DOWN
+    chg = f'<span style="font-size:34px;font-weight:700;color:{col}">{e(s["change"])}</span>' if s.get("change") else ""
+    return f"""<div style="display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;margin-bottom:6px">
+        <span style="font-size:54px;font-weight:900;color:{col};line-height:1.1">{e(s['stat'])}</span>{chg}
+        <span style="font-size:28px;color:#B7C2B9">{e(s.get('stat_label',''))}</span></div>"""
+
 def digest():
     acc = d.get("accent", "#F4D35E")
+    tight = any(s.get("stat") for s in d["stories"])  # 有數字列時縮小間距，避免撞到頁尾
+    pad, tmar = ("20px", "28px 0 14px") if tight else ("30px", "40px 0 24px")
     items = "".join(
-        f"""<div style="padding:30px 0;border-top:2px solid #3A5546">
+        f"""<div style="padding:{pad} 0;border-top:2px solid #3A5546">
         <div style="display:flex;align-items:center;gap:22px;margin-bottom:16px">
           <div style="font-size:56px;font-weight:900;color:{acc};line-height:1">{i+1:02d}</div>
           <div style="font-size:26px;font-weight:700;color:#1E3329;background:{acc};padding:6px 20px;border-radius:30px">{e(s['tag'])}</div></div>
         <div style="font-size:50px;font-weight:900;line-height:1.3;margin-bottom:14px">{e(s['headline'])}</div>
+        {stat_row(s)}
         <div style="font-size:32px;line-height:1.5;color:#DCE3DA">{e(s['summary'])}</div></div>"""
         for i, s in enumerate(d["stories"]))
     body = f"""<div class="wrap">
       <div class="brand">{LOGO}{BRAND}</div>
       <div class="date">{e(d['date'])}　{e(d['weekday'])}</div>
-      <div style="font-size:88px;font-weight:900;line-height:1.15;margin:40px 0 24px">{e(d['title'])}</div>
+      <div style="font-size:88px;font-weight:900;line-height:1.15;margin:{tmar}">{e(d['title'])}</div>
       {items}
     </div>
     <div class="foot"><span>完整報導點連結 →</span><span>資料來源：{e(d.get('source',''))}</span></div>"""
@@ -100,5 +113,5 @@ with sync_playwright() as p:
     pg = b.new_page(viewport={"width": 1080, "height": 1920})
     for n, h in enumerate(pages):
         pg.set_content(h); pg.wait_for_timeout(200)
-        f = out / (f"world_{n+1}.png" if d.get("mode") == "digest" else f"story_{n+1}.png"); pg.screenshot(path=str(f)); print(f)
+        f = out / (f"{d.get('file', 'world')}_{n+1}.png" if d.get("mode") == "digest" else f"story_{n+1}.png"); pg.screenshot(path=str(f)); print(f)
     b.close()
