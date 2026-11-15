@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>微軟 365 全球大當機：為什麼一次出錯，全世界的信箱都卡住？｜科技週報｜BlackLi Board</title>
+<meta name="description" content="微軟 Outlook、Teams 等服務 11 月 13 日全球大當機：發生了什麼、微軟怎麼解釋、專家為什麼擔心過度依賴單一雲端。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.8;font-size:17px;}
+.wrap{max-width:720px;margin:0 auto;padding:0 22px}
+header.hero{padding:52px 0 32px;border-bottom:1px solid var(--line)}
+.brand{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
+.brand a{color:inherit;text-decoration:none}
+.date{color:var(--mute);font-size:14px;margin-top:6px}
+h1{font-size:clamp(30px,7vw,46px);font-weight:900;line-height:1.25;margin:18px 0 14px}
+.tldr{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-top:8px}
+.tldr b{color:var(--gold);font-size:14px;letter-spacing:.08em;display:block;margin-bottom:4px}
+nav.toc{position:sticky;top:0;z-index:5;background:var(--glass);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:12px;padding-bottom:12px}
+nav.toc a{flex:none;color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;border:1px solid var(--line);border-radius:99px;padding:6px 14px}
+section{padding:40px 0 10px;border-bottom:1px solid var(--line)}
+h2{font-size:24px;font-weight:900;margin:0 0 16px;display:flex;align-items:center;gap:10px}
+.lab{font-size:12px;font-weight:700;border-radius:99px;padding:2px 10px;color:var(--bg)}
+.lab.fact{background:var(--fact)}.lab.view{background:var(--view)}.lab.stance{background:var(--stance)}.lab.interest{background:var(--interest)}
+p{margin:0 0 14px;color:var(--ink2)}
+ul{margin:0 0 14px 1.2em;color:var(--ink2)}
+li{margin-bottom:8px}
+.timeline{list-style:none;margin:0;border-left:2px solid var(--line);padding-left:18px}
+.timeline li{position:relative;margin-bottom:16px}
+.timeline li::before{content:"";position:absolute;left:-25px;top:9px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid var(--bg)}
+.timeline time{display:block;color:var(--gold);font-weight:700;font-size:14px}
+.tbl{overflow-x:auto;margin:0 0 16px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+@media (max-width:560px){table{font-size:14px}td,th{padding:9px 5px}td:first-child{white-space:normal;min-width:4.5em}}
+td,th{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500;font-size:13px}
+td:first-child{font-weight:700;white-space:nowrap}
+.note{font-size:14px;color:var(--mute)}
+.box{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:16px 18px;margin:16px 0}
+.box strong{color:var(--gold)}
+.src{font-size:14px;color:var(--mute)}
+.src a{color:var(--ink2)}
+.src li{margin-bottom:6px}
+footer{padding:36px 0 60px;font-size:14px;color:var(--mute)}
+footer a{color:var(--gold);text-decoration:none}
+</style>
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BlackLi">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="../site.css">
+<script src="../assets/site.js" defer></script>
+<!-- SITE-HEAD:END -->
+</head>
+<body>
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="../index.html" aria-label="BlackLi Board 首頁"><img src="../assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="../index.html">今天</a><a href="../news.html">新聞</a><a href="../weekly.html" aria-current="page">專欄</a><a href="../mind.html">身心</a><a href="../fun.html">輕鬆</a><a href="../tools.html">工具</a><a href="../about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="../index.html">今天<small>今天的課表</small></a><a href="../news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="../weekly.html" aria-current="page">專欄<small>生活・科技・社會・深度拆解</small></a><a href="../mind.html">身心<small>保健室</small></a><a href="../fun.html">輕鬆<small>下課十分鐘</small></a><a href="../tools.html">工具<small>出遊情報・理財小工具</small></a><a href="../about.html">關於<small>導師室</small></a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+<header class="hero"><div class="wrap">
+  <div class="brand"><a href="../weekly.html#tech">科技週報</a> · BlackLi Board</div>
+  <div class="date">2026.11.15・閱讀約 5 分鐘</div>
+  <h1>微軟 365 全球大當機：為什麼一次出錯，全世界的信箱都卡住？</h1>
+  <div class="tldr"><b>一句話看懂</b>台灣時間 11 月 13 日凌晨起，微軟的 Outlook、Teams 等 Microsoft 365 服務在全球大範圍故障，超過一天才陸續恢復，台灣的券商、壽險和投信也受到干擾。微軟說不是駭客攻擊，初步跟一次網路設定變更有關；多位專家藉此提醒，太多政府和企業依賴同一家雲端，一出事就一起停擺。</div>
+</div></header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#timeline">時間線</a><a href="#facts">事實</a><a href="#views">各方觀點</a><a href="#stances">立場</a><a href="#interests">利益</a><a href="#unknown">還不知道的事</a><a href="#sources">來源</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="timeline">
+  <h2>時間線</h2>
+  <p class="note">以下時間都換算成台灣時間。</p>
+  <ul class="timeline">
+    <li><time>2026.11.13 凌晨 2 時多</time>微軟開立事件，美洲用戶最先回報連不上 Exchange Online 信箱；故障監測網站 Downdetector 上的 Outlook 回報一度超過 13 萬筆。</li>
+    <li><time>2026.11.13 清晨起</time>微軟說受影響的伺服器沒有通過自動健康檢查，沒有發現惡意活動，並把問題連到近期的一次網路設定變更，開始回復設定、重啟伺服器。</li>
+    <li><time>2026.11.13 上午</time>亞太上班時間服務仍只有部分恢復；日本內閣官房副長官說政府資訊系統受影響，台灣證券商、壽險公司和投信業者也受到干擾。</li>
+    <li><time>2026.11.14 00:10</time>微軟宣布個人用戶服務全面恢復，企業服務逐步恢復，並因影響嚴重而延長監控。</li>
+  </ul>
+</section>
+
+<section id="facts">
+  <h2><span class="lab fact">事實</span>確定發生了什麼</h2>
+  <ul>
+    <li><strong>哪些服務：</strong>以 Exchange Online（微軟代管的企業信箱）為核心，連帶影響 Outlook、Teams、SharePoint、Copilot 等依賴它的服務；不依賴 Exchange Online 的功能仍可運作（SecurityWeek）。</li>
+    <li><strong>微軟怎麼說原因：</strong>大量伺服器變得無法使用，剩下的伺服器要扛全部工作；負責建立安全連線的程序被壓垮，伺服器就停止處理請求。整體流量並沒有增加。微軟把起點連到一次網路設定變更，但還沒確認根本原因，承諾會發布事後報告。</li>
+    <li><strong>影響範圍：</strong>美國聯邦眾議院、澳洲與日本政府機關、印度航空公司客服都受影響；OpenAI 等 AI 服務業者也表示，連接微軟服務的功能出現問題（中央社）。</li>
+    <li><strong>持續時間：</strong>從事件開立到個人服務全面恢復，大約 22 小時；企業服務恢復得更晚。</li>
+    <li><strong>不是第一次：</strong>中央社整理，這是微軟 365 今年第 2 次中斷；上個月 Azure 雲端平台也曾故障。</li>
+  </ul>
+</section>
+
+<section id="views">
+  <h2><span class="lab view">觀點</span>各方怎麼解讀</h2>
+  <div class="tbl"><table>
+    <tr><th>誰</th><th>怎麼解讀</th><th>依據</th></tr>
+    <tr><td>微軟</td><td>不是網路攻擊，是伺服器連鎖失效；會延長監控並發布事後報告。</td><td>微軟服務狀態公告，經 SecurityWeek、中央社報導</td></tr>
+    <tr><td>澳洲內政暨網安部長柏克</td><td>轉述微軟看法，認為不是攻擊，情況可能類似 2024 年 CrowdStrike 更新出錯造成的全球當機。</td><td>中央社</td></tr>
+    <tr><td>墨爾本大學學者 Murray、Cullen</td><td>雲端讓很多組織依賴少數供應商；政府應要求像銀行一樣的韌性標準，企業要有「沒有信箱和 Teams 時怎麼運作」的備案。但自建系統更貴，對多數組織來說雲端通常更便宜也更安全。</td><td>澳洲 ABC</td></tr>
+    <tr><td>英國下議院科技委員會主席 Onwurah</td><td>凸顯英國數位基礎設施缺乏韌性，過度依賴帶來安全、經濟與公共服務風險。</td><td>The Register</td></tr>
+    <tr><td>Nextcloud 共同創辦人、Civo 執行長</td><td>任何供應商都會出錯，真正的問題是關鍵基礎設施集中在少數公司，形成「一倒全倒」。</td><td>The Register</td></tr>
+  </table></div>
+</section>
+
+<section id="stances">
+  <h2><span class="lab stance">立場</span>各方站在哪裡</h2>
+  <ul>
+    <li><strong>微軟：</strong>強調已找到方向、非惡意事件，正在完整復原。</li>
+    <li><strong>學者：</strong>不主張完全放棄大型雲端，但主張要有備援和監管。</li>
+    <li><strong>部分歐洲政府：</strong>據 ABC 報導，德國、奧地利正在重新評估對美國科技公司的依賴；法國今年 4 月宣布政府作業系統要從微軟轉向 Linux。</li>
+  </ul>
+</section>
+
+<section id="interests">
+  <h2><span class="lab interest">利益</span>背後的動機</h2>
+  <p>The Register 分析，這次事件可能讓企業在和微軟續約時談得比較尷尬。另外要注意，The Register 引述的 Nextcloud 與 Civo，本身就是提供替代方案的業者。</p>
+  <p>對政府來說，墨爾本大學學者 Murray 指出，改用自建或在地系統需要大筆投資，維護也有自己的風險和成本，韌性和成本之間要取捨。</p>
+  <p class="note">※ 利益分析引用自公開報導與專家說法，不代表當事人承認。</p>
+</section>
+
+<section id="unknown">
+  <h2>還不知道的事</h2>
+  <ul>
+    <li>真正的根本原因、那次設定變更為什麼沒被事先擋下，要等微軟的事後報告。</li>
+    <li>台灣有多少機關和企業受影響，目前沒有官方統計。</li>
+    <li>企業客戶能不能依服務合約獲得補償，目前沒有看到相關報導。</li>
+  </ul>
+  <div class="box"><strong>這跟你有什麼關係</strong><br>如果你的公司或學校用 Outlook、Teams，這種當機期間的信通常是延遲，不是消失：微軟會持續處理當機時積壓的郵件，所以恢復後記得再檢查一次收件匣和寄件備份。真正要緊的事（報價、交件、請假）別只靠一封信，改用電話或另一個管道確認對方收到。重要檔案在自己電腦也留一份，並記下公司 IT 或服務狀態頁的位置，出事時才知道去哪裡看最新消息。小公司則可以先想好：如果信箱停一天，客人要從哪裡找到你。</div>
+</section>
+
+<section id="sources">
+  <h2>資料來源</h2>
+  <ol class="src">
+    <li><a href="https://www.cna.com.tw/news/ait/202611130190.aspx">中央社：微軟365服務全球當機　亞太企業及政府機關受影響</a>（通訊社）</li>
+    <li><a href="https://www.cna.com.tw/news/aopl/202611140119.aspx">中央社：微軟：消費產品服務全面恢復</a>（通訊社，引述路透、彭博）</li>
+    <li><a href="https://www.cna.com.tw/news/ait/202611130089.aspx">中央社：微軟365全球大當機波及日本政府</a>（通訊社）</li>
+    <li><a href="https://www.securityweek.com/microsoft-365-outage-disrupts-outlook-exchange-online-and-teams/">SecurityWeek：Microsoft 365 Outage Disrupts Outlook, Exchange Online and Teams</a>（資安媒體，引述微軟公告）</li>
+    <li><a href="https://theregister.com/saas/2026/11/13/microsoft-outage-gives-customers-a-crash-course-in-dependence-on-redmond/5309805">The Register：Microsoft outage gives customers a crash course in dependence on Redmond</a>（科技媒體）</li>
+    <li><a href="https://abc.net.au/news/2026-11-14/microsoft-outage-and-cloud-providers-tech-risk-in-australia/107383316">ABC News（澳洲）：Microsoft outage shows Australia must develop digital resilience</a>（公共媒體／學者說法）</li>
+  </ol>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <p>本文整理自公開資料，只呈現各方說法，不加入個人評價，僅供參考，不構成任何投資建議。發現錯誤歡迎告訴我，確認後會更正並註明。</p>
+  <p><a href="../weekly.html#tech">← 看其他科技週報</a>　<a href="../method.html">我怎麼拆解資訊 →</a></p>
+</div></footer>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="../assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="../index.html">今天的課表</a></li><li><a href="../news.html">新聞</a></li><li><a href="../weekly.html">專欄</a></li><li><a href="../mind.html">身心</a></li><li><a href="../fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="../travel.html">出遊情報</a></li><li><a href="../trip.html">幫我排行程</a></li><li><a href="../calc.html">理財小工具</a></li><li><a href="../app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="../about.html">關於小曹</a></li><li><a href="../method.html">我怎麼拆解資訊</a></li><li><a href="../method.html#sources">來源原則</a></li><li><a href="../about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>
