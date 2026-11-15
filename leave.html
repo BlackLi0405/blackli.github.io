@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>休假中心｜BlackLi Board</title>
+<meta name="description" content="上班族的休假中心：連假倒數、2027 放假行事曆、特休計算機、請假扣薪試算。分清楚哪些是法律規定、哪些要看公司。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.7;font-size:16px;}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px}
+header.hero{padding:52px 0 30px;border-bottom:1px solid var(--line)}
+.brand{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
+.brand a{color:inherit;text-decoration:none}
+h1{font-size:clamp(34px,8vw,50px);font-weight:900;line-height:1.2;margin:16px 0 10px}
+.lede{color:var(--ink2)}
+nav.toc{position:sticky;top:0;z-index:5;background:var(--glass);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:12px;padding-bottom:12px}
+nav.toc a{flex:none;color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;border:1px solid var(--line);border-radius:99px;padding:6px 14px}
+nav.toc a b{color:var(--gold);margin-right:6px}
+section.tool{padding:44px 0 36px;border-bottom:1px solid var(--line)}
+.tag{display:inline-block;background:var(--gold);color:var(--bg);font-weight:700;font-size:14px;border-radius:99px;padding:3px 14px}
+h2{font-size:clamp(24px,6vw,32px);font-weight:900;line-height:1.3;margin:12px 0 6px}
+.desc{color:var(--mute);font-size:15px;margin-bottom:20px}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;color:var(--mute)}
+.inp{min-width:0;display:flex;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0 12px;transition:border-color .15s}
+.inp:focus-within{border-color:var(--gold)}
+.inp input,.inp select{flex:1;min-width:0;width:100%;background:transparent;border:0;color:var(--ink);font:inherit;font-size:17px;font-weight:700;padding:11px 0;outline:none;font-variant-numeric:tabular-nums}
+.inp select{cursor:pointer}
+.inp select option{background:var(--panel);color:var(--ink)}
+.inp .u{color:var(--mute);font-size:14px;margin-left:8px;white-space:nowrap}
+.check{display:flex;flex-direction:row!important;align-items:center;gap:10px;font-size:15px;color:var(--ink2);cursor:pointer;padding:6px 0}
+.check input{width:18px;height:18px;accent-color:var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 18px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px 15px;min-width:0}
+.stat.hero{grid-column:1/-1;background:var(--panel2)}
+.stat .l{color:var(--mute);font-size:13px}
+.stat .v{font-size:24px;font-weight:900;line-height:1.3;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.stat.hero .v{font-size:clamp(30px,8vw,40px)}
+.up{color:var(--up)}.down{color:var(--down)}
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 12px 8px;margin-bottom:12px;position:relative}
+.chart .ttl{font-size:14px;font-weight:700;margin:0 4px 6px}
+.legend{display:flex;gap:16px;font-size:13px;color:var(--mute);margin:0 4px 6px;flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px}
+.legend i.dash{background:repeating-linear-gradient(90deg,var(--s-principal) 0 4px,transparent 4px 7px)!important}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.tip{position:absolute;pointer-events:none;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.5;white-space:nowrap;opacity:0;transition:opacity .1s;z-index:3;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.tip b{display:block;color:var(--ink);margin-bottom:2px}
+.tip .row{display:flex;align-items:center;gap:6px;color:var(--ink2)}
+.tip .row i{width:10px;height:3px;border-radius:2px;display:inline-block}
+details{margin-top:6px}
+summary{cursor:pointer;color:var(--mute);font-size:14px;padding:6px 0}
+table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-size:14px}
+td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+th{color:var(--mute);font-weight:500;font-size:13px}
+td:first-child,th:first-child{text-align:left}
+.note{font-size:13px;color:var(--mute);margin-top:10px}
+.box{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:14px 16px;margin:16px 0 0;font-size:15px;color:var(--ink2)}
+.box strong{color:var(--gold)}
+.swap{grid-column:1/-1;justify-self:center;background:var(--panel);border:1px solid var(--line);color:var(--gold);border-radius:99px;padding:6px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.swap:hover{border-color:var(--gold)}
+.fx-out{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.fx-out .l{color:var(--mute);font-size:13px}
+.fx-out .v{font-size:clamp(28px,8vw,38px);font-weight:900;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.3}
+.fx-out .r{color:var(--mute);font-size:13px;margin-top:4px}
+.rates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.rates .inp input{font-size:15px;padding:8px 0}
+.rates .inp .u{min-width:42px;margin:0 8px 0 0;color:var(--ink);font-weight:700}
+footer{padding:40px 0 70px;font-size:14px;color:var(--mute)}
+footer h4{color:var(--ink);font-size:16px;margin-bottom:10px}
+.top{display:inline-block;margin-top:20px;color:var(--gold);text-decoration:none}
+@media (max-width:420px){.stat .v{font-size:21px}}
+.bd{display:inline-block;font-size:12px;font-weight:700;border-radius:99px;padding:1px 9px;margin-right:6px;vertical-align:2px;white-space:nowrap}
+.bd.sure{background:var(--fact);color:var(--bg)}
+.bd.news{background:var(--view);color:var(--bg)}
+.bd.co{background:var(--stance);color:var(--bg)}
+.legendb{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;color:var(--mute);margin-top:14px}
+.cd{background:var(--panel2);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
+.cd .l{color:var(--mute);font-size:14px}
+.cd .n{font-size:clamp(44px,13vw,64px);font-weight:900;line-height:1.1;color:var(--gold);font-variant-numeric:tabular-nums}
+.cd .n small{font-size:20px;color:var(--ink);margin-left:6px}
+.cd .h{font-size:18px;font-weight:700;margin-top:4px}
+.hl{list-style:none;margin:0 0 6px}
+.hl li{display:flex;gap:12px;align-items:baseline;padding:10px 2px;border-bottom:1px solid var(--line);min-width:0}
+.hl li.past{opacity:.45}
+.hl li.next{background:var(--panel);border-radius:10px;padding-left:10px}
+.hl .dt{flex:none;width:118px;font-weight:700;font-variant-numeric:tabular-nums;font-size:15px}
+.hl .nm{flex:1;min-width:0}
+.hl .dy{flex:none;color:var(--gold);font-weight:700;font-size:14px}
+.hl .nm small{display:block;color:var(--mute);font-size:12px}
+.btn2{display:inline-block;background:var(--gold);color:var(--bg);border:0;border-radius:99px;padding:9px 18px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:12px}
+.why{list-style:none;margin:6px 0 0}
+.why li{padding:8px 0;border-bottom:1px dashed var(--line);font-size:15px;color:var(--ink2)}
+.cmp{font-size:14px}
+.cmp td,.cmp th{text-align:left;vertical-align:top}
+@media (max-width:420px){.hl .dt{width:96px;font-size:14px}}
+</style>
+
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BlackLi">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="site.css">
+<script src="assets/site.js" defer></script>
+<!-- SITE-HEAD:END -->
+</head>
+<body>
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="mind.html">身心</a><a href="fun.html">輕鬆</a><a href="tools.html" aria-current="page">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今天的課表</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・深度拆解</small></a><a href="mind.html">身心<small>保健室</small></a><a href="fun.html">輕鬆<small>下課十分鐘</small></a><a href="tools.html" aria-current="page">工具<small>出遊情報・理財小工具</small></a><a href="about.html">關於<small>導師室</small></a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+
+<header class="hero"><div class="wrap">
+  <div class="brand"><a href="./">BlackLi Board</a> · 上班族小工具</div>
+  <h1>休假中心</h1>
+  <p class="lede">下一個連假還有幾天？今年有幾天特休？請一天假會扣多少？輸入數字馬上算，也告訴你每個答案是「法律規定」還是「要看公司」。</p>
+  <div class="legendb"><span><span class="bd sure">確定</span>法律或官方公告</span><span><span class="bd news">報導</span>媒體報導，尚未讀到官方原文</span><span><span class="bd co">看公司</span>依勞動契約或公司規定</span></div>
+</div></header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#cal"><b>01</b>連假行事曆</a>
+  <a href="#annual"><b>02</b>特休計算機</a>
+  <a href="#leave"><b>03</b>請假扣薪試算</a>
+</div></nav>
+
+<main class="wrap">
+
+<!-- 01 行事曆 -->
+<section class="tool" id="cal">
+  <span class="tag">工具 01</span>
+  <h2>連假倒數與行事曆</h2>
+  <p class="desc">2027 年放假一覽，依人事行政總處公布的政府行政機關辦公日曆表。</p>
+
+  <div class="cd">
+    <div class="l">距離下一個假期</div>
+    <div class="n" id="cd-n">–<small>天</small></div>
+    <div class="h" id="cd-h"></div>
+  </div>
+
+  <ul class="hl" id="hl"></ul>
+  <button class="btn2" type="button" id="ics">📅 加進我的行事曆</button>
+  <p class="note">下載 .ics 檔，用手機或電腦開啟，就能把這些假期加進 Google 日曆、iPhone 行事曆或 Outlook。</p>
+
+  <div class="box"><strong>上班族一定要知道：</strong>上面是「公務員」的行事曆，一般勞工不一定照著放。
+    <table class="cmp">
+      <tr><th></th><th>公務員</th><th>一般勞工</th></tr>
+      <tr><td>依據</td><td>人事行政總處辦公日曆表</td><td>勞基法、《紀念日及節日實施條例》</td></tr>
+      <tr><td>國定假日</td><td>照日曆放</td><td><span class="bd sure">確定</span>要放；勞資雙方同意可調到別天</td></tr>
+      <tr><td>補假、補班</td><td>2027 年沒有補班日</td><td><span class="bd co">看公司</span>補假日（例如 2/9、2/10）不一定放</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 02 特休 -->
+<section class="tool" id="annual">
+  <span class="tag">工具 02</span>
+  <h2>特休計算機</h2>
+  <p class="desc">輸入到職日，算出你現在有幾天特休、下次什麼時候增加。<span class="bd sure">確定</span>依勞基法第 38 條。</p>
+  <div class="form">
+    <div class="field"><label for="a-start">到職日</label><div class="inp"><input id="a-start" type="date" value="2023-03-01"></div></div>
+    <div class="field"><label for="a-now">計算日</label><div class="inp"><input id="a-now" type="date"></div></div>
+  </div>
+  <div class="stats">
+    <div class="stat hero"><div class="l">這個年度你有</div><div class="v" id="a-days">–</div></div>
+    <div class="stat"><div class="l">目前年資</div><div class="v" id="a-ten">–</div></div>
+    <div class="stat"><div class="l">下次增加</div><div class="v" id="a-next" style="font-size:18px">–</div></div>
+  </div>
+  <details><summary>特休天數怎麼算？</summary>
+    <table><tr><th>年資</th><th>特休天數</th></tr>
+      <tr><td>滿 6 個月～未滿 1 年</td><td>3 天</td></tr><tr><td>滿 1 年～未滿 2 年</td><td>7 天</td></tr>
+      <tr><td>滿 2 年～未滿 3 年</td><td>10 天</td></tr><tr><td>滿 3 年～未滿 5 年</td><td>每年 14 天</td></tr>
+      <tr><td>滿 5 年～未滿 10 年</td><td>每年 15 天</td></tr><tr><td>滿 10 年起</td><td>每年加 1 天，最多 30 天</td></tr></table>
+  </details>
+  <ul class="why">
+    <li><span class="bd sure">確定</span>特休沒休完，年度結束或離職時，雇主要把沒休的天數折算成工資發給你；勞資雙方同意的話，可以延到下一個年度再休。</li>
+    <li><span class="bd co">看公司</span>這裡用「週年制」（從到職日起算）。如果公司用「曆年制」（每年 1/1 起算），天數會按比例換算，請以公司公告為準。</li>
+  </ul>
+</section>
+
+<!-- 03 請假 -->
+<section class="tool" id="leave">
+  <span class="tag">工具 03</span>
+  <h2>請假扣薪試算</h2>
+  <p class="desc">請假前先算一下：薪水會少多少？全勤獎金會不會被扣？</p>
+  <div class="form">
+    <div class="field"><label for="l-pay">月薪（不含全勤獎金）</label><div class="inp"><input id="l-pay" type="number" inputmode="numeric" min="0" step="1000" value="36000"><span class="u">元</span></div></div>
+    <div class="field"><label for="l-bonus">全勤獎金（沒有就填 0）</label><div class="inp"><input id="l-bonus" type="number" inputmode="numeric" min="0" step="500" value="2000"><span class="u">元</span></div></div>
+    <div class="field"><label for="l-type">假別</label><div class="inp"><select id="l-type">
+      <option value="personal">事假</option><option value="family">家庭照顧假</option><option value="sick" selected>普通病假（未住院）</option>
+      <option value="period">生理假</option><option value="annual">特休</option><option value="marriage">婚假</option><option value="funeral">喪假</option><option value="paternity">陪產檢及陪產假</option>
+    </select></div></div>
+    <div class="field"><label for="l-days">天數</label><div class="inp"><input id="l-days" type="number" inputmode="decimal" min="0" max="30" step="0.5" value="1"><span class="u">天</span></div></div>
+  </div>
+  <div class="stats">
+    <div class="stat hero"><div class="l">這次請假，薪水大約少</div><div class="v" id="l-total">–</div></div>
+    <div class="stat"><div class="l">薪資</div><div class="v" id="l-wage">–</div></div>
+    <div class="stat"><div class="l">全勤獎金</div><div class="v" id="l-bon">–</div></div>
+  </div>
+  <ul class="why" id="l-why"></ul>
+  <p class="note">日薪以「月薪 ÷ 30」計算。實際扣法可能依公司規定略有不同。</p>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <h4>這頁的資料</h4>
+  <p>規定更新日期：2026.11.15。依據：勞動基準法、勞工請假規則、性別平等工作法、《紀念日及節日實施條例》（2025 年 5 月三讀）、人事行政總處 116 年辦公日曆表（2026 年 5 月公布）。2026 年病假新制（全年 10 天內不得不利處分、全勤獎金按比例扣）目前依多家媒體報導整理，正式條文請以勞動部公告為準。</p>
+  <h4 style="margin-top:18px">免責聲明</h4>
+  <p>本頁為一般說明與試算，僅供參考，不構成法律意見。個別情況請洽勞動部（1955 專線）或當地勞工局。</p>
+  <a class="top" href="#">回到頂端 ↑</a>
+</div></footer>
+
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(n).toLocaleString('zh-TW');
+const pad=n=>String(n).padStart(2,'0');
+const ymd=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const D=s=>new Date(s+'T00:00:00');
+const WK='日一二三四五六';
+const md=d=>`${d.getMonth()+1}/${d.getDate()}（${WK[d.getDay()]}）`;
+
+/* ---------- 01 行事曆 ---------- */
+const H=[
+ ['2026-12-25','2026-12-27','行憲紀念日','2026 年最後一個連假'],
+ ['2027-01-01','2027-01-03','元旦',''],
+ ['2027-02-04','2027-02-10','春節','小年夜 2/4、除夕 2/5；2/9、2/10 為補假'],
+ ['2027-02-27','2027-03-01','和平紀念日','3/1 補假'],
+ ['2027-04-03','2027-04-06','兒童節＋清明節','4/6 補假'],
+ ['2027-04-30','2027-05-02','勞動節','4/30 補假'],
+ ['2027-06-09','2027-06-09','端午節','週三，單日'],
+ ['2027-09-15','2027-09-15','中秋節','週三，單日'],
+ ['2027-09-28','2027-09-28','教師節','週二，單日'],
+ ['2027-10-09','2027-10-11','國慶日','10/11 補假'],
+ ['2027-10-23','2027-10-25','臺灣光復暨金門古寧頭大捷紀念日','10/25 補假'],
+ ['2027-12-24','2027-12-26','行憲紀念日','12/24 補假'],
+ ['2027-12-31','2028-01-02','2028 元旦','12/31 補假'],
+];
+const today=D(ymd(new Date()));
+let nextFound=false;
+$('hl').innerHTML=H.map(([s,e,n,note])=>{
+  const a=D(s),b=D(e),days=Math.round((b-a)/864e5)+1;
+  let cls='';
+  if(b<today)cls='past';else if(!nextFound){cls='next';nextFound=true;
+    const left=Math.round((a-today)/864e5);
+    $('cd-n').innerHTML=(left<=0?'0':left)+'<small>天</small>';
+    $('cd-h').textContent=left<=0?`現在就在放假：${n} 🎉`:`${n}・${md(a)} 起連休 ${days} 天`;}
+  return `<li class="${cls}"><span class="dt">${days>1?`${a.getMonth()+1}/${a.getDate()}～${b.getMonth()+1}/${b.getDate()}`:md(a)}</span><span class="nm">${n}${note?`<small>${note}</small>`:''}</span><span class="dy">${days} 天</span></li>`;
+}).join('');
+$('ics').addEventListener('click',()=>{
+  const ds=s=>s.replace(/-/g,'');
+  const plus=s=>{const d=D(s);d.setDate(d.getDate()+1);return ymd(d).replace(/-/g,'');};
+  const ev=H.map(([s,e,n],i)=>['BEGIN:VEVENT',`UID:bb-holiday-${s}-${i}@blackli0405.github.io`,`DTSTAMP:20261115T000000Z`,`DTSTART;VALUE=DATE:${ds(s)}`,`DTEND;VALUE=DATE:${plus(e)}`,`SUMMARY:${n}（放假）`,'TRANSP:TRANSPARENT','END:VEVENT'].join('\r\n'));
+  const txt=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//BlackLi Board//休假中心//ZH','CALSCALE:GREGORIAN','X-WR-CALNAME:台灣放假日（BlackLi Board）',...ev,'END:VCALENDAR'].join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/calendar'}));a.download='blackli-holidays-2027.ics';a.click();
+});
+
+/* ---------- 02 特休 ---------- */
+$('a-now').value=ymd(new Date());
+const addM=(d,m)=>{const x=new Date(d);x.setMonth(x.getMonth()+m);return x;};
+const daysFor=y=>y<0.5?0:y<1?3:y<2?7:y<3?10:y<5?14:y<10?15:Math.min(30,15+Math.floor(y)-9);
+function annual(){
+  const s=D($('a-start').value),n=D($('a-now').value);
+  if(isNaN(s)||isNaN(n)||n<s){$('a-days').textContent='–';$('a-ten').textContent='–';$('a-next').textContent='請確認日期';return;}
+  let months=(n.getFullYear()-s.getFullYear())*12+(n.getMonth()-s.getMonth());
+  if(addM(s,months)>n)months--;
+  const y=months/12, cur=daysFor(y);
+  $('a-ten').textContent=months<12?`${months} 個月`:`${Math.floor(months/12)} 年 ${months%12} 個月`;
+  $('a-days').innerHTML=cur?`<span style="color:var(--gold)">${cur}</span> 天特休`:'還沒有特休';
+  const steps=[6,12,24,36,60];for(let k=10;k<=24;k++)steps.push(k*12);
+  const nx=steps.find(m=>m>months);
+  if(nx===undefined){$('a-next').textContent='已達上限 30 天';return;}
+  const nd=addM(s,nx);
+  $('a-next').textContent=`${nd.getFullYear()}/${nd.getMonth()+1}/${nd.getDate()} 起 ${daysFor(nx/12)} 天`;
+}
+['a-start','a-now'].forEach(id=>$(id).addEventListener('input',annual));annual();
+
+/* ---------- 03 請假 ---------- */
+const L={
+ personal:{pay:1,bonus:'co',why:['<span class="bd sure">確定</span>事假一年最多 14 天，雇主可以不給薪。','<span class="bd co">看公司</span>事假會不會扣全勤獎金、怎麼扣，依公司規定。這裡先以「按天數比例」估算。']},
+ family:{pay:1,bonus:0,why:['<span class="bd sure">確定</span>家庭照顧假一年 7 天，算在事假 14 天裡，可以不給薪。','<span class="bd sure">確定</span>依性別平等工作法，雇主不能因此扣全勤獎金。']},
+ sick:{pay:.5,bonus:'prop',why:['<span class="bd sure">確定</span>普通病假（未住院）一年 30 天內，工資折半發給，所以每天扣一半。','<span class="bd news">報導</span>2026 年起，一年病假 10 天以內，雇主不能因此給你不利的對待；全勤獎金只能按請假天數比例扣，不能整筆扣光。']},
+ period:{pay:.5,bonus:0,why:['<span class="bd sure">確定</span>生理假每月 1 天，工資折半發給。一年前 3 天不算在病假裡，超過的併入病假計算。','<span class="bd sure">確定</span>依性別平等工作法，雇主不能因此扣全勤獎金。']},
+ annual:{pay:0,bonus:0,why:['<span class="bd sure">確定</span>特休是有薪假，薪水照領，也不能扣全勤獎金。']},
+ marriage:{pay:0,bonus:0,why:['<span class="bd sure">確定</span>婚假 8 天，工資照給，不能扣全勤獎金。']},
+ funeral:{pay:0,bonus:0,why:['<span class="bd sure">確定</span>喪假依親屬關係 3～8 天（父母、配偶 8 天），工資照給，不能扣全勤獎金。']},
+ paternity:{pay:0,bonus:0,why:['<span class="bd sure">確定</span>陪產檢及陪產假共 7 天，工資照給，不能扣全勤獎金。']},
+};
+function leave(){
+  const pay=+$('l-pay').value||0,bonus=+$('l-bonus').value||0,days=Math.max(0,+$('l-days').value||0),r=L[$('l-type').value];
+  const w=pay/30*days*r.pay;
+  const b=r.bonus===0?0:Math.min(bonus,bonus*days/30);
+  $('l-wage').textContent=w?`-${fmt(w)} 元`:'不扣';
+  $('l-bon').textContent=r.bonus===0?'不能扣':b?`-${fmt(b)} 元`:'不扣';
+  $('l-total').innerHTML=(w+b)?`<span class="down">${fmt(w+b)}</span> 元`:'<span style="color:var(--gold)">0 元</span>，照領';
+  $('l-why').innerHTML=r.why.map(x=>`<li>${x}</li>`).join('');
+}
+['l-pay','l-bonus','l-type','l-days'].forEach(id=>$(id).addEventListener('input',leave));leave();
+})();
+</script>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天的課表</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">身心</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>
