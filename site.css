@@ -136,3 +136,15 @@ body.bb-big main p,body.bb-big main li{font-size:19px}
 .hub .card li span{color:var(--mute);font-weight:600;font-size:12px;min-width:3.2em;padding-top:4px;flex:none}
 .hub .card .more{color:var(--accent);font-size:14px;font-weight:700;margin-top:6px}
 [hidden]{display:none!important}
+
+/* 文字型表格（各方觀點、說法）在手機改成一張張卡片；數字表格（有 th.r）維持表格 */
+@media (max-width:560px){
+  .tbl:not(:has(th.r)){overflow:visible}
+  .tbl:not(:has(th.r)) table,.tbl:not(:has(th.r)) tbody,.tbl:not(:has(th.r)) tr,.tbl:not(:has(th.r)) td{display:block;width:100%}
+  .tbl:not(:has(th.r)) tr:has(th){display:none}
+  .tbl:not(:has(th.r)) tr{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--view);border-radius:12px;padding:12px 14px;margin:0 0 10px}
+  .tbl:not(:has(th.r)) td{border:0;padding:2px 0;white-space:normal;min-width:0;font-size:15px;line-height:1.7}
+  .tbl:not(:has(th.r)) td:first-child{font-size:16px;margin-bottom:4px}
+  .tbl:not(:has(th.r)) td:nth-child(3){color:var(--mute);font-size:13px;margin-top:6px}
+  .tbl:not(:has(th.r)) td:nth-child(3)::before{content:"依據：";font-weight:700}
+}
