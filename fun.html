@@ -39,6 +39,15 @@
 .empty{background:var(--paper);border:1.5px dashed var(--line);border-radius:14px;padding:18px 20px;color:var(--mute);font-size:15px}
 .empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:2px}
 .feed:has(a.card) .empty{display:none}
+.dk{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.dk .nw{background:var(--paper);border:1.5px solid var(--line);border-left:6px solid var(--hl);border-radius:14px;padding:14px 16px;min-width:0}
+.dk .b{font-size:13px;font-weight:700;color:var(--accent)}
+.dk .d{float:right;font-size:12px;color:var(--mute)}
+.dk h3{font-size:17px;line-height:1.45;margin:4px 0 6px}
+.dk p{font-size:14px;color:var(--ink2);margin:0 0 6px}
+.dk a{font-size:12px;color:var(--mute)}
+.fd{display:block;margin-top:14px;background:var(--paper);border:1.5px dashed var(--line);border-radius:14px;padding:14px 18px;color:var(--ink);text-decoration:none;font-size:15px}
+.fd b{color:var(--accent)}
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
@@ -61,8 +70,8 @@
 <section class="chalkboard"><div class="w ph">
   <div class="kick">輕鬆・下課十分鐘</div>
   <h1>下課<em>十分鐘</em></h1>
-  <p>每天 3 題小考，看看你看懂今天的新聞了沒；每週還有冷知識和一張圖看懂，輕鬆讀、順便記起來。</p>
-  <nav class="pills" aria-label="輕鬆"><a href="#quiz">📝 今日小考</a><a href="#more">🍬 冷知識・一張圖</a><a href="drinks.html">🧋 飲料黑板</a></nav>
+  <p>每天 3 題小考，看看你看懂今天的新聞了沒；每週還有冷知識、一張圖看懂和飲料新品，輕鬆讀、順便記起來。</p>
+  <nav class="pills" aria-label="輕鬆"><a href="#quiz">📝 今日小考</a><a href="#more">🍬 冷知識・一張圖</a><a href="#drinks">🧋 飲料新品</a></nav>
 </div></section>
 <main><div class="w">
 <section class="sec side">
@@ -73,14 +82,6 @@
     <div class="n" id="s-q">0</div><p>做過的小考</p>
     <div class="n" id="s-rate">—</div><p>答對率</p>
   </aside>
-</section>
-<section class="sec" id="drinks" style="padding-top:0">
-  <div class="k">飲料黑板・每週更新新品</div>
-  <a class="nb" href="drinks.html" style="--c:var(--stance)">
-    <span class="tag">🧋 飲料黑板</span>
-    <h3>連鎖手搖飲菜單、分區價格、本週新品一次看</h3>
-    <p>搜尋品項或品牌，切換北部／中南部／百貨價格；也教你看懂店裡的糖量、咖啡因標示。只整理資訊，不幫你決定喝什麼。</p>
-  </a>
 </section>
 <section class="sec" id="more" style="padding-top:0">
   <div class="k">冷知識・一張圖看懂・每週更新</div>
@@ -95,7 +96,27 @@
     <div class="empty"><b>第一篇準備中</b>每週六更新：把這週的新聞變成冷知識和一張圖，輕鬆看。</div>
   </div>
 </section>
+<section class="sec" id="drinks" style="padding-top:0">
+  <div class="k">飲料新品・每週更新</div>
+  <div class="dk" id="dk"><p class="muted">載入中…</p></div>
+  <a class="fd" href="https://findrink.tw/" target="_blank" rel="noopener">想看各家完整菜單？<b>Findrink 找菜單 →</b><br><small style="color:var(--mute)">外部網站，菜單由對方整理；價格與優惠以品牌公告為準。</small></a>
+</section>
 </div></main>
+<script>
+(async()=>{const box=document.getElementById('dk');if(!box)return;
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const host=u=>{try{return new URL(u).hostname.replace(/^www\./,'')}catch(e){return ''}};
+function parseCSV(t){t=t.replace(/^\uFEFF/,'');const rows=[];let r=[],f='',q=false;
+  for(let i=0;i<t.length;i++){const c=t[i];
+    if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}else f+=c}
+    else if(c=='"')q=true;else if(c==','){r.push(f);f=''}else if(c=='\n'){r.push(f);rows.push(r);r=[];f=''}else if(c!='\r')f+=c}
+  if(f||r.length){r.push(f);rows.push(r)}
+  const h=rows.shift();return rows.filter(x=>x.some(v=>v.trim())).map(x=>Object.fromEntries(h.map((k,i)=>[k.trim(),(x[i]||'').trim()])));}
+try{const N=parseCSV(await (await fetch('data/drinks-new.csv',{cache:'no-store'})).text()).sort((a,b)=>b['日期'].localeCompare(a['日期']));
+box.innerHTML=N.length?N.map(n=>`<div class="nw"><span class="d">${esc(n['日期'].slice(5).replace('-','/'))}</span><div class="b">${esc(n['品牌'])}</div><h3>${esc(n['品名'])}</h3><p>${esc(n['說明'])}</p>${n['來源網址']?`<a href="${esc(n['來源網址'])}" target="_blank" rel="noopener">來源：${esc(host(n['來源網址']))}</a>`:''}</div>`).join(''):'<p class="muted">這週還沒有新品，下週見。</p>';}
+catch(e){box.innerHTML='<p class="muted">資料讀取失敗，請稍後重新整理。</p>';}
+})();
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const S = window.BB.store; const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
