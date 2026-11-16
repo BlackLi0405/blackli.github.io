@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
   stats();
   fetch('data/quiz.json', {cache: 'no-cache'}).then(r => r.json()).then(j => {
     const qs = (j.quizzes || []).filter(q => q.questions && q.questions.length);
-    if (!qs.length) { box.innerHTML = '<p class="muted">今天的小考還沒出好，早上 8 點半後再來看看。</p>'; return; }
+    if (!qs.length) { box.innerHTML = '<p class="muted">今天的小考還沒出好，早上 7 點後再來看看。</p>'; return; }
     let qi = 0;
     function start(k) {
       const qz = qs[k]; let i = 0; const marks = [];

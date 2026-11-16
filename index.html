@@ -252,10 +252,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const latest = k => cards.find(c => c.kind === k);
   const weekend = dow === 0 || dow === 6;
   const P = [
-    {k: 'brief', t: '07:45', lab: '第一堂・財經早報', main: true},
-    {k: 'world', t: '07:45', lab: '第二堂・國際早報'},
+    {k: 'brief', t: '07:00', lab: '第一堂・財經早報', main: true},
+    {k: 'world', t: '07:00', lab: '第二堂・國際早報'},
     {k: 'close', t: '16:30', lab: '第三堂・台股盤後', trade: true},
-    {k: 'pre', t: '21:00', lab: '第四堂・美股盤前', trade: true}
+    {k: 'pre', t: '20:00', lab: '第四堂・美股盤前', trade: true}
   ];
   const md = d => d ? `${+d.slice(5, 7)}/${+d.slice(8)}` : '';
   const seen = window.BB ? BB.store.get('seen', []) : [];
