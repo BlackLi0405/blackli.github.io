@@ -140,7 +140,7 @@ body.bb-big main p,body.bb-big main li{font-size:19px}
 /* 文字型表格（各方觀點、說法）在手機改成一張張卡片；數字表格（有 th.r）維持表格 */
 @media (max-width:560px){
   .tbl:not(:has(th.r)){overflow:visible}
-  .tbl:not(:has(th.r)) table,.tbl:not(:has(th.r)) tbody,.tbl:not(:has(th.r)) tr,.tbl:not(:has(th.r)) td{display:block;width:100%}
+  .tbl:not(:has(th.r)) table,.tbl:not(:has(th.r)) tbody,.tbl:not(:has(th.r)) tr,.tbl:not(:has(th.r)) td{display:block;width:100%;min-width:0}
   .tbl:not(:has(th.r)) tr:has(th){display:none}
   .tbl:not(:has(th.r)) tr{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--view);border-radius:12px;padding:12px 14px;margin:0 0 10px}
   .tbl:not(:has(th.r)) td{border:0;padding:2px 0;white-space:normal;min-width:0;font-size:15px;line-height:1.7}

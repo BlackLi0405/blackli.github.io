@@ -69,7 +69,7 @@ a.per:hover{border-color:var(--hl);background:rgba(242,239,230,.05)}
 <!-- SITE-NAV:START -->
 <div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html" aria-current="page">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="mind.html">身心</a><a href="fun.html">輕鬆</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html" aria-current="page">今天<small>今天的課表</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・深度拆解</small></a><a href="mind.html">身心<small>保健室</small></a><a href="fun.html">輕鬆<small>下課十分鐘</small></a><a href="tools.html">工具<small>出遊情報・理財小工具</small></a><a href="about.html">關於<small>導師室</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
-<div class="dateline"><div class="w"><span id="dl">今天的黑板</span><span>把複雜的事，拆成事實・觀點・立場・利益</span></div></div>
+<div class="dateline"><div class="w"><span id="dl">今天的黑板</span><span>把複雜的事寫在黑板上，分清楚事實・觀點・立場・利益</span></div></div>
 
 <section class="chalkboard"><div class="w hero">
   <div class="top">
@@ -249,13 +249,14 @@ document.addEventListener('DOMContentLoaded', () => {
     {k: 'pre', t: '21:00', lab: '第四堂・美股盤前', trade: true}
   ];
   const md = d => d ? `${+d.slice(5, 7)}/${+d.slice(8)}` : '';
+  const seen = window.BB ? BB.store.get('seen', []) : [];
   document.getElementById('periods').innerHTML = P.map(p => {
     const c = latest(p.k);
     const isToday = c && c.date === T;
     if (isToday || (p.main && c)) {
       const items = c.items.slice(1, p.main ? 3 : 1);
       return `<a class="per${p.main ? ' main' : ''}" href="${esc(c.href)}"><span class="t">${p.t}</span><span class="lab">${p.lab}</span>
-        <span class="st">${isToday ? '已上課' : md(c.date)}</span><b>${esc(c.items[0] ? c.items[0].t : '')}</b>
+        <span class="st">${!isToday ? md(c.date) : seen.includes(c.href) ? '上完了 ✓' : '已開課'}</span><b>${esc(c.items[0] ? c.items[0].t : '')}</b>
         ${items.length ? '<ul>' + items.map(i => `<li>${esc(i.t)}</li>`).join('') + '</ul>' : ''}</a>`;
     }
     const why = p.trade && weekend ? '週末休市，下週一見' : `今天 ${p.t} 更新`;
