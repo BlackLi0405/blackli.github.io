@@ -264,7 +264,7 @@ async function loadTourism() {
   return out;
 }
 async function loadAll() {
-  const key = 'events-' + todayStr();
+  const key = 'events-v2-' + todayStr();
   const cached = store.get('cache', null);
   if (cached && cached.key === key && cached.items && cached.items.length) return cached;
   const [c, t] = await Promise.allSettled([loadCulture(), loadTourism()]);
