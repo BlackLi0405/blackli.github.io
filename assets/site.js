@@ -58,6 +58,8 @@
   /* ---------- 文章閱讀工具 ---------- */
   const isArticle = /\/reports\/[^/]+\.html$/.test(location.pathname) && document.querySelector('main');
   if (isArticle) {
+    const seen = store.get('seen', []), me = location.pathname.split('/').slice(-2).join('/');
+    if (!seen.includes(me)) { seen.push(me); store.set('seen', seen.slice(-300)); }
     const anchor = document.querySelector('header .lede') || document.querySelector('header .tldr') || document.querySelector('header h1');
     const bar = document.createElement('div'); bar.className = 'bb-tools';
     bar.innerHTML = '<button type="button" data-t="short" aria-pressed="false">⏱️ 30 秒版</button>' +
