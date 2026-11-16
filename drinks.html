@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>飲料黑板｜BlackLi Board</title>
+<meta name="description" content="連鎖手搖飲菜單整理、分區價格、本週新品，以及糖量咖啡因標示怎麼看。只整理資訊，不幫你決定。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.7;font-size:16px;}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px}
+header.hero{padding:52px 0 30px;border-bottom:1px solid var(--line)}
+.brand{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
+.brand a{color:inherit;text-decoration:none}
+h1{font-size:clamp(34px,8vw,50px);font-weight:900;line-height:1.2;margin:16px 0 10px}
+.lede{color:var(--ink2)}
+nav.toc{position:sticky;top:0;z-index:5;background:var(--glass);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:12px;padding-bottom:12px}
+nav.toc a{flex:none;color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;border:1px solid var(--line);border-radius:99px;padding:6px 14px}
+nav.toc a b{color:var(--gold);margin-right:6px}
+section.tool{padding:44px 0 36px;border-bottom:1px solid var(--line)}
+.tag{display:inline-block;background:var(--gold);color:var(--bg);font-weight:700;font-size:14px;border-radius:99px;padding:3px 14px}
+h2{font-size:clamp(24px,6vw,32px);font-weight:900;line-height:1.3;margin:12px 0 6px}
+.desc{color:var(--mute);font-size:15px;margin-bottom:20px}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;color:var(--mute)}
+.inp{min-width:0;display:flex;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0 12px;transition:border-color .15s}
+.inp:focus-within{border-color:var(--gold)}
+.inp input,.inp select{flex:1;min-width:0;width:100%;background:transparent;border:0;color:var(--ink);font:inherit;font-size:17px;font-weight:700;padding:11px 0;outline:none;font-variant-numeric:tabular-nums}
+.inp select{cursor:pointer}
+.inp select option{background:var(--panel);color:var(--ink)}
+.inp .u{color:var(--mute);font-size:14px;margin-left:8px;white-space:nowrap}
+.check{display:flex;flex-direction:row!important;align-items:center;gap:10px;font-size:15px;color:var(--ink2);cursor:pointer;padding:6px 0}
+.check input{width:18px;height:18px;accent-color:var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 18px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px 15px;min-width:0}
+.stat.hero{grid-column:1/-1;background:var(--panel2)}
+.stat .l{color:var(--mute);font-size:13px}
+.stat .v{font-size:24px;font-weight:900;line-height:1.3;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.stat.hero .v{font-size:clamp(30px,8vw,40px)}
+.up{color:var(--up)}.down{color:var(--down)}
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 12px 8px;margin-bottom:12px;position:relative}
+.chart .ttl{font-size:14px;font-weight:700;margin:0 4px 6px}
+.legend{display:flex;gap:16px;font-size:13px;color:var(--mute);margin:0 4px 6px;flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px}
+.legend i.dash{background:repeating-linear-gradient(90deg,var(--s-principal) 0 4px,transparent 4px 7px)!important}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.tip{position:absolute;pointer-events:none;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.5;white-space:nowrap;opacity:0;transition:opacity .1s;z-index:3;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.tip b{display:block;color:var(--ink);margin-bottom:2px}
+.tip .row{display:flex;align-items:center;gap:6px;color:var(--ink2)}
+.tip .row i{width:10px;height:3px;border-radius:2px;display:inline-block}
+details{margin-top:6px}
+summary{cursor:pointer;color:var(--mute);font-size:14px;padding:6px 0}
+table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-size:14px}
+td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+th{color:var(--mute);font-weight:500;font-size:13px}
+td:first-child,th:first-child{text-align:left}
+.note{font-size:13px;color:var(--mute);margin-top:10px}
+.box{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:14px 16px;margin:16px 0 0;font-size:15px;color:var(--ink2)}
+.box strong{color:var(--gold)}
+.swap{grid-column:1/-1;justify-self:center;background:var(--panel);border:1px solid var(--line);color:var(--gold);border-radius:99px;padding:6px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.swap:hover{border-color:var(--gold)}
+.fx-out{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.fx-out .l{color:var(--mute);font-size:13px}
+.fx-out .v{font-size:clamp(28px,8vw,38px);font-weight:900;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.3}
+.fx-out .r{color:var(--mute);font-size:13px;margin-top:4px}
+.rates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.rates .inp input{font-size:15px;padding:8px 0}
+.rates .inp .u{min-width:42px;margin:0 8px 0 0;color:var(--ink);font-weight:700}
+footer{padding:40px 0 70px;font-size:14px;color:var(--mute)}
+footer h4{color:var(--ink);font-size:16px;margin-bottom:10px}
+.top{display:inline-block;margin-top:20px;color:var(--gold);text-decoration:none}
+@media (max-width:420px){.stat .v{font-size:21px}}
+.bd{display:inline-block;font-size:12px;font-weight:700;border-radius:99px;padding:1px 9px;vertical-align:2px;white-space:nowrap}
+.bd.off{background:var(--fact);color:var(--bg)}
+.bd.med{background:var(--view);color:var(--bg)}
+.bd.old{background:var(--stance);color:var(--bg)}
+.news{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.nw{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px;min-width:0}
+.nw .b{font-size:13px;color:var(--gold);font-weight:700}
+.nw .d{font-size:12px;color:var(--mute);float:right}
+.nw h3{font-size:17px;line-height:1.45;margin:4px 0 6px}
+.nw p{font-size:14px;color:var(--ink2);margin:0}
+.nw a{font-size:12px;color:var(--mute)}
+.search{position:sticky;top:0;z-index:4;background:var(--glass);backdrop-filter:blur(8px);padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand-c{border:1px solid var(--line);border-radius:16px;margin-bottom:10px;background:var(--panel);overflow:hidden}
+.brand-c summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;color:var(--ink)}
+.brand-c summary::-webkit-details-marker{display:none}
+.brand-c summary b{font-size:18px}
+.brand-c summary .m{font-size:12px;color:var(--mute);margin-left:auto}
+.brand-c .in{padding:0 16px 14px}
+.brand-c table{font-size:14px}
+.brand-c td.n small{display:block;color:var(--mute);font-size:12px;font-weight:400}
+.brand-c td:first-child{white-space:normal;font-weight:500}
+.cat td{background:var(--panel2);font-size:12px!important;color:var(--mute);font-weight:700!important;padding:4px 8px}
+.src{font-size:12px;color:var(--mute);margin-top:8px;overflow-wrap:anywhere}
+.src a{color:var(--mute)}
+.regs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.regs button{font:inherit;font-size:14px;font-weight:700;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:99px;padding:5px 14px;cursor:pointer}
+.regs button[aria-pressed=true]{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.warn{color:var(--stance);font-size:12px;display:block}
+.rg{font-size:12px;color:var(--mute)}
+.empty{color:var(--mute);font-size:14px;padding:12px 0}
+</style>
+
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BlackLi">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="site.css">
+<script src="assets/site.js" defer></script>
+<!-- SITE-HEAD:END -->
+</head>
+<body>
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="mind.html">身心</a><a href="fun.html" aria-current="page">輕鬆</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今天的課表</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・深度拆解</small></a><a href="mind.html">身心<small>保健室</small></a><a href="fun.html" aria-current="page">輕鬆<small>下課十分鐘</small></a><a href="tools.html">工具<small>出遊情報・理財小工具</small></a><a href="about.html">關於<small>導師室</small></a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+
+<header class="hero"><div class="wrap">
+  <div class="brand"><a href="./">BlackLi Board</a> · 輕鬆・下課十分鐘</div>
+  <h1>飲料黑板</h1>
+  <p class="lede">連鎖手搖飲的菜單整理在一起，加上本週新品。只整理資訊，不幫你決定喝什麼。</p>
+  <div class="legendb" style="display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;color:var(--mute);margin-top:14px">
+    <span><span class="bd off">官方</span> 品牌官網或官方帳號</span><span><span class="bd med">報導</span> 媒體報導整理</span><span><span class="bd old">較舊</span> 資料超過半年</span>
+  </div>
+</div></header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#new"><b>01</b>本週新品</a>
+  <a href="#menu"><b>02</b>菜單一覽</a>
+  <a href="#label"><b>03</b>看懂標示</a>
+</div></nav>
+
+<main class="wrap">
+
+<section class="tool" id="new">
+  <span class="tag">本週新品</span>
+  <h2>11 月新品與季節限定</h2>
+  <p class="desc">2026 年 11 月公布或上市的新飲品，依日期排列。價格與優惠以品牌公告為準。</p>
+  <div class="news" id="news"></div>
+</section>
+
+<section class="tool" id="menu">
+  <span class="tag">菜單一覽</span>
+  <h2 id="menu-h">菜單一覽</h2>
+  <p class="desc">點品牌名稱展開。「—」表示官方沒有用文字公布、我們也找不到可靠來源，請以門市菜單為準。</p>
+  <div class="search"><div class="inp"><input id="q" type="search" placeholder="搜尋品項或品牌，例如：烏龍、可可、50嵐" style="font-weight:500;font-size:16px"></div><div class="regs" id="regs"><button type="button" data-r="">預設</button><button type="button" data-r="北部">北部</button><button type="button" data-r="中南部">中南部</button><button type="button" data-r="百貨">百貨商場</button></div></div>
+  <div id="list"></div>
+  <p class="note">選擇地區後，沒有該區資料的品項會標「⚠️」並顯示其他地區的價格。外送平台價格通常較高，本站不收錄。</p>
+</section>
+
+<section class="tool" id="label">
+  <span class="tag">看懂標示</span>
+  <h2>店裡的糖量、咖啡因標示是怎麼來的？</h2>
+  <ul class="why" style="list-style:none">
+    <li style="padding:8px 0;border-bottom:1px dashed var(--line)"><span class="bd off">確定</span> 依衛福部「連鎖飲料便利商店及速食業之現場調製飲料標示規定」，連鎖飲料店的現調飲料要標示<b>總糖量</b>和<b>總熱量</b>，可以換算成方糖數（1 顆以 5 公克計）。</li>
+    <li style="padding:8px 0;border-bottom:1px dashed var(--line)"><span class="bd off">確定</span> 含咖啡因的飲料（紅茶、綠茶、可可等）要標示每杯咖啡因的最高值，也可以用顏色表示：<b>紅色</b>超過 200 毫克、<b>黃色</b> 101～200 毫克、<b>綠色</b>100 毫克以下。</li>
+    <li style="padding:8px 0"><span class="bd med">下一步</span> 「0 卡」「低糖」「微糖」這些說法到底代表多少糖？我們會在新品小報導裡一一拆解。</li>
+  </ul>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <h4>這頁的資料</h4>
+  <p>資料整理日期：2026.11.16。菜單資料放在 data/drinks-menu.csv，可以用 Excel 或 Google 試算表直接編輯。每家品牌都附上來源與資料日期。我們不使用外送平台價格，也不放品牌商標與商品照片。發現價格有誤，歡迎告訴我們。</p>
+  <a class="top" href="#">回到頂端 ↑</a>
+</div></footer>
+
+<script>
+(async()=>{
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const host=u=>{try{return new URL(u).hostname.replace(/^www\./,'')}catch(e){return ''}};
+/* 讀 CSV（可用 Excel／Google 試算表編輯） */
+function parseCSV(t){t=t.replace(/^﻿/,'');const rows=[];let r=[],f='',q=false;
+  for(let i=0;i<t.length;i++){const c=t[i];
+    if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}else f+=c}
+    else if(c=='"')q=true;else if(c==','){r.push(f);f=''}else if(c=='\n'){r.push(f);rows.push(r);r=[];f=''}else if(c!='\r')f+=c}
+  if(f||r.length){r.push(f);rows.push(r)}
+  const h=rows.shift();return rows.filter(x=>x.some(v=>v.trim())).map(x=>Object.fromEntries(h.map((k,i)=>[k.trim(),(x[i]||'').trim()])));}
+const get=async p=>parseCSV(await (await fetch(p,{cache:'no-store'})).text());
+let BR,MENU,NEW;
+try{[BR,MENU,NEW]=await Promise.all(['data/drinks-brands.csv','data/drinks-menu.csv','data/drinks-new.csv'].map(get));}
+catch(e){$('list').innerHTML='<p class="empty">資料讀取失敗，請稍後重新整理。</p>';return;}
+const num=v=>v===''||v==null?null:+v;
+/* 本週新品 */
+$('news').innerHTML=NEW.sort((a,b)=>b['日期'].localeCompare(a['日期'])).map(n=>`<div class="nw"><span class="d">${esc(n['日期'].slice(5).replace('-','/'))}</span><div class="b">${esc(n['品牌'])}</div><h3>${esc(n['品名'])}</h3><p>${esc(n['說明'])}</p>${n['來源網址']?`<a href="${esc(n['來源網址'])}" target="_blank" rel="noopener">來源：${esc(host(n['來源網址']))}</a>`:''}</div>`).join('');
+const filled=BR.filter(b=>MENU.some(m=>m['品牌']===b['品牌'])).length;
+$('menu-h').textContent=`${BR.length} 家菜單（已整理 ${filled} 家）`;
+/* 地區 */
+let REG='';try{REG=localStorage.getItem('bb-drink-reg')||''}catch(e){}
+const FALL=['北部','全區','未標示','中南部','百貨'];
+function pick(rows){ // 同一品項的多筆（不同地區）→ 依選擇的地區挑一筆
+  if(REG){const hit=rows.find(r=>r['地區']===REG||r['地區']==='全區');if(hit)return{r:hit,warn:''};}
+  const r=[...rows].sort((a,b)=>FALL.indexOf(a['地區'])-FALL.indexOf(b['地區']))[0];
+  return{r,warn:REG?`⚠️ ${REG}價格未取得，顯示的是${r['地區']==='未標示'?'地區未標示的':r['地區']}價格`:''};
+}
+const old=d=>d&&d<'2026-05-16';
+function render(){
+  const q=$('q').value.trim().toLowerCase();let html='';
+  for(const b of BR){
+    const name=b['品牌'],rows=MENU.filter(m=>m['品牌']===name);
+    const groups=new Map();for(const r of rows){const k=r['分類']+'|'+r['品項'];if(!groups.has(k))groups.set(k,[]);groups.get(k).push(r)}
+    const bm=name.toLowerCase().includes(q);
+    let items=[...groups.values()].filter(g=>!q||bm||(g[0]['品項']+g[0]['分類']).toLowerCase().includes(q));
+    if(q&&!items.length&&!bm)continue;
+    const regs=[...new Set(rows.map(r=>r['地區']))].join('、');
+    let t='',cat='';
+    for(const g of items){const {r,warn}=pick(g);
+      if(r['分類']!==cat){cat=r['分類'];t+=`<tr class="cat"><td colspan="3">${esc(cat)}</td></tr>`;}
+      t+=`<tr><td class="n">${esc(r['品項'])}${r['備註']?`<small>${esc(r['備註'])}</small>`:''}${warn?`<span class="warn">${esc(warn)}</span>`:''}</td><td style="text-align:right">${num(r['中杯M'])??'—'}</td><td style="text-align:right">${num(r['大杯L'])??'—'}</td></tr>`;}
+    const type=b['來源類型'],badge=type==='官方'?'<span class="bd off">官方</span>':type==='報導'?'<span class="bd med">報導</span>':'<span class="bd old">待補</span>';
+    const priced=[...groups.values()].filter(g=>g.some(r=>r['中杯M']||r['大杯L'])).length;
+    const src=b['來源網址']?`<a href="${esc(b['來源網址'])}" target="_blank" rel="noopener">${esc(host(b['來源網址']))}</a>`:esc(b['來源說明']);
+    html+=`<details class="brand-c"${q?' open':''}><summary><b>${esc(name)}</b>${badge}${old(b['資料日期'])?'<span class="bd old">較舊</span>':''}<span class="m">${groups.size?`${groups.size} 項・有價格 ${priced} 項・${esc(b['資料日期'].replace(/-/g,'.'))}`:'菜單整理中'}</span></summary><div class="in">
+      ${groups.size?`<p class="rg">價格地區：${esc(regs)}</p><table><tr><th>品項</th><th style="text-align:right">M</th><th style="text-align:right">L</th></tr>${t}</table>`:'<p class="empty">這家的菜單還在整理中，歡迎傳門市菜單照片給我們。</p>'}
+      ${b['價格說明']?`<p class="src">💡 ${esc(b['價格說明'])}</p>`:''}
+      ${src?`<p class="src">來源：${src}${b['資料日期']?`（資料日期 ${esc(b['資料日期'])}）`:''}${b['糖熱量網址']?`・<a href="${esc(b['糖熱量網址'])}" target="_blank" rel="noopener">官方糖量／熱量標示</a>`:''}</p>`:''}</div></details>`;
+  }
+  $('list').innerHTML=html||'<p class="empty">找不到符合的品項，換個關鍵字試試。</p>';
+  document.querySelectorAll('#regs button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.r===REG));
+}
+$('q').addEventListener('input',render);
+$('regs').addEventListener('click',e=>{const x=e.target.closest('button');if(!x)return;REG=x.dataset.r;try{localStorage.setItem('bb-drink-reg',REG)}catch(_){ }render();});
+render();
+})();
+</script>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天的課表</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">身心</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>
