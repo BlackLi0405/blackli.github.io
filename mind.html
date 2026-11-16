@@ -18,6 +18,9 @@ textarea:focus{outline:none;border-color:var(--accent)}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
 .note{font-size:13px;color:var(--mute)}
 details.book{margin-top:16px}
+.qsrc{margin:-8px 0 14px}
+.srcs{margin:6px 0 0;padding-left:1.2em;font-size:14px;color:var(--ink2);line-height:1.7}
+.srcs li{margin:4px 0}
 details.book summary{cursor:pointer;font-weight:800;color:var(--accent)}
 .entry{border-top:1px solid var(--line);padding:10px 0;font-size:15px}
 .entry b{display:block;font-size:13px;color:var(--mute)}
@@ -65,8 +68,24 @@ details.book summary{cursor:pointer;font-weight:800;color:var(--accent)}
   <div class="panel" id="ask">
     <span class="tag">今日一問</span>
     <div class="qq" data-bb-question></div>
+    <p class="note qsrc" data-bb-question-src></p>
     <textarea id="ans" placeholder="想到什麼就寫什麼，一句話也可以。只會存在你自己的手機或電腦裡。"></textarea>
     <div class="row"><button class="btn" type="button" id="save">寫進小本子</button><span class="note" id="st"></span></div>
+    <details class="book"><summary>今日一問參考了哪些書？</summary>
+    <p class="note" style="margin:8px 0">題目由本站自己撰寫，只借用書裡的觀念，不是書中原文。這些書都和「自我覺察」有關，想深入可以找來讀。</p>
+    <ul class="srcs">
+      <li>塔莎・歐里希《深度洞察力》：多問「是什麼」，少問「為什麼」；同時看見內在的自己，和別人眼中的你。</li>
+      <li>麗莎・費德曼・巴瑞特《情緒跟你以為的不一樣》：情緒和身體狀態有關，能把感覺說得越精準，越能調整它。</li>
+      <li>布芮尼・布朗《脆弱的力量》：願意被看見不完美，是連結和勇氣的開始。</li>
+      <li>岸見一郎、古賀史健《被討厭的勇氣》：阿德勒心理學的「課題分離」，分清楚哪些是自己的事、哪些是別人的事。</li>
+      <li>維克多・弗蘭克《活出意義來》：處境無法選擇時，仍可以選擇面對它的態度，並從中找到意義。</li>
+      <li>卡蘿・杜維克《心態致勝》：成長型心態，把能力看成可以透過練習改變的東西。</li>
+      <li>馬歇爾・盧森堡《非暴力溝通》：分開觀察和評價，說出感受、需要和具體的請求。</li>
+      <li>康納曼《快思慢想》：直覺反應很快但容易出錯，重要的事值得慢下來再想一次。</li>
+      <li>詹姆斯・克利爾《原子習慣》：從想成為的身分出發，用小習慣累積改變。</li>
+      <li>克莉絲汀・聶夫的自我疼惜研究（Self-Compassion）：用對待朋友的方式對待自己，並記得受苦是人共同的經驗。</li>
+      <li>蘇珊・大衛的「情緒靈敏力」（Emotional Agility）：和念頭保持一點距離，看見它，而不是被它帶著走。</li>
+    </ul></details>
     <details class="book"><summary>我的小本子（<span id="n">0</span> 則）</summary><div id="book"></div></details>
   </div>
   <div class="breathe" id="breathe">
@@ -80,7 +99,7 @@ details.book summary{cursor:pointer;font-weight:800;color:var(--accent)}
 </section>
 
 <section class="sec" id="column" style="padding-top:0">
-  <div class="k">身心專欄・每週日更新</div>
+  <div class="k">身心專欄・每週一早上更新</div>
   <div class="feed" data-feed="mind">
 <!-- MIND:START -->
   <a class="card" href="reports/mind-2026-11-15.html">
