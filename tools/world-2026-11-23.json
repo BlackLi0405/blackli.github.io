@@ -1,0 +1,12 @@
+{
+  "mode": "digest",
+  "date": "2026.11.23",
+  "weekday": "週一",
+  "title": "今日國際 3 大重點",
+  "source": "中央社、路透、美聯社",
+  "stories": [
+    {"tag": "全球", "headline": "COP31 氣候大會破局", "summary": "草案刪去化石燃料，歐盟等國拒絕背書"},
+    {"tag": "歐洲", "headline": "俄軍方貨輪芬蘭灣起火", "summary": "遭無人機攻擊，芬蘭軍方研判烏方所為"},
+    {"tag": "中東", "headline": "聯合國部隊移交黎南據點", "summary": "UNIFIL 任期年底屆滿，交由黎軍接手"}
+  ]
+}
