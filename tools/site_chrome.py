@@ -28,8 +28,14 @@ def page_key(rel):
             "tools.html": "tools", "calc.html": "tools", "trip.html": "tools", "travel.html": "tools",
             "about.html": "about", "method.html": "about", "app.html": "tools", "leave.html": "tools", "offline.html": ""}.get(rel, "")
 
-def logo(pre):
-    return f'<img src="{pre}assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b>'
+CHALKMAN = ('<svg width="{w}" height="{h}" viewBox="0 0 30 36" aria-hidden="true" fill="none" stroke="#F2EFE6" '
+            'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'
+            '<circle cx="13" cy="7" r="4.6"/><path d="M13 12 L12.6 23"/><path d="M12.8 15.5 L6 19.5"/>'
+            '<path d="M12.8 15.5 L20 12.2 L24.5 8"/><path d="M12.6 23 L8 33"/><path d="M12.6 23 L17.4 33"/>'
+            '<path d="M24.5 8 L27.5 4.6" stroke="#F4D35E" stroke-width="3.2"/></svg>')
+
+def logo(pre, w=26, h=32):
+    return CHALKMAN.format(w=w, h=h) + 'BlackLi <b>Board</b>'
 
 def nav(pre, key):
     def a(t, href, k, sub, drop):
@@ -46,7 +52,7 @@ def nav(pre, key):
 
 def foot(pre):
     p = pre
-    small = logo(pre).replace(' width="36" height="36"', ' width="30" height="30"')
+    small = logo(pre, 22, 27)
     return (f'<!-- SITE-FOOT:START -->\n<div class="sf"><div class="sf-in">'
             f'<div><div class="sf-brand">{small}</div>'
             f'<p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div>'
@@ -65,8 +71,9 @@ def apply(path):
     pre = "../" if "/" in rel else ""
     s = path.read_text(encoding="utf-8")
     head = (f'<link rel="icon" href="{pre}assets/logo.svg" type="image/svg+xml">\n'
-            f'<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">\n'
-            f'<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">\n'
+            f'<meta name="theme-color" content="#1E3228">\n'
+            f'<link rel="preconnect" href="https://fonts.googleapis.com">\n'
+            f'<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">\n'
             f'<link rel="manifest" href="{pre}manifest.webmanifest">\n'
             f'<link rel="apple-touch-icon" href="{pre}assets/icons/apple-touch-icon.png">\n'
             f'<meta name="mobile-web-app-capable" content="yes">\n'

@@ -1,4 +1,4 @@
-/* BlackLi Board 全站共用小功能：連續上課天數、文章閱讀工具（30 秒版、聽文章、字級）、名詞小黑板 */
+/* BlackLi Board 全站共用小功能：連續天數、回到頂端、文章閱讀工具（30 秒版、聽文章、字級）、名詞小黑板 */
 (function () {
   'use strict';
   const store = {
@@ -7,7 +7,7 @@
   };
   const today = (off = 0) => new Date(Date.now() + off * 864e5).toLocaleDateString('sv-SE', {timeZone: 'Asia/Taipei'});
 
-  /* ---------- 連續上課天數 ---------- */
+  /* ---------- 連續來訪天數 ---------- */
   const days = store.get('days', []);
   if (days[days.length - 1] !== today()) { days.push(today()); store.set('days', days.slice(-400)); }
   function streak() {
@@ -76,7 +76,17 @@
   document.querySelectorAll('[data-bb-question-src]').forEach(el => { el.textContent = '題目參考：' + questionSrc(); });
   document.querySelectorAll('[data-bb-streak]').forEach(el => {
     const n = streak();
-    el.innerHTML = n > 1 ? `🔥 連續上課 <b>${n}</b> 天` : `✏️ 今天第 1 天上課，明天再來就連續 2 天`;
+    el.innerHTML = n > 1 ? `連續來了 <b>${n}</b> 天` : `今天是第 1 天，明天再來就連續 2 天`;
+  });
+
+
+  /* ---------- 回到頂端：只在長頁面出現 ---------- */
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'bb-top'; btn.textContent = '↑ 回到頂端';
+    btn.onclick = () => scrollTo({top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+    document.body.appendChild(btn);
+    const tick = () => btn.classList.toggle('on', document.documentElement.scrollHeight > innerHeight * 2.5 && scrollY > innerHeight);
+    addEventListener('scroll', tick, {passive: true}); tick();
   });
 
   /* ---------- 文章閱讀工具 ---------- */
@@ -86,8 +96,8 @@
     if (!seen.includes(me)) { seen.push(me); store.set('seen', seen.slice(-300)); }
     const anchor = document.querySelector('header .lede') || document.querySelector('header .tldr') || document.querySelector('header h1');
     const bar = document.createElement('div'); bar.className = 'bb-tools';
-    bar.innerHTML = '<button type="button" data-t="short" aria-pressed="false">⏱️ 30 秒版</button>' +
-      ('speechSynthesis' in window ? '<button type="button" data-t="listen" aria-pressed="false">🔊 聽文章</button>' : '') +
+    bar.innerHTML = '<button type="button" data-t="short" aria-pressed="false">30 秒版</button>' +
+      ('speechSynthesis' in window ? '<button type="button" data-t="listen" aria-pressed="false">聽文章</button>' : '') +
       '<button type="button" data-t="big" aria-pressed="false">Aa 大字</button>';
     if (anchor) anchor.after(bar);
     const main = document.querySelector('main');
@@ -108,18 +118,18 @@
       const t = b.dataset.t;
       if (t === 'short' || t === 'big') { pref[t] = !pref[t]; store.set('read', pref); apply(); return; }
       if (t === 'listen') {
-        if (speaking) { speechSynthesis.cancel(); speaking = false; b.setAttribute('aria-pressed', 'false'); b.textContent = '🔊 聽文章'; return; }
+        if (speaking) { speechSynthesis.cancel(); speaking = false; b.setAttribute('aria-pressed', 'false'); b.textContent = '聽文章'; return; }
         const parts = [document.querySelector('header h1'), ...main.querySelectorAll('h2,h3,p,li,td,.tldr,.box')]
           .filter(el => el && el.offsetParent !== null && !el.closest('.src,.bb-short-note'))
           .map(el => el.innerText.trim()).filter(Boolean);
         const text = parts.join('。\n').replace(/[【】]/g, '');
         const voices = speechSynthesis.getVoices();
         const chunks = text.match(/[\s\S]{1,180}(?:[。！？\n]|$)/g) || [text];
-        speaking = true; b.setAttribute('aria-pressed', 'true'); b.textContent = '⏹ 停止朗讀';
+        speaking = true; b.setAttribute('aria-pressed', 'true'); b.textContent = '停止朗讀';
         chunks.forEach((c, i) => {
           const u = new SpeechSynthesisUtterance(c); u.lang = 'zh-TW'; u.rate = 1.05;
           const v = voices.find(v => /zh[-_]TW/i.test(v.lang)) || voices.find(v => /^zh/i.test(v.lang)); if (v) u.voice = v;
-          if (i === chunks.length - 1) u.onend = () => { speaking = false; b.setAttribute('aria-pressed', 'false'); b.textContent = '🔊 聽文章'; };
+          if (i === chunks.length - 1) u.onend = () => { speaking = false; b.setAttribute('aria-pressed', 'false'); b.textContent = '聽文章'; };
           speechSynthesis.speak(u);
         });
       }
