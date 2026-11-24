@@ -290,7 +290,7 @@ function calcHC(){
     : '先輸入每月收入。';
   const save = Math.max(0, inc - ex), m = save, rm = Math.pow(1.05, 1/12) - 1;
   let fv = 0; for (let k = 0; k < 120; k++) fv = fv*(1+rm) + m;
-  $('hc-10y').innerHTML = save > 0
+  $('hc-10y').innerHTML = inc <= 0 ? '先輸入每月收入和必要支出。' : save > 0
     ? '收入扣掉必要支出，每月最多能存 <b>' + money(save) + '</b>。全部存下來，十年後放著不動約 <b>' + wan(save*120) + ' 元</b>；假設年報酬 5%，約 <b>' + wan(fv) + ' 元</b>。'
     : '目前必要支出大於或等於收入，每月存不下錢。';
 }
