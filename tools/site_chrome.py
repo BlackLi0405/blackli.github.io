@@ -9,13 +9,13 @@ import pathlib, re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 BRAND = "BlackLi Board"
 LINKS = [  # (文字, 路徑, 判斷目前頁面用的 key, 選單裡的小字說明)
-    ("今天", "index.html", "home", "今天的課表"),
-    ("新聞", "news.html", "news", "財經・國際・盤後・盤前"),
-    ("專欄", "weekly.html", "weekly", "生活・科技・社會・深度拆解"),
-    ("身心", "mind.html", "mind", "保健室"),
-    ("輕鬆", "fun.html", "fun", "下課十分鐘"),
-    ("工具", "tools.html", "tools", "出遊情報・理財小工具"),
-    ("關於", "about.html", "about", "導師室"),
+    ("早報", "index.html", "home", "財經早報・國際早報・台股盤後・美股盤前"),
+    ("發生什麼事", "news.html", "news", "全部新聞"),
+    ("看深一點", "weekly.html", "weekly", "生活／科技／社會週報・深度拆解"),
+    ("向內看", "mind.html", "mind", "每日一問・跟著黑板呼吸・身心專欄"),
+    ("休息區", "fun.html", "fun", "飲料新品・小考・冷知識"),
+    ("工具箱", "tools.html", "tools", "出遊・排行程・理財・休假・裝到手機"),
+    ("這塊黑板", "about.html", "about", "網站初衷"),
 ]
 
 def page_key(rel):
@@ -26,7 +26,7 @@ def page_key(rel):
     return {"index.html": "home", "news.html": "news", "finance.html": "news", "world.html": "news",
             "weekly.html": "weekly", "deep.html": "weekly", "mind.html": "mind", "fun.html": "fun",
             "tools.html": "tools", "calc.html": "tools", "trip.html": "tools", "travel.html": "tools",
-            "about.html": "about", "method.html": "about", "app.html": "tools", "offline.html": ""}.get(rel, "")
+            "about.html": "about", "method.html": "about", "app.html": "tools", "leave.html": "tools", "offline.html": ""}.get(rel, "")
 
 def logo(pre):
     return f'<img src="{pre}assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b>'
@@ -50,11 +50,11 @@ def foot(pre):
     return (f'<!-- SITE-FOOT:START -->\n<div class="sf"><div class="sf-in">'
             f'<div><div class="sf-brand">{small}</div>'
             f'<p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div>'
-            f'<div><h5>每天讀</h5><ul><li><a href="{p}index.html">今天的課表</a></li><li><a href="{p}news.html">新聞</a></li>'
-            f'<li><a href="{p}weekly.html">專欄</a></li><li><a href="{p}mind.html">身心</a></li><li><a href="{p}fun.html">輕鬆</a></li></ul></div>'
-            f'<div><h5>工具</h5><ul><li><a href="{p}travel.html">出遊情報</a></li><li><a href="{p}trip.html">幫我排行程</a></li>'
-            f'<li><a href="{p}calc.html">理財小工具</a></li><li><a href="{p}app.html">裝到手機</a></li></ul></div>'
-            f'<div><h5>關於</h5><ul><li><a href="{p}about.html">關於小曹</a></li>'
+            f'<div><h5>每天讀</h5><ul><li><a href="{p}index.html">早報</a></li><li><a href="{p}news.html">發生什麼事</a></li>'
+            f'<li><a href="{p}weekly.html">看深一點</a></li><li><a href="{p}mind.html">向內看</a></li><li><a href="{p}fun.html">休息區</a></li></ul></div>'
+            f'<div><h5>工具箱</h5><ul><li><a href="{p}travel.html">出遊情報</a></li><li><a href="{p}trip.html">幫我排行程</a></li>'
+            f'<li><a href="{p}calc.html">理財小工具</a></li><li><a href="{p}leave.html">休假中心</a></li><li><a href="{p}app.html">裝到手機</a></li></ul></div>'
+            f'<div><h5>這塊黑板</h5><ul><li><a href="{p}about.html">關於小曹</a></li>'
             f'<li><a href="{p}method.html">我怎麼拆解資訊</a></li><li><a href="{p}method.html#sources">來源原則</a></li>'
             f'<li><a href="{p}about.html#disclaimer">免責聲明</a></li></ul></div>'
             f'</div><div class="sf-bottom"><span>© 2026 {BRAND}</span>'
