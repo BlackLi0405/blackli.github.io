@@ -36,6 +36,23 @@ details.book summary{cursor:pointer;font-weight:800;color:var(--accent)}
 .empty{background:var(--paper);border:1.5px dashed var(--line);border-radius:14px;padding:18px 20px;color:var(--mute);font-size:15px}
 .empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:2px}
 .feed:has(a.card) .empty{display:none}
+.body-list{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
+.bi{background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px}
+.bi.done{border-color:var(--accent)}
+.bi label{display:flex;gap:12px;align-items:flex-start;cursor:pointer}
+.bi input{width:22px;height:22px;flex:none;margin-top:3px;accent-color:var(--accent)}
+.bi .t{font-weight:900;font-size:17px}
+.bi .lv{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:14px;color:var(--ink2);margin:8px 0 0 34px}
+.bi .lv b{color:var(--mute);font-weight:700}
+.bi .why{font-size:13px;color:var(--mute);margin:6px 0 0 34px}
+.bi .why a{color:inherit}
+.lab{display:inline-block;font-size:12px;font-weight:700;border:1px solid var(--line);color:var(--mute);border-radius:6px;padding:0 7px;margin-left:4px}
+.lab.ok{color:var(--accent);border-color:var(--accent)}
+.bcount{font-size:clamp(22px,4vw,30px);font-weight:900}
+.keep{background:var(--paper);border:1.5px dashed var(--line);border-radius:14px;padding:14px 18px;margin-top:14px;font-size:15px;color:var(--ink2)}
+.keep b{color:var(--ink)}
+.story{background:var(--paper);border:1.5px dashed var(--line);border-radius:14px;padding:18px 20px;color:var(--mute);font-size:15px}
+.story b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px}
 @media (prefers-reduced-motion:reduce){.circle,.circle.in,.circle.out{transition:none}}
 </style>
 <!-- SITE-HEAD:START -->
@@ -60,7 +77,7 @@ details.book summary{cursor:pointer;font-weight:800;color:var(--accent)}
   <div class="kick">身心・保健室</div>
   <h1>向外看世界，<em>也向內看自己</em></h1>
   <p>新聞讓我們知道外面發生什麼，這裡留一點時間給自己。每天一個問題、一分鐘呼吸，每週一篇用研究和證據說清楚的身心專欄。</p>
-  <nav class="pills" aria-label="身心"><a href="#ask">✏️ 今日一問</a><a href="#breathe">🌬️ 喘口氣</a><a href="#column">🌿 身心專欄</a></nav>
+  <nav class="pills" aria-label="身心"><a href="#ask">✏️ 今日一問</a><a href="#breathe">🌬️ 喘口氣</a><a href="#body">💪 身體基本款</a><a href="#story">📖 故事・書・電影</a><a href="#column">🌿 身心專欄</a></nav>
 </div></section>
 <main><div class="w">
 
@@ -96,6 +113,39 @@ details.book summary{cursor:pointer;font-weight:800;color:var(--accent)}
     <div class="btimer" id="bt"></div>
     <button class="btn chalk" type="button" id="bstart">開始</button>
   </div>
+</section>
+
+<section class="sec" id="body" style="padding-top:0">
+  <div class="k">身體基本款・每天打勾</div>
+  <p class="bcount">今天做到 <span id="bdone">0</span>／6　<span class="note" id="bweek"></span></p>
+  <p class="note">只是原則加選項，做法自己挑。先從「入門」開始，順了再往「進階」走。打勾只存在你自己的手機或電腦裡，每天自動清空。</p>
+  <ul class="body-list">
+    <li class="bi"><label><input type="checkbox" data-b="walk"><span class="t">多走路</span></label>
+      <div class="lv"><b>入門</b><span>比平常多走 1,000 步，例如提早一站下車。</span><b>進階</b><span>一天約 7,000 步以上。</span></div>
+      <div class="why">研究：一天走 7,000 步，和一天 2,000 步的人比，死亡風險約低 47%；走到 10,000 步，部分項目再更好一些。<span class="lab">研究</span> <a href="https://pubmed.ncbi.nlm.nih.gov/40713949/" target="_blank" rel="noopener">Lancet Public Health 2025</a></div></li>
+    <li class="bi"><label><input type="checkbox" data-b="lift"><span class="t">重訓（每週 2 次）</span></label>
+      <div class="lv"><b>入門</b><span>扶牆伏地挺身、椅子深蹲，各 10 下。</span><b>進階</b><span>練到全身主要肌群：腿、背、胸、肩、核心。</span></div>
+      <div class="why">WHO：成人每週 2 天以上做肌力訓練。<span class="lab ok">官方建議</span> <a href="https://www.who.int/initiatives/behealthy/physical-activity" target="_blank" rel="noopener">WHO</a></div></li>
+    <li class="bi"><label><input type="checkbox" data-b="sweat"><span class="t">流點汗（喘，但還能講話）</span></label>
+      <div class="lv"><b>入門</b><span>快走、騎車 10 分鐘，一週 3 次。</span><b>進階</b><span>一週累積 150～300 分鐘。</span></div>
+      <div class="why">WHO：成人每週 150～300 分鐘中等強度活動。「喘但能講話」是判斷中等強度的常見說法。<span class="lab ok">官方建議</span> <a href="https://www.who.int/initiatives/behealthy/physical-activity" target="_blank" rel="noopener">WHO</a></div></li>
+    <li class="bi"><label><input type="checkbox" data-b="sleep"><span class="t">固定時間睡、固定時間起</span></label>
+      <div class="lv"><b>入門</b><span>先固定起床時間，假日也一樣。</span><b>進階</b><span>睡和起都固定，睡滿 7 小時以上。</span></div>
+      <div class="why">美國睡眠醫學會與睡眠研究學會：成人每晚睡 7 小時以上，並且要規律。<span class="lab ok">專業學會</span> <a href="https://aasm.org/seven-or-more-hours-of-sleep-per-night-a-health-necessity-for-adults/" target="_blank" rel="noopener">AASM</a></div></li>
+    <li class="bi"><label><input type="checkbox" data-b="protein"><span class="t">每餐有蛋白質</span></label>
+      <div class="lv"><b>入門</b><span>早餐加一顆蛋或一杯豆漿。</span><b>進階</b><span>每餐「豆魚蛋肉一掌心」。</span></div>
+      <div class="why">國健署「我的餐盤」口訣：豆魚蛋肉一掌心。<span class="lab ok">官方建議</span> <a href="https://mohw.gov.tw/cp-16-50222-1.html" target="_blank" rel="noopener">國民健康署</a></div></li>
+    <li class="bi"><label><input type="checkbox" data-b="sun"><span class="t">出門防曬</span></label>
+      <div class="lv"><b>入門</b><span>出門擦防曬，或戴帽子、撐傘。</span><b>進階</b><span>帽子、太陽眼鏡、透氣衣物、防曬乳都帶，避開上午 10 點到下午 2 點。</span></div>
+      <div class="why">國健署提醒的防曬 5 裝備：寬邊帽、太陽眼鏡、涼爽透氣衣物、防曬乳、水瓶。<span class="lab ok">官方建議</span> <a href="https://mohw.gov.tw/fp-16-49103-1.html" target="_blank" rel="noopener">國民健康署</a></div></li>
+  </ul>
+  <div class="keep"><b>怎麼持續？</b>從小到不會失敗的量開始（例如只做 2 下深蹲），再把它綁在已經有的習慣後面：「刷完牙就做」「下班到家先換鞋去走走」。<span class="lab">資訊</span></div>
+  <p class="care">這是給一般成人的大原則。有慢性病、懷孕、受傷或其他特殊狀況，開始新的運動或飲食前，先問醫生。</p>
+</section>
+
+<section class="sec" id="story" style="padding-top:0">
+  <div class="k">故事・書・電影・大約一個月一部</div>
+  <div class="story"><b>第一部準備中</b>每篇會寫：它在講什麼、我看完想到什麼，再留一個問題給你。</div>
 </section>
 
 <section class="sec" id="column" style="padding-top:0">
@@ -137,6 +187,22 @@ document.addEventListener('DOMContentLoaded', () => {
     book[T] = {q: window.BB.question(T), a}; S.set('journal', book); list();
     document.getElementById('st').textContent = '寫好了，明天會有新的問題。';
   };
+  // 身體基本款
+  const bk = 'body', bs = S.get(bk, {}), bt0 = bs[T] || [];
+  const boxes = [...document.querySelectorAll('[data-b]')];
+  const week = k => { let n = 0; for (let i = 0; i < 7; i++) if ((bs[window.BB.today(-i)] || []).includes(k)) n++; return n; };
+  const paint = () => {
+    const cur = bs[T] || [];
+    boxes.forEach(x => { x.checked = cur.includes(x.dataset.b); x.closest('.bi').classList.toggle('done', x.checked); });
+    document.getElementById('bdone').textContent = cur.length;
+    document.getElementById('bweek').textContent = `近 7 天：重訓 ${week('lift')}／2 次、流汗 ${week('sweat')} 次`;
+  };
+  boxes.forEach(x => x.onchange = () => {
+    bs[T] = boxes.filter(y => y.checked).map(y => y.dataset.b);
+    Object.keys(bs).filter(k => k < window.BB.today(-30)).forEach(k => delete bs[k]);
+    S.set(bk, bs); paint();
+  });
+  paint();
   // 呼吸
   const c = document.getElementById('circle'), w = document.getElementById('cw'), bt = document.getElementById('bt'), b = document.getElementById('bstart');
   let timers = [];
