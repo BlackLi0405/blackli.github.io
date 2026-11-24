@@ -153,3 +153,10 @@ body.bb-big main p,body.bb-big main li{font-size:19px}
 .bb-top{position:fixed;right:16px;bottom:18px;z-index:45;font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);border-radius:99px;padding:7px 14px;cursor:pointer;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s}
 .bb-top.on{opacity:1;pointer-events:auto}
 @media print{.bb-top{display:none}}
+
+/* 選單：平常只列名稱，滑到某一項才出現細項 */
+.sb-drop{min-width:250px;width:auto}
+.sb-drop a{display:block;white-space:nowrap}
+.sb-drop a small{display:block;max-height:0;overflow:hidden;opacity:0;text-align:left;margin-top:0;transition:max-height .2s,opacity .2s,margin-top .2s}
+@media (hover:hover){.sb-drop a:hover small{max-height:3em;opacity:1;margin-top:2px}}
+.sb-drop a:focus-visible small{max-height:3em;opacity:1;margin-top:2px}
