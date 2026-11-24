@@ -16,7 +16,7 @@
 .hero h1 em{font-style:normal;color:var(--hl)}
 .hero .d{font-family:Inter,sans-serif;font-weight:800;opacity:.85;font-size:15px}
 .hero .bb-streak{background:rgba(244,211,94,.16);color:var(--chalk)}
-.periods{display:grid;grid-template-columns:1.55fr 1fr 1fr 1fr;gap:14px}
+.periods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 .per{display:block;text-decoration:none;color:var(--chalk);border:1.5px solid rgba(242,239,230,.32);border-radius:14px;padding:16px 18px;position:relative;min-height:150px;transition:border-color .15s,background .15s}
 a.per:hover{border-color:var(--hl);background:rgba(242,239,230,.05)}
 .per.main{background:rgba(242,239,230,.07);border-color:var(--hl)}
@@ -27,7 +27,9 @@ a.per:hover{border-color:var(--hl);background:rgba(242,239,230,.05)}
 .per ul{list-style:none;margin:0;padding:0;font-size:14px;opacity:.85}
 .per li{padding:2px 0}
 .per li::before{content:"・"}
+.per.done{opacity:.72}
 .per .st{position:absolute;right:14px;top:14px;font-size:12px;font-weight:800;border-radius:99px;padding:1px 8px;background:var(--hl);color:#1F2A24}
+.count{font-weight:800;font-size:15px;color:var(--hl);margin:-8px 0 12px}
 .per.todo{border-style:dashed;opacity:.8}
 .per.todo .st{background:transparent;color:var(--chalk);border:1px solid rgba(242,239,230,.4)}
 .per .prev{display:block;font-size:13px;opacity:.75;margin-top:8px}
@@ -74,8 +76,8 @@ a.per:hover{border-color:var(--hl);background:rgba(242,239,230,.05)}
 <section class="chalkboard"><div class="w hero">
   <div class="top">
     <h1>今天的<em>重點</em></h1>
-    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="bb-streak" data-bb-streak></span><span class="d" id="today"></span></div>
   </div>
+  <p class="count" id="count"></p>
   <div class="periods" id="periods"></div>
 </div></section>
 
@@ -493,7 +495,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const T = window.BB ? BB.today() : new Date().toLocaleDateString('sv-SE', {timeZone: 'Asia/Taipei'});
   const WD = '日一二三四五六';
   const dow = new Date(T + 'T12:00:00+08:00').getDay();
-  document.getElementById('today').textContent = T.replace(/-/g, '.') + '（週' + WD[dow] + '）';
   document.getElementById('dl').textContent = `${+T.slice(5, 7)} 月 ${+T.slice(8)} 日 星期${WD[dow]}・今天的黑板`;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
   const parse = a => { const href = a.getAttribute('href') || ''; const m = href.match(/(\d{4}-\d{2}-\d{2})/);
@@ -511,19 +512,28 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
   const md = d => d ? `${+d.slice(5, 7)}/${+d.slice(8)}` : '';
   const seen = window.BB ? BB.store.get('seen', []) : [];
-  document.getElementById('periods').innerHTML = P.map(p => {
-    const c = latest(p.k);
-    const isToday = c && c.date === T;
-    if (isToday || (p.main && c)) {
-      const items = c.items.slice(1, p.main ? 3 : 1);
-      return `<a class="per${p.main ? ' main' : ''}" href="${esc(c.href)}"><span class="t">${p.t}</span><span class="lab">${p.lab}</span>
-        <span class="st">${!isToday ? md(c.date) : seen.includes(c.href) ? '看過了 ✓' : '已更新'}</span><b>${esc(c.items[0] ? c.items[0].t : '')}</b>
+  // 黃框（重點）放在：今天已更新、你還沒看過、而且時間最接近現在的那一篇；都看完就不放
+  const nowHM = new Date().toLocaleTimeString('en-GB', {timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit'});
+  const info = P.map(p => { const c = latest(p.k); const isToday = !!c && c.date === T; return {p, c, isToday, done: !!c && seen.includes(c.href)}; });
+  const cand = info.filter(o => o.isToday && !o.done && o.p.t <= nowHM);
+  const focus = (cand.length ? cand : info.filter(o => o.isToday && !o.done)).sort((x, y) => y.p.t.localeCompare(x.p.t))[0];
+  let avail = 0, read = 0;
+  document.getElementById('periods').innerHTML = info.map(o => {
+    const {p, c, isToday, done} = o, main = o === focus;
+    if (isToday) { avail++; if (done) read++; }
+    if (isToday || (p.k === 'brief' && c)) {
+      const items = c.items.slice(1, main ? 3 : 1);
+      const st = !isToday ? md(c.date) : done ? '看過了 ✓' : '👀 還沒看';
+      return `<a class="per${main ? ' main' : ''}${done ? ' done' : ''}" href="${esc(c.href)}"><span class="t">${p.t}</span><span class="lab">${p.lab}</span>
+        <span class="st">${st}</span><b>${esc(c.items[0] ? c.items[0].t : '')}</b>
         ${items.length ? '<ul>' + items.map(i => `<li>${esc(i.t)}</li>`).join('') + '</ul>' : ''}</a>`;
     }
     const why = p.trade && weekend ? '週末休市，下週一見' : `今天 ${p.t} 更新`;
     return `<div class="per todo"><span class="t">${p.t}</span><span class="lab">${p.lab}</span><span class="st">${p.trade && weekend ? '休市' : '還沒更新'}</span>
       <b>${why}</b>${c ? `<span class="prev">上一篇：<a href="${esc(c.href)}">${md(c.date)} ${esc(c.items[0] ? c.items[0].t : '')}</a></span>` : ''}</div>`;
   }).join('');
+  const cnt = document.getElementById('count');
+  if (cnt) cnt.textContent = avail ? (read === avail ? `今天的 ${avail} 篇都看完了` : `今天看了 ${read}／${avail} 篇`) : '';
 
   // 今日小考的狀態
   fetch('data/quiz.json', {cache: 'no-cache'}).then(r => r.json()).then(j => {
