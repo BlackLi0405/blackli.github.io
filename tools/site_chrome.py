@@ -26,7 +26,7 @@ def page_key(rel):
     return {"index.html": "home", "news.html": "news", "finance.html": "news", "world.html": "news",
             "weekly.html": "weekly", "deep.html": "weekly", "mind.html": "mind", "fun.html": "fun",
             "tools.html": "tools", "calc.html": "tools", "trip.html": "tools", "travel.html": "tools",
-            "about.html": "about", "method.html": "about", "app.html": "tools", "leave.html": "tools", "offline.html": ""}.get(rel, "")
+            "about.html": "about", "method.html": "about", "app.html": "tools", "leave.html": "tools", "skills.html": "tools", "career.html": "tools", "guide.html": "tools", "offline.html": ""}.get(rel, "")
 
 CHALKMAN = ('<svg width="{w}" height="{h}" viewBox="0 0 30 36" aria-hidden="true" fill="none" stroke="#F2EFE6" '
             'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'
