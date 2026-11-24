@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>理財小工具｜BlackLi Board</title>
-<meta name="description" content="定期定額試算、存股殖利率試算、匯率換算，三個簡單好用的理財小工具。">
+<meta name="description" content="財務健檢、定期定額試算、存股殖利率試算、匯率換算，四個簡單好用的理財小工具。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -76,6 +76,14 @@ td:first-child,th:first-child{text-align:left}
 footer{padding:40px 0 70px;font-size:14px;color:var(--mute)}
 footer h4{color:var(--ink);font-size:16px;margin-bottom:10px}
 .top{display:inline-block;margin-top:20px;color:var(--gold);text-decoration:none}
+.lab{display:inline-block;font-size:12px;font-weight:700;border:1px solid var(--line);color:var(--mute);border-radius:6px;padding:1px 8px;margin-left:6px;vertical-align:middle}
+.lab.ok{color:var(--gold);border-color:var(--gold)}
+.hc{display:grid;gap:10px;margin:0 0 14px}
+.hc .stat .why{font-size:14px;color:var(--ink2);margin-top:4px;line-height:1.6}
+.hc .stat .v small{font-size:15px;font-weight:500;color:var(--mute)}
+.split{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:6px}
+.split div{font-size:13px;color:var(--mute)}.split b{display:block;font-size:18px;color:var(--ink);font-variant-numeric:tabular-nums}
+ol.order{margin:6px 0 0 20px;font-size:15px;color:var(--ink2)}
 @media (max-width:420px){.stat .v{font-size:21px}}
 </style>
 <!-- SITE-HEAD:START -->
@@ -99,20 +107,67 @@ footer h4{color:var(--ink);font-size:16px;margin-bottom:10px}
 <header class="hero"><div class="wrap">
   <div class="brand"><a href="./">BlackLi Board</a> · 理財小工具</div>
   <h1>理財小工具</h1>
-  <p class="lede">定期定額能存到多少？存股一年領多少股利？出國換匯要準備多少台幣？輸入數字，馬上幫你算。</p>
+  <p class="lede">先做一次財務健檢，看看預備金、保險、收入怎麼分。再來試算定期定額能存到多少？存股一年領多少股利？出國換匯要準備多少台幣？輸入數字，馬上幫你算。</p>
 </div></header>
 
 <nav class="toc"><div class="wrap">
-  <a href="#dca"><b>01</b>定期定額</a>
-  <a href="#div"><b>02</b>存股殖利率</a>
-  <a href="#fx"><b>03</b>匯率換算</a>
+  <a href="#hc"><b>01</b>財務健檢</a>
+  <a href="#dca"><b>02</b>定期定額</a>
+  <a href="#div"><b>03</b>存股殖利率</a>
+  <a href="#fx"><b>04</b>匯率換算</a>
 </div></nav>
 
 <main class="wrap">
 
-<!-- 01 定期定額 -->
+<!-- 01 財務健檢 -->
+<section class="tool" id="hc">
+  <span class="tag">健檢 01</span>
+  <h2>財務健檢</h2>
+  <p class="desc">輸入三個數字，看看預備金該存多少、保險花多少算合理、收入怎麼分。以下都是常見的<b>慣例</b>，不是規定，也不是唯一答案。</p>
+
+  <div class="form">
+    <div class="field"><label for="hc-in">每月實拿收入（稅後）</label><div class="inp"><input id="hc-in" type="number" inputmode="numeric" min="0" step="1000" value="40000"><span class="u">元</span></div></div>
+    <div class="field"><label for="hc-ex">每月必要支出</label><div class="inp"><input id="hc-ex" type="number" inputmode="numeric" min="0" step="1000" value="25000"><span class="u">元</span></div></div>
+    <div class="field full"><label for="hc-job">工作穩定度</label><div class="inp"><select id="hc-job">
+      <option value="s">穩定（固定月薪、公教）</option>
+      <option value="m" selected>普通</option>
+      <option value="u">不穩定／自由工作者</option>
+    </select></div></div>
+  </div>
+  <p class="note" style="margin:-8px 0 16px">必要支出＝不付就會出事的錢：房租或房貸、吃飯、交通、水電、電話、保費、孝親費、要還的貸款。</p>
+
+  <div class="hc">
+    <div class="stat hero"><div class="l">① 緊急預備金 <span class="lab">資訊（慣例）</span></div>
+      <div class="v" id="hc-ef">—</div>
+      <div class="why" id="hc-ef-why"></div>
+      <div class="why">預備金不是越多越好：放在活存、定存幾乎沒有實質報酬，存夠了，多的錢就可以拿去做別的安排。</div></div>
+
+    <div class="stat"><div class="l">② 保險預算上限 <span class="lab">資訊（慣例）</span></div>
+      <div class="v" id="hc-ins">—</div>
+      <div class="why">保險業常說的「雙十原則」：一年保費不超過年收入 10%、保額約年收入 10 倍。這裡的保費只算保障型（醫療、意外、壽險），儲蓄險、投資型保單不算。</div></div>
+
+    <div class="stat"><div class="l">③ 收入分配參考：50／30／20 <span class="lab">資訊（慣例）</span></div>
+      <div class="split"><div>必要<b id="hc-50">—</b></div><div>想要<b id="hc-30">—</b></div><div>存起來<b id="hc-20">—</b></div></div>
+      <div class="why" id="hc-split-why"></div></div>
+
+    <div class="stat"><div class="l">④ 先做哪一件？ <span class="lab">資訊（慣例）</span></div>
+      <ol class="order">
+        <li>有卡債、信貸這類高利率借款，先還。</li>
+        <li>再存緊急預備金。</li>
+        <li>最後才投資。</li>
+      </ol>
+      <div class="why">信用卡循環利率最高可到年利率 15%（<a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0380001&amp;flno=47-1" target="_blank" rel="noopener">銀行法第 47 條之 1</a>，<span class="lab ok">確定</span>），比大多數投資的報酬都高，所以先還債通常比較划算。</div></div>
+
+    <div class="stat"><div class="l">⑤ 十年後</div>
+      <div class="why" id="hc-10y" style="font-size:16px;color:var(--ink)"></div></div>
+  </div>
+
+  <div class="box"><strong>小提醒</strong><br>這些是理財書和保險業常用的經驗法則，用來快速檢查自己的狀況。50／30／20 出自 Elizabeth Warren 與 Amelia Warren Tyagi 的書《All Your Worth》（2005），原本是以美國家庭為對象。每個人的狀況不同，數字僅供參考，不構成理財建議。</div>
+</section>
+
+<!-- 02 定期定額 -->
 <section class="tool" id="dca">
-  <span class="tag">試算 01</span>
+  <span class="tag">試算 02</span>
   <h2>定期定額試算</h2>
   <p class="desc">每個月固定投入一筆錢，在固定年化報酬率下，看看幾年後會變成多少。</p>
 
@@ -144,7 +199,7 @@ footer h4{color:var(--ink);font-size:16px;margin-bottom:10px}
 
 <!-- 02 存股 -->
 <section class="tool" id="div">
-  <span class="tag">試算 02</span>
+  <span class="tag">試算 03</span>
   <h2>存股殖利率試算</h2>
   <p class="desc">輸入股價和每年配多少現金股利，算出殖利率、一年能領多少，以及股利拿去再買股票的效果。</p>
 
@@ -172,7 +227,7 @@ footer h4{color:var(--ink);font-size:16px;margin-bottom:10px}
 
 <!-- 03 匯率 -->
 <section class="tool" id="fx">
-  <span class="tag">試算 03</span>
+  <span class="tag">試算 04</span>
   <h2>匯率換算</h2>
   <p class="desc">選擇幣別、輸入金額，馬上換算。下方匯率可以自己修改成銀行當下的報價。</p>
 
@@ -200,7 +255,7 @@ footer h4{color:var(--ink);font-size:16px;margin-bottom:10px}
 <footer><div class="wrap">
   <h4>免責聲明</h4>
   <p>本頁試算結果僅供參考，不構成任何投資建議。投資有風險，請自行判斷並承擔風險。</p>
-  <a class="top" href="#dca">↑ 回到最上面</a>　<a class="top" href="./">看每日早報 →</a>
+  <a class="top" href="#hc">↑ 回到最上面</a>　<a class="top" href="./">看每日早報 →</a>
 </div></footer>
 
 <script>
@@ -217,7 +272,32 @@ const wan = v => {
 };
 const signCls = v => v > 0 ? 'up' : v < 0 ? 'down' : '';
 
-/* ---------- 01 定期定額 ---------- */
+
+/* ---------- 01 財務健檢 ---------- */
+function calcHC(){
+  const inc = Math.max(0, num('hc-in')), ex = Math.max(0, num('hc-ex')), job = $('hc-job').value;
+  const r = {s:[3,6,'工作穩定的人，一般建議準備 3～6 個月的必要支出。'],
+             m:[6,6,'收入普通穩定，抓 6 個月的必要支出比較保險。'],
+             u:[6,12,'收入起伏大或自由工作者，可以抓到 6～12 個月。']}[job];
+  $('hc-ef').innerHTML = r[0] === r[1] ? money(ex*r[0]) + ' <small>（' + r[0] + ' 個月）</small>'
+    : wan(ex*r[0]) + '～' + wan(ex*r[1]) + ' 元 <small>（' + r[0] + '～' + r[1] + ' 個月）</small>';
+  $('hc-ef-why').textContent = r[2] + '用途是失業、生病、意外時撐住生活，不用被迫賣掉投資或借錢。';
+  $('hc-ins').innerHTML = '一年 ' + money(inc*12*0.1) + ' <small>（每月約 ' + nf0.format(Math.round(inc*0.1)) + '）</small>';
+  $('hc-50').textContent = wan(inc*.5); $('hc-30').textContent = wan(inc*.3); $('hc-20').textContent = wan(inc*.2);
+  const pct = inc > 0 ? Math.round(ex/inc*100) : 0;
+  $('hc-split-why').textContent = inc > 0
+    ? '你的必要支出占收入 ' + pct + '%（參考值是 50%）。' + (pct > 50 ? '比參考值高，常見原因是房租或房貸占比大。' : '在參考值以內。')
+    : '先輸入每月收入。';
+  const save = Math.max(0, inc - ex), m = save, rm = Math.pow(1.05, 1/12) - 1;
+  let fv = 0; for (let k = 0; k < 120; k++) fv = fv*(1+rm) + m;
+  $('hc-10y').innerHTML = save > 0
+    ? '收入扣掉必要支出，每月最多能存 <b>' + money(save) + '</b>。全部存下來，十年後放著不動約 <b>' + wan(save*120) + ' 元</b>；假設年報酬 5%，約 <b>' + wan(fv) + ' 元</b>。'
+    : '目前必要支出大於或等於收入，每月存不下錢。';
+}
+['hc-in','hc-ex','hc-job'].forEach(id => $(id).addEventListener('input', calcHC));
+calcHC();
+
+/* ---------- 02 定期定額 ---------- */
 function calcDCA(){
   const m = Math.max(0, num('dca-m')), init = Math.max(0, num('dca-i'));
   const r = num('dca-r') / 100, years = Math.min(60, Math.max(1, Math.round(num('dca-y'))));
