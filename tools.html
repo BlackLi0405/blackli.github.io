@@ -15,15 +15,14 @@
 .tool p{color:var(--ink2);margin:0}
 .tool ul{margin:8px 0 0;padding-left:1.2em;color:var(--mute);font-size:14px}
 .tool .go{margin-top:auto;padding-top:12px;font-weight:800;color:var(--accent)}
-.tool.big{background:transparent;color:var(--chalk);border:2px solid var(--hl)}
+.tool.big{background:var(--board);color:var(--chalk);border:0}
 .tool.big p,.tool.big ul{color:var(--chalk);opacity:.85}
 .tool.big .go{color:var(--hl)}
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
-<meta name="theme-color" content="#1E3228">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
@@ -36,7 +35,7 @@
 </head>
 <body class="hub">
 <!-- SITE-NAV:START -->
-<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><svg width="26" height="32" viewBox="0 0 30 36" aria-hidden="true" fill="none" stroke="#F2EFE6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="7" r="4.6"/><path d="M13 12 L12.6 23"/><path d="M12.8 15.5 L6 19.5"/><path d="M12.8 15.5 L20 12.2 L24.5 8"/><path d="M12.6 23 L8 33"/><path d="M12.6 23 L17.4 33"/><path d="M24.5 8 L27.5 4.6" stroke="#F4D35E" stroke-width="3.2"/></svg>BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">早報</a><a href="news.html">發生什麼事</a><a href="weekly.html">看深一點</a><a href="mind.html">向內看</a><a href="fun.html">休息區</a><a href="tools.html" aria-current="page">工具箱</a><a href="about.html">這塊黑板</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">早報<small>財經早報・國際早報・台股盤後・美股盤前</small></a><a href="news.html">發生什麼事<small>全部新聞</small></a><a href="weekly.html">看深一點<small>生活／科技／社會週報・深度拆解</small></a><a href="mind.html">向內看<small>每日一問・跟著黑板呼吸・身心專欄</small></a><a href="fun.html">休息區<small>飲料新品・小考・冷知識</small></a><a href="tools.html" aria-current="page">工具箱<small>出遊・排行程・理財・休假・裝到手機</small></a><a href="about.html">這塊黑板<small>網站初衷</small></a></nav></details></div></div>
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">早報</a><a href="news.html">發生什麼事</a><a href="weekly.html">看深一點</a><a href="mind.html">向內看</a><a href="fun.html">休息區</a><a href="tools.html" aria-current="page">工具箱</a><a href="about.html">這塊黑板</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">早報<small>財經早報・國際早報・台股盤後・美股盤前</small></a><a href="news.html">發生什麼事<small>全部新聞</small></a><a href="weekly.html">看深一點<small>生活／科技／社會週報・深度拆解</small></a><a href="mind.html">向內看<small>每日一問・跟著黑板呼吸・身心專欄</small></a><a href="fun.html">休息區<small>飲料新品・小考・冷知識</small></a><a href="tools.html" aria-current="page">工具箱<small>出遊・排行程・理財・休假・裝到手機</small></a><a href="about.html">這塊黑板<small>網站初衷</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
 <section class="chalkboard"><div class="w ph">
   <div class="kick">工具箱</div>
@@ -44,18 +43,18 @@
   <p>出門玩、排行程、算存錢和換匯，放假、請假也幫你整理好。全部免費，資料只存在你自己的手機或電腦裡。</p>
 </div></section>
 <main><div class="w sec"><div class="grid g3">
-  <a class="tool big" href="travel.html"><h2>出遊情報</h2><p>全台各縣市的展覽、演出、節慶活動一次看。</p><ul><li>依縣市、日期、類型篩選</li><li>一個連結分享給朋友</li><li>資料來自文化部與觀光署，每天更新</li></ul><span class="go">去看看有什麼好玩 →</span></a>
-  <a class="tool" href="trip.html"><h2>幫我排行程</h2><p>依預算、交通、同伴、時間和今天的心情，自動排一整天。</p><ul><li>時間軸、地圖、天氣、預算</li><li>出發後有倒數和記帳</li><li>回來可以幫每一站打分數</li></ul><span class="go">開始排行程 →</span></a>
-  <a class="tool" href="calc.html"><h2>理財小工具</h2><p>簡單好用的試算，不用註冊。</p><ul><li>財務健檢：預備金、保險預算、收入怎麼分</li><li>定期定額：每月存多少，幾年後有多少</li><li>存股殖利率：一年能領多少股利</li><li>匯率換算：出國換匯要準備多少</li></ul><span class="go">打開小工具 →</span></a>
-  <a class="tool" href="leave.html"><h2>休假中心</h2><p>上班族的放假與請假小幫手，每個答案都標明「法律規定」還是「看公司」。</p><ul><li>連假倒數，一鍵加進手機行事曆</li><li>特休計算機：今年有幾天特休</li><li>請假扣薪試算：會少多少、全勤扣不扣</li></ul><span class="go">打開休假中心 →</span></a>
+  <a class="tool big" href="travel.html"><div class="ic">🎪</div><h2>出遊情報</h2><p>全台各縣市的展覽、演出、節慶活動一次看。</p><ul><li>依縣市、日期、類型篩選</li><li>一個連結分享給朋友</li><li>資料來自文化部與觀光署，每天更新</li></ul><span class="go">去看看有什麼好玩 →</span></a>
+  <a class="tool" href="trip.html"><div class="ic">🧭</div><h2>幫我排行程</h2><p>依預算、交通、同伴、時間和今天的心情，自動排一整天。</p><ul><li>時間軸、地圖、天氣、預算</li><li>出發後有倒數和記帳</li><li>回來可以幫每一站打分數</li></ul><span class="go">開始排行程 →</span></a>
+  <a class="tool" href="calc.html"><div class="ic">💰</div><h2>理財小工具</h2><p>簡單好用的試算，不用註冊。</p><ul><li>財務健檢：預備金、保險預算、收入怎麼分</li><li>定期定額：每月存多少，幾年後有多少</li><li>存股殖利率：一年能領多少股利</li><li>匯率換算：出國換匯要準備多少</li></ul><span class="go">打開小工具 →</span></a>
+  <a class="tool" href="leave.html"><div class="ic">🗓️</div><h2>休假中心</h2><p>上班族的放假與請假小幫手，每個答案都標明「法律規定」還是「看公司」。</p><ul><li>連假倒數，一鍵加進手機行事曆</li><li>特休計算機：今年有幾天特休</li><li>請假扣薪試算：會少多少、全勤扣不扣</li></ul><span class="go">打開休假中心 →</span></a>
   <a class="tool" href="skills.html"><h2>通用技能</h2><p>做哪一行都用得到的五個基本功，附今天就能做的小練習。</p><ul><li>表達、寫作、Excel、AI、時間管理</li><li>免費或有補助的學習管道</li></ul><span class="go">去看看 →</span></a>
   <a class="tool" href="career.html"><h2>專業技能</h2><p>主要行業要會什麼、有哪些證照、缺了怎麼補。</p><ul><li>依勞動部職能基準整理</li><li>證照、考試一律連官方</li></ul><span class="go">去看看 →</span></a>
   <a class="tool" href="guide.html"><h2>按主題查</h2><p>住、錢、工作、健康、家庭：有什麼資源、怎麼申請。</p><ul><li>要準備什麼文件</li><li>每項附官方連結</li></ul><span class="go">去看看 →</span></a>
 </div>
-<a class="tool" href="app.html" style="margin-top:18px;flex-direction:row;align-items:center;gap:16px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><h2 style="margin-top:0">裝到手機</h2><p>加到主畫面，像 App 一樣一鍵打開，讀過的文章沒網路也能看。</p></div><span class="go" style="padding-top:0">看怎麼裝 →</span></a>
+<a class="tool" href="app.html" style="margin-top:18px;flex-direction:row;align-items:center;gap:16px;flex-wrap:wrap"><div class="ic">📱</div><div style="flex:1;min-width:200px"><h2 style="margin-top:0">裝到手機</h2><p>加到主畫面，像 App 一樣一鍵打開，讀過的文章沒網路也能看。</p></div><span class="go" style="padding-top:0">看怎麼裝 →</span></a>
 </div></main>
 <!-- SITE-FOOT:START -->
-<div class="sf"><div class="sf-in"><div><div class="sf-brand"><svg width="22" height="27" viewBox="0 0 30 36" aria-hidden="true" fill="none" stroke="#F2EFE6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="7" r="4.6"/><path d="M13 12 L12.6 23"/><path d="M12.8 15.5 L6 19.5"/><path d="M12.8 15.5 L20 12.2 L24.5 8"/><path d="M12.6 23 L8 33"/><path d="M12.6 23 L17.4 33"/><path d="M24.5 8 L27.5 4.6" stroke="#F4D35E" stroke-width="3.2"/></svg>BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">早報</a></li><li><a href="news.html">發生什麼事</a></li><li><a href="weekly.html">看深一點</a></li><li><a href="mind.html">向內看</a></li><li><a href="fun.html">休息區</a></li></ul></div><div><h5>工具箱</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>這塊黑板</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">早報</a></li><li><a href="news.html">發生什麼事</a></li><li><a href="weekly.html">看深一點</a></li><li><a href="mind.html">向內看</a></li><li><a href="fun.html">休息區</a></li></ul></div><div><h5>工具箱</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>這塊黑板</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
 </body>
 </html>

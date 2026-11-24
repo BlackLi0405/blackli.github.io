@@ -149,43 +149,7 @@ body.bb-big main p,body.bb-big main li{font-size:19px}
   .tbl:not(:has(th.r)) td:nth-child(3)::before{content:"依據：";font-weight:700}
 }
 
-/* ===== 黑板化（2026.11）：整站都是黑板底，白・黃・粉紅粉筆字 ===== */
-:root{
-  --bg:#1E3228;--paper:#243A2F;--panel:#243A2F;--panel2:#2B4437;--line:rgba(242,239,230,.18);
-  --ink:#F2EFE6;--ink2:#D9DED6;--mute:#A9B6AC;
-  --gold:#F4D35E;--accent:#F4D35E;--on-accent:#1E3228;
-  --hl:#F4D35E;--hl-ink:#F4D35E;--hl-soft:rgba(244,211,94,.16);--pink:#F4A6C0;
-  --board:#1E3228;--board2:#2B4437;--chalk:#F2EFE6;
-  --up:#FF8A95;--down:#6EE29A;--ok:#6EE29A;--blue:#9CC2F2;
-  --fact:#9CC2F2;--view:#C9A5EC;--stance:#E8B36A;--interest:#7CCFB2;
-  --glass:rgba(30,50,40,.95);--shadow:none;
-  --hand:'LXGW WenKai TC','Noto Sans TC',serif;
-  color-scheme:dark;
-}
-.sb{border-bottom:2px solid rgba(242,239,230,.5)}
-.sf{border-top:2px solid rgba(242,239,230,.5)}
-.sb-menu summary,.sb-drop{border-color:rgba(242,239,230,.6)}
-/* 手寫粉筆字：網站名稱、大標題、區塊標題 */
-.sb-logo,.sf-brand{font-family:var(--hand);font-weight:700;letter-spacing:0}
-.sb-logo svg,.sf-brand svg{flex:none;display:block}
-.hub h1,.hub .ph h1,.hub h2,.hub .k{font-family:var(--hand)}
-.hub .k{font-size:17px;letter-spacing:.04em;color:var(--ink2)}
-.hub .k::after{background:none;border-bottom:2px dashed var(--line)}
-/* 卡片：不要千篇一律的圓角陰影，改成粉筆框；滑過去像便利貼微微翹起 */
-.hub .nb,.hub .card,.hub .box2,.panel,.tool,.bi,.stat,.box{border-radius:3px!important;box-shadow:none!important}
-.hub .nb{background:transparent;border:1.5px solid var(--line)}
-.hub .nb::before{width:4px;border-radius:0}
-.hub .nb,.hub .card,.tool{transition:transform .18s ease,box-shadow .18s ease,background .18s}
-.hub .nb:hover,.tool:hover{transform:translateY(-3px) rotate(-.8deg);background:var(--paper);box-shadow:4px 8px 0 rgba(0,0,0,.25)!important}
-.hub .card{background:transparent;border:0;border-top:1.5px solid var(--line);padding:16px 2px 12px;margin:0}
-.hub .card:hover{transform:none}
-.hub .card:hover li{text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:2px;text-underline-offset:5px}
-.hub .card li span{color:var(--pink)}
-.hub .tag{border-radius:2px;background:transparent;border:1px solid currentColor;color:var(--hl)}
-.hub .btn{border-radius:4px}
-.hub .pills a,.hub .pills button{border-radius:4px}
 /* 回到頂端 */
-.bb-top{position:fixed;right:16px;bottom:18px;z-index:45;font:inherit;font-family:var(--hand);font-size:15px;font-weight:700;color:var(--chalk);background:var(--board2);border:1.5px solid rgba(242,239,230,.6);border-radius:4px;padding:8px 12px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .2s}
+.bb-top{position:fixed;right:16px;bottom:18px;z-index:45;font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);border-radius:99px;padding:7px 14px;cursor:pointer;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s}
 .bb-top.on{opacity:1;pointer-events:auto}
 @media print{.bb-top{display:none}}
-@media (prefers-reduced-motion:reduce){.hub .nb,.hub .card,.tool{transition:none}.hub .nb:hover,.tool:hover{transform:none}}

@@ -10,59 +10,51 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-.hub .hero{padding-top:30px;padding-bottom:40px}
-.hero .top{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;margin-bottom:6px}
-.hero .d{font-family:var(--hand);font-weight:700;font-size:17px;color:var(--ink2)}
-.hero .bb-streak{background:transparent;color:var(--ink2);padding:0;font-family:var(--hand)}
-.hero .kick{font-family:var(--hand);color:var(--pink);font-size:18px;margin:22px 0 4px}
-.hero h1{font-family:var(--hand);font-weight:700;font-size:clamp(34px,8.6vw,72px);line-height:1.22;margin:0 0 10px;max-width:16em;color:var(--chalk);text-shadow:0 0 1px rgba(242,239,230,.5)}
-.hero h1 .c{opacity:0;animation:chalk .01s linear forwards}
-@keyframes chalk{to{opacity:1}}
-.hero .sub{font-size:16px;color:var(--ink2);margin:0 0 26px;max-width:40em}
-.count{font-family:var(--hand);font-size:20px;color:var(--hl);margin:0 0 10px}
-.count b{font-size:30px}
-.periods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:2px solid rgba(242,239,230,.35)}
-.per{display:block;text-decoration:none;color:var(--chalk);padding:14px 18px 16px 0;position:relative;border-bottom:1.5px dashed rgba(242,239,230,.22)}
-.per+.per{padding-left:18px;border-left:1.5px dashed rgba(242,239,230,.22)}
-.per .t{font-family:var(--hand);font-weight:700;font-size:16px;color:var(--hl)}
-.per .lab{font-size:14px;color:var(--ink2);margin-left:6px}
-.per b{display:block;font-size:17px;line-height:1.5;margin:6px 0 2px;font-weight:700}
-.per:hover b{text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:2px;text-underline-offset:5px}
-.per.todo{color:var(--mute)}.per.todo b{font-weight:500}
-.per .st{font-size:13px;color:var(--mute);margin-left:8px}
-.per .prev{display:block;font-size:13px;color:var(--mute);margin-top:6px}
-.per .prev a{color:var(--ink2)}
-.per .ck{position:absolute;right:6px;top:8px;width:44px;height:36px}
-.per .ck path{fill:none;stroke:var(--pink);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:60;stroke-dashoffset:0}
-.per .ck.draw path{animation:tick .5s .2s ease-out both}
-@keyframes tick{from{stroke-dashoffset:60}to{stroke-dashoffset:0}}
-@media (max-width:860px){.periods{grid-template-columns:1fr 1fr}.per:nth-child(3){border-left:0;padding-left:0}}
-@media (max-width:560px){.periods{grid-template-columns:1fr}.per+.per{border-left:0;padding-left:0}.per{padding-right:50px}}
-@media (prefers-reduced-motion:reduce){.hero h1 .c{animation:none;opacity:1}.per .ck.draw path{animation:none}}
+.hub .hero{padding-top:34px;padding-bottom:38px}
+.hero .top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.hero h1{font-size:clamp(36px,6vw,54px);font-weight:900;line-height:1.1;margin:0}
+.hero h1 em{font-style:normal;color:var(--hl)}
+.hero .d{font-family:Inter,sans-serif;font-weight:800;opacity:.85;font-size:15px}
+.hero .bb-streak{background:rgba(244,211,94,.16);color:var(--chalk)}
+.periods{display:grid;grid-template-columns:1.55fr 1fr 1fr 1fr;gap:14px}
+.per{display:block;text-decoration:none;color:var(--chalk);border:1.5px solid rgba(242,239,230,.32);border-radius:14px;padding:16px 18px;position:relative;min-height:150px;transition:border-color .15s,background .15s}
+a.per:hover{border-color:var(--hl);background:rgba(242,239,230,.05)}
+.per.main{background:rgba(242,239,230,.07);border-color:var(--hl)}
+.per .t{font-family:Inter,sans-serif;font-weight:800;font-size:14px;color:var(--hl)}
+.per .lab{font-size:13px;opacity:.75;margin-left:6px}
+.per b{display:block;font-size:18px;line-height:1.45;margin:8px 0 6px}
+.per.main b{font-size:clamp(22px,2.4vw,28px);line-height:1.35}
+.per ul{list-style:none;margin:0;padding:0;font-size:14px;opacity:.85}
+.per li{padding:2px 0}
+.per li::before{content:"・"}
+.per .st{position:absolute;right:14px;top:14px;font-size:12px;font-weight:800;border-radius:99px;padding:1px 8px;background:var(--hl);color:#1F2A24}
+.per.todo{border-style:dashed;opacity:.8}
+.per.todo .st{background:transparent;color:var(--chalk);border:1px solid rgba(242,239,230,.4)}
+.per .prev{display:block;font-size:13px;opacity:.75;margin-top:8px}
+.per .prev a{color:var(--chalk)}
+@media (max-width:980px){.periods{grid-template-columns:1fr 1fr}.per.main{grid-column:1/-1}}
+@media (max-width:560px){.periods{grid-template-columns:1fr}}
 .acts .nb h3{font-size:19px}
 .acts .nb .q{font-size:17px;font-weight:800;line-height:1.5;margin:8px 0 10px;color:var(--ink)}
 .acts .nb .go{font-size:14px;font-weight:800;color:var(--accent)}
 .notes{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
-.feature{display:flex;gap:22px;align-items:center;background:transparent;color:var(--chalk);border:2px solid var(--hl);border-radius:3px;padding:24px 26px;text-decoration:none;transition:transform .18s}
-.feature:hover{transform:rotate(-.6deg) translateY(-3px)}
-.feature h3{font-family:var(--hand);font-size:30px!important}
+.feature{display:flex;gap:22px;align-items:center;background:var(--board);color:var(--chalk);border-radius:16px;padding:24px 26px;text-decoration:none}
 .feature .ic{font-size:50px;line-height:1}
 .feature h3{font-size:24px;font-weight:900;margin:0 0 4px}
 .feature p{opacity:.85;font-size:15px;margin:0 0 12px}
 .tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.tool{display:block;text-decoration:none;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:3px;padding:16px;font-weight:800;font-size:15px;box-shadow:var(--shadow)}
+.tool{display:block;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px;font-weight:800;font-size:15px;box-shadow:var(--shadow)}
 .tool small{display:block;font-weight:500;color:var(--mute);font-size:13px;margin-top:4px}
 .duo{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:start}
 @media (max-width:860px){.duo{grid-template-columns:1fr}.feature{flex-direction:column;align-items:flex-start}}
-.intro{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:transparent;border:1.5px dashed var(--pink);border-radius:3px;padding:18px 22px;text-decoration:none;color:var(--ink)}
+.intro{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--hl-soft);border-radius:16px;padding:18px 22px;text-decoration:none;color:var(--ink)}
 .intro b{font-size:17px}
 .intro span{color:var(--ink2)}
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
-<meta name="theme-color" content="#1E3228">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
@@ -75,16 +67,15 @@
 </head>
 <body class="hub">
 <!-- SITE-NAV:START -->
-<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><svg width="26" height="32" viewBox="0 0 30 36" aria-hidden="true" fill="none" stroke="#F2EFE6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="7" r="4.6"/><path d="M13 12 L12.6 23"/><path d="M12.8 15.5 L6 19.5"/><path d="M12.8 15.5 L20 12.2 L24.5 8"/><path d="M12.6 23 L8 33"/><path d="M12.6 23 L17.4 33"/><path d="M24.5 8 L27.5 4.6" stroke="#F4D35E" stroke-width="3.2"/></svg>BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html" aria-current="page">早報</a><a href="news.html">發生什麼事</a><a href="weekly.html">看深一點</a><a href="mind.html">向內看</a><a href="fun.html">休息區</a><a href="tools.html">工具箱</a><a href="about.html">這塊黑板</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html" aria-current="page">早報<small>財經早報・國際早報・台股盤後・美股盤前</small></a><a href="news.html">發生什麼事<small>全部新聞</small></a><a href="weekly.html">看深一點<small>生活／科技／社會週報・深度拆解</small></a><a href="mind.html">向內看<small>每日一問・跟著黑板呼吸・身心專欄</small></a><a href="fun.html">休息區<small>飲料新品・小考・冷知識</small></a><a href="tools.html">工具箱<small>出遊・排行程・理財・休假・裝到手機</small></a><a href="about.html">這塊黑板<small>網站初衷</small></a></nav></details></div></div>
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html" aria-current="page">早報</a><a href="news.html">發生什麼事</a><a href="weekly.html">看深一點</a><a href="mind.html">向內看</a><a href="fun.html">休息區</a><a href="tools.html">工具箱</a><a href="about.html">這塊黑板</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html" aria-current="page">早報<small>財經早報・國際早報・台股盤後・美股盤前</small></a><a href="news.html">發生什麼事<small>全部新聞</small></a><a href="weekly.html">看深一點<small>生活／科技／社會週報・深度拆解</small></a><a href="mind.html">向內看<small>每日一問・跟著黑板呼吸・身心專欄</small></a><a href="fun.html">休息區<small>飲料新品・小考・冷知識</small></a><a href="tools.html">工具箱<small>出遊・排行程・理財・休假・裝到手機</small></a><a href="about.html">這塊黑板<small>網站初衷</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
 <div class="dateline"><div class="w"><span id="dl">今天的黑板</span><span>把複雜的事寫在黑板上，分清楚事實・觀點・立場・利益</span></div></div>
 
 <section class="chalkboard"><div class="w hero">
-  <div class="top"><span class="bb-streak" data-bb-streak></span></div>
-  <div class="kick">今天黑板上最重要的一件事</div>
-  <h1 id="headline">今天的早報</h1>
-  <p class="sub" id="sub">財經、國際、台股盤後、美股盤前，每天四篇，用幾分鐘看懂。</p>
-  <p class="count" id="count"></p>
+  <div class="top">
+    <h1>今天的<em>早報</em></h1>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="bb-streak" data-bb-streak></span><span class="d" id="today"></span></div>
+  </div>
   <div class="periods" id="periods"></div>
 </div></section>
 
@@ -109,13 +100,13 @@
 </div></section>
 
 <section class="sec" style="padding-top:0"><div class="w duo">
-  <a class="feature" href="travel.html"><div><h3>出遊情報</h3><p>全台各縣市的展覽、演出、節慶，依縣市找，一鍵排成行程。</p><span class="btn chalk">這週去哪 →</span></div></a>
+  <a class="feature" href="travel.html"><div class="ic">🎪</div><div><h3>出遊情報</h3><p>全台各縣市的展覽、演出、節慶，依縣市找，一鍵排成行程。</p><span class="btn chalk">這週去哪 →</span></div></a>
   <div>
     <div class="k">小工具<a href="tools.html">全部工具 →</a></div>
     <div class="tools">
-      <a class="tool" href="trip.html">排行程<small>依心情和預算</small></a>
-      <a class="tool" href="calc.html#hc">財務健檢<small>預備金・保險・收入分配</small></a>
-      <a class="tool" href="calc.html#fx">匯率換算<small>出國換匯</small></a>
+      <a class="tool" href="trip.html">🧭 排行程<small>依心情和預算</small></a>
+      <a class="tool" href="calc.html#hc">💰 財務健檢<small>預備金・保險・收入分配</small></a>
+      <a class="tool" href="calc.html#fx">💱 匯率換算<small>出國換匯</small></a>
     </div>
   </div>
 </div></section>
@@ -502,6 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const T = window.BB ? BB.today() : new Date().toLocaleDateString('sv-SE', {timeZone: 'Asia/Taipei'});
   const WD = '日一二三四五六';
   const dow = new Date(T + 'T12:00:00+08:00').getDay();
+  document.getElementById('today').textContent = T.replace(/-/g, '.') + '（週' + WD[dow] + '）';
   document.getElementById('dl').textContent = `${+T.slice(5, 7)} 月 ${+T.slice(8)} 日 星期${WD[dow]}・今天的黑板`;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
   const parse = a => { const href = a.getAttribute('href') || ''; const m = href.match(/(\d{4}-\d{2}-\d{2})/);
@@ -519,41 +511,19 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
   const md = d => d ? `${+d.slice(5, 7)}/${+d.slice(8)}` : '';
   const seen = window.BB ? BB.store.get('seen', []) : [];
-  const ck = draw => `<svg class="ck${draw ? ' draw' : ''}" viewBox="0 0 44 36" aria-label="看過了"><path d="M5 19 L16 30 L40 5"/></svg>`;
-  const ticked = window.BB ? BB.store.get('ticked', {}) : {};
-  let avail = 0, read = 0;
   document.getElementById('periods').innerHTML = P.map(p => {
     const c = latest(p.k);
     const isToday = c && c.date === T;
     if (isToday || (p.main && c)) {
-      const done = seen.includes(c.href);
-      if (isToday) { avail++; if (done) read++; }
-      const fresh = done && !ticked[c.href]; if (done) ticked[c.href] = 1;
-      return `<a class="per" href="${esc(c.href)}"><span class="t">${p.t}</span><span class="lab">${p.lab}</span>${!isToday ? `<span class="st">${md(c.date)}</span>` : ''}
-        <b>${esc(c.items[0] ? c.items[0].t : '')}</b>${done ? ck(fresh) : ''}</a>`;
+      const items = c.items.slice(1, p.main ? 3 : 1);
+      return `<a class="per${p.main ? ' main' : ''}" href="${esc(c.href)}"><span class="t">${p.t}</span><span class="lab">${p.lab}</span>
+        <span class="st">${!isToday ? md(c.date) : seen.includes(c.href) ? '看過了 ✓' : '已更新'}</span><b>${esc(c.items[0] ? c.items[0].t : '')}</b>
+        ${items.length ? '<ul>' + items.map(i => `<li>${esc(i.t)}</li>`).join('') + '</ul>' : ''}</a>`;
     }
     const why = p.trade && weekend ? '週末休市，下週一見' : `今天 ${p.t} 更新`;
-    return `<div class="per todo"><span class="t">${p.t}</span><span class="lab">${p.lab}</span>
+    return `<div class="per todo"><span class="t">${p.t}</span><span class="lab">${p.lab}</span><span class="st">${p.trade && weekend ? '休市' : '還沒更新'}</span>
       <b>${why}</b>${c ? `<span class="prev">上一篇：<a href="${esc(c.href)}">${md(c.date)} ${esc(c.items[0] ? c.items[0].t : '')}</a></span>` : ''}</div>`;
   }).join('');
-  if (window.BB) { Object.keys(ticked).filter(h => !seen.includes(h)).forEach(h => delete ticked[h]); BB.store.set('ticked', ticked); }
-  document.getElementById('count').innerHTML = avail ? `今天看了 <b>${read}</b>／${avail}` : '今天的還沒更新';
-
-  // 開場：今天的重點標題，像粉筆一個字一個字寫出來（每天第一次打開才寫）
-  const lead = latest('brief');
-  if (lead && lead.items[0]) {
-    const h = document.getElementById('headline'), text = lead.items[0].t;
-    const wrote = window.BB && BB.store.get('wrote', '') === T;
-    if (wrote || matchMedia('(prefers-reduced-motion: reduce)').matches) h.textContent = text;
-    else {
-      const step = Math.min(70, 1600 / text.length);
-      h.innerHTML = [...text].map((ch, i) => `<span class="c" style="animation-delay:${Math.round(i * step)}ms">${esc(ch)}</span>`).join('');
-      if (window.BB) BB.store.set('wrote', T);
-    }
-    h.setAttribute('aria-label', text);
-    const rest = lead.items.slice(1, 3).map(i => i.t);
-    if (rest.length) document.getElementById('sub').textContent = '還有：' + rest.join('；');
-  }
 
   // 今日小考的狀態
   fetch('data/quiz.json', {cache: 'no-cache'}).then(r => r.json()).then(j => {
@@ -578,7 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <!-- SITE-FOOT:START -->
-<div class="sf"><div class="sf-in"><div><div class="sf-brand"><svg width="22" height="27" viewBox="0 0 30 36" aria-hidden="true" fill="none" stroke="#F2EFE6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="7" r="4.6"/><path d="M13 12 L12.6 23"/><path d="M12.8 15.5 L6 19.5"/><path d="M12.8 15.5 L20 12.2 L24.5 8"/><path d="M12.6 23 L8 33"/><path d="M12.6 23 L17.4 33"/><path d="M24.5 8 L27.5 4.6" stroke="#F4D35E" stroke-width="3.2"/></svg>BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">早報</a></li><li><a href="news.html">發生什麼事</a></li><li><a href="weekly.html">看深一點</a></li><li><a href="mind.html">向內看</a></li><li><a href="fun.html">休息區</a></li></ul></div><div><h5>工具箱</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>這塊黑板</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">早報</a></li><li><a href="news.html">發生什麼事</a></li><li><a href="weekly.html">看深一點</a></li><li><a href="mind.html">向內看</a></li><li><a href="fun.html">休息區</a></li></ul></div><div><h5>工具箱</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>這塊黑板</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
 </body>
 </html>
