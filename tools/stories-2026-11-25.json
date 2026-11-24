@@ -1,0 +1,13 @@
+{
+  "mode": "digest",
+  "file": "story",
+  "date": "2026.11.25",
+  "weekday": "週三",
+  "title": "今日財經 3 大重點",
+  "source": "中央社、路透、CNBC",
+  "stories": [
+    {"tag": "台股", "headline": "台股史上最大漲點重返4萬", "stat": "40,122", "stat_label": "加權指數 11/24 收盤", "change": "▲ 3,310 點", "dir": "up", "summary": "外資仍賣超 504 億，連 7 天提款"},
+    {"tag": "美股", "headline": "戴爾財報優於預期", "stat": "1,323 億", "stat_label": "AI 訂單積壓（美元）", "change": "", "dir": "up", "summary": "全年營收預測上調至 2,020 億美元"},
+    {"tag": "總經", "headline": "美消費者信心近兩年新高", "stat": "103.3", "stat_label": "11 月消費者信心指數", "change": "▲ 11.4 點", "dir": "up", "summary": "道瓊首度收在 5 萬點之上"}
+  ]
+}
