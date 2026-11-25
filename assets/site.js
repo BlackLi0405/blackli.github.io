@@ -136,6 +136,29 @@
       }
     });
     window.addEventListener('pagehide', () => { try { speechSynthesis.cancel(); } catch (e) {} });
+
+    /* 往下讀時：選單下方一條粉筆黃進度線；讀到四層的哪一層，左下角顯示「正在讀：事實」 */
+    const sb = document.querySelector('.sb');
+    if (sb) {
+      const bar2 = document.createElement('div'); bar2.className = 'bb-progress'; sb.appendChild(bar2);
+      const prog = () => { const h = document.documentElement.scrollHeight - innerHeight; bar2.style.transform = `scaleX(${h > 0 ? Math.min(1, scrollY / h) : 0})`; };
+      addEventListener('scroll', prog, {passive: true}); prog();
+    }
+    const heads = [...main.querySelectorAll('h3')].filter(h => h.querySelector('.lab.fact,.lab.view,.lab.stance,.lab.interest'));
+    if (heads.length && 'IntersectionObserver' in window) {
+      const pill = document.createElement('div'); pill.className = 'bb-layer'; pill.setAttribute('aria-hidden', 'true'); document.body.appendChild(pill);
+      const NAME = {fact: '事實', view: '觀點', stance: '立場', interest: '利益'};
+      // 每個四層小標到下一個小標之間算一段；看目前畫面中線落在哪一段
+      const kindOf = h => Object.keys(NAME).find(k => h.querySelector('.lab.' + k));
+      const upd = () => {
+        const mid = innerHeight * 0.45; let cur = null;
+        for (const h of heads) { if (h.getBoundingClientRect().top < mid) cur = h; }
+        const end = cur && cur.closest('article'); const out = !cur || (end && end.getBoundingClientRect().bottom < mid);
+        if (out) { pill.classList.remove('on'); return; }
+        const k = kindOf(cur); pill.innerHTML = `正在讀<span class="layer ${k}">${NAME[k]}</span>`; pill.classList.add('on');
+      };
+      addEventListener('scroll', upd, {passive: true}); upd();
+    }
   }
 
   /* ---------- 名詞小黑板：文章裡第一次出現的專有名詞，點一下看白話解釋 ---------- */

@@ -217,15 +217,19 @@ nav.toc a:hover{color:var(--accent);text-decoration:underline;text-underline-off
 
 /* ===== 品牌語言（2026-11 與 Gemini 討論定案） ===== */
 :root{
-  --serif:'Noto Serif TC','Songti TC','PMingLiU',serif;
+  /* 全站字體：昭源黑體（標題粗、內文細），沒載到時退回思源黑體 */
+  --head:'Chiron Hei HK','Noto Sans TC','PingFang TC',sans-serif;
+  --body:'Chiron Hei HK','Noto Sans TC','PingFang TC',sans-serif;
   --chalk-pink:#F2A6B3;
   /* 四層拆解的固定色票：事實、觀點、立場、利益。全站只用這四色代表四層，不拿來當分類色 */
   --l-fact:#1F2A24;--l-view:#D9AE1E;--l-stance:#D9728A;--l-interest:#3F9A88;
 }
 @media (prefers-color-scheme:dark){:root{--l-fact:#F2EFE6;--l-view:#F4D35E;--l-stance:#F2A6B3;--l-interest:#7EC8B8}}
 
-/* 標題用明體（編輯刊物感），內文維持黑體 */
-h1,h2,.hub .ph h1,.hub .nb h3,.hub .card li:first-child{font-family:var(--serif);font-weight:700}
+/* 標題與內文都用昭源黑體 */
+body,.hub{font-family:var(--body)}
+button,input,select,textarea{font-family:inherit}
+h1,h2,.hub .ph h1,.hub .nb h3,.hub .card li:first-child{font-family:var(--head);font-weight:700}
 .sb-logo,.sf-brand{font-family:Inter,'Noto Sans TC',sans-serif}
 
 /* 四層標記：事實＝實線、觀點＝實線黃、立場＝虛線粉、利益＝雙線青 */
@@ -259,3 +263,28 @@ a:hover .u,a:focus-visible .u{background-size:100% 2px}
   .hub .chalkboard{background:#0F1E17;border-top:1px solid rgba(242,239,230,.1);border-bottom:1px solid rgba(242,239,230,.14)}
   .intro .layer.fact{border-left-color:#F2EFE6}
 }
+
+/* ===== 滑動效果（2026-11） =====
+   只動 transform、opacity；不支援的瀏覽器維持靜態；系統設定「減少動態效果」時全部關閉 */
+.sb{position:sticky}
+.bb-progress{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--hl);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+.bb-layer{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:45;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:var(--mute);background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:6px 14px;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;pointer-events:none}
+.bb-layer.on{opacity:1;transform:none}
+@media print{.bb-progress,.bb-layer{display:none}}
+
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    /* 首頁黑板頭條：往下滑時微微往上飄、慢慢淡出，像黑板被推遠 */
+    .hub .front{animation:bb-recede linear both;animation-timeline:scroll(root);animation-range:0 420px}
+    @keyframes bb-recede{to{transform:translateY(-30px);opacity:.6}}
+    /* 區塊標題、文章卡、文章段落標題：進入畫面時從下方滑上來 */
+    .hub .sh,.hub .col,.hub .feat,.hub .rows li,.hub .lite li,.hub .cl,.hub .card,.hub .nb,.tool,
+    body:not(.hub) article h2,body:not(.hub) article h3,body:not(.hub) .stats,body:not(.hub) .tldr,body:not(.hub) .box{
+      animation:bb-rise linear both;animation-timeline:view();animation-range:entry 0% entry 60%}
+    @keyframes bb-rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+    /* 區塊標題上方的粗線：滑進來時從左畫到右 */
+    .hub .sh{border-top-color:transparent;background:linear-gradient(var(--ink),var(--ink)) 0 0/0 2px no-repeat;animation:bb-rule linear both;animation-timeline:view();animation-range:entry 10% entry 80%}
+    @keyframes bb-rule{to{background-size:100% 2px}}
+  }
+}
+@media (prefers-reduced-motion:reduce){.bb-progress{display:none}.bb-layer{transition:none}}
