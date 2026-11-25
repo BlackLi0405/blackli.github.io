@@ -105,6 +105,7 @@
     note.textContent = '現在是 30 秒版：只顯示重點、數字和「這跟你有什麼關係」。想看完整內容，再按一次「30 秒版」。';
     main.prepend(note);
     const pref = store.get('read', {});
+    if (location.hash === '#30s') pref.short = true; // 從首頁「30 秒看重點」進來：這次直接開 30 秒版，不改存下來的偏好
     const apply = () => {
       document.body.classList.toggle('bb-short', !!pref.short);
       document.body.classList.toggle('bb-big', !!pref.big);

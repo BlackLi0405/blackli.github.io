@@ -82,6 +82,29 @@
 .lst a span{color:var(--mute);font-size:14px;text-align:right}
 @media (max-width:760px){.duo2{grid-template-columns:1fr;gap:48px}.lst a{flex-direction:column;gap:2px}.lst a span{text-align:left}}
 
+/* 黑板最下方：一句定位＋四層 */
+.intro{grid-column:1/-1;margin:34px 0 0;padding-top:16px;border-top:1px solid rgba(242,239,230,.16);font-size:14px;color:rgba(242,239,230,.78);display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.intro .layer{color:var(--chalk)!important}
+.intro .layer.fact{border-left-color:var(--chalk)}
+.intro .layer.view{border-left-color:#F4D35E}.intro .layer.stance{border-left-color:#F2A6B3}.intro .layer.interest{border-left-color:#7EC8B8}
+.intro a{color:var(--hl);font-weight:700;text-decoration:none}
+.intro .say{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--chalk);margin-right:auto}
+.intro .how2{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.lead h1 a{color:inherit;text-decoration:none}
+.lead .go{display:inline-block;margin-right:20px;text-decoration:none}
+.lead .go.s{color:rgba(242,239,230,.8)}
+.lead .nx{float:right;font-size:13px;color:rgba(242,239,230,.6)}
+@media (max-width:760px){.lead .nx{float:none;display:block;margin-top:4px}}
+.ig{font-weight:700;color:var(--accent);text-decoration:none}
+@media (max-width:760px){.hub .dateline .w span.dl-r{display:flex}.sched{display:none}}
+/* 手機：向內看、工具箱縮成一排小連結 */
+@media (max-width:760px){
+  .duo2 .lst{display:flex;flex-wrap:wrap;gap:8px 18px}
+  .duo2 .lst a{border:0;padding:0;display:inline}
+  .duo2 .lst a span{display:none}
+  .duo2 .lst a b{font-size:15px;color:var(--accent)}
+  .duo2{gap:36px}
+}
 /* 頁尾上方：四層說明 */
 .how{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;margin-top:clamp(56px,7vw,80px);padding:20px 0 0;border-top:1px solid var(--line);color:var(--ink2);font-size:15px;text-decoration:none}
 .how .go{color:var(--accent);font-weight:700;margin-left:auto}
@@ -105,11 +128,12 @@
 <!-- SITE-NAV:START -->
 <div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・身心・深度拆解</small></a><a href="tools.html">工具<small>出遊・排行程・理財・休假</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
-<div class="dateline"><div class="w"><span id="dl"></span><span class="dl-r"><span id="count"></span><span class="sched">財經・國際 07:00　盤後 16:30　盤前 20:00</span></span></div></div>
+<div class="dateline"><div class="w"><span id="dl"></span><span class="dl-r"><span id="count"></span><span class="sched">財經・國際 07:00　盤後 16:30　盤前 20:00</span><a class="ig" href="https://www.instagram.com/willy16360405/" target="_blank" rel="noopener">IG 每日圖卡</a></span></div></div>
 
 <section class="chalkboard"><div class="w front">
-  <a class="lead" id="lead" href="news.html"><span class="meta"><b>今日拆解</b></span><h1 class="u">載入中…</h1></a>
+  <div class="lead" id="lead"><span class="meta"><b>今日拆解</b></span><h1>載入中…</h1></div>
   <div class="side" id="side"></div>
+  <p class="intro"><b class="say">每天留幾分鐘給自己，慢慢把世界看清楚。</b><span class="how2">每篇都拆成<span class="layer fact">事實</span><span class="layer view">觀點</span><span class="layer stance">立場</span><span class="layer interest">利益</span><a href="method.html">怎麼拆的 →</a></span></p>
 </div></section>
 
 <main>
@@ -152,7 +176,6 @@
     </ul>
   </div>
 </div>
-<div class="w"><a class="how" href="method.html"><span>每篇拆解都分四層</span><span class="layer fact">事實</span><span class="layer view">觀點</span><span class="layer stance">立場</span><span class="layer interest">利益</span><span class="go">怎麼分的 →</span></a></div>
 </section>
 </main>
 
@@ -592,24 +615,38 @@ document.addEventListener('DOMContentLoaded', () => {
   const article = c => fetch(c.href, {cache: 'no-cache'}).then(r => r.ok ? r.text() : '')
     .then(t => { const d = new DOMParser().parseFromString(t, 'text/html'), q = s => { const e = d.querySelector(s); return e ? e.textContent.trim() : ''; };
       const tl = d.querySelector('.tldr'); if (tl && tl.querySelector('b')) tl.querySelector('b').remove();
-      return {h1: q('h1'), tldr: tl ? tl.textContent.trim() : '', lede: q('.lede').replace(/今天(深入)?拆解[^。]*(。|$)[\s\S]*$/, '').trim()}; }).catch(() => ({}));
+      const rt = (q('.date').match(/閱讀約\s*(\d+)/) || [])[1] || '';
+      return {rt, h1: q('h1'), tldr: tl ? tl.textContent.trim() : '', lede: q('.lede').replace(/今天(深入)?拆解[^。]*(。|$)[\s\S]*$/, '').trim()}; }).catch(() => ({}));
 
   // 黑板頭條的標題像粉筆一個字一個字寫出來（整段約 0.8 秒，只在首屏做一次）
   const chalk = (el, text) => {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = text; return; }
-    const ch = [...text], step = Math.min(40, 800 / Math.max(ch.length, 1));
+    let played = ''; try { played = localStorage.getItem('bb-chalk') || ''; } catch (e) {}
+    if (played === T || matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = text; return; }
+    try { localStorage.setItem('bb-chalk', T); } catch (e) {}
+    // 標點黏在前一個字（開頭的引號、括號黏在後一個字），避免逗號跑到行首
+    const ch = [];
+    // 英數字（例如 3,310、AI、PCE）整組當成一個字，不會被拆到兩行
+    for (const c of text.match(/[A-Za-z0-9][A-Za-z0-9,.%+\-]*|[\s\S]/g) || []) {
+      if (/[，。、：；！？）」』%]/.test(c) && ch.length) ch[ch.length - 1] += c;
+      else if (ch.length && /[「『（]$/.test(ch[ch.length - 1])) ch[ch.length - 1] += c;
+      else ch.push(c);
+    }
+    const step = Math.min(40, 800 / Math.max(ch.length, 1));
     el.innerHTML = ch.map((c, i) => c === ' ' ? ' ' : `<span style="animation-delay:${Math.round(i * step)}ms">${esc(c)}</span>`).join('');
     el.classList.add('chalk-in');
   };
+
+  // 下一篇什麼時候出來（半夜看首頁時，讓人知道早上會更新）
+  const nextUp = (() => { for (const [k, t, lab, trade] of [['brief', '07:00', '早報'], ['close', '16:30', '台股盤後', 1], ['pre', '20:00', '美股盤前', 1]]) {
+    const c = latest(k); if (c && c.date === T) continue; if (trade && weekend) continue; return `下一篇：今天 ${t} ${lab}`; } return ''; })();
 
   // 第一層：最新財經早報的今日拆解＋快訊
   const b = latest('brief');
   if (b) {
     const lead = document.getElementById('lead');
-    lead.href = b.href;
-    lead.innerHTML = `<span class="meta"><b>今日拆解・財經</b>　${when(b.date)}${tick(b)}</span><h1></h1><p class="tl" hidden></p><span class="go">讀完整拆解 →</span>`;
-    chalk(lead.querySelector('h1'), head(b));
-    article(b).then(({tldr, lede}) => { const p = lead.querySelector('.tl'), t = tldr || lede; if (t) { p.innerHTML = `<b>一句話看懂</b>${esc(t)}`; p.hidden = false; } });
+    lead.innerHTML = `<span class="meta"><b>今日拆解・財經</b>　${when(b.date)}<span class="rt"></span>${tick(b)}</span>${nextUp ? `<span class="nx">${nextUp}</span>` : ''}<h1><a href="${esc(b.href)}"></a></h1><p class="tl" hidden></p><a class="go" href="${esc(b.href)}">讀完整拆解 →</a><a class="go s" href="${esc(b.href)}#30s">30 秒看重點 →</a>`;
+    chalk(lead.querySelector('h1 a'), head(b));
+    article(b).then(({tldr, lede, rt}) => { const p = lead.querySelector('.tl'), t = tldr || lede; if (t) { p.innerHTML = `<b>一句話看懂</b>${esc(t)}`; p.hidden = false; } if (rt) lead.querySelector('.rt').textContent = `・${rt} 分鐘`; });
     document.getElementById('side').innerHTML = '<h2>財經快訊</h2>' + b.items.slice(1).map((it, i) =>
       `<a href="${esc(b.href)}#b${i + 1}"><small>${esc(it.k)}</small><b class="u">${esc(it.t)}</b></a>`).join('');
   }
@@ -621,9 +658,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const c = latest(p.k); if (!c) return;
     const a = document.createElement('a'); a.className = 'col'; a.href = c.href;
     const next = c.date === T ? '' : p.trade && weekend ? '週末休市，下週一更新' : `今天 ${p.t} 更新`;
-    a.innerHTML = `<span class="meta"><b>${p.lab}</b>　${when(c.date)}${tick(c)}</span><h3><span class="u">${esc(head(c))}</span></h3><p hidden></p>${next ? `<span class="next">${next}</span>` : ''}`;
+    a.innerHTML = `<span class="meta"><b>${p.lab}</b>　${when(c.date)}<span class="rt"></span>${tick(c)}</span><h3><span class="u">${esc(head(c))}</span></h3><p hidden></p>${next ? `<span class="next">${next}</span>` : ''}`;
     row.appendChild(a);
-    article(c).then(({h1, tldr, lede}) => { if (h1) a.querySelector('h3 .u').textContent = h1; const t = tldr || lede, el = a.querySelector('p'); if (t) { el.textContent = t; el.hidden = false; } });
+    article(c).then(({h1, tldr, lede, rt}) => { if (rt) a.querySelector('.rt').textContent = `・${rt} 分鐘`; if (h1) a.querySelector('h3 .u').textContent = h1; const t = tldr || lede, el = a.querySelector('p'); if (t) { el.textContent = t; el.hidden = false; } });
   });
 
   // 今天看了幾篇
@@ -637,8 +674,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const dp = first(d, 'deep');
     if (dp && !old(dp.date)) {
       const f = document.getElementById('feat'); f.href = dp.href; f.hidden = false;
-      f.innerHTML = `<span class="meta"><b>深度拆解</b>　${md(dp.date)}${tick(dp)}</span><h3><span class="u">${esc(head(dp))}</span></h3><p hidden></p>`;
-      article(dp).then(({tldr}) => { if (tldr) { const p = f.querySelector('p'); p.textContent = tldr; p.hidden = false; } });
+      f.innerHTML = `<span class="meta"><b>深度拆解</b>　${md(dp.date)}<span class="rt"></span>${tick(dp)}</span><h3><span class="u">${esc(head(dp))}</span></h3><p hidden></p>`;
+      article(dp).then(({tldr, rt}) => { if (rt) f.querySelector('.rt').textContent = `・${rt} 分鐘`; if (tldr) { const p = f.querySelector('p'); p.textContent = tldr; p.hidden = false; } });
     }
     const spec = [[w, 'life', '生活'], [w, 'tech', '科技'], [w, 'society', '社會'], [m, 'mind', '身心']];
     document.getElementById('rows').innerHTML = spec.map(([doc, f, label]) => { const c = first(doc, f); if (!c || old(c.date)) return '';

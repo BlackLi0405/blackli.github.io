@@ -253,3 +253,9 @@ a:hover .u,a:focus-visible .u{background-size:100% 2px}
 
 /* 未完成的項目不放出來 */
 .it.soon{display:none}
+
+/* 深色模式：黑板區塊和頁面底色太接近，加上下界線與稍亮的黑板色 */
+@media (prefers-color-scheme:dark){
+  .hub .chalkboard{background:#0F1E17;border-top:1px solid rgba(242,239,230,.1);border-bottom:1px solid rgba(242,239,230,.14)}
+  .intro .layer.fact{border-left-color:#F2EFE6}
+}
