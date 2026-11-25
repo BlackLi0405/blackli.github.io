@@ -160,3 +160,58 @@ body.bb-big main p,body.bb-big main li{font-size:19px}
 .sb-drop a small{display:block;max-height:0;overflow:hidden;opacity:0;text-align:left;margin-top:0;transition:max-height .2s,opacity .2s,margin-top .2s}
 @media (hover:hover){.sb-drop a:hover small{max-height:3em;opacity:1;margin-top:2px}}
 .sb-drop a:focus-visible small{max-height:3em;opacity:1;margin-top:2px}
+
+/* ===== 閱讀規範（2026-11 改版）：低疲勞配色、寬鬆行距、充足留白、去卡片化 =====
+   只動「閱讀內容」的樣式；表單、按鈕、計算機這類操作元件保留邊框，才看得出能點。 */
+:root{
+  --bg:#F8F8F6;--paper:#FCFCFA;--panel:#FCFCFA;--panel2:#F1F1EE;--line:#E5E5E5;
+  --ink:#222222;--ink2:#3A3A3A;--mute:#666666;
+  --glass:rgba(248,248,246,.95);--shadow:none;
+}
+@media (prefers-color-scheme:dark){:root{--shadow:none;--line:#36513F}}
+
+/* 字級與行高：中文內文 17px、行高 1.8 */
+.hub{font-size:17px;line-height:1.8}
+body:not(.hub){line-height:1.8}
+
+/* 區塊之間的呼吸空間：桌機約 88px、手機約 56px */
+.hub .sec{padding-top:clamp(56px,7vw,88px);padding-bottom:0}
+.hub main{padding-bottom:clamp(56px,7vw,88px)}
+.hub .ph{padding-top:clamp(48px,6vw,72px);padding-bottom:clamp(40px,5vw,56px)}
+.hub .ph p{line-height:1.8}
+
+/* 列表：不用卡片框和陰影，改成細線分隔 */
+.hub .nb,.hub .card,.tool,.hub .box2{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important}
+.hub .nb{padding:18px 0 20px;border-top:1px solid var(--line)!important}
+.hub .nb::before{display:none}
+.hub .nb .tag,.hub .tag{background:transparent;padding:0;border-radius:0;color:var(--c,var(--hl-ink));letter-spacing:.08em}
+.hub .nb:hover h3,.hub .nb:hover h4,.hub .card:hover li:first-child{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px}
+.hub .card{padding:20px 0 18px;margin:0;border-top:1px solid var(--line)!important}
+.hub .card li{border-top:0;padding:4px 0}
+.hub .card li:first-child{font-size:19px;line-height:1.55}
+.hub .card li+li{font-size:15px;font-weight:500;color:var(--ink2)}
+.tool{padding:14px 0!important;border-top:1px solid var(--line)!important}
+.hub .nb.empty{border-top-style:dashed!important}
+
+/* 文章頁：段落間距 1.5em，重點框改成左側細線 */
+body:not(.hub) main p:not(.src):not(.note):not(.lede),body:not(.hub) article p:not(.src):not(.note){margin-bottom:1.5em}
+body:not(.hub) article{padding-top:clamp(48px,7vw,80px);padding-bottom:clamp(40px,6vw,64px)}
+body:not(.hub) .tldr{background:transparent;border:0;border-left:3px solid var(--accent);border-radius:0;padding:4px 0 4px 18px;margin:0 0 32px}
+body:not(.hub) .stats{gap:0 24px;margin:0 0 24px}
+body:not(.hub) .stat{background:transparent;border:0;border-top:1px solid var(--line);border-radius:0;padding:12px 0}
+body:not(.hub) .box{background:transparent;border:0;border-left:3px solid var(--hl);border-radius:0;padding:4px 0 4px 18px;margin:40px 0}
+body:not(.hub) h3{margin-top:44px}
+body:not(.hub) h3.plain::before{display:none}
+body:not(.hub) .tag{background:transparent;color:var(--gold);padding:0;border-radius:0;letter-spacing:.08em}
+nav.toc a{border:0!important;border-radius:0!important;padding:4px 10px!important}
+nav.toc a:hover{color:var(--accent);text-decoration:underline;text-underline-offset:4px}
+
+/* 選單只剩 4 項，手機也直接列出來，不用下拉 */
+.sb{border-bottom:1px solid var(--line)}
+@media (max-width:900px){.sb-links{display:flex}.sb-menu{display:none!important}.sb-links a{padding:8px 8px;font-size:15px}}
+@media (max-width:400px){.sb-logo{font-size:17px}.sb-logo img{width:28px;height:28px}.sb-links a{padding:8px 6px}}
+.sf{border-top:1px solid var(--line)}
+.tool.big{color:var(--ink)!important}
+.tool.big p,.tool.big ul{color:var(--ink2)!important;opacity:1!important}
+.tool.big .go{color:var(--accent)!important}
+.tool .ic{display:none}

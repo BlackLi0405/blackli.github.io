@@ -8,23 +8,20 @@ import pathlib, re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 BRAND = "BlackLi Board"
-LINKS = [  # (文字, 路徑, 判斷目前頁面用的 key, 選單裡的小字說明)
-    ("今天", "index.html", "home", "財經早報・國際早報・台股盤後・美股盤前"),
-    ("新聞", "news.html", "news", "全部新聞"),
-    ("專欄", "weekly.html", "weekly", "生活／科技／社會週報・深度拆解"),
-    ("自己", "mind.html", "mind", "每日一問・跟著黑板呼吸・身心專欄"),
-    ("輕鬆", "fun.html", "fun", "飲料新品・小考・冷知識"),
-    ("工具", "tools.html", "tools", "出遊・排行程・理財・休假・裝到手機"),
-    ("關於", "about.html", "about", "網站初衷"),
+LINKS = [  # (文字, 路徑, 判斷目前頁面用的 key, 選單裡的小字說明)；首頁由左邊的網站名稱進入
+    ("新聞", "news.html", "news", "財經・國際・盤後・盤前"),
+    ("專欄", "weekly.html", "weekly", "生活・科技・社會・身心・深度拆解"),
+    ("工具", "tools.html", "tools", "出遊・排行程・理財・休假"),
+    ("關於", "about.html", "about", "網站初衷與拆解方法"),
 ]
 
 def page_key(rel):
     if re.match(r"reports/(life|tech|society|deep)-|tools/deep", rel): return "weekly"
-    if re.match(r"reports/mind-|tools/mind", rel): return "mind"
+    if re.match(r"reports/mind-|tools/mind", rel): return "weekly"
     if re.match(r"reports/fun-|tools/fun", rel): return "fun"
     if rel.startswith("reports/") or re.match(r"tools/(brief|close|pre)-", rel): return "news"
     return {"index.html": "home", "news.html": "news", "finance.html": "news", "world.html": "news",
-            "weekly.html": "weekly", "deep.html": "weekly", "mind.html": "mind", "fun.html": "fun",
+            "weekly.html": "weekly", "deep.html": "weekly", "mind.html": "weekly", "fun.html": "fun",
             "tools.html": "tools", "calc.html": "tools", "trip.html": "tools", "travel.html": "tools",
             "about.html": "about", "method.html": "about", "app.html": "tools", "leave.html": "tools", "skills.html": "tools", "career.html": "tools", "guide.html": "tools", "offline.html": ""}.get(rel, "")
 
@@ -65,7 +62,7 @@ def apply(path):
     pre = "../" if "/" in rel else ""
     s = path.read_text(encoding="utf-8")
     head = (f'<link rel="icon" href="{pre}assets/logo.svg" type="image/svg+xml">\n'
-            f'<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">\n'
+            f'<meta name="theme-color" content="#F8F8F6" media="(prefers-color-scheme: light)">\n'
             f'<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">\n'
             f'<link rel="manifest" href="{pre}manifest.webmanifest">\n'
             f'<link rel="apple-touch-icon" href="{pre}assets/icons/apple-touch-icon.png">\n'
