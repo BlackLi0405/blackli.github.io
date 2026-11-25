@@ -164,11 +164,10 @@ body.bb-big main p,body.bb-big main li{font-size:19px}
 /* ===== 閱讀規範（2026-11 改版）：低疲勞配色、寬鬆行距、充足留白、去卡片化 =====
    只動「閱讀內容」的樣式；表單、按鈕、計算機這類操作元件保留邊框，才看得出能點。 */
 :root{
-  --bg:#F8F8F6;--paper:#FCFCFA;--panel:#FCFCFA;--panel2:#F1F1EE;--line:#E5E5E5;
-  --ink:#222222;--ink2:#3A3A3A;--mute:#666666;
-  --glass:rgba(248,248,246,.95);--shadow:none;
+  /* 配色維持原本的米白＋黑板綠（使用者喜歡），只把陰影拿掉 */
+  --shadow:none;
 }
-@media (prefers-color-scheme:dark){:root{--shadow:none;--line:#36513F}}
+@media (prefers-color-scheme:dark){:root{--shadow:none}}
 
 /* 字級與行高：中文內文 17px、行高 1.8 */
 .hub{font-size:17px;line-height:1.8}
@@ -215,3 +214,42 @@ nav.toc a:hover{color:var(--accent);text-decoration:underline;text-underline-off
 .tool.big p,.tool.big ul{color:var(--ink2)!important;opacity:1!important}
 .tool.big .go{color:var(--accent)!important}
 .tool .ic{display:none}
+
+/* ===== 品牌語言（2026-11 與 Gemini 討論定案） ===== */
+:root{
+  --serif:'Noto Serif TC','Songti TC','PMingLiU',serif;
+  --chalk-pink:#F2A6B3;
+  /* 四層拆解的固定色票：事實、觀點、立場、利益。全站只用這四色代表四層，不拿來當分類色 */
+  --l-fact:#1F2A24;--l-view:#D9AE1E;--l-stance:#D9728A;--l-interest:#3F9A88;
+}
+@media (prefers-color-scheme:dark){:root{--l-fact:#F2EFE6;--l-view:#F4D35E;--l-stance:#F2A6B3;--l-interest:#7EC8B8}}
+
+/* 標題用明體（編輯刊物感），內文維持黑體 */
+h1,h2,.hub .ph h1,.hub .nb h3,.hub .card li:first-child{font-family:var(--serif);font-weight:700}
+.sb-logo,.sf-brand{font-family:Inter,'Noto Sans TC',sans-serif}
+
+/* 四層標記：事實＝實線、觀點＝實線黃、立場＝虛線粉、利益＝雙線青 */
+.layer,.lab.fact,.lab.view,.lab.stance,.lab.interest{display:inline-block;background:transparent!important;color:var(--ink)!important;border-radius:0!important;padding:0 0 0 9px!important;font-size:13px;font-weight:800;letter-spacing:.1em;line-height:1.4}
+.layer.fact,.lab.fact{border-left:3px solid var(--l-fact)}
+.layer.view,.lab.view{border-left:3px solid var(--l-view)}
+.layer.stance,.lab.stance{border-left:2px dashed var(--l-stance)}
+.layer.interest,.lab.interest{border-left:4px double var(--l-interest)}
+h3:has(> .lab.fact),h3:has(> .lab.view),h3:has(> .lab.stance),h3:has(> .lab.interest){gap:14px}
+@media (max-width:560px){.tbl:not(:has(th.r)) tr{border-left:3px solid var(--l-view)!important}}
+
+/* 粉筆底線：滑過連結標題時，一條粉筆黃從左畫到右（只動底線寬度） */
+.u{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;transition:background-size .25s ease-out;padding-bottom:1px}
+a:hover .u,a:focus-visible .u{background-size:100% 2px}
+
+/* 粉筆勾：看過的文章 */
+.ck{width:16px;height:16px;margin-left:6px;vertical-align:-2px;fill:none;stroke:var(--hl);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:24;stroke-dashoffset:24;animation:bb-draw .3s ease-out .2s forwards}
+.hub main .ck{stroke:var(--hl-ink)}
+@keyframes bb-draw{to{stroke-dashoffset:0}}
+
+/* 黑板頭條逐字寫出 */
+.chalk-in span{display:inline-block;opacity:0;transform:translateY(4px);animation:bb-chalk .22s ease-out forwards}
+@keyframes bb-chalk{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.chalk-in span,.ck{animation:none;opacity:1;transform:none;stroke-dashoffset:0}.u{transition:none}}
+
+/* 未完成的項目不放出來 */
+.it.soon{display:none}

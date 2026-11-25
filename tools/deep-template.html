@@ -12,7 +12,7 @@
     檔名 reports/life-YYYY-MM-DD.html、reports/tech-YYYY-MM-DD.html、reports/society-YYYY-MM-DD.html
     品牌列改成 <a href="../weekly.html#life">生活週報</a>（科技 #tech 科技週報、社會 #society 社會週報）
     <title> 改成「【標題】｜生活週報｜BlackLi Board」；頁尾連結改成「← 看其他生活週報」連到 ../weekly.html#life
-    「還不知道的事」的金色 box 改寫成「這跟你有什麼關係」，具體說明對一般讀者的影響
+    「還不知道的事」的金色 box 改寫成「這跟你有什麼關係」，具體說明對一般讀者的影響，結尾保留「拉長到十年看」一行
     卡片加在 weekly.html 的 LIFE:START／TECH:START／SOCIETY:START 標記後面，格式同下方註解，
     但 .d 寫「YYYY.MM.DD・生活週報」、<span> 寫主題分類（2 字）
 -->
@@ -63,7 +63,7 @@ footer a{color:var(--gold);text-decoration:none}
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
-<meta name="theme-color" content="#F8F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
@@ -71,6 +71,7 @@ footer a{color:var(--gold);text-decoration:none}
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BlackLi">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&display=swap">
 <link rel="stylesheet" href="../site.css">
 <script src="../assets/site.js" defer></script>
 <!-- SITE-HEAD:END -->
@@ -131,7 +132,7 @@ footer a{color:var(--gold);text-decoration:none}
 <section id="unknown">
   <h2>還不知道的事</h2>
   <ul><li>【尚未證實、仍待觀察，或各方說法矛盾的地方】</li></ul>
-  <div class="box"><strong>接下來可以觀察</strong><br>【下一個關鍵時間點或指標】</div>
+  <div class="box"><strong>接下來可以觀察</strong><br>【下一個關鍵時間點或指標】<br><b>拉長到十年看</b>【一兩句：這件事是短期波動，還是會持續好幾年的結構變化？對讀者的資產、工作或生活，長期可能有什麼影響。只根據來源與專家說法，不預測漲跌、不下價值判斷】</div>
 </section>
 
 <section id="sources">

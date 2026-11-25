@@ -62,7 +62,7 @@ def apply(path):
     pre = "../" if "/" in rel else ""
     s = path.read_text(encoding="utf-8")
     head = (f'<link rel="icon" href="{pre}assets/logo.svg" type="image/svg+xml">\n'
-            f'<meta name="theme-color" content="#F8F8F6" media="(prefers-color-scheme: light)">\n'
+            f'<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">\n'
             f'<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">\n'
             f'<link rel="manifest" href="{pre}manifest.webmanifest">\n'
             f'<link rel="apple-touch-icon" href="{pre}assets/icons/apple-touch-icon.png">\n'
@@ -70,6 +70,7 @@ def apply(path):
             f'<meta name="apple-mobile-web-app-capable" content="yes">\n'
             f'<meta name="apple-mobile-web-app-title" content="BlackLi">\n'
             f'<meta name="apple-mobile-web-app-status-bar-style" content="default">\n'
+            f'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&display=swap">\n'
             f'<link rel="stylesheet" href="{pre}site.css">\n<script src="{pre}assets/site.js" defer></script>')
     s = re.sub(r'<!-- SITE-HEAD:START -->.*?<!-- SITE-HEAD:END -->\n?', '', s, flags=re.S)
     s = s.replace("</head>", f"<!-- SITE-HEAD:START -->\n{head}\n<!-- SITE-HEAD:END -->\n</head>", 1)

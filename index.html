@@ -10,85 +10,85 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-/* 首頁：報紙頭版版型 */
+/* 首頁：報紙頭版版型（黑板頭條 → 三欄快覽 → 看深一點／休息區 → 向內看／工具箱） */
 .hub .dateline .w{min-height:40px}
 .hub .dateline #dl{color:var(--ink);font-weight:700}
-.sh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-top:3px solid var(--ink);padding-top:10px;margin:0 0 18px}
-.sh h2{font-size:17px;font-weight:900;margin:0;letter-spacing:.04em}
+.dl-r{display:flex;gap:16px;align-items:center}
+#count{font-weight:800;color:var(--accent)}
+.sh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-top:2px solid var(--ink);padding-top:12px;margin:0 0 20px}
+.sh h2{font-family:var(--serif);font-size:22px;font-weight:700;margin:0;letter-spacing:.02em;line-height:1.35}
 .sh a{font-size:14px;font-weight:700;color:var(--accent);text-decoration:none;white-space:nowrap}
-.sh a:hover{text-decoration:underline}
-.meta{font-size:13px;color:var(--mute);font-weight:500}
+.meta{font-size:13px;color:var(--mute);font-weight:500;line-height:1.5}
 .meta b{font-weight:800;color:var(--hl-ink);letter-spacing:.06em}
-.read{font-size:12px;font-weight:700;color:var(--mute);border:1px solid var(--line);border-radius:4px;padding:0 5px;margin-left:6px;vertical-align:1px}
 
-/* 頭條（黑板） */
-.front{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:0;padding-top:36px;padding-bottom:40px}
-.lead{padding-right:36px;border-right:1px solid rgba(242,239,230,.22);text-decoration:none;color:var(--chalk);display:block}
-.lead .meta{color:rgba(242,239,230,.72)}
+/* 第一層：黑板頭條 */
+.front{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);padding-top:44px;padding-bottom:48px}
+.lead{padding-right:40px;border-right:1px solid rgba(242,239,230,.2);text-decoration:none;color:var(--chalk);display:block}
+.lead .meta{color:rgba(242,239,230,.7)}
 .lead .meta b{color:var(--hl)}
-.lead h1{font-size:clamp(28px,4vw,44px);font-weight:900;line-height:1.25;margin:12px 0 14px;letter-spacing:-.005em}
-.lead:hover h1{text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:3px;text-underline-offset:6px}
-.lead p{font-size:17px;line-height:1.8;opacity:.86;margin:0 0 16px;max-width:44em}
+.lead h1{font-family:var(--serif);font-size:clamp(28px,3.6vw,40px);font-weight:700;line-height:1.3;margin:14px 0 18px}
+.lead .tl{font-size:17px;line-height:1.8;opacity:.88;margin:0 0 18px;max-width:44em}
+.lead .tl b{display:block;font-size:12px;letter-spacing:.14em;color:var(--hl);margin-bottom:2px}
 .lead .go{font-weight:800;font-size:15px;color:var(--hl)}
-.side{padding-left:30px}
-.side h2{font-size:13px;font-weight:800;letter-spacing:.14em;color:var(--hl);margin:4px 0 6px}
-.side a{display:block;text-decoration:none;color:var(--chalk);padding:14px 0;border-top:1px solid rgba(242,239,230,.18)}
+.side{padding-left:32px}
+.side h2{font-size:13px;font-weight:800;letter-spacing:.14em;color:var(--hl);margin:4px 0 4px}
+.side a{display:block;text-decoration:none;color:var(--chalk);padding:16px 0;border-top:1px solid rgba(242,239,230,.16)}
 .side a:first-of-type{border-top:0}
-.side a:hover b{text-decoration:underline;text-underline-offset:4px}
-.side small{display:block;font-size:12px;font-weight:800;color:rgba(242,239,230,.6);letter-spacing:.08em;margin-bottom:3px}
-.side b{font-size:17px;line-height:1.5;font-weight:700}
+.side small{display:block;font-size:12px;font-weight:800;color:rgba(242,239,230,.6);letter-spacing:.08em;margin-bottom:2px}
+.side b{font-size:16px;line-height:1.6;font-weight:700}
 @media (max-width:860px){
-  .front{grid-template-columns:1fr;padding-top:26px;padding-bottom:28px}
-  .lead{padding-right:0;border-right:0;padding-bottom:20px;border-bottom:1px solid rgba(242,239,230,.22)}
-  .side{padding-left:0;padding-top:16px}
+  .front{grid-template-columns:1fr;padding-top:30px;padding-bottom:32px}
+  .lead{padding-right:0;border-right:0;padding-bottom:22px;border-bottom:1px solid rgba(242,239,230,.2)}
+  .side{padding-left:0;padding-top:12px}
 }
 
-/* 第二排：國際、盤後、盤前 */
+/* 第二層：三欄快覽（只放標題、一句重點） */
 .row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
-.col{display:block;text-decoration:none;color:var(--ink);padding:0 26px;border-left:1px solid var(--line)}
+.col{display:block;text-decoration:none;color:var(--ink);padding:0 28px;border-left:1px solid var(--line)}
 .col:first-child{padding-left:0;border-left:0}
 .col:last-child{padding-right:0}
-.col h3{font-size:21px;font-weight:900;line-height:1.4;margin:8px 0 8px}
-.col:hover h3{text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:3px;text-underline-offset:5px}
-.col p{font-size:15px;line-height:1.75;color:var(--ink2);margin:0 0 10px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.col ul{list-style:none;margin:0;padding:0;font-size:14px;color:var(--ink2)}
-.col li{padding:7px 0 0;margin-top:7px;border-top:1px dotted var(--line);line-height:1.55}
-.col li span{font-weight:800;color:var(--mute);margin-right:6px}
-.col .next{display:block;font-size:13px;color:var(--mute);margin-top:10px}
+.col h3{font-family:var(--serif);font-size:20px;font-weight:700;line-height:1.45;margin:8px 0 8px}
+.col p{font-size:15px;line-height:1.75;color:var(--ink2);margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.col .next{display:block;font-size:13px;color:var(--mute);margin-top:8px}
 @media (max-width:860px){
   .row3{grid-template-columns:1fr}
-  .col,.col:first-child,.col:last-child{padding:18px 0;border-left:0;border-top:1px solid var(--line)}
+  .col,.col:first-child,.col:last-child{padding:20px 0;border-left:0;border-top:1px solid var(--line)}
   .col:first-child{border-top:0;padding-top:0}
 }
 
-/* 專欄 */
-.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-.cl{display:block;text-decoration:none;color:var(--ink);padding:0 22px 4px;border-left:1px solid var(--line)}
-.cl:first-child{padding-left:0;border-left:0}
-.cl .tg{font-size:13px;font-weight:800;color:var(--c,var(--accent));letter-spacing:.06em}
-.cl h3{font-size:18px;font-weight:900;line-height:1.45;margin:6px 0 6px}
-.cl:hover h3{text-decoration:underline;text-underline-offset:4px}
-@media (max-width:760px){
-  .cols{grid-template-columns:1fr}
-  .cl,.cl:first-child{padding:14px 0;border-left:0;border-top:1px solid var(--line)}
-  .cl:first-child{border-top:0;padding-top:0}
-}
+/* 第三層：看深一點（左，主）＋ 休息區（右，輕） */
+.duo{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:56px}
+.feat{display:block;text-decoration:none;color:var(--ink);padding-bottom:22px}
+.feat h3{font-family:var(--serif);font-size:clamp(24px,2.6vw,30px);font-weight:700;line-height:1.35;margin:8px 0 10px}
+.feat p{font-size:16px;line-height:1.8;color:var(--ink2);margin:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.rows{list-style:none;margin:0;padding:0}
+.rows a{display:grid;grid-template-columns:4.5em minmax(0,1fr) auto;gap:14px;align-items:baseline;text-decoration:none;color:var(--ink);padding:13px 0;border-top:1px solid var(--line)}
+.rows .k2{font-size:13px;font-weight:800;color:var(--hl-ink);letter-spacing:.06em}
+.rows b{font-family:var(--serif);font-size:17px;font-weight:700;line-height:1.5}
+.rows .meta{white-space:nowrap}
+.lite{list-style:none;margin:0;padding:0}
+.lite a{display:block;text-decoration:none;color:var(--ink);padding:14px 0;border-top:1px solid var(--line)}
+.lite li:first-child a{border-top:0;padding-top:0}
+.lite b{display:block;font-size:15px;font-weight:800}
+.lite span{display:block;font-size:14px;color:var(--mute);line-height:1.6;margin-top:2px}
+@media (max-width:860px){.duo{grid-template-columns:1fr;gap:56px}.rows a{grid-template-columns:4em minmax(0,1fr)}.rows .meta{display:none}}
 
-/* 最下面：每天一點、工具 */
-.duo{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+/* 第四層：向內看 × 工具箱 */
+.duo2{display:grid;grid-template-columns:1fr 1fr;gap:56px}
 .lst{list-style:none;margin:0;padding:0}
-.lst a{display:flex;justify-content:space-between;align-items:baseline;gap:14px;text-decoration:none;color:var(--ink);padding:11px 0;border-top:1px solid var(--line)}
+.lst a{display:flex;justify-content:space-between;align-items:baseline;gap:14px;text-decoration:none;color:var(--ink);padding:12px 0;border-top:1px solid var(--line)}
 .lst li:first-child a{border-top:0;padding-top:0}
 .lst a b{font-weight:800;font-size:16px;white-space:nowrap}
 .lst a span{color:var(--mute);font-size:14px;text-align:right}
-.lst a:hover b{text-decoration:underline;text-underline-offset:4px}
-.how{display:block;margin-top:8px;padding:16px 0 0;border-top:3px double var(--line);color:var(--ink2);font-size:15px;text-decoration:none}
-.how b{color:var(--accent)}
-@media (max-width:760px){.duo{grid-template-columns:1fr;gap:28px}.lst a{flex-direction:column;gap:2px}.lst a span{text-align:left}}
+@media (max-width:760px){.duo2{grid-template-columns:1fr;gap:48px}.lst a{flex-direction:column;gap:2px}.lst a span{text-align:left}}
+
+/* 頁尾上方：四層說明 */
+.how{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;margin-top:clamp(56px,7vw,80px);padding:20px 0 0;border-top:1px solid var(--line);color:var(--ink2);font-size:15px;text-decoration:none}
+.how .go{color:var(--accent);font-weight:700;margin-left:auto}
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
-<meta name="theme-color" content="#F8F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
@@ -96,6 +96,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BlackLi">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&display=swap">
 <link rel="stylesheet" href="site.css">
 <script src="assets/site.js" defer></script>
 <!-- SITE-HEAD:END -->
@@ -104,10 +105,10 @@
 <!-- SITE-NAV:START -->
 <div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・身心・深度拆解</small></a><a href="tools.html">工具<small>出遊・排行程・理財・休假</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
-<div class="dateline"><div class="w"><span id="dl"></span><span>財經・國際 07:00　台股盤後 16:30　美股盤前 20:00</span></div></div>
+<div class="dateline"><div class="w"><span id="dl"></span><span class="dl-r"><span id="count"></span><span class="sched">財經・國際 07:00　盤後 16:30　盤前 20:00</span></span></div></div>
 
-<section class="chalkboard"><div class="w front" id="front">
-  <a class="lead" id="lead" href="news.html"><span class="meta"><b>今日拆解</b></span><h1>載入中…</h1></a>
+<section class="chalkboard"><div class="w front">
+  <a class="lead" id="lead" href="news.html"><span class="meta"><b>今日拆解</b></span><h1 class="u">載入中…</h1></a>
   <div class="side" id="side"></div>
 </div></section>
 
@@ -116,31 +117,42 @@
   <div class="row3" id="row3"></div>
 </div></section>
 
-<section class="sec" id="notes-sec" hidden><div class="w">
-  <div class="sh"><h2>專欄</h2><a href="weekly.html">全部專欄 →</a></div>
-  <div class="cols" id="notes"></div>
+<section class="sec"><div class="w duo">
+  <div id="deep-sec" hidden>
+    <div class="sh"><h2>看深一點</h2><a href="weekly.html">全部專欄 →</a></div>
+    <a class="feat" id="feat" href="deep.html" hidden></a>
+    <ul class="rows" id="rows"></ul>
+  </div>
+  <div>
+    <div class="sh"><h2>休息區</h2><a href="fun.html">更多 →</a></div>
+    <ul class="lite">
+      <li><a href="fun.html#quiz"><b class="u">今日小考</b><span id="quiz-q">3 題選擇題，考這兩天的新聞</span></a></li>
+      <li id="fun-li" hidden><a href="fun.html#more" id="fun-a"><b class="u">冷知識</b><span id="fun-t"></span></a></li>
+      <li id="drink-li" hidden><a href="fun.html#drinks"><b class="u">飲料新品</b><span id="drink-t"></span></a></li>
+    </ul>
+  </div>
 </div></section>
 
-<section class="sec"><div class="w duo">
+<section class="sec"><div class="w duo2">
   <div>
-    <div class="sh"><h2>每天一點</h2><a href="mind.html">自己 →</a></div>
+    <div class="sh"><h2>向內看</h2><a href="mind.html">全部 →</a></div>
     <ul class="lst">
-      <li><a href="fun.html#quiz"><b>今日小考</b><span id="quiz-q">3 題選擇題，考今天的新聞</span></a></li>
-      <li><a href="mind.html#ask"><b>今日一問</b><span data-bb-question>今天有什麼小事讓你覺得被理解？</span></a></li>
-      <li><a href="mind.html#breathe"><b>呼吸 1 分鐘</b><span>看完新聞，跟著黑板慢下來</span></a></li>
+      <li><a href="mind.html#ask"><b class="u">今日一問</b><span data-bb-question>今天有什麼小事讓你覺得被理解？</span></a></li>
+      <li><a href="mind.html#breathe"><b class="u">呼吸 1 分鐘</b><span>看完新聞，跟著黑板慢下來</span></a></li>
+      <li><a href="mind.html#body"><b class="u">身體基本款</b><span>走路、睡眠、蛋白質，每天打勾</span></a></li>
     </ul>
   </div>
   <div>
-    <div class="sh"><h2>工具</h2><a href="tools.html">全部工具 →</a></div>
+    <div class="sh"><h2>工具箱</h2><a href="tools.html">全部工具 →</a></div>
     <ul class="lst">
-      <li><a href="travel.html"><b>出遊情報</b><span>各縣市展覽、演出、節慶</span></a></li>
-      <li><a href="trip.html"><b>排行程</b><span>依預算、交通和體力排一天</span></a></li>
-      <li><a href="calc.html#hc"><b>財務健檢</b><span>預備金、保險、收入分配</span></a></li>
-      <li><a href="leave.html"><b>休假中心</b><span>連假、特休、請假扣薪</span></a></li>
+      <li><a href="calc.html#hc"><b class="u">財務健檢</b><span>預備金、保險、收入怎麼分</span></a></li>
+      <li><a href="leave.html"><b class="u">休假中心</b><span>連假、特休、請假扣薪</span></a></li>
+      <li><a href="guide.html"><b class="u">按主題查</b><span>住、錢、工作、健康、家庭</span></a></li>
+      <li><a href="trip.html"><b class="u">排行程</b><span>依預算、交通和體力排一天</span></a></li>
     </ul>
   </div>
 </div>
-<div class="w"><a class="how" href="method.html">這裡的每篇文章，都把<b>事實、觀點、立場、利益</b>分開寫。怎麼分的 →</a></div>
+<div class="w"><a class="how" href="method.html"><span>每篇拆解都分四層</span><span class="layer fact">事實</span><span class="layer view">觀點</span><span class="layer stance">立場</span><span class="layer interest">利益</span><span class="go">怎麼分的 →</span></a></div>
 </section>
 </main>
 
@@ -570,65 +582,86 @@ document.addEventListener('DOMContentLoaded', () => {
   const md = d => d ? `${+d.slice(5, 7)}/${+d.slice(8)}` : '';
   const when = d => d === T ? '今天' : `${md(d)}（${wd(d)}）`;
   const seen = window.BB ? BB.store.get('seen', []) : [];
-  const read = c => seen.includes(c.href) ? '<span class="read">已讀</span>' : '';
+  const isRead = c => seen.includes(c.href);
+  // 看過的文章：日期旁畫一個粉筆勾
+  const tick = c => isRead(c) ? '<svg class="ck" viewBox="0 0 24 24" aria-label="看過了"><path d="M4 13l5 5L20 6"/></svg>' : '';
   const head = c => c.items[0] ? c.items[0].t : '';
-  // 導言：從文章頁讀第一段 .lede，讀不到就只顯示標題
-  // 標題也改用文章頁的 h1（盤前、盤後卡片上的第一行只是重點，不是標題）
-  // 導言裡「今天拆解…；另外兩則快訊…」跟旁邊的快訊重複，切掉
-  const article = c => fetch(c.href, {cache: 'no-cache'}).then(r => r.ok ? r.text() : '')
-    .then(t => { const d = new DOMParser().parseFromString(t, 'text/html'), h = d.querySelector('h1'), l = d.querySelector('.lede');
-      return {h1: h ? h.textContent.trim() : '', lede: l ? l.textContent.trim().replace(/今天(深入)?拆解[^。]*(。|$)[\s\S]*$/, '').trim() : ''}; }).catch(() => ({}));
-  const fill = (box, c) => article(c).then(({h1, lede}) => {
-    const hd = box.querySelector('h1,h3'), p = box.querySelector('p');
-    if (h1 && hd) hd.textContent = h1;
-    if (lede && p) { p.textContent = lede; p.hidden = false; } });
+  const old = d => (new Date(T) - new Date(d)) / 864e5 > 21;
 
-  // 頭條：最新一篇財經早報的「今日拆解」，右邊是同一篇的快訊
+  // 從文章頁讀標題、一句話看懂、導言
+  const article = c => fetch(c.href, {cache: 'no-cache'}).then(r => r.ok ? r.text() : '')
+    .then(t => { const d = new DOMParser().parseFromString(t, 'text/html'), q = s => { const e = d.querySelector(s); return e ? e.textContent.trim() : ''; };
+      const tl = d.querySelector('.tldr'); if (tl && tl.querySelector('b')) tl.querySelector('b').remove();
+      return {h1: q('h1'), tldr: tl ? tl.textContent.trim() : '', lede: q('.lede').replace(/今天(深入)?拆解[^。]*(。|$)[\s\S]*$/, '').trim()}; }).catch(() => ({}));
+
+  // 黑板頭條的標題像粉筆一個字一個字寫出來（整段約 0.8 秒，只在首屏做一次）
+  const chalk = (el, text) => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = text; return; }
+    const ch = [...text], step = Math.min(40, 800 / Math.max(ch.length, 1));
+    el.innerHTML = ch.map((c, i) => c === ' ' ? ' ' : `<span style="animation-delay:${Math.round(i * step)}ms">${esc(c)}</span>`).join('');
+    el.classList.add('chalk-in');
+  };
+
+  // 第一層：最新財經早報的今日拆解＋快訊
   const b = latest('brief');
   if (b) {
     const lead = document.getElementById('lead');
     lead.href = b.href;
-    lead.innerHTML = `<span class="meta"><b>今日拆解・財經</b>　${when(b.date)}${read(b)}</span><h1>${esc(head(b))}</h1><p hidden></p><span class="go">讀完整拆解 →</span>`;
-    fill(lead, b);
+    lead.innerHTML = `<span class="meta"><b>今日拆解・財經</b>　${when(b.date)}${tick(b)}</span><h1></h1><p class="tl" hidden></p><span class="go">讀完整拆解 →</span>`;
+    chalk(lead.querySelector('h1'), head(b));
+    article(b).then(({tldr, lede}) => { const p = lead.querySelector('.tl'), t = tldr || lede; if (t) { p.innerHTML = `<b>一句話看懂</b>${esc(t)}`; p.hidden = false; } });
     document.getElementById('side').innerHTML = '<h2>財經快訊</h2>' + b.items.slice(1).map((it, i) =>
-      `<a href="${esc(b.href)}#b${i + 1}"><small>${esc(it.k)}</small><b>${esc(it.t)}</b></a>`).join('');
+      `<a href="${esc(b.href)}#b${i + 1}"><small>${esc(it.k)}</small><b class="u">${esc(it.t)}</b></a>`).join('');
   }
 
-  // 第二排：國際早報、台股盤後、美股盤前，永遠顯示最新一篇的完整內容
+  // 第二層：國際早報、台股盤後、美股盤前，各放標題和一句重點
   const P = [{k: 'world', lab: '國際早報', t: '07:00'}, {k: 'close', lab: '台股盤後', t: '16:30', trade: true}, {k: 'pre', lab: '美股盤前', t: '20:00', trade: true}];
   const row = document.getElementById('row3');
   P.forEach(p => {
     const c = latest(p.k); if (!c) return;
     const a = document.createElement('a'); a.className = 'col'; a.href = c.href;
     const next = c.date === T ? '' : p.trade && weekend ? '週末休市，下週一更新' : `今天 ${p.t} 更新`;
-    a.innerHTML = `<span class="meta"><b>${p.lab}</b>　${when(c.date)}${read(c)}</span><h3>${esc(head(c))}</h3><p hidden></p>
-      <ul>${c.items.slice(1).map(it => `<li><span>${esc(it.k)}</span>${esc(it.t)}</li>`).join('')}</ul>${next ? `<span class="next">${next}</span>` : ''}`;
+    a.innerHTML = `<span class="meta"><b>${p.lab}</b>　${when(c.date)}${tick(c)}</span><h3><span class="u">${esc(head(c))}</span></h3><p hidden></p>${next ? `<span class="next">${next}</span>` : ''}`;
     row.appendChild(a);
-    fill(a, c);
+    article(c).then(({h1, tldr, lede}) => { if (h1) a.querySelector('h3 .u').textContent = h1; const t = tldr || lede, el = a.querySelector('p'); if (t) { el.textContent = t; el.hidden = false; } });
   });
 
-  // 今日小考
+  // 今天看了幾篇
+  const todays = ['brief', ...P.map(p => p.k)].map(latest).filter(c => c && c.date === T);
+  if (todays.length) document.getElementById('count').textContent = `今天看了 ${todays.filter(isRead).length}／${todays.length}`;
+
+  // 第三層左：看深一點（深度拆解主打＋各專欄最新一篇）
+  const getDoc = u => fetch(u, {cache: 'no-cache'}).then(r => r.ok ? r.text() : '').then(t => new DOMParser().parseFromString(t, 'text/html')).catch(() => null);
+  const first = (doc, f) => { const a = doc && doc.querySelector(`.feed[data-feed="${f}"] a.card`); return a ? parse(a) : null; };
+  Promise.all([getDoc('weekly.html'), getDoc('mind.html'), getDoc('deep.html'), getDoc('fun.html')]).then(([w, m, d, fn]) => {
+    const dp = first(d, 'deep');
+    if (dp && !old(dp.date)) {
+      const f = document.getElementById('feat'); f.href = dp.href; f.hidden = false;
+      f.innerHTML = `<span class="meta"><b>深度拆解</b>　${md(dp.date)}${tick(dp)}</span><h3><span class="u">${esc(head(dp))}</span></h3><p hidden></p>`;
+      article(dp).then(({tldr}) => { if (tldr) { const p = f.querySelector('p'); p.textContent = tldr; p.hidden = false; } });
+    }
+    const spec = [[w, 'life', '生活'], [w, 'tech', '科技'], [w, 'society', '社會'], [m, 'mind', '身心']];
+    document.getElementById('rows').innerHTML = spec.map(([doc, f, label]) => { const c = first(doc, f); if (!c || old(c.date)) return '';
+      return `<li><a href="${esc(c.href)}"><span class="k2">${label}</span><b class="u">${esc(head(c))}</b><span class="meta">${md(c.date)}${tick(c)}</span></a></li>`; }).join('');
+    if (!document.getElementById('feat').hidden || document.getElementById('rows').children.length) document.getElementById('deep-sec').hidden = false;
+    // 第三層右：冷知識
+    const fu = first(fn, 'fun');
+    if (fu && !old(fu.date)) { document.getElementById('fun-a').href = fu.href; document.getElementById('fun-t').textContent = `${md(fu.date)}・${head(fu)}`; document.getElementById('fun-li').hidden = false; }
+  });
+
+  // 第三層右：今日小考、飲料新品
   fetch('data/quiz.json', {cache: 'no-cache'}).then(r => r.json()).then(j => {
     const qz = (j.quizzes || [])[0]; if (!qz) return;
     const done = window.BB && BB.store.get('quiz', {})[qz.date];
     document.getElementById('quiz-q').textContent = done ? `${md(qz.date)} 答對 ${done.score}/${qz.questions.length} 題` : `${qz.date === T ? '今天' : md(qz.date)}的 ${qz.questions.length} 題，考這兩天的新聞`;
   }).catch(() => {});
-
-  // 專欄：各取最新一篇；超過 3 週沒更新的就不放上首頁
-  const old = d => (new Date(T) - new Date(d)) / 864e5 > 21;
-  const getDoc = u => fetch(u, {cache: 'no-cache'}).then(r => r.ok ? r.text() : '').then(t => new DOMParser().parseFromString(t, 'text/html')).catch(() => null);
-  Promise.all([getDoc('weekly.html'), getDoc('mind.html'), getDoc('deep.html')]).then(([w, m, d]) => {
-    const spec = [[w, 'life', '生活', 'var(--interest)'], [w, 'tech', '科技', 'var(--fact)'], [w, 'society', '社會', 'var(--stance)'], [m, 'mind', '身心', 'var(--view)'], [d, 'deep', '深度拆解', 'var(--hl-ink)']];
-    const box = document.getElementById('notes');
-    spec.forEach(([doc, f, label, color]) => {
-      const a = doc && doc.querySelector(`.feed[data-feed="${f}"] a.card`); if (!a) return;
-      const c = parse(a); if (!c.date || old(c.date)) return;
-      const el = document.createElement('a'); el.className = 'cl'; el.href = c.href; el.style.setProperty('--c', color);
-      el.innerHTML = `<span class="tg">${label}</span><h3>${esc(head(c))}</h3><span class="meta">${md(c.date)}${read(c)}</span>`;
-      box.appendChild(el);
-    });
-    if (box.children.length) document.getElementById('notes-sec').hidden = false;
-  });
+  fetch('data/drinks-new.csv', {cache: 'no-cache'}).then(r => r.ok ? r.text() : '').then(t => {
+    const rows = t.replace(/^﻿/, '').split(/\r?\n/).slice(1).filter(Boolean).map(l => l.split(','))
+      .filter(r => r[1] && (new Date(T) - new Date(r[1])) / 864e5 <= 7 && (new Date(T) - new Date(r[1])) / 864e5 >= -7);
+    if (!rows.length) return;
+    document.getElementById('drink-t').textContent = `這週 ${rows.length} 款，最新：${rows[0][0]}`;
+    document.getElementById('drink-li').hidden = false;
+  }).catch(() => {});
 });
 </script>
 <!-- SITE-FOOT:START -->
