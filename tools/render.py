@@ -1,7 +1,9 @@
-"""Render IG story cards (1080x1920 PNG) from stories.json."""
-import json, sys, html
+"""Render IG story cards (1080x1920 PNG) from stories.json.
+
+mode "board"：每日一張「今天的黑板」限動（只講一件事，下方留空間給 IG 測驗／連結貼圖）。
+設 RENDER_HTML=1 時只輸出 HTML（本機預覽用，不需要 playwright）。"""
+import json, os, sys, html
 from pathlib import Path
-from playwright.sync_api import sync_playwright
 
 src = Path(sys.argv[1] if len(sys.argv) > 1 else "stories.json")
 out = Path(sys.argv[2] if len(sys.argv) > 2 else "out")
@@ -104,14 +106,48 @@ def digest():
     <div class="foot"><span>完整報導點連結 →</span><span>資料來源：{e(d.get('source',''))}</span></div>"""
     return page(body, acc + "66", "left:-300px;top:-400px;")
 
-if d.get("mode") == "digest":
+
+CHALK_GRAIN = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .95 0 0 0 0 .94 0 0 0 0 .9 0 0 0 .10 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")"
+CHALK_LINE = '<svg width="420" height="22" viewBox="0 0 240 10" preserveAspectRatio="none" style="display:block;margin:34px 0 0"><path d="M2 6 C40 3 70 7 110 5 S180 2 238 6" fill="none" stroke="#F4D35E" stroke-width="3" stroke-linecap="round"/><path d="M8 8 C60 6 120 8 200 7" fill="none" stroke="#F4D35E" stroke-width="1.2" stroke-linecap="round" opacity=".5"/></svg>'
+
+def board():
+    """今天的黑板：一件事、一句話、一個數字（選填）。y 1300～1620 留白放 IG 貼圖。"""
+    num = ""
+    if d.get("stat"):
+        col = {"up": UP, "down": DOWN}.get(d.get("dir"), "#F4D35E")
+        num = f"""<div style="margin-top:56px;display:flex;align-items:baseline;gap:24px;flex-wrap:wrap">
+          <span style="font-size:96px;font-weight:900;color:{col};line-height:1">{e(d['stat'])}</span>
+          <span style="font-size:32px;color:#B7C2B9">{e(d.get('stat_label',''))}</span></div>"""
+    note = "僅供參考，非投資建議" if d.get("finance") else ""
+    body = f"""<div style="position:absolute;inset:0;background:{CHALK_GRAIN},radial-gradient(ellipse 60% 35% at 20% 18%,rgba(242,239,230,.07),transparent 70%),radial-gradient(ellipse 50% 30% at 85% 85%,rgba(242,239,230,.05),transparent 70%)"></div>
+    <div style="position:absolute;left:96px;right:96px;top:250px">
+      <div class="brand" style="letter-spacing:0">{LOGO}{BRAND}</div>
+      <div style="font-size:30px;color:#B7C2B9;margin-top:56px">{e(d['date'])} {e(d['weekday'])}，{e(d.get('kicker','今天弄懂一件事'))}</div>
+      <div style="font-size:92px;font-weight:900;line-height:1.28;margin-top:22px">{e(d['headline'])}</div>
+      {CHALK_LINE}
+      <div style="font-size:42px;line-height:1.6;color:#E4E9E2;margin-top:40px">{e(d['oneline'])}</div>
+      {num}
+    </div>
+    <div style="position:absolute;left:96px;right:96px;bottom:300px;display:flex;justify-content:space-between;font-size:26px;color:#93A397">
+      <span>資料來源：{e(d.get('source',''))}</span><span>{note}</span></div>"""
+    return f"""<html><head><meta charset="utf-8"><style>{BASE}</style></head><body style="background:#23392F">{body}</body></html>"""
+
+if d.get("mode") == "board":
+    pages = [board()]
+elif d.get("mode") == "digest":
     pages = [digest()]
 else:
     pages = [cover()] + [card(i, s) for i, s in enumerate(d["stories"])]
+name = lambda n: out / (f"{d.get('file', 'world')}_{n+1}" if d.get("mode") in ("digest", "board") else f"story_{n+1}")
+if os.environ.get("RENDER_HTML"):
+    for n, h in enumerate(pages):
+        f = name(n).with_suffix(".html"); f.write_text(h, encoding="utf-8"); print(f)
+    sys.exit()
+from playwright.sync_api import sync_playwright
 with sync_playwright() as p:
     b = p.chromium.launch(executable_path="/usr/bin/google-chrome")
     pg = b.new_page(viewport={"width": 1080, "height": 1920})
     for n, h in enumerate(pages):
         pg.set_content(h); pg.wait_for_timeout(200)
-        f = out / (f"{d.get('file', 'world')}_{n+1}.png" if d.get("mode") == "digest" else f"story_{n+1}.png"); pg.screenshot(path=str(f)); print(f)
+        f = name(n).with_suffix(".png"); pg.screenshot(path=str(f)); print(f)
     b.close()
