@@ -77,7 +77,7 @@
 <section class="sec" id="drinks">
   <div class="k">飲料新品・每週更新</div>
   <div class="dk" id="dk"><p class="muted">載入中…</p></div>
-  <a class="fd" href="https://findrink.tw/" target="_blank" rel="noopener">想看各家完整菜單？<b>Findrink 找菜單 →</b><br><small style="color:var(--mute)">外部網站，菜單由對方整理；價格與優惠以品牌公告為準。</small></a>
+  <a class="fd" href="https://findrink.tw/" target="_blank" rel="noopener">想看各家完整菜單？<b>Findrink 找菜單</b><br><small style="color:var(--mute)">外部網站，菜單由對方整理；價格與優惠以品牌公告為準。</small></a>
 </section>
 <section class="sec side" style="padding-top:0">
   <div class="quiz" id="quiz"><p class="muted">小考載入中…</p></div>
@@ -95,12 +95,12 @@
   <a class="card" href="reports/fun-2026-11-21.html">
     <div class="d">2026.11.21・冷知識</div>
     <ol><li><span>本週</span>這週新聞裡的 5 個冷知識</li></ol>
-    <div class="more">輕鬆看 →</div>
+    <div class="more">輕鬆看</div>
   </a>
   <a class="card" href="reports/fun-2026-11-15.html">
     <div class="d">2026.11.15・冷知識</div>
     <ol><li><span>本週</span>這週新聞裡的 5 個冷知識</li></ol>
-    <div class="more">輕鬆看 →</div>
+    <div class="more">輕鬆看</div>
   </a>
 <!-- FUN:END -->
     <div class="empty"><b>第一篇準備中</b>每週六更新：把這週的新聞變成冷知識和一張圖，輕鬆看。</div>
@@ -155,8 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
           box.querySelectorAll('.opts button').forEach(x => { x.disabled = true; if (+x.dataset.n === q.answer) x.classList.add('ok'); });
           if (!ok) b.classList.add('ng');
           const ex = document.getElementById('ex'); ex.classList.add('on');
-          ex.innerHTML = `<b>${ok ? '答對了！' : '差一點！'}</b>${esc(q.explain)}${q.link ? ` <a href="${esc(q.link)}">看原文 →</a>` : ''}
-            <div class="next"><button class="btn" type="button" id="nx">${i < qz.questions.length - 1 ? '下一題 →' : '看成績'}</button></div>`;
+          ex.innerHTML = `<b>${ok ? '答對了！' : '差一點！'}</b>${esc(q.explain)}${q.link ? ` <a href="${esc(q.link)}">看原文</a>` : ''}
+            <div class="next"><button class="btn" type="button" id="nx">${i < qz.questions.length - 1 ? '下一題' : '看成績'}</button></div>`;
           document.getElementById('nx').onclick = () => { i++; i < qz.questions.length ? show() : finish(); };
         });
       }

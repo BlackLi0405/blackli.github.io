@@ -277,14 +277,40 @@ a:hover .u,a:focus-visible .u{background-size:100% 2px}
     /* 首頁黑板頭條：往下滑時微微往上飄、慢慢淡出，像黑板被推遠 */
     .hub .front{animation:bb-recede linear both;animation-timeline:scroll(root);animation-range:0 420px}
     @keyframes bb-recede{to{transform:translateY(-30px);opacity:.6}}
-    /* 區塊標題、文章卡、文章段落標題：進入畫面時從下方滑上來 */
-    .hub .sh,.hub .col,.hub .feat,.hub .rows li,.hub .lite li,.hub .cl,.hub .card,.hub .nb,.tool,
-    body:not(.hub) article h2,body:not(.hub) article h3,body:not(.hub) .stats,body:not(.hub) .tldr,body:not(.hub) .box{
-      animation:bb-rise linear both;animation-timeline:view();animation-range:entry 0% entry 60%}
-    @keyframes bb-rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
     /* 區塊標題上方的粗線：滑進來時從左畫到右 */
     .hub .sh{border-top-color:transparent;background:linear-gradient(var(--ink),var(--ink)) 0 0/0 2px no-repeat;animation:bb-rule linear both;animation-timeline:view();animation-range:entry 10% entry 80%}
     @keyframes bb-rule{to{background-size:100% 2px}}
   }
 }
 @media (prefers-reduced-motion:reduce){.bb-progress{display:none}.bb-layer{transition:none}}
+
+/* ===== 2026-11 設計檢查後的調整 ===== */
+/* 字級只用 13／15／17／21／28／40 六級 */
+body:not(.hub) h1{font-size:clamp(28px,6vw,40px)}
+body:not(.hub) h2{font-size:28px}
+body:not(.hub) article.brief h2,body:not(.hub) .briefs h2.sec{font-size:21px}
+body:not(.hub) h3{font-size:21px}
+body:not(.hub) .stat .v{font-size:28px}
+body:not(.hub) table{font-size:15px}
+.hub .ph h1{font-size:clamp(28px,6vw,40px)}
+.hub .ph p{font-size:17px}
+.hub .card li:first-child{font-size:21px}
+.hub .card li+li,.hub .nb p{font-size:15px}
+/* 標籤不拉開字距 */
+.hub .k,.hub .tag,.hub .ph .kick,.brand,.kind,.tldr b,.layer,.lab.fact,.lab.view,.lab.stance,.lab.interest,.sf h5,.hub .card .d{letter-spacing:0!important}
+/* 卡片本身就是連結，不再多一行「閱讀完整內容 →」 */
+.hub .card .more{display:none}
+/* 文章目錄：三則新聞不是先後順序，拿掉 01／02／03 */
+nav.toc a b{display:none}
+
+/* 黑板質感：很淡的粉筆灰顆粒＋左上角擦過的痕跡（只用在黑板區塊） */
+.hub .chalkboard{position:relative;isolation:isolate}
+.hub .chalkboard::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+  background:
+    radial-gradient(ellipse 38% 26% at 18% 22%,rgba(242,239,230,.07),transparent 70%),
+    radial-gradient(ellipse 30% 22% at 82% 78%,rgba(242,239,230,.05),transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .95 0 0 0 0 .94 0 0 0 0 .9 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* 頭條下方一條手畫的粉筆線 */
+.lead h1{position:relative;padding-bottom:16px}
+.lead h1::after{content:"";position:absolute;left:0;bottom:0;width:min(240px,60%);height:10px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6 C40 3 70 7 110 5 S180 2 238 6' fill='none' stroke='%23F4D35E' stroke-width='3' stroke-linecap='round' opacity='.85'/%3E%3Cpath d='M8 8 C60 6 120 8 200 7' fill='none' stroke='%23F4D35E' stroke-width='1.2' stroke-linecap='round' opacity='.45'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
