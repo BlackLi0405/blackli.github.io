@@ -47,7 +47,8 @@ def foot(pre):
     small = logo(pre).replace(' width="36" height="36"', ' width="30" height="30"')
     return (f'<!-- SITE-FOOT:START -->\n<div class="sf"><div class="sf-in">'
             f'<div><div class="sf-brand">{small}</div>'
-            f'<p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div>'
+            f'<p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p>'
+            f'<p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div>'
             f'<div><h5>每天讀</h5><ul><li><a href="{p}index.html">今天</a></li><li><a href="{p}news.html">新聞</a></li>'
             f'<li><a href="{p}weekly.html">專欄</a></li><li><a href="{p}mind.html">自己</a></li><li><a href="{p}fun.html">輕鬆</a></li></ul></div>'
             f'<div><h5>工具</h5><ul><li><a href="{p}travel.html">出遊情報</a></li><li><a href="{p}trip.html">幫我排行程</a></li>'
@@ -63,8 +64,9 @@ def apply(path):
     pre = "../" if "/" in rel else ""
     s = path.read_text(encoding="utf-8")
     head = (f'<link rel="icon" href="{pre}assets/logo.svg" type="image/svg+xml">\n'
-            f'<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">\n'
-            f'<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">\n'
+            # 外觀由網站自己決定：預設黑板（深色），讀者可以在頁尾切成白天；不跟手機設定走
+            f'<script>(function(){{var t="dark";try{{t=localStorage.getItem("bb-theme")||"dark"}}catch(e){{}}document.documentElement.dataset.theme=t}})();</script>\n'
+            f'<meta name="theme-color" content="#1A2C23">\n'
             f'<link rel="manifest" href="{pre}manifest.webmanifest">\n'
             f'<link rel="apple-touch-icon" href="{pre}assets/icons/apple-touch-icon.png">\n'
             f'<meta name="mobile-web-app-capable" content="yes">\n'

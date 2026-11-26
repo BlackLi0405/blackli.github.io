@@ -5,6 +5,36 @@
     get(k, d) { try { const v = localStorage.getItem('bb.' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem('bb.' + k, JSON.stringify(v)); } catch (e) {} }
   };
+  // 手機底部的一條小工具列：「正在讀」和「回到頂端」放在一起，不各自浮在內文上
+  const dock = () => document.querySelector('.bb-dock') || document.body.appendChild(Object.assign(document.createElement('div'), {className: 'bb-dock'}));
+
+  /* ---------- 外觀：黑板（預設）／白天，存在讀者自己的瀏覽器 ---------- */
+  document.addEventListener('DOMContentLoaded', () => {
+    const root = document.documentElement, meta = document.querySelector('meta[name="theme-color"]');
+    const set = t => {
+      root.dataset.theme = t;
+      if (meta) meta.content = t === 'light' ? '#F6F3EC' : '#1A2C23';
+      document.querySelectorAll('[data-set-theme]').forEach(b => b.setAttribute('aria-pressed', b.dataset.setTheme === t));
+    };
+    set(root.dataset.theme === 'light' ? 'light' : 'dark');
+    document.addEventListener('click', e => {
+      const b = e.target.closest('[data-set-theme]'); if (!b) return;
+      try { localStorage.setItem('bb-theme', b.dataset.setTheme); } catch (err) {}
+      set(b.dataset.setTheme);
+    });
+  });
+
+  /* ---------- 手機：往下滑時收起頂部選單，往上滑再出現 ---------- */
+  document.addEventListener('DOMContentLoaded', () => {
+    const sb = document.querySelector('.sb'); if (!sb) return;
+    let last = scrollY;
+    addEventListener('scroll', () => {
+      const y = scrollY, d = y - last;
+      if (Math.abs(d) < 6) return;
+      sb.classList.toggle('bb-hide', d > 0 && y > 160);
+      last = y;
+    }, {passive: true});
+  });
   const today = (off = 0) => new Date(Date.now() + off * 864e5).toLocaleDateString('sv-SE', {timeZone: 'Asia/Taipei'});
 
   /* ---------- 連續來訪天數 ---------- */
@@ -84,7 +114,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'bb-top'; btn.textContent = '↑ 回到頂端';
     btn.onclick = () => scrollTo({top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
-    document.body.appendChild(btn);
+    dock().appendChild(btn);
     const tick = () => btn.classList.toggle('on', document.documentElement.scrollHeight > innerHeight * 2.5 && scrollY > innerHeight);
     addEventListener('scroll', tick, {passive: true}); tick();
   });
@@ -92,6 +122,9 @@
   /* ---------- 文章閱讀工具 ---------- */
   const isArticle = /\/reports\/[^/]+\.html$/.test(location.pathname) && document.querySelector('main');
   if (isArticle) {
+    // 文章開頭已經有大標題；第一則拆解如果又是同一個標題，就不再重複顯示
+    { const h1 = document.querySelector('header h1'), h2 = document.querySelector('article#main > h2');
+      if (h1 && h2 && h1.textContent.trim() === h2.textContent.trim()) h2.classList.add('bb-dup'); }
     const seen = store.get('seen', []), me = location.pathname.split('/').slice(-2).join('/');
     if (!seen.includes(me)) { seen.push(me); store.set('seen', seen.slice(-300)); }
     const anchor = document.querySelector('header .lede') || document.querySelector('header .tldr') || document.querySelector('header h1');
@@ -146,7 +179,7 @@
     }
     const heads = [...main.querySelectorAll('h3')].filter(h => h.querySelector('.lab.fact,.lab.view,.lab.stance,.lab.interest'));
     if (heads.length && 'IntersectionObserver' in window) {
-      const pill = document.createElement('div'); pill.className = 'bb-layer'; pill.setAttribute('aria-hidden', 'true'); document.body.appendChild(pill);
+      const pill = document.createElement('div'); pill.className = 'bb-layer'; pill.setAttribute('aria-hidden', 'true'); dock().prepend(pill);
       const NAME = {fact: '事實', view: '觀點', stance: '立場', interest: '利益'};
       // 每個四層小標到下一個小標之間算一段；看目前畫面中線落在哪一段
       const kindOf = h => Object.keys(NAME).find(k => h.querySelector('.lab.' + k));

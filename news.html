@@ -14,8 +14,9 @@
 .day h2 small{display:block;font-size:14px;color:var(--mute);font-weight:600}
 .day .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
 .day .card{margin:0}
-.kind{display:inline-block;font-size:11px;font-weight:800;border-radius:6px;padding:1px 7px;margin-right:6px;color:#fff;vertical-align:2px}
-.kind.brief{background:var(--accent);color:var(--on-accent)}.kind.world{background:var(--fact)}.kind.close{background:var(--stance)}.kind.pre{background:var(--view)}
+/* 分類只用文字，不借用四層的顏色 */
+.kind{font-size:13px;font-weight:800;color:var(--hl-ink)}
+.older{display:block;margin:28px 0 0;padding:14px 0;width:100%;font:inherit;font-size:15px;font-weight:700;color:var(--accent);background:none;border:0;border-top:1px solid var(--line);text-align:left;cursor:pointer}
 .count{font-size:14px;color:var(--chalk);opacity:.8;margin-top:12px}
 .msg{color:var(--mute);padding:30px 0}
 @media (max-width:760px){.day{grid-template-columns:1fr;gap:10px}}
@@ -27,8 +28,8 @@
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
-<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1A2C23" media="(prefers-color-scheme: dark)">
+<script>(function(){var t="dark";try{t=localStorage.getItem("bb-theme")||"dark"}catch(e){}document.documentElement.dataset.theme=t})();</script>
+<meta name="theme-color" content="#1A2C23">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
@@ -57,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const kindOf = h => /\/close-/.test(h) ? 'close' : /\/pre-/.test(h) ? 'pre' : /\/world-/.test(h) ? 'world' : 'brief';
   const ORDER = {brief: 0, world: 1, close: 2, pre: 3};
   const WD = '日一二三四五六';
-  let ALL = [], cur = new URLSearchParams(location.search).get('type') || 'all';
+  let ALL = [], days = 7, cur = new URLSearchParams(location.search).get('type') || 'all';
   if (!KINDS.some(k => k[0] === cur)) cur = 'all';
   function render() {
     document.getElementById('tabs').innerHTML = KINDS.map(([k, l]) => `<button type="button" data-k="${k}" aria-pressed="${k === cur}">${l}</button>`).join('');
@@ -65,18 +66,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const box = document.getElementById('list');
     if (!list.length) { box.innerHTML = '<p class="msg">' + (ALL.length ? '這個類型還沒有文章，交易日會自動更新。' : '目前還沒有文章。') + '</p>'; return; }
     const g = new Map(); list.forEach(c => { if (!g.has(c.date)) g.set(c.date, []); g.get(c.date).push(c); });
-    box.innerHTML = [...g].map(([d, cs]) => { const w = WD[new Date(d + 'T12:00:00+08:00').getDay()];
-      return `<div class="day"><h2>${+d.slice(5, 7)} 月 ${+d.slice(8)} 日<small>${d.slice(0, 4)}・星期${w}</small></h2><div class="cards">${cs.sort((a, b) => ORDER[a.kind] - ORDER[b.kind]).map(c => c.html).join('')}</div></div>`; }).join('');
+    const all = [...g], rest = all.length - days;
+    box.innerHTML = all.slice(0, days).map(([d, cs]) => { const w = WD[new Date(d + 'T12:00:00+08:00').getDay()];
+      return `<div class="day"><h2>${+d.slice(5, 7)} 月 ${+d.slice(8)} 日<small>${d.slice(0, 4)}・星期${w}</small></h2><div class="cards">${cs.sort((a, b) => ORDER[a.kind] - ORDER[b.kind]).map(c => c.html).join('')}</div></div>`; }).join('')
+      + (rest > 0 ? `<button type="button" class="older">看更早的 ${Math.min(rest, 7)} 天</button>` : '');
   }
+  document.getElementById('list').addEventListener('click', e => { if (e.target.closest('.older')) { days += 7; render(); } });
   document.getElementById('tabs').addEventListener('click', e => {
-    const b = e.target.closest('button'); if (!b) return; cur = b.dataset.k;
+    const b = e.target.closest('button'); if (!b) return; cur = b.dataset.k; days = 7;
     history.replaceState(null, '', location.pathname + (cur === 'all' ? '' : '?type=' + cur)); render();
   });
   fetch('index.html', {cache: 'no-cache'}).then(r => r.text()).then(t => {
     const doc = new DOMParser().parseFromString(t, 'text/html');
     ALL = [...doc.querySelectorAll('.feed a.card')].map(a => {
       const href = a.getAttribute('href') || ''; const kind = kindOf(href); const m = href.match(/(\d{4}-\d{2}-\d{2})/);
-      const d = a.querySelector('.d'); if (d) d.innerHTML = `<span class="kind ${kind}">${LABEL[kind]}</span>` + d.innerHTML.replace(/・(盤後|盤前)$/, '');
+      const d = a.querySelector('.d'); if (d) d.innerHTML = `<span class="kind ${kind}">${LABEL[kind]}</span>`;  // 日期已經在左邊，不再重複
       const jump = ['#main', '#b1', '#b2'];
       a.querySelectorAll('li').forEach((li, i) => {
         const to = (kind === 'brief' || kind === 'world') && jump[i] ? href + jump[i] : href;
@@ -91,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <!-- SITE-FOOT:START -->
-<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">自己</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">自己</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
 </body>
 </html>

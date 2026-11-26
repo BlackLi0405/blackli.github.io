@@ -11,7 +11,7 @@
   --glass:rgba(246,243,236,.94);--shadow:0 1px 2px rgba(31,42,36,.06),0 6px 18px rgba(31,42,36,.06);
   color-scheme:light;
 }
-@media (prefers-color-scheme:dark){:root{
+:root:not([data-theme="light"]){
   --bg:#1A2C23;--paper:#22382D;--panel:#22382D;--panel2:#2A4335;--line:#36513F;
   --ink:#F2EFE6;--ink2:#D5DCD3;--mute:#A9B6AC;
   --gold:#F4D35E;--accent:#F4D35E;--on-accent:#1A2C23;
@@ -21,7 +21,7 @@
   --fact:#6E9FE0;--view:#B98AE0;--stance:#E0A04F;--interest:#4FB89A;
   --glass:rgba(26,44,35,.94);--shadow:0 1px 2px rgba(0,0,0,.2),0 8px 22px rgba(0,0,0,.18);
   color-scheme:dark;
-}}
+}
 html{background:var(--bg)}
 body{background:var(--bg)!important;background-image:none!important;color:var(--ink);-webkit-font-smoothing:antialiased}
 a{color:inherit}
@@ -167,7 +167,7 @@ body.bb-big main p,body.bb-big main li{font-size:19px}
   /* 配色維持原本的米白＋黑板綠（使用者喜歡），只把陰影拿掉 */
   --shadow:none;
 }
-@media (prefers-color-scheme:dark){:root{--shadow:none}}
+:root:not([data-theme="light"]){--shadow:none}
 
 /* 字級與行高：中文內文 17px、行高 1.8 */
 .hub{font-size:17px;line-height:1.8}
@@ -225,7 +225,7 @@ nav.toc a:hover{color:var(--accent);text-decoration:underline;text-underline-off
   /* 四層拆解的固定色票：事實、觀點、立場、利益。全站只用這四色代表四層，不拿來當分類色 */
   --l-fact:#1F2A24;--l-view:#D9AE1E;--l-stance:#D9728A;--l-interest:#3F9A88;
 }
-@media (prefers-color-scheme:dark){:root{--l-fact:#F2EFE6;--l-view:#F4D35E;--l-stance:#F2A6B3;--l-interest:#7EC8B8}}
+:root:not([data-theme="light"]){--l-fact:#F2EFE6;--l-view:#F4D35E;--l-stance:#F2A6B3;--l-interest:#7EC8B8}
 
 /* 標題與內文都用昭源黑體 */
 body,.hub{font-family:var(--body)}
@@ -260,10 +260,8 @@ a:hover .u,a:focus-visible .u{background-size:100% 2px}
 .it.soon{display:none}
 
 /* 深色模式：黑板區塊和頁面底色太接近，加上下界線與稍亮的黑板色 */
-@media (prefers-color-scheme:dark){
-  .hub .chalkboard{background:#0F1E17;border-top:1px solid rgba(242,239,230,.1);border-bottom:1px solid rgba(242,239,230,.14)}
-  .intro .layer.fact{border-left-color:#F2EFE6}
-}
+:root:not([data-theme="light"]) .hub .chalkboard{background:#0F1E17;border-top:1px solid rgba(242,239,230,.1);border-bottom:1px solid rgba(242,239,230,.14)}
+:root:not([data-theme="light"]) .intro .layer.fact{border-left-color:#F2EFE6}
 
 /* ===== 滑動效果（2026-11） =====
    只動 transform、opacity；不支援的瀏覽器維持靜態；系統設定「減少動態效果」時全部關閉 */
@@ -311,7 +309,56 @@ nav.toc a b{display:none}
     radial-gradient(ellipse 38% 26% at 18% 22%,rgba(242,239,230,.07),transparent 70%),
     radial-gradient(ellipse 30% 22% at 82% 78%,rgba(242,239,230,.05),transparent 70%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .95 0 0 0 0 .94 0 0 0 0 .9 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-/* 頭條下方一條手畫的粉筆線 */
-.lead h1{position:relative;padding-bottom:16px}
-.lead h1::after{content:"";position:absolute;left:0;bottom:0;width:min(240px,60%);height:10px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6 C40 3 70 7 110 5 S180 2 238 6' fill='none' stroke='%23F4D35E' stroke-width='3' stroke-linecap='round' opacity='.85'/%3E%3Cpath d='M8 8 C60 6 120 8 200 7' fill='none' stroke='%23F4D35E' stroke-width='1.2' stroke-linecap='round' opacity='.45'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
+/* 頭條：每一行下面一條手繪粉筆線，長度自動跟著每一行 */
+.lead h1 a{
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 12' preserveAspectRatio='none'%3E%3Cpath d='M2 7 C40 4 70 8 110 6 S180 3 238 7' fill='none' stroke='%23F4D35E' stroke-width='3' stroke-linecap='round' opacity='.85'/%3E%3Cpath d='M8 10 C60 8 120 10 200 9' fill='none' stroke='%23F4D35E' stroke-width='1.2' stroke-linecap='round' opacity='.4'/%3E%3C/svg%3E") 0 100%/100% .3em no-repeat;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;padding-bottom:.18em}
+/* 粉筆字寫完後，線從左畫到右 */
+.lead h1.chalk-in a{animation:bb-swipe .6s ease-out both;animation-delay:var(--d,.9s)}
+@keyframes bb-swipe{from{background-size:0 .3em}to{background-size:100% .3em}}
+@media (prefers-reduced-motion:reduce){.lead h1.chalk-in a{animation:none}}
+
+/* ===== 2026-11-27 全站一致化：跟首頁一樣用細線和文字，不用圓角框和膠囊按鈕 ===== */
+/* 文章：第一則拆解不重複大標題 */
+.bb-dup{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* 閱讀工具（30 秒版、聽文章、大字）：改成文字按鈕 */
+.bb-tools{gap:4px 22px;margin-top:16px}
+.bb-tools button{background:none;border:0;border-radius:0;padding:6px 0;font-size:15px;font-weight:700;color:var(--ink2)}
+.bb-tools button:hover{border:0;color:var(--ink)}
+.bb-tools button[aria-pressed="true"]{background:none;color:var(--ink);box-shadow:inset 0 -2px 0 var(--hl)}
+/* 黑板上的篩選：一排文字，選到的那個下面有粉筆黃線；手機放不下就左右滑 */
+.hub .pills{flex-wrap:nowrap;overflow-x:auto;gap:4px 22px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.hub .pills::-webkit-scrollbar{display:none}
+.hub .pills a,.hub .pills button{border:0;border-radius:0;background:none;padding:8px 0;white-space:nowrap;color:rgba(242,239,230,.72);flex:none}
+.hub .pills a:hover,.hub .pills button:hover{color:var(--chalk)}
+.hub .pills [aria-pressed="true"]{background:none;color:var(--chalk);box-shadow:inset 0 -2px 0 var(--hl)}
+/* 手機上的「各方觀點」：不用圓角框，改成跟其他重點一樣的左邊線 */
+@media (max-width:760px){
+  .tbl:not(:has(th.r)) tr{background:transparent;border:0;border-left:3px solid var(--view);border-radius:0;padding:2px 0 2px 14px;margin:0 0 20px}
+}
+/* 標籤字級最小 13px */
+.hub .tag,.kind,.lab,.hub .card li span{font-size:13px}
+
+/* 手機：頂部往下滑時收起（留一條閱讀進度線） */
+@media (max-width:760px){
+  .sb{transition:transform .25s ease-out}
+  .sb.bb-hide{transform:translateY(calc(-100% + 2px))}
+}
+@media (prefers-reduced-motion:reduce){.sb{transition:none}}
+/* 「正在讀」和「回到頂端」：電腦在左右下角，手機合成底部一條 */
+.bb-dock{position:fixed;left:0;right:0;bottom:0;z-index:45;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));pointer-events:none}
+.bb-dock .bb-layer,.bb-dock .bb-top{position:static}
+.bb-dock .bb-top{margin-left:auto}
+@media (max-width:760px){
+  .bb-dock{padding:0 16px env(safe-area-inset-bottom,0px);border-top:1px solid transparent;transition:background .2s,border-color .2s}
+  .bb-dock:has(.on){background:var(--paper);border-top-color:var(--line)}
+  .bb-dock .bb-layer,.bb-dock .bb-top{border:0;box-shadow:none;background:none;border-radius:0;padding:12px 0;transform:none}
+  .bb-dock .bb-top{color:var(--accent)}
+  body:has(.bb-dock){padding-bottom:46px}
+}
+
+/* 頁尾的外觀切換：黑板（預設）／白天 */
+.bb-theme{display:flex;align-items:center;gap:14px;margin-top:14px;font-size:13px;color:var(--mute)}
+.bb-theme button{font:inherit;font-size:14px;font-weight:700;color:var(--mute);background:none;border:0;padding:4px 0;cursor:pointer}
+.bb-theme button:hover{color:var(--ink)}
+.bb-theme button[aria-pressed="true"]{color:var(--ink);box-shadow:inset 0 -2px 0 var(--hl)}
