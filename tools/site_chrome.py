@@ -8,7 +8,8 @@ import pathlib, re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 BRAND = "BlackLi Board"
-LINKS = [  # (文字, 路徑, 判斷目前頁面用的 key, 選單裡的小字說明)；首頁由左邊的網站名稱進入
+LINKS = [  # (文字, 路徑, 判斷目前頁面用的 key, 選單裡的小字說明)；點左邊的網站名稱也會回首頁
+    ("今天", "index.html", "home", "今日拆解・小考・今日一問"),
     ("新聞", "news.html", "news", "財經・國際・盤後・盤前"),
     ("專欄", "weekly.html", "weekly", "生活・科技・社會・身心・深度拆解"),
     ("工具", "tools.html", "tools", "出遊・排行程・理財・休假"),

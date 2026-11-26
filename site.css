@@ -205,10 +205,11 @@ body:not(.hub) .tag{background:transparent;color:var(--gold);padding:0;border-ra
 nav.toc a{border:0!important;border-radius:0!important;padding:4px 10px!important}
 nav.toc a:hover{color:var(--accent);text-decoration:underline;text-underline-offset:4px}
 
-/* 選單只剩 4 項，手機也直接列出來，不用下拉 */
+/* 選單只有 5 項，手機也直接列出來，不用下拉 */
 .sb{border-bottom:1px solid var(--line)}
 @media (max-width:900px){.sb-links{display:flex}.sb-menu{display:none!important}.sb-links a{padding:8px 8px;font-size:15px}}
-@media (max-width:400px){.sb-logo{font-size:17px}.sb-logo img{width:28px;height:28px}.sb-links a{padding:8px 6px}}
+/* 窄手機放不下一排：網站名稱一行，選單排到下一行、平均分開 */
+@media (max-width:480px){.sb-in{flex-wrap:wrap;height:auto;padding:10px 16px 0;gap:4px}.sb-logo{font-size:18px}.sb-logo img{width:28px;height:28px}.sb-links{width:100%;justify-content:space-between}.sb-links a{padding:10px 6px;font-size:15px}}
 .sf{border-top:1px solid var(--line)}
 .tool.big{color:var(--ink)!important}
 .tool.big p,.tool.big ul{color:var(--ink2)!important;opacity:1!important}
