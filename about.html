@@ -26,6 +26,27 @@
 .ab .grp dd{margin:0;color:var(--ink2)}
 .ab a{color:var(--ink);text-decoration-color:var(--accent);text-underline-offset:4px}
 .ab .fine{font-size:15px;color:var(--mute)}
+.hero-go{display:inline-block;margin-top:18px;font-weight:700;color:var(--chalk);text-decoration:none;border-bottom:2px solid var(--hl);padding-bottom:2px}
+.hero-go[hidden]{display:none}
+.demo .hl{font-size:clamp(21px,4.6vw,28px);font-weight:700;line-height:1.5;color:var(--ink);margin:0 0 6px}
+.demo .hl mark{background:none;color:inherit;box-shadow:inset 0 -.32em 0 var(--hl-soft);transition:box-shadow .4s}
+.demo.open .hl mark{box-shadow:inset 0 -.32em 0 var(--hl)}
+.demo .note{font-size:14px;color:var(--mute);margin:0 0 14px}
+.demo button{font:inherit;font-size:15px;font-weight:700;color:var(--on-accent);background:var(--accent);border:0;border-radius:99px;padding:9px 20px;cursor:pointer}
+.demo .rows{margin:16px 0 0}
+.demo .row{display:grid;grid-template-columns:4em 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:1.7;color:var(--ink2);opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s;visibility:hidden}
+.demo.open .row{opacity:1;transform:none;visibility:visible}
+.demo.open .row:nth-child(2){transition-delay:.25s}.demo.open .row:nth-child(3){transition-delay:.5s}.demo.open .row:nth-child(4){transition-delay:.75s}
+.demo .after{opacity:0;transition:opacity .4s 1.1s;margin:14px 0 0}
+.demo.open .after{opacity:1}
+.demo:not(.open) .rows,.demo:not(.open) .after{height:0;overflow:hidden;margin:0}
+@media (prefers-reduced-motion:reduce){.demo .row,.demo .after{transition:none}}
+.nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 28px;margin:2px 0 6px}
+@media (max-width:640px){.nums{grid-template-columns:1fr}}
+.nums h3{font-size:15px;font-weight:700;color:var(--mute);margin:0 0 2px}
+.nums .n{font-size:30px;font-weight:700;color:var(--ink);line-height:1.2;margin:0 0 4px}
+.nums .n small{font-size:16px;font-weight:700;margin-left:2px}
+.nums p{font-size:15.5px;line-height:1.7;margin:0}
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
@@ -48,73 +69,76 @@
 <!-- SITE-NAV:END -->
 <section class="chalkboard"><div class="w ph">
   <div class="kick">關於</div>
-  <h1>事情分開看，<em>結論你自己下</em></h1>
-  <p>BlackLi Board 是一個人經營的網站。不收費，沒有廣告。</p>
+  <h1>同一則新聞，<em>拆開來看就不一樣</em></h1>
+  <p>事實、觀點、立場、利益，分開標好。結論你自己下。</p>
+  <a class="hero-go" id="today" href="index.html" hidden></a>
 </div></section>
 <main><div class="w sec ab">
 
-<section class="rw" id="what">
-  <h2>在做什麼</h2>
+<section class="rw" id="try">
+  <h2>先拆一則看看</h2>
+  <div class="demo" id="demo">
+    <p class="hl">咖啡豆成本暴漲，連鎖咖啡<mark>不得不</mark>漲價</p>
+    <p class="note">虛構的標題，只用來示範</p>
+    <button type="button" aria-expanded="false">拆開看</button>
+    <div class="rows" aria-live="polite">
+      <div class="row"><span class="layer fact">事實</span><span>咖啡豆期貨一年漲了不少；某品牌中杯美式調漲 5 元。</span></div>
+      <div class="row"><span class="layer view">觀點</span><span>「不得不」是解讀。也有人指出，咖啡豆只占一杯咖啡成本的一小部分。</span></div>
+      <div class="row"><span class="layer stance">立場</span><span>業者希望你接受漲價；消費者團體可能覺得漲太多。</span></div>
+      <div class="row"><span class="layer interest">利益</span><span>把原因說成「國際原料」，比說「想多賺一點」容易被接受。</span></div>
+    </div>
+    <p class="after">標題裡的「不得不」，是觀點，不是事實。這裡每天都這樣拆。</p>
+  </div>
+</section>
+
+<section class="rw" id="why">
+  <h2>為什麼要拆</h2>
   <div>
-    <p class="big">把事情分開來看。</p>
-    <p>別人說的事，拆開給你看。跟你有關的規則，攤開給你查。你自己的狀態，留一點時間給你看。</p>
-    <p>為什麼要分開？一則新聞、一項政策，常把四種東西混在一起說：發生了什麼、有人怎麼解讀、說話的人站在哪裡、誰會因此得到或失去什麼。混在一起，某一方的說法就容易被當成事實。</p>
-    <p>很多時候，差距不在能力，在資訊。可能拿到的不完整、不正確，或晚了一步。也可能資訊都在眼前，卻分不出哪些可信。</p>
-    <p>經營這個網站的人有個習慣：一件事要先能說服自己，也說服得了別人，才會去做。這裡想做的，就是先把說服自己需要的東西整理好，交給你。</p>
+    <p class="big">差距常常不在能力，在資訊。</p>
+    <p>有時是拿不到：不完整、不正確，或晚了一步。有時是拿到了，卻分不出哪些可信。一則新聞把四種東西混在一起說，某一方的說法就被當成了事實。</p>
+    <p>經營這個網站的人有個習慣：一件事要先能說服自己，也說服得了別人，才會去做。這裡做的，就是把說服自己需要的東西整理好，交給你。</p>
   </div>
 </section>
 
 <section class="rw" id="content">
-  <h2>主要做什麼</h2>
+  <h2>這裡有什麼</h2>
   <div>
-    <h3 class="sub">拆新聞</h3>
-    <p>每天早上，<a href="news.html">財經早報和國際早報</a>各拆一則新聞，另附兩則快訊。每週一有生活、科技、社會<a href="weekly.html">週報</a>，每週四有一篇<a href="deep.html">深度拆解</a>。平日另有台股盤後、美股盤前，用數字和表格整理行情，不預測漲跌。</p>
-    <h3 class="sub">查規則</h3>
-    <p>「<a href="guide.html">按主題查</a>」整理成人會遇到的事，例如失業、請假、報稅、租屋、生小孩、家人需要照顧。每項都寫：可以拿到什麼、你符不符合、要準備什麼、常見地雷，並附官方連結和最後確認日期。另外還有<a href="leave.html">休假中心</a>和<a href="calc.html">理財試算工具</a>。</p>
-    <h3 class="sub">看自己</h3>
-    <p>每天一題自我覺察、一分鐘呼吸、身體基本款清單。每週一有<a href="mind.html">身心專欄</a>，附研究來源。</p>
-    <p>你寫下的答案、打的勾、收藏的文章，只存在你自己的瀏覽器。這裡沒有會員，也沒有後台。換裝置或清除瀏覽器資料，這些紀錄就會消失。</p>
-    <p class="fine">另外還有每週六的<a href="fun.html">冷知識</a>、每天三題小考、<a href="travel.html">出遊情報</a>和<a href="trip.html">排行程</a>。</p>
-  </div>
-</section>
-
-<section class="rw" id="how">
-  <h2>怎麼做</h2>
-  <div>
-    <p>早報、週報和深度拆解，都照同一個順序寫：</p>
-    <div class="l4">
-      <div><span class="layer fact">事實</span>發生了什麼。能查證的才算。</div>
-      <div><span class="layer view">觀點</span>誰怎麼解讀。</div>
-      <div><span class="layer stance">立場</span>說話的人是誰，站在什麼位置。</div>
-      <div><span class="layer interest">利益</span>誰得到、誰失去。不只是錢，也可能是權力、自由。</div>
+    <div class="nums">
+      <div><h3>每天</h3><p class="n">2<small>則拆解</small></p><p><a href="news.html">財經和國際</a>各拆一則，加上快訊。平日還有台股盤後、美股盤前。</p></div>
+      <div><h3>每週</h3><p class="n">5<small>篇專欄</small></p><p><a href="weekly.html">生活、科技、社會、身心</a>週報，加一篇<a href="deep.html">深度拆解</a>。</p></div>
+      <div><h3>需要時</h3><p class="n" id="gn">14<small>個主題</small></p><p><a href="guide.html">按主題查</a>：失業、報稅、租屋、生小孩、家人需要照顧，可以拿到什麼、怎麼辦。</p></div>
     </div>
-    <p>這裡的文章都守這幾條：</p>
-    <ul class="pr">
-      <li>每篇附來源。數字優先用官方第一手資料。</li>
-      <li>還沒證實的，寫明「據報導」或「尚未獲官方證實」。</li>
-      <li>有爭議的事，列出各方說法。官方的說法也標成「某方說法」。</li>
-      <li>每篇標日期。很多事只是當下的狀態。</li>
-      <li>不下結論，不預測漲跌，不報明牌。</li>
-      <li>寫錯了會更正。</li>
-    </ul>
-    <p>更細的拆法和選來源的方式，寫在〈<a href="method.html">我怎麼拆解資訊</a>〉。</p>
+    <p class="fine">另外還有<a href="leave.html">休假中心</a>、<a href="calc.html">理財試算</a>、<a href="mind.html">每天一題自我覺察和一分鐘呼吸</a>、<a href="fun.html">小考和冷知識</a>。</p>
   </div>
 </section>
 
 <section class="rw" id="get">
-  <h2>你可以得到什麼</h2>
+  <h2>你會得到</h2>
   <div>
     <ul class="pr">
-      <li><b>自己判斷</b>：事實和說法已經分開標好，結論留給你。</li>
-      <li><b>看得遠一點</b>：早報、週報和深度拆解的最後，會寫這件事跟你有什麼關係，再拉長到十年看。</li>
-      <li><b>查得到</b>：遇到失業、報稅、租屋這類事，知道可以拿到什麼、下一步怎麼做。</li>
-      <li><b>省時間</b>：趕時間可以只看 30 秒版，也可以用聽的。</li>
+      <li><b>自己判斷</b>：事實和說法分開標好，不容易被一句話帶著走。</li>
+      <li><b>知道跟你有什麼關係</b>：拆解的最後會寫影響到你的錢、工作或生活的地方，再拉長到十年看。</li>
+      <li><b>遇到事情查得到</b>：可以拿到什麼、下一步怎麼做，都附官方連結。</li>
+      <li><b>省時間</b>：趕時間只看 30 秒版，或用聽的。</li>
     </ul>
   </div>
 </section>
 
+<section class="rw" id="rules">
+  <h2>寫的規則</h2>
+  <div>
+    <ul class="pr">
+      <li>每篇附來源，數字優先用官方第一手資料。</li>
+      <li>還沒證實的，寫明「據報導」。</li>
+      <li>有爭議的事，各方說法都寫。</li>
+      <li>不下結論，不預測漲跌，不報明牌。</li>
+    </ul>
+    <p><a href="method.html">完整的拆法和選來源的方式</a></p>
+  </div>
+</section>
+
 <section class="rw" id="talk">
-  <h2>寫錯了、想聊聊</h2>
+  <h2>想聊聊</h2>
   <div>
     <p>發現寫錯，或你看到不一樣的角度，都歡迎 IG 私訊我：<a href="https://www.instagram.com/willy16360405/" target="_blank" rel="noopener">@willy16360405</a></p>
   </div>
@@ -130,6 +154,21 @@
 </section>
 
 </div></main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const d = document.getElementById('demo'), b = d.querySelector('button');
+  b.addEventListener('click', () => { const o = d.classList.toggle('open'); b.textContent = o ? '合起來' : '拆開看'; b.setAttribute('aria-expanded', String(o)); });
+  // 今天拆的這一則：從首頁抓最新一篇財經拆解
+  fetch('index.html', {cache: 'no-cache'}).then(r => r.text()).then(t => {
+    const doc = new DOMParser().parseFromString(t, 'text/html');
+    const a = [...doc.querySelectorAll('.feed a.card')].find(a => /reports\/\d{4}-\d{2}-\d{2}\.html$/.test(a.getAttribute('href') || ''));
+    const li = a && a.querySelector('li'); if (!li) return;
+    const s = li.querySelector('span'), title = li.textContent.replace(s ? s.textContent : '', '').trim();
+    const go = document.getElementById('today'); go.href = a.getAttribute('href'); go.textContent = '看最新拆的這一則：' + title; go.hidden = false;
+  }).catch(() => {});
+  fetch('data/guide.json', {cache: 'no-cache'}).then(r => r.json()).then(g => { document.querySelector('#gn').firstChild.textContent = g.topics.length; }).catch(() => {});
+});
+</script>
 <!-- SITE-FOOT:START -->
 <div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">自己</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
