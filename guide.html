@@ -4,23 +4,49 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>按主題查｜BlackLi Board</title>
-<meta name="description" content="住、錢、工作、健康、家庭：有什麼政府資源、誰可以申請、怎麼申請、要準備什麼，每項附出處。">
+<meta name="description" content="從出社會到老會遇到的事：失業、資遣、報稅、租屋、結婚、生小孩、長照、家人過世。可以拿到什麼、你符不符合、怎麼辦，每項附官方連結。">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
+.g-search{display:block;width:100%;max-width:560px;margin-top:20px;font:inherit;font-size:17px;color:var(--chalk);background:rgba(242,239,230,.07);border:1.5px solid rgba(242,239,230,.35);border-radius:10px;padding:12px 14px}
+.g-search::placeholder{color:rgba(242,239,230,.55)}
+.g-search:focus{outline:none;border-color:var(--hl)}
 .tp{border-top:2px solid var(--line);padding:22px 0 18px}
-.tp h2{font-size:clamp(40px,10vw,64px);line-height:1;margin:0 0 14px;color:var(--accent)}
-.its{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 30px}
-@media (max-width:760px){.its{grid-template-columns:1fr}}
-.it h3{font-size:19px;font-weight:700;margin:0 0 8px;color:var(--ink)}
-.it dl{display:grid;grid-template-columns:4.2em 1fr;gap:6px 10px;margin:0 0 10px;font-size:15px}
-.it dt{color:var(--stance)}
-.it dd{margin:0;color:var(--ink2)}
-.it.soon{color:var(--mute);font-size:14px}
-.it.soon h3{color:var(--mute);font-size:16px;margin:0}.it.soon p{margin:2px 0 8px}
-.lab{display:inline-block;font-size:12px;font-weight:700;border:1px solid var(--line);color:var(--mute);border-radius:2px;padding:0 6px;vertical-align:1px}
-.lab.ok{color:var(--accent);border-color:var(--accent)}
-.it a,.fine a{color:var(--ink);text-decoration-color:var(--accent);text-underline-offset:3px}
-.fine{font-size:14px;color:var(--mute);border-top:1px dashed var(--line);padding-top:14px;margin-top:10px}
+.tp[hidden]{display:none}
+.tp h2{font-size:clamp(30px,6vw,44px);line-height:1.1;margin:0 0 6px;color:var(--accent)}
+.tl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 36px;margin:0;padding:0;list-style:none}
+@media (max-width:760px){.tl{grid-template-columns:1fr}}
+.tl a{display:block;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--line);padding:14px 0 13px}
+.tl h3{font-size:19px;font-weight:700;margin:0 0 3px;line-height:1.4}
+.tl p{margin:0;font-size:15px;color:var(--ink2)}
+.tl a:hover h3{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px}
+.nx{font-size:14px;color:var(--mute);margin:12px 0 0}
+.none{font-size:17px;color:var(--ink2);padding:24px 0}
+.tv{max-width:760px}
+.tv .back{font:inherit;font-size:15px;font-weight:700;color:var(--accent);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.tv .cat{font-size:14px;font-weight:700;color:var(--mute);margin:22px 0 4px}
+.tv h2{font-size:clamp(28px,6vw,42px);line-height:1.2;margin:0 0 10px;color:var(--ink)}
+.tv .meta{font-size:14px;color:var(--mute);margin:0 0 18px}
+.lab{display:inline-block;font-size:12px;font-weight:700;border:1px solid var(--accent);color:var(--accent);border-radius:2px;padding:0 6px;margin-right:6px;vertical-align:1px}
+.rw{display:grid;grid-template-columns:6.5em 1fr;gap:6px 16px;border-top:1px solid var(--line);padding:16px 0}
+@media (max-width:560px){.rw{grid-template-columns:1fr}}
+.rw>h3{font-size:15px;font-weight:700;color:var(--accent);margin:2px 0 0}
+.rw ul,.rw ol{margin:0;padding-left:1.25em;font-size:16.5px;color:var(--ink)}
+.rw li{margin:0 0 6px}
+.rw li::marker{color:var(--mute)}
+.rw.get li{font-weight:500}
+.soon{background:var(--hl-soft);border-radius:10px;padding:10px 14px;margin:0 0 14px;font-size:15px;color:var(--ink)}
+.soon b{margin-right:6px}
+.gk{list-style:none;padding:0!important}
+.gk label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding:4px 0}
+.gk input{flex:none;width:20px;height:20px;margin:3px 0 0;accent-color:var(--accent)}
+.res{margin:8px 0 0;padding:8px 0 8px 14px;border-left:3px solid var(--hl);font-size:15.5px;color:var(--ink)}
+.res.ok{font-weight:700}
+.scr{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:0 0 10px;font-size:16px}
+.scr input[type=number]{width:5.5em;font:inherit;font-size:17px;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:8px;padding:6px 10px}
+.scr label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+.scr input[type=radio]{accent-color:var(--accent);width:18px;height:18px}
+.rw a{color:var(--ink);text-decoration-color:var(--accent);text-underline-offset:3px}
+.fine{font-size:14px;color:var(--mute);border-top:1px dashed var(--line);padding-top:14px;margin-top:18px}
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
@@ -44,17 +70,110 @@
 <section class="chalkboard"><div class="w ph">
   <div class="kick">工具・按主題查</div>
   <h1>遇到了，<em>再來查</em></h1>
-  <p>住、錢、工作、健康、家庭：有什麼資源、誰可以申請、怎麼申請、要準備什麼。不預設誰該在幾歲做什麼，需要的時候查就好。</p>
-  <nav class="pills" aria-label="主題"><a href="#home">住</a><a href="#money">錢</a><a href="#work">工作</a><a href="#health">健康</a><a href="#family">家庭</a></nav>
+  <p>從出社會到老會遇到的事：可以拿到什麼、你符不符合、怎麼辦。每項都附官方連結和最後確認的日期。</p>
+  <input class="g-search" id="q" type="search" placeholder="遇到什麼事？例如：資遣、房租、生小孩" aria-label="搜尋主題" autocomplete="off">
+  <nav class="pills" id="cats" aria-label="分類"></nav>
 </div></section>
-<main><div class="w sec">
-  <section class="tp" id="home"><h2>住</h2><div class="its"><article class="it"><h3>租金補貼（300 億元中央擴大租金補貼）</h3><dl><dt>有什麼</dt><dd>每月補貼一部分房租，金額依縣市與身分不同；新婚、育兒家庭有加碼。</dd><dt>誰可以</dt><dd>年滿 18 歲、家庭成員都沒有自有住宅、所得在縣市標準以下。2026 年起新申請的房子必須是合法住宅，頂樓加蓋、違建不行（舊戶同地址有緩衝）。</dd><dt>怎麼申請</dt><dd>以線上申請為主，也可以郵寄或臨櫃。115 年度（2026）受理到 12/31，75 萬戶額滿會提早截止；2027 年度辦法以官方公告為準。</dd><dt>要準備</dt><dd>租賃契約（可用電子契約）、存摺或帳戶證明；依情況附孕有胎兒證明、弱勢身分證明。</dd><dt>出處</dt><dd><a href="https://news.pts.org.tw/article/781642" target="_blank" rel="noopener">公視新聞整理</a> <span class="lab">報導</span>；申請前請到內政部國土管理署「租金補貼專區」確認。</dd></dl></article><article class="it soon"><h3>房貸與新青安</h3><p>整理中</p></article><article class="it soon"><h3>頭期款怎麼準備</h3><p>整理中</p></article></div></section>
-  <section class="tp" id="money"><h2>錢</h2><div class="its"><article class="it"><h3>長照扣除額提高到 18 萬</h3><dl><dt>有什麼</dt><dd>家裡有符合資格的長照需求者，報綜所稅時每人可扣除的金額從 12 萬提高到 18 萬。</dd><dt>誰可以</dt><dd>不屬於排富對象的納稅義務人。</dd><dt>怎麼申請</dt><dd>2026 年 5 月報稅（114 年度所得）起適用，報稅時列報。</dd><dt>要準備</dt><dd>依財政部公告的證明文件。</dd><dt>出處</dt><dd><a href="https://www.gvm.com.tw/article/126991" target="_blank" rel="noopener">遠見整理</a> <span class="lab">報導</span>；條件細項以財政部公告為準。</dd></dl></article><article class="it soon"><h3>保險怎麼買不過頭（可先用<a href="calc.html#hc">財務健檢</a>）</h3><p>整理中</p></article><article class="it soon"><h3>報稅基本功</h3><p>整理中</p></article></div></section>
-  <section class="tp" id="work"><h2>工作</h2><div class="its"><article class="it"><h3>特休、請假、連假</h3><dl><dt>有什麼</dt><dd>特休有幾天、請假扣不扣薪、全勤會不會被扣。</dd><dt>誰可以</dt><dd>所有適用勞基法的勞工。</dd><dt>怎麼申請</dt><dd>直接用本站休假中心試算。</dd><dt>要準備</dt><dd>到職日、月薪。</dd><dt>出處</dt><dd><a href="leave.html">休假中心</a>（每個答案都標明「法律規定」還是「看公司」）</dd></dl></article><article class="it"><h3>在職進修補助</h3><dl><dt>有什麼</dt><dd>在職勞工上課，政府補助 80%～100% 學費，每人 3 年最高 10 萬元。</dd><dt>誰可以</dt><dd>有勞保、就保、職災保或農保的在職勞工。</dd><dt>怎麼申請</dt><dd>先加入台灣就業通會員，再到在職訓練網報名。</dd><dt>要準備</dt><dd>身分證、投保證明（線上報名時填寫）。</dd><dt>出處</dt><dd><a href="https://ojt.wda.gov.tw/" target="_blank" rel="noopener">在職訓練網</a> <span class="lab ok">官方</span></dd></dl></article><article class="it soon"><h3>勞動權益：加班費、資遣</h3><p>整理中</p></article></div></section>
-  <section class="tp" id="health"><h2>健康</h2><div class="its"><article class="it"><h3>成人免費健檢（成人預防保健）</h3><dl><dt>有什麼</dt><dd>血壓、血糖、血脂、肝腎功能、BMI 等檢查，加上健康諮詢。</dd><dt>誰可以</dt><dd>30～39 歲每 5 年 1 次；40～64 歲每 3 年 1 次；65 歲以上每年 1 次。</dd><dt>怎麼申請</dt><dd>到有提供成人預防保健服務的醫院或診所，掛號時說要做成人健檢。</dd><dt>要準備</dt><dd>健保卡。</dd><dt>出處</dt><dd><a href="https://mohw.gov.tw/cp-16-81240-1.html" target="_blank" rel="noopener">衛福部國健署</a> <span class="lab ok">官方</span></dd></dl></article><article class="it soon"><h3>公費疫苗</h3><p>整理中</p></article><article class="it soon"><h3>癌症篩檢</h3><p>整理中</p></article></div></section>
-  <section class="tp" id="family"><h2>家庭</h2><div class="its"><article class="it"><h3>長照服務（長照 3.0）</h3><dl><dt>有什麼</dt><dd>居家照顧、日間照顧、交通接送、輔具、喘息等服務，依失能等級補助。</dd><dt>誰可以</dt><dd>家裡有人因年老、疾病、意外而需要照顧；長照 3.0 也放寬了部分年輕失智、出院後有失能風險的人。</dd><dt>怎麼申請</dt><dd>打 1966 長照專線，或洽縣市長期照顧管理中心；照管專員會到府評估、擬定照顧計畫。住院中可以先找醫院的出院準備服務。</dd><dt>要準備</dt><dd>被照顧者的身分證、健保卡，最近的病況或診斷資料。</dd><dt>出處</dt><dd><a href="https://wantrich.chinatimes.com/news/20260111900126-420501" target="_blank" rel="noopener">旺得富整理</a> <span class="lab">報導</span>；最準的是直接打 1966。</dd></dl></article><article class="it soon"><h3>育兒津貼與托育</h3><p>整理中</p></article></div></section>
-  <p class="fine"><span class="lab ok">官方</span>＝政府網站；<span class="lab">報導</span>＝新聞整理，申請前請再到主管機關確認。政策每年可能調整，本頁整理於 2026 年 11 月，會慢慢補齊。</p>
-</div></main>
+<main><div class="w sec" id="g"><p class="none">載入中…</p></div></main>
+<script>
+(() => {
+  const g = document.getElementById('g'), q = document.getElementById('q'), nav = document.getElementById('cats');
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+  const day = d => d.replace(/-/g, '.');
+  const store = {get: k => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } },
+                 set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
+  let D = null, cat = '', listY = 0;
+
+  const hub = () => {
+    const words = q.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    const hit = t => !words.length || words.every(w => [t.t, t.q, t.kw, ...(t.get || [])].join(' ').toLowerCase().includes(w));
+    let html = '', any = false, later = [];
+    D.cats.forEach(c => {
+      if (cat && c.id !== cat) return;
+      const ts = D.topics.filter(t => t.cat === c.id && hit(t));
+      if (words.length) later.push(...c.next.filter(n => words.some(w => n.toLowerCase().includes(w))));
+      if (!ts.length && words.length) return;
+      any = any || ts.length > 0;
+      html += `<section class="tp" id="${c.id}"><h2>${esc(c.name)}</h2><ul class="tl">` +
+        ts.map(t => `<li><a href="#t=${t.id}"><h3>${esc(t.t)}</h3><p>${esc(t.q)}</p></a></li>`).join('') + '</ul>' +
+        (words.length ? '' : `<p class="nx">下一批：${c.next.map(esc).join('、')}</p>`) + '</section>';
+    });
+    if (words.length && !any) html = later.length
+      ? `<p class="none">「${esc(later[0])}」在下一批，還在整理。</p>`
+      : '<p class="none">找不到這個主題，換個說法試試，例如「離職」「房東」「懷孕」。</p>';
+    g.innerHTML = html + '<p class="fine"><span class="lab">官方</span>資料來自政府網站。政策每年會調整，每個主題都標了最後確認的日期，每月重新核對一次。申請前請再到主管機關確認。</p>';
+  };
+
+  const check = t => {
+    const c = t.chk, key = 'bb-guide-' + t.id, saved = c.mode === 'todo' ? (store.get(key) || []) : [];
+    const items = c.items.map((it, i) => `<li><label><input type="checkbox" data-i="${i}"${saved.includes(i) ? ' checked' : ''}><span>${esc(it.t)}</span></label></li>`).join('');
+    return `<div class="rw"><h3>${esc(c.label)}</h3><div><ul class="gk">${items}</ul><p class="res" aria-live="polite"></p></div></div>`;
+  };
+  const judge = (t, box) => {
+    const c = t.chk, on = [...box.querySelectorAll('.gk input')].map(x => x.checked), res = box.querySelector('.res');
+    const n = on.filter(Boolean).length, all = n === on.length;
+    res.classList.toggle('ok', c.mode === 'any' ? n > 0 : all);
+    if (c.mode === 'todo') {
+      store.set('bb-guide-' + t.id, on.flatMap((v, i) => v ? [i] : []));
+      res.textContent = all ? c.ok : `還有 ${on.length - n} 件。打勾的會記在這支手機上。`;
+    } else if (c.mode === 'any') res.textContent = n ? c.ok : c.none;
+    else if (all) res.textContent = c.ok;
+    else if (!n) res.textContent = '把符合的勾起來，下面會告訴你結果。';
+    else res.textContent = '可能不符合：' + c.items.filter((_, i) => !on[i]).map(x => x.no).join('；') + '。';
+  };
+
+  const SCREEN = [
+    {t: '成人健檢', f: (a) => a >= 65 ? '每年 1 次' : a >= 40 ? '每 3 年 1 次' : a >= 30 ? '每 5 年 1 次' : ''},
+    {t: '大腸癌篩檢（糞便潛血）', f: (a) => a >= 45 && a <= 74 ? '每 2 年 1 次' : a >= 40 && a < 45 ? '父母、子女或兄弟姊妹得過才有，每 2 年 1 次' : ''},
+    {t: '乳癌篩檢（乳房攝影）', f: (a, s) => s === 'f' && a >= 40 && a <= 74 ? '每 2 年 1 次' : ''},
+    {t: '肺癌篩檢（低劑量電腦斷層）', f: (a, s) => a > 74 ? '' : a >= 50 ? '家人得過肺癌，或吸菸 20 包-年以上才有，每 2 年 1 次' : (s === 'f' ? a >= 40 : a >= 45) ? '家人得過肺癌才有，每 2 年 1 次' : ''}
+  ];
+  const screen = () => `<div class="rw"><h3>你可以做</h3><div><div class="scr"><label>年齡 <input type="number" id="age" min="18" max="110" inputmode="numeric"></label>
+    <label><input type="radio" name="sx" value="f">女</label><label><input type="radio" name="sx" value="m">男</label></div><ul id="scr-out"></ul><p class="res" id="scr-res" aria-live="polite">輸入年齡、選性別。</p></div></div>`;
+  const runScreen = () => {
+    const a = +document.getElementById('age').value, s = (document.querySelector('input[name=sx]:checked') || {}).value;
+    const out = document.getElementById('scr-out'), res = document.getElementById('scr-res');
+    if (!a || !s) { out.innerHTML = ''; res.hidden = false; return; }
+    const rows = SCREEN.map(x => [x.t, x.f(a, s)]).filter(x => x[1]);
+    out.innerHTML = rows.map(([n, v]) => `<li><b>${esc(n)}</b>：${esc(v)}</li>`).join('');
+    res.hidden = rows.length > 0; res.textContent = '這個年齡目前沒有政府免費的項目，30 歲起就有成人健檢。';
+  };
+
+  const list = (h, arr, tag = 'ul', cls = '') => arr && arr.length ? `<div class="rw${cls}"><h3>${h}</h3><div><${tag}>${arr.map(x => `<li>${esc(x)}</li>`).join('')}</${tag}></div></div>` : '';
+  const topic = t => {
+    const c = D.cats.find(c => c.id === t.cat);
+    const tool = t.tool ? `<div class="rw"><h3>試算</h3><div><a href="${esc(t.tool.href)}"${/^http/.test(t.tool.href) ? ' target="_blank" rel="noopener"' : ''}>${esc(t.tool.text)}</a></div></div>` : '';
+    const src = `<div class="rw"><h3>官方連結</h3><div><ul>${t.src.map(s => `<li><a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.n)}</a></li>`).join('')}</ul></div></div>`;
+    g.innerHTML = `<article class="tv"><button class="back" type="button">全部主題</button>
+      <p class="cat">${esc(c.name)}</p><h2>${esc(t.t)}</h2>
+      <p class="meta"><span class="lab">官方</span>最後確認 ${day(t.checked)}</p>
+      ${t.soon ? `<p class="soon"><b>即將改變</b>${esc(t.soon)}</p>` : ''}
+      ${list('可以拿到', t.get, 'ul', ' get')}${t.calc === 'screen' ? screen() : ''}${t.chk ? check(t) : ''}
+      ${list('怎麼辦', t.steps, t.steps && t.steps.length > 1 ? 'ol' : 'ul')}${list('要準備', t.prep)}${list('常見地雷', t.trap)}${tool}${src}
+      <p class="fine">整理自政府網站與法規，最後確認 ${day(t.checked)}。政策會調整，申請前請再到主管機關確認。</p></article>`;
+    g.querySelector('.back').onclick = () => { history.length > 1 && /#t=/.test(location.hash) ? history.back() : (location.hash = ''); };
+    if (t.chk) { const box = g.querySelector(".gk").closest('.rw'); box.addEventListener('change', () => judge(t, box)); judge(t, box); }
+    if (t.calc === 'screen') g.querySelector('.scr').addEventListener('input', runScreen);
+    document.title = t.t + '｜按主題查｜BlackLi Board';
+  };
+
+  const route = () => {
+    const h = decodeURIComponent(location.hash.slice(1)), m = h.match(/^t=(.+)$/), t = m && D.topics.find(t => t.id === m[1]);
+    if (t) { listY = listY || scrollY; topic(t); scrollTo(0, Math.max(0, document.querySelector('main').offsetTop - 60)); return; }
+    document.title = '按主題查｜BlackLi Board';
+    if (D.cats.some(c => c.id === h)) cat = h;
+    paint(); hub(); if (listY) { scrollTo(0, listY); listY = 0; }
+  };
+  const paint = () => {
+    nav.innerHTML = [['', '全部'], ...D.cats.map(c => [c.id, c.name])].map(([id, n]) => `<button type="button" data-c="${id}" aria-pressed="${id === cat}">${esc(n)}</button>`).join('');
+  };
+  nav.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; cat = b.dataset.c; paint(); if (/#t=/.test(location.hash)) location.hash = ''; else hub(); });
+  q.addEventListener('input', () => { if (/#t=/.test(location.hash)) { listY = 0; location.hash = ''; } else hub(); });
+  addEventListener('hashchange', route);
+  fetch('data/guide.json', {cache: 'no-cache'}).then(r => r.json()).then(d => { D = d; route(); })
+    .catch(() => { g.innerHTML = '<p class="none">資料載入失敗，請重新整理一次。</p>'; });
+})();
+</script>
 <!-- SITE-FOOT:START -->
 <div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">自己</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->

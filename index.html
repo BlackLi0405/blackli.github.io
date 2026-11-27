@@ -24,11 +24,8 @@
 .col.sk{min-height:120px}
 .col.sk span:first-child{width:40%;height:.7em}
 /* 日期列右邊：今年還剩幾天＋一條細細的粉筆進度線 */
-.yr{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink2);white-space:nowrap}
-.yr i{display:block;width:56px;height:3px;border-radius:2px;background:var(--line);overflow:hidden}
-.yr i::after{content:"";display:block;height:100%;width:calc(var(--p) * 100%);background:var(--hl-ink);border-radius:2px}
-@media (max-width:760px){.hub .dateline .w span.yr{display:inline-flex}}
-@media (max-width:420px){.yr i{width:36px}.dl-r{gap:12px}}
+.sv{font-size:13px;font-weight:700;color:var(--ink);text-decoration:none;white-space:nowrap;border-bottom:1.5px solid var(--hl)}
+.sv b{color:var(--hl-ink);margin-left:4px}
 .sh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-top:2px solid var(--ink);padding-top:12px;margin:0 0 20px}
 .sh h2{font-family:var(--head);font-size:22px;font-weight:700;margin:0;letter-spacing:.02em;line-height:1.35}
 .sh a{font-size:14px;font-weight:700;color:var(--accent);text-decoration:none;white-space:nowrap}
@@ -203,7 +200,7 @@
 <!-- SITE-NAV:START -->
 <div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html" aria-current="page">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html" aria-current="page">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・身心・深度拆解</small></a><a href="tools.html">工具<small>出遊・排行程・理財・休假</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
-<div class="dateline"><div class="w"><span id="dl"></span><span class="dl-r"><span id="count"></span><span class="sched">財經・國際 07:00　盤後 16:30　盤前 20:00</span><span class="yr" id="yr"></span></span></div></div>
+<div class="dateline"><div class="w"><span id="dl"></span><span class="dl-r"><span class="sched">財經・國際 07:00　盤後 16:30　盤前 20:00</span><a class="sv" id="sv" href="saved.html">我的收藏</a></span></div></div>
 
 <section class="chalkboard"><div class="w front">
   <div class="lead" id="lead"><span class="meta"><b>財經拆解</b></span><h1 class="sk" aria-label="載入中"><span></span><span></span></h1><p class="sk"><span></span><span></span><span></span></p></div>
@@ -246,7 +243,7 @@
     <ul class="lst">
       <li><a href="calc.html#hc"><b class="u">財務健檢</b><span>預備金、保險、收入怎麼分</span></a></li>
       <li><a href="leave.html"><b class="u">休假中心</b><span>連假、特休、請假扣薪</span></a></li>
-      <li><a href="guide.html"><b class="u">按主題查</b><span>住、錢、工作、健康、家庭</span></a></li>
+      <li><a href="guide.html"><b class="u">按主題查</b><span>失業、報稅、租屋、生小孩、長照</span></a></li>
       <li><a href="trip.html"><b class="u">排行程</b><span>依預算、交通和體力排一天</span></a></li>
     </ul>
   </div>
@@ -720,11 +717,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const dow = new Date(T + 'T12:00:00+08:00').getDay();
   const weekend = dow === 0 || dow === 6;
   document.getElementById('dl').textContent = `${T.slice(0, 4)} 年 ${+T.slice(5, 7)} 月 ${+T.slice(8)} 日 星期${WD[dow]}`;
-  // 今年還剩幾天（不算今天），進度線是今年已經走過的比例
-  { const y = +T.slice(0, 4), d0 = Date.UTC(y, 0, 1), d1 = Date.UTC(y + 1, 0, 1), td = Date.UTC(y, +T.slice(5, 7) - 1, +T.slice(8));
-    const left = Math.round((d1 - td) / 864e5) - 1, p = (td - d0 + 864e5) / (d1 - d0), yr = document.getElementById('yr');
-    yr.innerHTML = `${left ? `${y} 還剩 ${left} 天` : `${y} 最後一天`}<i style="--p:${p.toFixed(3)}"></i>`;
-    yr.title = `${y} 年已經過了 ${Math.round(p * 100)}%`; }
+  // 我的收藏：在文章上按「收藏」的篇數
+  const savedN = () => { const n = window.BB ? BB.store.get('saved', []).length : 0; document.getElementById('sv').innerHTML = '我的收藏' + (n ? `<b>${n}</b>` : ''); };
+  savedN();
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
   const parse = a => { const href = a.getAttribute('href') || ''; const m = href.match(/(\d{4}-\d{2}-\d{2})/);
     const items = [...a.querySelectorAll('li')].map(li => { const s = li.querySelector('span'); return {k: s ? s.textContent.trim() : '', t: li.textContent.replace(s ? s.textContent : '', '').trim()}; });
@@ -824,9 +819,6 @@ document.addEventListener('DOMContentLoaded', () => {
     article(c).then(({h1, tldr, lede, rt}) => { if (rt) a.querySelector('.rt').textContent = `，讀 ${rt} 分鐘`; if (h1) a.querySelector('h3 .u').textContent = h1; const t = tldr || lede, el = a.querySelector('p'); if (t) { el.textContent = t; el.hidden = false; } });
   });
 
-  // 今天看了幾篇
-  const todays = ['brief', ...P.map(p => p.k)].map(latest).filter(c => c && c.date === T);
-  if (todays.length) document.getElementById('count').textContent = `今天看了 ${todays.filter(isRead).length}／${todays.length}`;
 
   // 第三層左：看深一點（深度拆解主打＋各專欄最新一篇）
   const getDoc = u => fetch(u, {cache: 'no-cache'}).then(r => r.ok ? r.text() : '').then(t => new DOMParser().parseFromString(t, 'text/html')).catch(() => null);
@@ -872,7 +864,7 @@ document.addEventListener('DOMContentLoaded', () => {
       m.insertAdjacentHTML('beforeend', tick({href: a.getAttribute('href')}));
       a.classList.remove('guide'); const f = m.querySelector('.fresh'); if (f) f.remove();
     });
-    if (todays.length) document.getElementById('count').textContent = `今天看了 ${todays.filter(isRead).length}／${todays.length}`;
+    savedN();
   });
 });
 </script>

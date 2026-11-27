@@ -131,8 +131,14 @@
     const bar = document.createElement('div'); bar.className = 'bb-tools';
     bar.innerHTML = '<button type="button" data-t="short" aria-pressed="false">30 秒版</button>' +
       ('speechSynthesis' in window ? '<button type="button" data-t="listen" aria-pressed="false">聽文章</button>' : '') +
-      '<button type="button" data-t="big" aria-pressed="false">Aa 大字</button>';
+      '<button type="button" data-t="big" aria-pressed="false">Aa 大字</button>' +
+      '<button type="button" data-t="save" aria-pressed="false">收藏</button>';
     if (anchor) anchor.after(bar);
+    // 收藏：存在讀者自己的瀏覽器，首頁日期列和 saved.html 會列出來
+    const saveBtn = bar.querySelector('[data-t="save"]');
+    const isSaved = () => store.get('saved', []).some(x => x.u === me);
+    const paintSave = () => { const on = isSaved(); saveBtn.setAttribute('aria-pressed', String(on)); saveBtn.textContent = on ? '已收藏' : '收藏'; };
+    paintSave();
     const main = document.querySelector('main');
     const note = document.createElement('p'); note.className = 'bb-short-note bb-keep';
     note.textContent = '現在是 30 秒版：只顯示重點、數字和「這跟你有什麼關係」。想看完整內容，再按一次「30 秒版」。';
@@ -151,6 +157,12 @@
       const b = e.target.closest('button'); if (!b) return;
       const t = b.dataset.t;
       if (t === 'short' || t === 'big') { pref[t] = !pref[t]; store.set('read', pref); apply(); return; }
+      if (t === 'save') {
+        const list = store.get('saved', []).filter(x => x.u !== me);
+        if (!isSaved()) { const h1 = document.querySelector('header h1'), kick = document.querySelector('header .kick, header .kicker, header .k');
+          list.unshift({u: me, t: h1 ? h1.textContent.trim() : document.title, k: kick ? kick.textContent.trim() : '', at: today()}); }
+        store.set('saved', list.slice(0, 200)); paintSave(); return;
+      }
       if (t === 'listen') {
         if (speaking) { speechSynthesis.cancel(); speaking = false; b.setAttribute('aria-pressed', 'false'); b.textContent = '聽文章'; return; }
         const parts = [document.querySelector('header h1'), ...main.querySelectorAll('h2,h3,p,li,td,.tldr,.box')]
