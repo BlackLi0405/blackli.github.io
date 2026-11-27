@@ -309,14 +309,14 @@ nav.toc a b{display:none}
     radial-gradient(ellipse 38% 26% at 18% 22%,rgba(242,239,230,.07),transparent 70%),
     radial-gradient(ellipse 30% 22% at 82% 78%,rgba(242,239,230,.05),transparent 70%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .95 0 0 0 0 .94 0 0 0 0 .9 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-/* 頭條：每一行下面一條手繪粉筆線，長度自動跟著每一行 */
-.lead h1 a{
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 12' preserveAspectRatio='none'%3E%3Cpath d='M2 7 C40 4 70 8 110 6 S180 3 238 7' fill='none' stroke='%23F4D35E' stroke-width='3' stroke-linecap='round' opacity='.85'/%3E%3Cpath d='M8 10 C60 8 120 10 200 9' fill='none' stroke='%23F4D35E' stroke-width='1.2' stroke-linecap='round' opacity='.4'/%3E%3C/svg%3E") 0 100%/100% .3em no-repeat;
-  -webkit-box-decoration-break:clone;box-decoration-break:clone;padding-bottom:.18em}
-/* 粉筆字寫完後，線從左畫到右 */
-.lead h1.chalk-in a{animation:bb-swipe .6s ease-out both;animation-delay:var(--d,.9s)}
-@keyframes bb-swipe{from{background-size:0 .3em}to{background-size:100% .3em}}
-@media (prefers-reduced-motion:reduce){.lead h1.chalk-in a{animation:none}}
+/* 頭條：字寫完後，一行一行畫粉筆線（線條由首頁程式依每一行的位置畫出） */
+.lead h1{position:relative;padding-bottom:10px}
+.lead h1 svg.ul{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.lead h1 svg.ul path{fill:none;stroke:var(--hl);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0}
+.lead h1 svg.ul .u1{stroke-width:3;opacity:.85}
+.lead h1 svg.ul .u2{stroke-width:1.2;opacity:.4}
+@keyframes bb-ul{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.lead h1 svg.ul path{animation:none!important}}
 
 /* ===== 2026-11-27 全站一致化：跟首頁一樣用細線和文字，不用圓角框和膠囊按鈕 ===== */
 /* 文章：第一則拆解不重複大標題 */

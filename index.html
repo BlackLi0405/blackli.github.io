@@ -749,6 +749,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return {rt, h1: q('h1'), tldr: tl ? tl.textContent.trim() : '', lede: q('.lede').replace(/今天(深入)?拆解[^。]*(。|$)[\s\S]*$/, '').trim()}; }).catch(() => ({}));
 
   // 黑板頭條的標題像粉筆一個字一個字寫出來（整段約 0.8 秒；頭條還沒看過才播）
+  // 標題裡最關鍵的數字（先找百分比，再找有單位的數字，最後任何數字），畫完線後用粉筆圈起來
   const chalk = (el, text, play) => {
     const anim = play && !matchMedia('(prefers-reduced-motion: reduce)').matches;
     // 標點黏在前一個字（開頭的引號、括號黏在後一個字），避免逗號跑到行首
@@ -760,9 +761,36 @@ document.addEventListener('DOMContentLoaded', () => {
       else ch.push(c);
     }
     const step = Math.min(40, 800 / Math.max(ch.length, 1));
-    el.innerHTML = ch.map((c, i) => c === ' ' ? ' ' : anim ? `<span style="animation-delay:${Math.round(i * step)}ms">${esc(c)}</span>` : esc(c)).join('');
-    // 字寫完之後，每一行再用粉筆畫一條線
-    if (anim) { el.style.setProperty('--d', `${Math.round(ch.length * step) + 100}ms`); el.closest('h1').classList.add('chalk-in'); }
+    el.innerHTML = ch.map((c, i) => c === ' ' ? ' ' : `<span${anim ? ` style="animation-delay:${Math.round(i * step)}ms"` : ''}>${esc(c)}</span>`).join('');
+    const h1 = el.closest('h1');
+    if (anim) h1.classList.add('chalk-in');
+    // 字寫完之後：從第一行開始，一行一行用粉筆畫線
+    const t0 = performance.now(), writeEnd = ch.length * step + 150;
+    const draw = still => {
+      h1.querySelectorAll('svg.ul').forEach(x => x.remove());
+      const spans = [...el.querySelectorAll('span')]; if (!spans.length) return;
+      const lines = [];
+      for (const sp of spans) {
+        const top = sp.offsetTop, L = lines.find(l => Math.abs(l.top - top) < 8);
+        const r = {x1: sp.offsetLeft, x2: sp.offsetLeft + sp.offsetWidth, y: top + sp.offsetHeight};
+        if (L) { L.x1 = Math.min(L.x1, r.x1); L.x2 = Math.max(L.x2, r.x2); L.y = Math.max(L.y, r.y); } else lines.push({top, ...r});
+      }
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.setAttribute('class', 'ul'); svg.setAttribute('aria-hidden', 'true');
+      let at = Math.max(0, writeEnd - (performance.now() - t0)), paths = '';
+      const ani = (dur, delay, ease) => still ? '' : ` style="animation:bb-ul ${dur}ms ${ease} ${Math.round(delay)}ms both"`;
+      lines.forEach((l, i) => {
+        // 手畫的線：起筆稍高、中間微彎、收筆稍低；越長的行畫越久，但不是等速
+        const w = l.x2 - l.x1, y = l.y + 3, wob = (i % 2 ? -1 : 1) * Math.min(2.5, w / 120);
+        const d = `M${l.x1 - 2} ${y - 1} C${l.x1 + w * .3} ${y + wob} ${l.x1 + w * .62} ${y - wob} ${l.x2 + 3} ${y + 1.5}`;
+        const dur = 260 + w * .75 * (1 + (i % 3) * .08);
+        paths += `<path class="u1" pathLength="1" d="${d}"${ani(dur, at, 'cubic-bezier(.5,.05,.25,1)')}/>`;
+        paths += `<path class="u2" pathLength="1" d="M${l.x1 + 6} ${y + 3.5} C${l.x1 + w * .4} ${y + 2.5} ${l.x1 + w * .7} ${y + 4} ${l.x2 - w * .12} ${y + 3}"${ani(dur * .9, at + 60, 'cubic-bezier(.5,.05,.25,1)')}/>`;
+        at += dur + 90 + (i % 2) * 40;
+      });
+      svg.innerHTML = paths; h1.appendChild(svg);
+    };
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => draw(!anim));
+    let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => draw(true), 150); });
   };
 
   // 下一篇什麼時候出來（半夜看首頁時，讓人知道早上會更新）
