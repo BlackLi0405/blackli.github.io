@@ -3,36 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>關於本站｜BlackLi Board</title>
-<meta name="description" content="在資訊爆炸的時代，我們缺的不是訊息，而是看清全貌的能力。BlackLi Board 是一個資訊轉譯站，幫你把複雜的事情梳理清楚。">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>關於｜BlackLi Board</title>
+<meta name="description" content="小曹一個人經營的網站：把一件事拆成事實、觀點、立場、利益四層，先分清楚，再決定怎麼看。">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;line-height:1.9;font-size:17px;}
-.wrap{max-width:720px;margin:0 auto;padding:0 22px}
-header.hero{padding:56px 0 34px;border-bottom:1px solid var(--line)}
-.kicker{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:14px}
-h1{font-size:clamp(34px,8vw,50px);font-weight:900;line-height:1.2;margin:14px 0}
-.lede{color:var(--ink2);font-size:19px;font-weight:500}
-section{padding:40px 0 8px;scroll-margin-top:16px}
-h2{font-size:22px;font-weight:900;margin:0 0 14px;display:flex;align-items:center;gap:10px}
-h2::before{content:"";width:6px;height:22px;background:var(--gold);border-radius:3px}
-p{margin:0 0 16px;color:var(--ink2)}
-p strong{color:var(--ink)}
-.four{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:4px 0 18px}
-.four div{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:14px;padding:12px 14px;font-size:14px;color:var(--ink2);line-height:1.6}
-.four b{display:block;color:var(--ink);font-size:16px;margin-bottom:2px}
-.f{--c:var(--fact)}.v{--c:var(--view)}.s{--c:var(--stance)}.i{--c:var(--interest)}
-.quote{border-left:4px solid var(--gold);padding:4px 0 4px 16px;margin:6px 0 18px;color:var(--ink);font-size:18px;font-weight:700}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:6px 0 10px}
-.item{display:block;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;color:inherit;text-decoration:none;transition:border-color .2s}
-a.item:hover{border-color:var(--gold)}
-.item b{display:block;font-size:17px;margin-bottom:4px}
-.item span{color:var(--mute);font-size:14px;line-height:1.6;display:block}
-.link{color:var(--gold);text-decoration:none;font-weight:700}
-.box{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:16px 18px;margin:6px 0 0;font-size:15px;color:var(--ink2)}
-main{padding-bottom:56px}
+.ab{max-width:860px}
+.ab .rw{display:grid;grid-template-columns:8em 1fr;gap:8px 24px;border-top:1px solid var(--line);padding:26px 0 18px;scroll-margin-top:70px}
+@media (max-width:640px){.ab .rw{grid-template-columns:1fr;padding-top:22px}}
+.ab h2{font-size:17px;font-weight:700;color:var(--accent);margin:3px 0 0;line-height:1.5}
+.ab p{margin:0 0 14px;font-size:17px;line-height:1.85;color:var(--ink2)}
+.ab p b{color:var(--ink)}
+.ab .big{font-size:20px;line-height:1.7;color:var(--ink);font-weight:700}
+.ab .l4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 24px;margin:4px 0 18px}
+@media (max-width:480px){.ab .l4{grid-template-columns:1fr}}
+.ab .l4 div{font-size:15.5px;color:var(--ink2);line-height:1.6}
+.ab .l4 .layer{display:block;margin:0 0 4px;font-size:15px}
+.ab .grp{display:grid;grid-template-columns:5em 1fr;gap:6px 16px;margin:0 0 14px;font-size:16.5px;line-height:1.7}
+.ab .grp dt{font-weight:700;color:var(--ink)}
+.ab .grp dd{margin:0;color:var(--ink2)}
+.ab a{color:var(--ink);text-decoration-color:var(--accent);text-underline-offset:4px}
+.ab .fine{font-size:15px;color:var(--mute)}
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
@@ -49,64 +39,89 @@ main{padding-bottom:56px}
 <script src="assets/site.js" defer></script>
 <!-- SITE-HEAD:END -->
 </head>
-<body>
+<body class="hub">
 <!-- SITE-NAV:START -->
 <div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="tools.html">工具</a><a href="about.html" aria-current="page">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・身心・深度拆解</small></a><a href="tools.html">工具<small>出遊・排行程・理財・休假</small></a><a href="about.html" aria-current="page">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
-<header class="hero"><div class="wrap">
-  <div class="kicker">關於本站</div>
-  <h1>關於 BlackLi Board</h1>
-  <p class="lede">每天把財經和國際新聞拆開來寫：哪些是事實、哪些是觀點，誰站在什麼立場、有什麼利益。</p>
-</div></header>
+<section class="chalkboard"><div class="w ph">
+  <div class="kick">關於</div>
+  <h1>把複雜的事，<em>寫在黑板上</em></h1>
+  <p>我是小曹（BlackLi）。這是我一個人經營的網站，目前不收費。</p>
+</div></section>
+<main><div class="w sec ab">
 
-<main class="wrap">
-
-<section id="why">
-  <h2>為什麼做這個網站</h2>
-  <p>在生活與工作中，我常發現許多事情之所以卡關、甚至走向失敗，往往不是因為大家不夠努力，而是<strong>「資訊出現了斷層」</strong>。傳達者有自己的立場，接收者有不同的理解程度，一來一往之間，訊息很容易在無形中失真。</p>
-  <p>當我們接收到一則訊息時，裡面其實混雜了四種完全不同的東西：</p>
-  <div class="four">
-    <div class="f"><b>事實</b>客觀發生、不帶情緒的原始狀態。</div>
-    <div class="v"><b>觀點</b>基於個人經驗與視角的解讀。</div>
-    <div class="s"><b>立場</b>說話者所站的位置與態度。</div>
-    <div class="i"><b>利益</b>驅動這則訊息背後、真正想達成的目的。</div>
+<section class="rw" id="me">
+  <h2>為什麼是我</h2>
+  <div>
+    <p>我做過基層，也當過主管，現在正在籌備自己的事。</p>
+    <p>在基層時我發現，很多事做不成，不是能力不夠，而是手上的資訊<b>不夠正確、不夠齊全</b>。當了主管之後又發現，就算資訊都給了，也不一定消化得了。</p>
+    <p>工作是這樣，玩遊戲、生活也是。人跟人的差距，很多時候只是拿到資訊比別人慢一步、或不夠準，機會就這樣錯過了。</p>
+    <p>我是個固執的人：一件事要先說服自己、也說服得了別人，我才會去做。但我也是行動派，以前常常先做再說、邊做邊改，吃過不少虧。後來才懂，先把架構搭好、把眼光放遠，做的決定和說出口的話都會準很多。</p>
   </div>
-  <p>很多時候，傳達者會因為利益決定了立場，進而把立場包裝成事實；而接收者受限於時間與視角，很容易在資訊不對稱的情況下全盤接收，溝通自然會出問題。</p>
-  <p class="quote">我一直相信，正確且透明的資訊流通，是解決問題的第一步。</p>
-  <p>大家平時都很忙，沒有時間層層剝開這些迷霧。而梳理脈絡、整理資訊剛好是我最擅長也最熱愛的事。建立這個網站的初衷，就是希望能充當一個「資訊轉譯站」：替大家省去過濾雜訊的時間，盡力釐清什麼是客觀事實、什麼是主觀解讀，讓對的資訊能真正被看見、被理解。</p>
-  <p><a class="link" href="method.html">看看我怎麼拆解資訊、怎麼選擇來源</a></p>
 </section>
 
-<section id="interest">
-  <h2>我的利益，先說在前面</h2>
-  <p>當然，我也會有自己的視角限制與盲點。如果問我做這件事的「利益」是什麼？那就是希望透過不斷地整理與練習，讓自己能更全面地洞悉所有事物。</p>
+<section class="rw" id="why">
+  <h2>這個網站在做什麼</h2>
+  <div>
+    <p>把一件事拆成四層，先分清楚，再決定怎麼看：</p>
+    <div class="l4">
+      <div><span class="layer fact">事實</span>已經發生、可以查證的事。</div>
+      <div><span class="layer view">觀點</span>某個人的解讀。</div>
+      <div><span class="layer stance">立場</span>說話的人站在哪一邊。</div>
+      <div><span class="layer interest">利益</span>誰能得到什麼。不只是錢，也可能是權力、自由。</div>
+    </div>
+    <p>我希望你看到一則新聞，不只是覺得「有趣」或「跟我沒關係」，而是能多看一層：這是事實還是說法？誰在說？他想得到什麼？</p>
+    <p>每篇都附上來源，你可以自己點進去看；寫錯的地方，我會更正。我自己也還在學。</p>
+    <p><a href="method.html">我怎麼拆解資訊、怎麼選來源</a></p>
+  </div>
 </section>
 
-<section id="content">
+<section class="rw" id="not">
+  <h2>我不做什麼</h2>
+  <div>
+    <p class="big">我不會告訴你「事情一定是這樣」。</p>
+    <p>我把事實、各方說法、背後的立場和利益擺出來，結論留給你自己想。也不預測漲跌、不報明牌。</p>
+  </div>
+</section>
+
+<section class="rw" id="interest">
+  <h2>我的立場和利益</h2>
+  <div>
+    <p>我的立場是：<b>先看清全貌，再做決定。</b>這是我相信的事，不是事實。</p>
+    <p>做這件事，我得到的是練習：逼自己規律，逼自己把事情想清楚。網站目前不收費。</p>
+  </div>
+</section>
+
+<section class="rw" id="content">
   <h2>這裡有什麼</h2>
-  <div class="grid">
-    <a class="item" href="finance.html"><b>財經早報</b><span>每天早上，整理過去 24 小時的台股、美股、總經與重大企業消息，精選 3 則。</span></a>
-    <a class="item" href="world.html"><b>國際早報</b><span>每天早上，整理過去 24 小時的地緣政治、外交與重大國際事件，精選 3 則。</span></a>
-    <a class="item" href="deep.html"><b>深度拆解</b><span>每週一篇，把一件複雜的事分成事實、觀點、立場、利益完整說清楚。</span></a>
-    <a class="item" href="calc.html"><b>理財小工具</b><span>定期定額、存股殖利率、匯率換算，輸入數字馬上算。</span></a>
+  <div>
+    <dl class="grp">
+      <dt>每天</dt><dd><a href="news.html">財經早報、國際早報</a>（07:00）、台股盤後（16:30）、美股盤前（20:00）</dd>
+      <dt>每週</dt><dd><a href="weekly.html">生活、科技、社會、身心專欄</a>（週一）、<a href="deep.html">深度拆解</a>（週四）、<a href="fun.html">冷知識</a>（週六）</dd>
+      <dt>給自己</dt><dd><a href="mind.html">今日一問、跟著黑板呼吸、身體基本款</a>，還有<a href="fun.html">今日小考</a></dd>
+      <dt>工具</dt><dd><a href="leave.html">休假中心</a>、<a href="guide.html">按主題查</a>、<a href="calc.html">理財小工具</a>、<a href="travel.html">出遊情報</a>、<a href="trip.html">幫我排行程</a></dd>
+    </dl>
+    <p class="fine">看到想留著的文章可以按「收藏」，放在<a href="saved.html">我的收藏</a>；也可以<a href="app.html">把網站裝到手機</a>。</p>
   </div>
-  <p>每天的重點也會做成 IG 限時動態圖卡，限動上的連結會帶你回到這裡看完整內容。</p>
 </section>
 
-<section id="talk">
-  <h2>歡迎交流</h2>
-  <p>這裡不只是我的單向輸出，我更期待聽見你們的聲音。每個人所站的位置不同，才造就了多元的觀點。我非常喜歡了解這些不同的角度，因為唯有把所有拼圖湊在一起，我們才能一起看得夠廣、夠深、走得更遠。</p>
-  <p>歡迎你來這裡逛逛，也歡迎把你的觀點分享給我！</p>
+<section class="rw" id="talk">
+  <h2>寫錯了、想聊聊</h2>
+  <div>
+    <p>每個人站的位置不同，看到的也不同。發現寫錯、或有不一樣的角度，都歡迎用 IG 私訊告訴我：<a href="https://www.instagram.com/willy16360405/" target="_blank" rel="noopener">@willy16360405</a></p>
+  </div>
 </section>
 
-<section id="disclaimer">
+<section class="rw" id="disclaimer">
   <h2>免責聲明</h2>
-  <p>本站內容整理自公開新聞報導與資料，目的是幫助讀者快速了解時事，僅供參考，不構成任何投資建議或買賣邀約。</p>
-  <p>理財小工具的計算結果以簡化假設試算，未計入手續費、稅負等實際成本，實際結果可能不同。</p>
-  <div class="box">投資一定有風險，做任何投資決定前，請自行判斷並承擔風險，必要時請諮詢專業人士。</div>
+  <div>
+    <p>內容整理自公開資料與新聞報導，幫你快速看懂時事，僅供參考，不構成投資建議或買賣邀約。</p>
+    <p>理財小工具用簡化的假設試算，沒有算手續費、稅這些實際成本，結果可能和實際不同。</p>
+    <p>投資一定有風險，請自己判斷、自己負責，必要時找專業人士。</p>
+  </div>
 </section>
 
-</main>
+</div></main>
 <!-- SITE-FOOT:START -->
 <div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">自己</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於小曹</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
