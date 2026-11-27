@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工作便條｜BlackLi Board</title>
+<meta name="description" content="想到什麼就丟一張便條，網站幫你分成待辦、進行中、完成、筆記；下班前一鍵整理出今天的工作紀錄。">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+.mo-top{padding-top:30px;padding-bottom:22px}
+.mo-top h1{font-size:clamp(28px,5vw,40px);margin:6px 0 4px}
+.mo-top p{font-size:15.5px;opacity:.85;margin:0}
+.mo-in{display:flex;gap:8px;margin-top:18px;max-width:760px}
+.mo-in input{flex:1;min-width:0;font:inherit;font-size:17px;color:#2B2A24;background:#F6E9A8;border:0;border-radius:3px;padding:13px 14px;box-shadow:0 2px 0 rgba(0,0,0,.18);transform:rotate(-.4deg)}
+.mo-in input::placeholder{color:#7C7458}
+.mo-in input:focus{outline:2px solid var(--hl);outline-offset:2px}
+.mo-in button{flex:none;font:inherit;font-size:16px;font-weight:700;color:#1F2A24;background:var(--hl);border:0;border-radius:3px;padding:0 18px;cursor:pointer}
+.mo-hint{font-size:13px!important;opacity:.7!important;margin-top:8px!important}
+.mo-bar{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between;padding:14px 0 6px}
+.mo-tags{display:flex;flex-wrap:wrap;gap:6px}
+.mo-tags button,.mo-act button{font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:99px;padding:4px 12px;cursor:pointer}
+.mo-tags button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.mo-act{display:flex;gap:6px;flex-wrap:wrap}
+.mo-act .main{background:var(--hl);border-color:var(--hl);color:#1F2A24}
+.board{background:var(--board);border:8px solid var(--board2);border-radius:6px;padding:14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;min-height:420px;margin:6px 0 10px}
+.col{min-width:0;display:flex;flex-direction:column;border-radius:4px;padding:4px 2px 10px;transition:background .15s}
+.col.over{background:rgba(244,211,94,.10)}
+.col h2{font-size:16px;font-weight:700;color:var(--chalk);margin:0 4px 10px;display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px dashed rgba(242,239,230,.3);padding-bottom:6px}
+.col h2 small{font-size:13px;opacity:.6;font-weight:500}
+.notes{display:flex;flex-direction:column;gap:10px;min-height:60px;flex:1}
+.empty{font-size:13.5px;color:rgba(242,239,230,.45);margin:4px}
+.n{position:relative;background:#F6E9A8;color:#2B2A24;border-radius:2px;padding:10px 12px 8px;font-size:15.5px;line-height:1.55;box-shadow:0 3px 6px rgba(0,0,0,.22);cursor:pointer;word-break:break-word;transform:rotate(var(--r,0deg))}
+.n.c1{background:#F6E9A8}.n.c2{background:#F3D9C2}.n.c3{background:#D9EBC9}.n.c4{background:#D5E3EE}
+.n .t{display:block}
+.n .m{display:flex;flex-wrap:wrap;gap:4px 8px;margin-top:6px;font-size:12px;color:#6B654E}
+.n .tag{font-weight:700;color:#4B5E2F}
+.n .old{font-weight:700;color:#9A4B1F}
+.n.done .t{text-decoration:line-through;text-decoration-color:rgba(0,0,0,.45);color:#5D5A4E}
+.n.new{animation:drop .45s cubic-bezier(.2,.8,.3,1.2)}
+@keyframes drop{from{opacity:0;transform:translateY(-40px) rotate(-6deg) scale(.95)}to{opacity:1;transform:rotate(var(--r,0deg))}}
+@media (prefers-reduced-motion:reduce){.n.new{animation:none}}
+.n .menu{display:none;flex-wrap:wrap;gap:6px;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(0,0,0,.2)}
+.n.open .menu{display:flex}
+.n .menu button{font:inherit;font-size:13px;font-weight:700;color:#2B2A24;background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.18);border-radius:99px;padding:3px 10px;cursor:pointer}
+.n .menu button.del{color:#9A2B1F}
+.tabs{display:none}
+@media (max-width:760px){
+  .board{grid-template-columns:1fr;padding:10px;border-width:6px;min-height:300px}
+  .col{display:none}.col.on{display:flex}
+  .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:8px 0 0}
+  .tabs button{font:inherit;font-size:14px;font-weight:700;color:var(--ink2);background:transparent;border:0;border-bottom:2px solid var(--line);padding:8px 0;cursor:pointer}
+  .tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--hl)}
+  .mo-in button{padding:0 14px}
+}
+.sum{display:none;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:16px;margin:10px 0}
+.sum.on{display:block}
+.sum h2{font-size:17px;margin:0 0 8px}
+.sum textarea{width:100%;min-height:220px;font:inherit;font-size:15px;line-height:1.7;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px 12px;resize:vertical}
+.sum .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.sum .row button{font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:99px;padding:5px 14px;cursor:pointer}
+.sum .row button.main{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.fine{font-size:14px;color:var(--mute);margin:8px 0 0;max-width:760px}
+</style>
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<script>(function(){var t="dark";try{t=localStorage.getItem("bb-theme")||"dark"}catch(e){}document.documentElement.dataset.theme=t})();</script>
+<meta name="theme-color" content="#1A2C23">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BlackLi">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="site.css">
+<script src="assets/site.js" defer></script>
+<!-- SITE-HEAD:END -->
+</head>
+<body class="hub">
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="tools.html" aria-current="page">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・身心・深度拆解</small></a><a href="tools.html" aria-current="page">工具<small>出遊・排行程・理財・休假</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+<section class="chalkboard"><div class="w mo-top">
+  <div class="kick">工具・工作便條</div>
+  <h1>想到什麼，<em>先丟一張</em></h1>
+  <p>網站幫你分成待辦、進行中、完成、筆記。下班前按一下，整理出今天的工作紀錄。</p>
+  <form class="mo-in" id="f" autocomplete="off"><input id="q" placeholder="例如：明天前回覆報價 #客戶A" aria-label="寫一張便條" maxlength="200"><button type="submit">丟上去</button></form>
+  <p class="mo-hint">加上 #標籤 可以分專案。寫「要、記得、明天」會放待辦，寫「會議、電話、聽說」會放筆記，放錯可以拖過去或點便條改。</p>
+</div></section>
+<main><div class="w">
+  <div class="mo-bar">
+    <div class="mo-tags" id="tags"></div>
+    <div class="mo-act"><button type="button" class="main" id="end">下班整理</button><button type="button" id="exp">匯出</button><button type="button" id="imp">匯入</button><input type="file" id="file" accept="application/json" hidden></div>
+  </div>
+  <div class="sum" id="sum"><h2>今天的工作紀錄</h2><textarea id="sumt" aria-label="今天的工作紀錄"></textarea>
+    <div class="row"><button type="button" class="main" id="copy">複製</button><button type="button" id="close">收起來</button></div></div>
+  <div class="tabs" id="tabs" role="tablist"></div>
+  <div class="board" id="board"></div>
+  <p class="fine">便條只存在這台裝置的瀏覽器裡，不會上傳。換裝置要帶過去，可以用「匯出」存成檔案，再到另一台「匯入」。</p>
+</div></main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const COLS = [['todo', '待辦'], ['doing', '進行中'], ['done', '完成'], ['note', '筆記']];
+  const KEY = 'bb-memo';
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } };
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(N)); } catch (e) {} };
+  const today = () => new Date().toLocaleDateString('sv-SE', {timeZone: 'Asia/Taipei'});
+  const hm = t => new Date(t).toLocaleTimeString('zh-TW', {timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit', hour12: false});
+  const dayOf = t => new Date(t).toLocaleDateString('sv-SE', {timeZone: 'Asia/Taipei'});
+  const md = d => `${+d.slice(5, 7)}/${+d.slice(8)}`;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+  let N = load(), tag = '', tab = 'todo', openId = null, fresh = null;
+
+  // 照字猜放哪一區；猜不出來就當待辦
+  const guess = t => /會議|開會|電話|聽說|紀錄|記錄|筆記|重點|備忘|參考|資料|想法|靈感/.test(t) ? 'note'
+    : /正在|進行|處理中|做到一半|跟進中/.test(t) ? 'doing'
+    : /已完成|完成了|搞定|做完|已寄|已回/.test(t) ? 'done' : 'todo';
+  const tagsOf = t => [...new Set((t.match(/#[^\s#，。、,.;；!！?？]+/g) || []))];
+
+  const add = text => {
+    const t = text.trim(); if (!t) return;
+    const col = guess(t), now = Date.now();
+    const n = {id: now.toString(36) + Math.random().toString(36).slice(2, 6), t, col, at: now, r: +(Math.random() * 3 - 1.5).toFixed(2), c: 1 + Math.floor(Math.random() * 4)};
+    if (col === 'done') n.doneAt = now;
+    N.unshift(n); fresh = n.id; tab = col; save(); render();
+  };
+  const move = (id, col) => { const n = N.find(x => x.id === id); if (!n) return; n.col = col; if (col === 'done') n.doneAt = Date.now(); else delete n.doneAt; openId = null; save(); render(); };
+
+  const card = n => {
+    const old = (n.col === 'todo' || n.col === 'doing') && dayOf(n.at) < today();
+    const text = esc(n.t).replace(/#[^\s#，。、,.;；!！?？]+/g, m => `<span class="tag">${m}</span>`);
+    const menu = COLS.filter(([k]) => k !== n.col).map(([k, l]) => `<button type="button" data-move="${k}">${k === 'done' ? '完成了' : '移到' + l}</button>`).join('') + '<button type="button" class="del" data-del>刪掉</button>';
+    return `<div class="n c${n.c}${n.col === 'done' ? ' done' : ''}${n.id === fresh ? ' new' : ''}${n.id === openId ? ' open' : ''}" style="--r:${n.r}deg" draggable="true" data-id="${n.id}" tabindex="0">
+      <span class="t">${text}</span><span class="m">${old ? `<span class="old">${md(dayOf(n.at))} 留下的</span>` : ''}<span>${dayOf(n.at) === today() ? hm(n.at) : md(dayOf(n.at)) + ' ' + hm(n.at)}</span></span>
+      <div class="menu">${menu}</div></div>`;
+  };
+
+  const render = () => {
+    const all = [...new Set(N.flatMap(n => tagsOf(n.t)))];
+    if (tag && !all.includes(tag)) tag = '';
+    document.getElementById('tags').innerHTML = all.length ? ['', ...all].map(t => `<button type="button" data-tag="${esc(t)}" aria-pressed="${t === tag}">${t ? esc(t) : '全部'}</button>`).join('') : '';
+    const list = N.filter(n => !tag || tagsOf(n.t).includes(tag));
+    const sorted = k => {
+      const xs = list.filter(n => n.col === k);
+      // 待辦、進行中：之前留下的排最上面；完成：最近完成的在上面
+      return k === 'done' ? xs.sort((a, b) => (b.doneAt || b.at) - (a.doneAt || a.at)).slice(0, 40)
+        : k === 'note' ? xs.sort((a, b) => b.at - a.at) : xs.sort((a, b) => a.at - b.at);
+    };
+    document.getElementById('board').innerHTML = COLS.map(([k, l]) => { const xs = sorted(k);
+      return `<section class="col${k === tab ? ' on' : ''}" data-col="${k}"><h2>${l}<small>${xs.length}</small></h2><div class="notes">${xs.map(card).join('') || '<p class="empty">還沒有便條</p>'}</div></section>`; }).join('');
+    document.getElementById('tabs').innerHTML = COLS.map(([k, l]) => `<button type="button" role="tab" data-tab="${k}" aria-selected="${k === tab}">${l} ${list.filter(n => n.col === k).length}</button>`).join('');
+    fresh = null;
+  };
+
+  document.getElementById('f').addEventListener('submit', e => { e.preventDefault(); const q = document.getElementById('q'); add(q.value); q.value = ''; q.focus(); });
+  document.getElementById('tags').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; tag = b.dataset.tag; render(); });
+  document.getElementById('tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; tab = b.dataset.tab; render(); });
+  const board = document.getElementById('board');
+  board.addEventListener('click', e => {
+    const n = e.target.closest('.n'); if (!n) return; const id = n.dataset.id;
+    const mv = e.target.closest('[data-move]'); if (mv) return move(id, mv.dataset.move);
+    if (e.target.closest('[data-del]')) { N = N.filter(x => x.id !== id); openId = null; save(); return render(); }
+    openId = openId === id ? null : id; render();
+  });
+  // 電腦上可以直接拖到別一區
+  let dragId = null;
+  board.addEventListener('dragstart', e => { const n = e.target.closest('.n'); if (n) { dragId = n.dataset.id; e.dataTransfer.effectAllowed = 'move'; } });
+  board.addEventListener('dragover', e => { const c = e.target.closest('.col'); if (!c || !dragId) return; e.preventDefault(); board.querySelectorAll('.col').forEach(x => x.classList.toggle('over', x === c)); });
+  board.addEventListener('dragleave', e => { if (!board.contains(e.relatedTarget)) board.querySelectorAll('.col').forEach(x => x.classList.remove('over')); });
+  board.addEventListener('drop', e => { const c = e.target.closest('.col'); if (!c || !dragId) return; e.preventDefault(); move(dragId, c.dataset.col); dragId = null; });
+  board.addEventListener('dragend', () => { dragId = null; board.querySelectorAll('.col').forEach(x => x.classList.remove('over')); });
+
+  // 下班整理：今天完成的、還沒做完的、今天的筆記
+  const sum = document.getElementById('sum'), sumt = document.getElementById('sumt');
+  document.getElementById('end').addEventListener('click', () => {
+    const T = today(), line = n => '- ' + n.t;
+    const done = N.filter(n => n.col === 'done' && dayOf(n.doneAt || n.at) === T);
+    const left = N.filter(n => n.col === 'todo' || n.col === 'doing').sort((a, b) => a.at - b.at);
+    const notes = N.filter(n => n.col === 'note' && dayOf(n.at) === T);
+    sumt.value = [`${md(T)} 工作紀錄`, '', '完成', ...(done.length ? done.map(line) : ['- （今天還沒有完成的項目）']),
+      '', '未完成（明天繼續）', ...(left.length ? left.map(n => line(n) + (n.col === 'doing' ? '（進行中）' : '')) : ['- 都做完了']),
+      ...(notes.length ? ['', '筆記', ...notes.map(line)] : [])].join('\n');
+    sum.classList.add('on'); sum.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  });
+  document.getElementById('close').addEventListener('click', () => sum.classList.remove('on'));
+  document.getElementById('copy').addEventListener('click', async e => {
+    try { await navigator.clipboard.writeText(sumt.value); } catch (err) { sumt.select(); document.execCommand('copy'); }
+    e.target.textContent = '已複製'; setTimeout(() => e.target.textContent = '複製', 1500);
+  });
+  document.getElementById('exp').addEventListener('click', () => {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(N, null, 1)], {type: 'application/json'}));
+    a.download = `工作便條-${today()}.json`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+  const file = document.getElementById('file');
+  document.getElementById('imp').addEventListener('click', () => file.click());
+  file.addEventListener('change', async () => {
+    const f = file.files[0]; if (!f) return;
+    try { const xs = JSON.parse(await f.text()); if (!Array.isArray(xs)) throw 0;
+      const have = new Set(N.map(n => n.id)); N = [...N, ...xs.filter(x => x && x.id && x.t && !have.has(x.id))]; save(); render();
+    } catch (err) { alert('這個檔案讀不了，請選從這裡匯出的檔案。'); }
+    file.value = '';
+  });
+  render();
+});
+</script>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">自己</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>
