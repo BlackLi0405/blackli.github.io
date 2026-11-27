@@ -166,16 +166,21 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   // ===== 各年度規定（數字來自勞保局、勞動部、健保署公告） =====
+  // ===== PAY-DATA:START（每月核對的雲端排程只改這一段） =====
+  // UP 31,800～45,800（勞保最高 45,800）；MID 45,800 以上到 150,000（勞退最高）；HI_TOP 健保 150,000 以上已核對的級距
   const UP = [31800,33300,34800,36300,38200,40100,42000,43900,45800];
   const MID = [48200,50600,53000,55400,57800,60800,63800,66800,69800,72800,76500,80200,83900,87600,92100,96600,101100,105600,110100,115500,120900,126300,131700,137100,142500,147900,150000];
   const HI_TOP = [156400,162800,169200,175600,182000,189500,197000,204500,212000,219500];
+  // min 最低工資月薪；li 勞保費率（含就保）；low 最低工資到 31,800 之間的級距；hiOk 健保署當年分級表已公告核對
   const Y = {
-    2026: {min: 29500, li: 0.125, liNote: '普通事故 11.5% + 就業保險 1%', low: [29500, 30300]},
-    2027: {min: 30900, li: 0.13, liNote: '普通事故 12% + 就業保險 1%', low: [30900]},
+    2026: {min: 29500, li: 0.125, liNote: '普通事故 11.5% + 就業保險 1%', low: [29500, 30300], hiOk: true},
+    2027: {min: 30900, li: 0.13, liNote: '普通事故 12% + 就業保險 1%', low: [30900], hiOk: false},
   };
   const HI_RATE = 0.0517, HI_MAX = 313000;
+  // ===== PAY-DATA:END =====
   const now = new Date().toLocaleDateString('sv-SE', {timeZone: 'Asia/Taipei'});
-  let yr = now >= '2027-01-01' ? 2027 : 2026;
+  const YRS = Object.keys(Y).map(Number).sort((a, b) => a - b);
+  let yr = YRS.filter(y => now >= y + '-01-01').pop() || YRS[0];
   const $ = id => document.getElementById(id);
   const fmt = n => Math.round(n).toLocaleString('zh-TW');
   const grade = (list, v) => list.find(g => g >= v) ?? list[list.length - 1];
@@ -207,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const w = [];
     if (s && s < c.min) w.push(`月薪低於 ${yr} 年的最低工資 ${fmt(c.min)} 元。全職工作的話，公司不能給這麼低。`);
     if (s > 90500) w.push('月薪超過 9 萬多，公司可能每月先預扣所得稅（依財政部扣繳稅額表，或你選擇的 5%），實領會再少一些。');
+    if (!c.hiOk) w.push(`${yr} 年的健保投保金額分級表還沒公告，健保費先用最低工資 ${fmt(c.min)} 當第一級推算。`);
     if (hiEst) w.push('月薪超過 21.95 萬，健保級距這裡用月薪估算，實際以健保署分級表為準。');
     $('n-warn').innerHTML = w.map(x => `<p class="warn">${x}</p>`).join('');
   };
@@ -285,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== 年度、分頁 =====
   const all = () => { $('yrnote').textContent = `最低工資每月 ${fmt(Y[yr].min)} 元`; net(); ot(); sev(); };
-  seg('yr', [[2026, '2026 年'], [2027, '2027 年']], yr, v => { yr = +v; all(); });
+  seg('yr', YRS.map(y => [y, y + ' 年']), yr, v => { yr = +v; all(); });
   const tabs = document.querySelectorAll('.py-tabs button');
   const show = p => { if (!['net', 'ot', 'sev'].includes(p)) p = 'net';
     tabs.forEach(b => b.setAttribute('aria-selected', b.dataset.p === p)); document.querySelectorAll('.pane').forEach(x => x.classList.toggle('on', x.id === 'p-' + p)); };
