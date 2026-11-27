@@ -24,7 +24,7 @@ def page_key(rel):
     return {"index.html": "home", "news.html": "news", "finance.html": "news", "world.html": "news",
             "weekly.html": "weekly", "deep.html": "weekly", "mind.html": "weekly", "fun.html": "fun",
             "tools.html": "tools", "calc.html": "tools", "trip.html": "tools", "travel.html": "tools",
-            "about.html": "about", "method.html": "about", "app.html": "tools", "leave.html": "tools", "skills.html": "tools", "career.html": "tools", "guide.html": "tools", "saved.html": "home", "memo.html": "tools", "offline.html": ""}.get(rel, "")
+            "about.html": "about", "method.html": "about", "app.html": "tools", "leave.html": "tools", "skills.html": "tools", "career.html": "tools", "guide.html": "tools", "saved.html": "home", "memo.html": "tools", "pay.html": "tools", "offline.html": ""}.get(rel, "")
 
 def logo(pre):
     return f'<img src="{pre}assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b>'

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>上班算一算｜BlackLi Board</title>
+<meta name="description" content="實領薪水、加班費、資遣費：填幾個數字，依勞基法和勞保局、健保署的規定算給你看。">
+<style>
+.py-top{padding-top:clamp(36px,5vw,60px);padding-bottom:clamp(30px,4vw,44px)}
+.py-top h1{font-size:clamp(30px,5vw,46px);margin:8px 0 8px}
+.py-top p{font-size:16px;opacity:.88;margin:0;max-width:640px;line-height:1.8}
+.py-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:22px 0 0}
+.py-tabs button{font:inherit;font-size:16px;font-weight:700;color:var(--chalk);background:rgba(242,239,230,.08);border:1.5px solid rgba(242,239,230,.2);border-radius:99px;padding:8px 18px;cursor:pointer}
+.py-tabs button[aria-selected="true"]{background:var(--hl);border-color:var(--hl);color:#1F2A24}
+.py-yr{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--mute);margin:26px 0 0}
+.py-yr button{font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:99px;padding:3px 12px;cursor:pointer}
+.py-yr button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.pane{display:none;padding:10px 0 20px}.pane.on{display:block}
+.py-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px;align-items:start}
+@media (max-width:820px){.py-grid{grid-template-columns:1fr;gap:18px}}
+.fm{display:grid;gap:16px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px}
+.fm label{display:grid;gap:6px;font-weight:700;font-size:15px}
+.fm label small{font-weight:500;color:var(--mute);font-size:13px;line-height:1.6}
+.fm input,.fm select{font:inherit;font-size:17px;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:9px 11px;width:100%;box-sizing:border-box}
+.fm input:focus,.fm select:focus{outline:2px solid var(--hl);outline-offset:1px}
+.fm .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-size:14.5px;font-weight:700;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:99px;padding:5px 13px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.res{border-top:4px solid var(--hl);padding:4px 0 0}
+.res .big{font-size:15px;color:var(--mute);margin:12px 0 2px}
+.res .num{font-size:clamp(38px,6vw,52px);font-weight:900;line-height:1.15;margin:0;color:var(--ink);letter-spacing:-.01em}
+.res .num small{font-size:18px;margin-left:4px}
+.res .sub{color:var(--ink2);margin:4px 0 0;font-size:15px}
+.tb{width:100%;border-collapse:collapse;margin:18px 0 0;font-size:15.5px}
+.tb td{padding:9px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.tb td:last-child{text-align:right;font-weight:700;white-space:nowrap;padding-left:12px}
+.tb td small{display:block;color:var(--mute);font-size:12.5px;font-weight:500;line-height:1.6}
+.tb tr.minus td:last-child{color:var(--ink2)}
+.tb tr.tot td{border-bottom:0;border-top:2px solid var(--ink);font-weight:900}
+.note{font-size:14px;color:var(--mute);line-height:1.8;margin:16px 0 0}
+.note li{margin:2px 0}
+.warn{background:var(--hl-soft);border-radius:8px;padding:10px 12px;font-size:14.5px;line-height:1.7;margin:14px 0 0;color:var(--ink)}
+.ot-rows{display:grid;gap:8px}
+.ot-row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) auto;gap:8px;align-items:center}
+.ot-row button{font:inherit;font-size:20px;line-height:1;color:var(--mute);background:transparent;border:0;cursor:pointer;padding:4px 6px}
+.add{font:inherit;font-size:14.5px;font-weight:700;color:var(--ink);background:transparent;border:1.5px dashed var(--line);border-radius:8px;padding:8px;cursor:pointer}
+.links{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14.5px;margin:18px 0 0}
+.src{font-size:13px;color:var(--mute);margin:28px 0 40px;line-height:1.8}
+</style>
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<script>(function(){var t="dark";try{t=localStorage.getItem("bb-theme")||"dark"}catch(e){}document.documentElement.dataset.theme=t})();</script>
+<meta name="theme-color" content="#1A2C23">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BlackLi">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="site.css">
+<script src="assets/site.js" defer></script>
+<!-- SITE-HEAD:END -->
+</head>
+<body class="hub">
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="tools.html" aria-current="page">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・身心・深度拆解</small></a><a href="tools.html" aria-current="page">工具<small>出遊・排行程・理財・休假</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+<section class="chalkboard"><div class="w py-top">
+  <div class="kick">工具・上班算一算</div>
+  <h1>薪水、加班費、資遣費，<em>自己先算一次</em></h1>
+  <p>填幾個數字就好。照勞基法和勞保局、健保署公告的數字算，每一項都寫出怎麼算的。</p>
+  <div class="py-tabs" role="tablist">
+    <button type="button" role="tab" data-p="net">實領薪水</button>
+    <button type="button" role="tab" data-p="ot">加班費</button>
+    <button type="button" role="tab" data-p="sev">資遣費</button>
+  </div>
+</div></section>
+<main><div class="w">
+  <div class="py-yr">用哪一年的規定算：<span class="seg" id="yr"></span><span id="yrnote"></span></div>
+
+  <!-- 實領薪水 -->
+  <section class="pane" id="p-net">
+    <div class="py-grid">
+      <div class="fm">
+        <label>每月薪水（稅前）<small>本薪加上每個月固定的津貼，不含加班費和年終。</small><input id="n-s" type="number" inputmode="numeric" min="0" step="100" value="40000"></label>
+        <label>健保要幫幾位家人一起保<small>配偶、小孩、沒工作的父母掛在你名下才算，最多算 3 位。</small>
+          <span class="seg" id="n-d"></span></label>
+        <label>勞退自提<small>自己願意多存進勞退帳戶的比例，可以不提。提了這個月會少拿，但會存進你的退休帳戶，也可以從所得扣除。</small>
+          <span class="seg" id="n-r"></span></label>
+      </div>
+      <div class="res" aria-live="polite">
+        <p class="big">每月實際拿到（大約）</p>
+        <p class="num" id="n-out">—</p>
+        <p class="sub" id="n-sub"></p>
+        <table class="tb" id="n-tb"></table>
+        <div id="n-warn"></div>
+        <ul class="note">
+          <li>保費依「投保級距」算：你的薪水會對到分級表裡剛好高於或等於它的那一級。</li>
+          <li>公司還要幫你付勞保 70%、健保 60%，另外每月提撥薪水 6% 到你的勞退帳戶，這些不會從你的薪水扣。</li>
+          <li>年滿 65 歲、外籍人士、部分工時等情況，保費算法不同，以公司和勞保局實際扣的為準。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 加班費 -->
+  <section class="pane" id="p-ot">
+    <div class="py-grid">
+      <div class="fm">
+        <label>每月薪水<small>本薪加每個月固定的津貼。時薪 = 月薪 ÷ 30 ÷ 8。</small><input id="o-s" type="number" inputmode="numeric" min="0" step="100" value="40000"></label>
+        <div><b style="font-size:15px">這個月加了哪些班</b><p style="margin:4px 0 10px;font-size:13px;color:var(--mute);line-height:1.6">一天一列。例如平日加班 3 小時、週六休息日上班 8 小時，就填兩列。</p>
+          <div class="ot-rows" id="o-rows"></div>
+          <button type="button" class="add" id="o-add" style="margin-top:8px;width:100%">＋ 再加一天</button></div>
+      </div>
+      <div class="res" aria-live="polite">
+        <p class="big">這個月加班費（至少）</p>
+        <p class="num" id="o-out">—</p>
+        <p class="sub" id="o-sub"></p>
+        <table class="tb" id="o-tb"></table>
+        <div id="o-warn"></div>
+        <ul class="note">
+          <li>平日延長工時：前 2 小時每小時加給 1/3，第 3、4 小時加給 2/3（勞基法第 24 條）。</li>
+          <li>休息日（通常是週六）上班：前 2 小時每小時給 1 又 1/3，第 3 小時起給 1 又 2/3。</li>
+          <li>國定假日或特休日上班：8 小時內，不管做幾小時都多給一整天工資；超過 8 小時再照延長工時算（勞基法第 39 條）。</li>
+          <li>例假日（通常是週日）原則上不能叫你上班，只有天災、事變等突發狀況可以，而且要加倍給薪並補假。</li>
+          <li>勞工可以選擇換補休，不一定要領加班費；這是你的選擇，不能由公司片面決定。</li>
+          <li>這裡算的是法律規定的最低標準，公司給得比較多是可以的。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 資遣費 -->
+  <section class="pane" id="p-sev">
+    <div class="py-grid">
+      <div class="fm">
+        <div class="two">
+          <label>到職日<input id="s-a" type="date" value="2022-03-01"></label>
+          <label>最後工作日<input id="s-b" type="date"></label>
+        </div>
+        <label>平均月薪<small>離職前 6 個月的薪水平均，要算進加班費、固定津貼，不算年終和三節獎金。</small><input id="s-s" type="number" inputmode="numeric" min="0" step="100" value="40000"></label>
+        <label>公司有沒有提前通知
+          <span class="seg" id="s-n"></span></label>
+      </div>
+      <div class="res" aria-live="polite">
+        <p class="big">資遣費（至少）</p>
+        <p class="num" id="s-out">—</p>
+        <p class="sub" id="s-sub"></p>
+        <table class="tb" id="s-tb"></table>
+        <div id="s-warn"></div>
+        <ul class="note">
+          <li>適用 2005 年 7 月 1 日以後的勞退新制年資：每滿 1 年給 0.5 個月平均工資，未滿 1 年照比例，最多 6 個月（勞工退休金條例第 12 條）。</li>
+          <li>只有被公司資遣（例如歇業、虧損、業務緊縮、不能勝任）才有資遣費；自己辭職、因重大違規被開除沒有。</li>
+          <li>預告期：做滿 3 個月未滿 1 年 10 天、1 到 3 年 20 天、3 年以上 30 天。沒提前通知，就要多付這段期間的工資（勞基法第 16 條）。</li>
+          <li>預告期間每星期可以請 2 天有薪的謀職假。</li>
+        </ul>
+        <div class="links"><a href="guide.html#t=laidoff">被資遣了，接下來可以領什麼</a><a href="leave.html">特休沒休完怎麼算</a></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="src">規定來源：<a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=N0030001" target="_blank" rel="noopener">勞動基準法</a>、<a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=N0030020" target="_blank" rel="noopener">勞工退休金條例</a>、<a href="https://www.bli.gov.tw/0005475.html" target="_blank" rel="noopener">勞保局投保薪資分級表</a>、<a href="https://www.bli.gov.tw/0101077.html" target="_blank" rel="noopener">勞工退休金月提繳分級表</a>、衛福部健保署投保金額分級表。<br>試算結果僅供參考，實際金額以公司薪資單、勞保局和健保署核定為準。</p>
+</div></main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // ===== 各年度規定（數字來自勞保局、勞動部、健保署公告） =====
+  const UP = [31800,33300,34800,36300,38200,40100,42000,43900,45800];
+  const MID = [48200,50600,53000,55400,57800,60800,63800,66800,69800,72800,76500,80200,83900,87600,92100,96600,101100,105600,110100,115500,120900,126300,131700,137100,142500,147900,150000];
+  const HI_TOP = [156400,162800,169200,175600,182000,189500,197000,204500,212000,219500];
+  const Y = {
+    2026: {min: 29500, li: 0.125, liNote: '普通事故 11.5% + 就業保險 1%', low: [29500, 30300]},
+    2027: {min: 30900, li: 0.13, liNote: '普通事故 12% + 就業保險 1%', low: [30900]},
+  };
+  const HI_RATE = 0.0517, HI_MAX = 313000;
+  const now = new Date().toLocaleDateString('sv-SE', {timeZone: 'Asia/Taipei'});
+  let yr = now >= '2027-01-01' ? 2027 : 2026;
+  const $ = id => document.getElementById(id);
+  const fmt = n => Math.round(n).toLocaleString('zh-TW');
+  const grade = (list, v) => list.find(g => g >= v) ?? list[list.length - 1];
+  const tbl = rows => rows.map(r => `<tr class="${r[2] || ''}"><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('');
+  const seg = (el, opts, val, cb) => {
+    const box = $(el); box.innerHTML = opts.map(([v, l]) => `<button type="button" data-v="${v}" aria-pressed="${String(v) === String(val)}">${l}</button>`).join('');
+    box.onclick = e => { const b = e.target.closest('button'); if (!b) return; box.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); cb(b.dataset.v); };
+  };
+
+  // ===== 實領薪水 =====
+  let dep = 0, rate = 0;
+  const net = () => {
+    const c = Y[yr], s = +$('n-s').value || 0;
+    const liG = grade([...c.low, ...UP], s), peG = grade([...c.low, ...UP, ...MID], s);
+    let hiG, hiEst = false;
+    if (s <= 219500) hiG = grade([...c.low, ...UP, ...MID, ...HI_TOP], s); else { hiG = Math.min(s, HI_MAX); hiEst = true; }
+    const li = Math.round(liG * c.li * 0.2);
+    const hiOne = Math.round(hiG * HI_RATE * 0.3), hi = hiOne * (1 + dep);
+    const pe = Math.round(peG * rate / 100);
+    const out = s - li - hi - pe;
+    $('n-out').innerHTML = s ? `${fmt(out)}<small>元</small>` : '—';
+    $('n-sub').textContent = s ? `月薪 ${fmt(s)} 元，每月被扣 ${fmt(li + hi + pe)} 元` : '';
+    $('n-tb').innerHTML = s ? tbl([
+      ['月薪', fmt(s)],
+      [`勞保費<small>投保級距 ${fmt(liG)} × ${(c.li * 100).toFixed(1)}%（${c.liNote}）× 你付 20%${s > 45800 ? '；勞保最高就是 45,800 這一級' : ''}</small>`, '− ' + fmt(li), 'minus'],
+      [`健保費<small>投保級距 ${fmt(hiG)}${hiEst ? '（估算）' : ''} × 5.17% × 你付 30%${dep ? ` × ${1 + dep} 人（你和 ${dep} 位家人）` : ''}</small>`, '− ' + fmt(hi), 'minus'],
+      ...(rate ? [[`勞退自提 ${rate}%<small>提繳級距 ${fmt(peG)} × ${rate}%，存進你自己的退休帳戶</small>`, '− ' + fmt(pe), 'minus']] : []),
+      ['實領', fmt(out), 'tot']]) : '';
+    const w = [];
+    if (s && s < c.min) w.push(`月薪低於 ${yr} 年的最低工資 ${fmt(c.min)} 元。全職工作的話，公司不能給這麼低。`);
+    if (s > 90500) w.push('月薪超過 9 萬多，公司可能每月先預扣所得稅（依財政部扣繳稅額表，或你選擇的 5%），實領會再少一些。');
+    if (hiEst) w.push('月薪超過 21.95 萬，健保級距這裡用月薪估算，實際以健保署分級表為準。');
+    $('n-warn').innerHTML = w.map(x => `<p class="warn">${x}</p>`).join('');
+  };
+  seg('n-d', [[0, '只有自己'], [1, '+1 位'], [2, '+2 位'], [3, '+3 位以上']], 0, v => { dep = +v; net(); });
+  seg('n-r', [[0, '不提'], [1, '1%'], [3, '3%'], [6, '6%']], 0, v => { rate = +v; net(); });
+  $('n-s').addEventListener('input', net);
+
+  // ===== 加班費 =====
+  const TYPES = [['wd', '平日下班後'], ['rest', '休息日（通常週六）'], ['hol', '國定假日或特休日']];
+  let rows = [{t: 'wd', h: 2}, {t: 'rest', h: 8}];
+  const drawRows = () => {
+    $('o-rows').innerHTML = rows.map((r, i) => `<div class="ot-row" data-i="${i}"><select aria-label="哪一種加班">${TYPES.map(([v, l]) => `<option value="${v}"${v === r.t ? ' selected' : ''}>${l}</option>`).join('')}</select>
+      <input type="number" inputmode="decimal" min="0" max="12" step="0.5" value="${r.h}" aria-label="加班幾小時"><button type="button" aria-label="刪掉這一列">×</button></div>`).join('');
+  };
+  const pay = (t, h, hr) => {
+    // 回傳 [金額, 說明]
+    if (t === 'wd') { const a = Math.min(h, 2), b = Math.min(Math.max(h - 2, 0), 2);
+      return [a * hr * 4 / 3 + b * hr * 5 / 3, `${a} 小時 × 4/3${b ? ` + ${b} 小時 × 5/3` : ''}`]; }
+    if (t === 'rest') { const a = Math.min(h, 2), b = Math.max(h - 2, 0);
+      return [a * hr * 4 / 3 + b * hr * 5 / 3, `${a} 小時 × 4/3${b ? ` + ${b} 小時 × 5/3` : ''}`]; }
+    const a = Math.min(Math.max(h - 8, 0), 2), b = Math.max(h - 10, 0);
+    return [h > 0 ? hr * 8 + a * hr * 4 / 3 + b * hr * 5 / 3 : 0, `多給一天（8 小時）${a ? ` + ${a} 小時 × 4/3` : ''}${b ? ` + ${b} 小時 × 5/3` : ''}`];
+  };
+  const ot = () => {
+    const s = +$('o-s').value || 0, hr = s / 240;
+    let tot = 0, hours = 0; const w = [];
+    const tr = rows.map(r => { const h = Math.max(0, +r.h || 0); hours += h; const [m, how] = pay(r.t, h, hr); tot += m;
+      if (r.t === 'wd' && h > 4) w.push('平日一天加班最多 4 小時（加上正常 8 小時，一天最多 12 小時）。超過 4 小時的部分這裡沒算進去。');
+      if (h > 12) w.push('一天工作最多 12 小時。');
+      return [`${TYPES.find(x => x[0] === r.t)[1]} ${h} 小時<small>${how}</small>`, fmt(m)]; });
+    if (hours > 46) w.push(`這個月加班 ${hours} 小時，超過每月 46 小時的上限（工會或勞資會議同意可以到 54 小時，3 個月合計不超過 138 小時）。`);
+    $('o-out').innerHTML = s ? `${fmt(tot)}<small>元</small>` : '—';
+    $('o-sub').textContent = s ? `時薪 ${fmt(s)} ÷ 30 ÷ 8 ≈ ${hr.toFixed(1)} 元，共加班 ${hours} 小時` : '';
+    $('o-tb').innerHTML = s ? tbl([...tr, ['合計', fmt(tot), 'tot']]) : '';
+    $('o-warn').innerHTML = [...new Set(w)].map(x => `<p class="warn">${x}</p>`).join('');
+  };
+  $('o-rows').addEventListener('input', e => { const row = e.target.closest('.ot-row'); if (!row) return; const r = rows[+row.dataset.i];
+    if (e.target.tagName === 'SELECT') r.t = e.target.value; else r.h = e.target.value; ot(); });
+  $('o-rows').addEventListener('change', e => { if (e.target.tagName === 'SELECT') { rows[+e.target.closest('.ot-row').dataset.i].t = e.target.value; ot(); } });
+  $('o-rows').addEventListener('click', e => { if (e.target.tagName !== 'BUTTON') return; rows.splice(+e.target.closest('.ot-row').dataset.i, 1); drawRows(); ot(); });
+  $('o-add').addEventListener('click', () => { rows.push({t: 'wd', h: 2}); drawRows(); ot(); });
+  $('o-s').addEventListener('input', ot);
+
+  // ===== 資遣費 =====
+  let notified = 'no';
+  const span = (a, b) => { // 年、月、日
+    let y = b.getFullYear() - a.getFullYear(), m = b.getMonth() - a.getMonth(), d = b.getDate() - a.getDate() + 1;
+    if (d < 0) { m--; d += new Date(b.getFullYear(), b.getMonth(), 0).getDate(); }
+    const dim = new Date(b.getFullYear(), b.getMonth() + 1, 0).getDate(); if (d >= dim) { m++; d -= dim; }
+    if (m < 0) { y--; m += 12; } if (m >= 12) { y++; m -= 12; }
+    return [y, m, d];
+  };
+  const sev = () => {
+    const A = $('s-a').value, B = $('s-b').value, s = +$('s-s').value || 0, w = [];
+    $('s-tb').innerHTML = ''; $('s-warn').innerHTML = '';
+    if (!A || !B || B < A) { $('s-out').textContent = '—'; $('s-sub').textContent = A && B ? '最後工作日要在到職日之後。' : ''; return; }
+    const from = A < '2005-07-01' ? '2005-07-01' : A;
+    if (A < '2005-07-01') w.push('你在 2005 年 7 月以前就到職，之前的年資如果保留舊制，那段要用舊制算（每年 1 個月），會比這裡多。建議再找勞動部或地方勞工局確認。');
+    const [y, m, d] = span(new Date(from), new Date(B)), yrs = y + m / 12 + d / 365;
+    const months = Math.min(yrs * 0.5, 6), money = s * months;
+    const [ty, tm] = span(new Date(A), new Date(B)), total = ty + tm / 12;
+    const nd = total >= 3 ? 30 : total >= 1 ? 20 : total >= 0.25 ? 10 : 0;
+    const np = notified === 'no' && nd ? s / 30 * nd : 0;
+    $('s-out').innerHTML = s ? `${fmt(money + np)}<small>元</small>` : '—';
+    $('s-sub').textContent = `年資 ${y} 年 ${m} 個月 ${d} 天`;
+    if (s) $('s-tb').innerHTML = tbl([
+      [`資遣費<small>年資 ${yrs.toFixed(2)} 年 × 0.5 個月${yrs * 0.5 > 6 ? '，最多 6 個月' : ''} = ${months.toFixed(2)} 個月 × 平均月薪 ${fmt(s)}</small>`, fmt(money)],
+      [`預告期 ${nd} 天<small>${nd ? (notified === 'no' ? `沒有提前通知，要多付 ${nd} 天工資（月薪 ÷ 30 × ${nd}）` : '公司有提前通知，不用另外付') : '做未滿 3 個月，法律沒有規定預告期'}</small>`, fmt(np)],
+      ['合計', fmt(money + np), 'tot']]);
+    if (yrs * 0.5 > 6) w.push('勞退新制的資遣費最多 6 個月平均工資，年資 12 年以上就到上限了。');
+    $('s-warn').innerHTML = w.map(x => `<p class="warn">${x}</p>`).join('');
+  };
+  seg('s-n', [['no', '沒有，直接資遣'], ['yes', '有，提前通知了']], 'no', v => { notified = v; sev(); });
+  $('s-b').value = now;
+  ['s-a', 's-b', 's-s'].forEach(id => $(id).addEventListener('input', sev));
+
+  // ===== 年度、分頁 =====
+  const all = () => { $('yrnote').textContent = `最低工資每月 ${fmt(Y[yr].min)} 元`; net(); ot(); sev(); };
+  seg('yr', [[2026, '2026 年'], [2027, '2027 年']], yr, v => { yr = +v; all(); });
+  const tabs = document.querySelectorAll('.py-tabs button');
+  const show = p => { if (!['net', 'ot', 'sev'].includes(p)) p = 'net';
+    tabs.forEach(b => b.setAttribute('aria-selected', b.dataset.p === p)); document.querySelectorAll('.pane').forEach(x => x.classList.toggle('on', x.id === 'p-' + p)); };
+  tabs.forEach(b => b.addEventListener('click', () => { history.replaceState(null, '', '#' + b.dataset.p); show(b.dataset.p); }));
+  show(location.hash.slice(1)); drawRows(); all();
+});
+</script>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">自己</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>
