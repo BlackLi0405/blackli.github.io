@@ -53,7 +53,7 @@ def foot(pre):
             f'<li><a href="{p}weekly.html">專欄</a></li><li><a href="{p}mind.html">自己</a></li><li><a href="{p}fun.html">輕鬆</a></li></ul></div>'
             f'<div><h5>工具</h5><ul><li><a href="{p}travel.html">出遊情報</a></li><li><a href="{p}trip.html">幫我排行程</a></li>'
             f'<li><a href="{p}calc.html">理財小工具</a></li><li><a href="{p}leave.html">休假中心</a></li><li><a href="{p}app.html">裝到手機</a></li></ul></div>'
-            f'<div><h5>關於</h5><ul><li><a href="{p}about.html">關於小曹</a></li>'
+            f'<div><h5>關於</h5><ul><li><a href="{p}about.html">關於本站</a></li>'
             f'<li><a href="{p}method.html">我怎麼拆解資訊</a></li><li><a href="{p}method.html#sources">來源原則</a></li>'
             f'<li><a href="{p}about.html#disclaimer">免責聲明</a></li></ul></div>'
             f'</div><div class="sf-bottom"><span>© 2026 {BRAND}</span>'
