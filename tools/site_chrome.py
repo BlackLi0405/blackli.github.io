@@ -8,6 +8,7 @@ import pathlib, re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 BRAND = "BlackLi Board"
+SITE = "https://blackli0405.github.io/blackli.github.io/"
 LINKS = [  # (文字, 路徑, 判斷目前頁面用的 key, 選單裡的小字說明)；點左邊的網站名稱也會回首頁
     ("今天", "index.html", "home", "今日拆解・小考・今日一問"),
     ("新聞", "news.html", "news", "財經・國際・盤後・盤前・今日小考"),
@@ -63,7 +64,17 @@ def apply(path):
     rel = path.relative_to(ROOT).as_posix()
     pre = "../" if "/" in rel else ""
     s = path.read_text(encoding="utf-8")
-    head = (f'<link rel="icon" href="{pre}assets/logo.svg" type="image/svg+xml">\n'
+    s = re.sub(r'<!-- SITE-HEAD:START -->.*?<!-- SITE-HEAD:END -->\n?', '', s, flags=re.S)
+    # 分享到 LINE／FB 的預覽：每頁都有圖；頁面沒寫 og:title、og:description 就用 <title> 和 description
+    def meta(name):
+        m = re.search(r'<meta name="%s" content="([^"]*)"' % name, s); return m.group(1) if m else ''
+    t = re.search(r'<title>([^<]*)</title>', s)
+    og = (f'<meta property="og:site_name" content="{BRAND}">\n<meta property="og:type" content="{"article" if rel.startswith("reports/") else "website"}">\n'
+          f'<meta property="og:image" content="{SITE}assets/og.png">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n'
+          f'<meta name="twitter:card" content="summary_large_image">\n')
+    if 'property="og:title"' not in s and t: og += f'<meta property="og:title" content="{t.group(1)}">\n'
+    if 'property="og:description"' not in s and meta('description'): og += f'<meta property="og:description" content="{meta("description")}">\n'
+    head = (og + f'<link rel="icon" href="{pre}assets/logo.svg" type="image/svg+xml">\n'
             # 外觀由網站自己決定：預設黑板（深色），讀者可以在頁尾切成白天；不跟手機設定走
             f'<script>(function(){{var t="dark";try{{t=localStorage.getItem("bb-theme")||"dark"}}catch(e){{}}document.documentElement.dataset.theme=t}})();</script>\n'
             f'<meta name="theme-color" content="#1A2C23">\n'
@@ -75,7 +86,6 @@ def apply(path):
             f'<meta name="apple-mobile-web-app-status-bar-style" content="default">\n'
             f'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:wght@400;500;700&display=swap">\n'
             f'<link rel="stylesheet" href="{pre}site.css">\n<script src="{pre}assets/site.js" defer></script>')
-    s = re.sub(r'<!-- SITE-HEAD:START -->.*?<!-- SITE-HEAD:END -->\n?', '', s, flags=re.S)
     s = s.replace("</head>", f"<!-- SITE-HEAD:START -->\n{head}\n<!-- SITE-HEAD:END -->\n</head>", 1)
     n, f = nav(pre, page_key(rel)), foot(pre)
     if "<!-- SITE-NAV:START -->" in s:

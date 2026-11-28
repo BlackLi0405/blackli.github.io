@@ -2,7 +2,7 @@
    白天：米白底＋黑板綠；晚上（手機或電腦設定為深色）：黑板綠底＋粉筆白。 */
 :root{
   --bg:#F6F3EC;--paper:#FFFDF8;--panel:#FFFDF8;--panel2:#EFEBE1;--line:#E2DDD0;
-  --ink:#1F2A24;--ink2:#3B4A41;--mute:#68736B;
+  --ink:#1F2A24;--ink2:#3B4A41;--mute:#5F6A62;
   --gold:#2F5A45;--accent:#2F5A45;--on-accent:#FFFDF8;
   --hl:#F4D35E;--hl-ink:#7A5B00;--hl-soft:rgba(244,211,94,.32);
   --board:#23392F;--board2:#2F4A3D;--chalk:#F2EFE6;
@@ -441,3 +441,19 @@ nav.toc a b{display:none}
 .qz-muted{color:var(--mute);margin:0}
 .qz-art{margin:40px auto 0}
 @media (max-width:620px){.qz-opts{grid-template-columns:1fr}}
+
+/* ===== 好點：手指點的地方至少 44px 高（WCAG 2.5.5），用鍵盤時看得到停在哪 ===== */
+.sb-logo,.sf a,.bb-theme button,.pills a,.pills button,.sh a,.acts a,.flt button,.tl-seg button,
+.ask-more a,.fx-list a,.arc a,.lead .go,.side .all,.more-b,.qz-again,.qz-row a,.mo-act button,.tabs button,
+.hub .btn,.qz .btn,.bb-tools button,.top a,.brand,a.go,.sv,.how2,.all{min-height:44px!important;display:inline-flex!important;align-items:center}
+.bb-theme button{min-width:44px;justify-content:center}
+.sf li{margin:0}
+.dk-list summary,.fx summary,details.book summary,details summary{min-height:44px;display:flex;align-items:center}
+.dk-list summary{display:grid}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.chalkboard :focus-visible,.sb :focus-visible{outline-color:var(--hl)}
+.hub .card li a{min-height:44px;align-items:center}
+.toc .wrap a,footer .wrap a.top,footer .top a,.top a,.hero .brand,a.brand,.go,.how2{min-height:44px;display:inline-flex;align-items:center}
+.bi label{min-height:44px;display:flex;align-items:center;gap:10px}
+.bi input[type=checkbox]{width:24px;height:24px}
+a.brand{min-height:44px!important;display:inline-flex!important;align-items:center}
