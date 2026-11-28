@@ -27,10 +27,24 @@
 .nx{font-size:14px!important;color:rgba(242,239,230,.7);margin:14px 0 0!important}
 .nx b{color:var(--hl);font-weight:800;margin:0 4px}
 .qz-side{display:none}
+.nl{display:none}
+/* 電腦版：日期放在每天上面當標題，卡片照當天篇數自動排滿整排，不留空格 */
 @media (min-width:980px){
-  .ph:has(.qz-side){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,460px);grid-template-rows:auto auto 1fr;column-gap:56px;align-items:start}
+  #list.sec{padding-top:36px}
+  .day{grid-template-columns:minmax(0,1fr);gap:14px;padding:30px 0}
+  .day h2{display:flex;align-items:baseline;gap:12px}
+  .day h2 small{display:inline}
+  .day .cards{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+  .nl:not([hidden]){display:block;grid-column:1;margin:26px 0 22px;max-width:620px;color:var(--chalk);text-decoration:none;border-left:3px solid var(--hl);padding:2px 0 2px 18px}
+  .nl small{display:block;font-size:13px;font-weight:700;color:rgba(242,239,230,.7);margin-bottom:6px}
+  .nl b{display:block;font-size:26px;line-height:1.4;font-weight:700}
+  .nl span{display:inline-block;margin-top:10px;font-size:14px;font-weight:800;color:var(--hl)}
+  .nl:hover b{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+}
+@media (min-width:980px){
+  .ph:has(.qz-side){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,460px);grid-template-rows:auto auto auto 1fr;column-gap:56px;align-items:start}
   .ph>:not(.qz-side){grid-column:1}
-  .qz-side{display:block;grid-column:2;grid-row:1/span 3;padding:18px 20px;max-width:none}
+  .qz-side{display:block;grid-column:2;grid-row:1/span 4;padding:18px 20px;max-width:none}
   .qz-side .qz-head h3{font-size:17px}
   .ph .qz-side .qz-rec{font-size:12.5px;margin:4px 0 0;opacity:1}
   .ph .qz-side p{max-width:none}
@@ -72,6 +86,7 @@
 <section class="chalkboard"><div class="w ph">
   <h1>新聞</h1>
   <p class="nx" id="nx" hidden></p>
+  <a class="nl" id="nl" hidden></a>
   <div class="pills" id="tabs" role="group" aria-label="篩選"></div>
   <div class="qz qz-side" id="quiz"></div>
 </div></section>
@@ -123,6 +138,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return {href, kind, date: m ? m[1] : '', html: box.outerHTML};
     }).sort((a, b) => b.date.localeCompare(a.date));
     render();
+    // 電腦版：標題下面空著的地方放最新一篇（手機不顯示，避免跟列表重複太近）
+    const top = ALL[0], nl = document.getElementById('nl');
+    if (top && nl) {
+      const t = new DOMParser().parseFromString(top.html, 'text/html'), li = t.querySelector('li');
+      if (li) {
+        const w = WD[new Date(top.date + 'T12:00:00+08:00').getDay()];
+        nl.href = top.href + ((top.kind === 'brief' || top.kind === 'world') ? '#main' : '');
+        nl.innerHTML = `<small>最新・${LABEL[top.kind]}・${+top.date.slice(5, 7)}/${+top.date.slice(8)}（${w}）</small><b>${(li.querySelector('span') && li.querySelector('span').remove(), li.textContent.trim())}</b><span>讀完整篇</span>`;
+        nl.hidden = false;
+      }
+    }
   }).catch(() => { document.getElementById('list').innerHTML = '<p class="msg">列表暫時無法載入，請回到<a href="index.html">首頁</a>。</p>'; });
 });
 </script>
