@@ -271,3 +271,17 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); if (e.key === 'Enter' && e.target.classList && e.target.classList.contains('bb-term')) e.target.click(); });
   }
 })();
+
+/* ---------- 早報、盤後、盤前文章最後：「這篇有 N 題，答答看？」 ---------- */
+(() => {
+  const m = location.pathname.match(/\/reports\/((?:world-|close-|pre-)?\d{4}-\d{2}-\d{2}\.html)$/);
+  if (!m) return;
+  const go = () => {
+    const host = document.querySelector('main.wrap') || document.querySelector('main'); if (!host) return;
+    const box = document.createElement('section'); box.className = 'qz qz-art'; box.id = 'quiz'; box.hidden = true; host.appendChild(box);
+    const s = document.createElement('script'); s.src = '../assets/quiz.js';
+    s.onload = () => window.BBQuiz.article(box, {base: '../', path: 'reports/' + m[1]});
+    document.head.appendChild(s);
+  };
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', go) : go();
+})();

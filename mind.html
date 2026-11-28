@@ -3,12 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>身心｜BlackLi Board</title>
-<meta name="description" content="向外看世界，也向內看自己。今日一問、1 分鐘呼吸，以及每週一篇身心專欄。">
+<title>休息一下｜BlackLi Board</title>
+<meta name="description" content="每天一個問題，寫一句給自己；累積下來，回頭看看一週前、一個月前的你。也可以跟著黑板呼吸 1 分鐘。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-.two{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:start}
+.two{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:start}
+.look{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+.look .k2{font-size:13px;font-weight:800;color:var(--mute);margin:0 0 4px}
+.look .k2 b{color:var(--hl-ink);font-family:Inter,sans-serif}
+.look blockquote{margin:0;border-left:3px solid var(--hl);padding:2px 0 2px 12px}
+.look blockquote small{display:block;font-size:13px;color:var(--mute);font-weight:700}
+.look blockquote p{margin:4px 0 0;font-size:16px;line-height:1.75}
 @media (max-width:860px){.two{grid-template-columns:1fr}}
 .panel{background:var(--paper);border:1.5px solid var(--ink);border-radius:18px;padding:24px}
 .panel h2{font-size:22px;font-weight:900;margin:6px 0 8px}
@@ -72,12 +78,12 @@ details.book summary{cursor:pointer;font-weight:800;color:var(--accent)}
 </head>
 <body class="hub">
 <!-- SITE-NAV:START -->
-<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html" aria-current="page">專欄</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html" aria-current="page">專欄<small>生活・科技・社會・身心・深度拆解</small></a><a href="tools.html">工具<small>出遊・排行程・理財・休假</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html" aria-current="page">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html" aria-current="page">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前・今日小考</small></a><a href="weekly.html">專欄<small>生活・科技・社會・身心・深度拆解・冷知識</small></a><a href="tools.html">工具<small>上班・休假・便條・飲料・出遊・理財</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
 <section class="chalkboard"><div class="w ph">
-  <h1>自己</h1>
-  <p>每天一個問題、一分鐘呼吸，每週一篇有研究根據的身心專欄。</p>
-  <nav class="pills" aria-label="身心"><a href="#ask">今日一問</a><a href="#breathe">喘口氣</a><a href="#body">身體基本款</a><a href="#column">身心專欄</a></nav>
+  <h1>休息一下</h1>
+  <p>每天一個問題，寫一句給自己。累積下來，回頭看看一週前、一個月前的你。</p>
+  <nav class="pills" aria-label="休息一下"><a href="#ask">今日一問</a><a href="#breathe">喘口氣</a><a href="#body">身體基本款</a></nav>
 </div></section>
 <main><div class="w">
 
@@ -88,6 +94,7 @@ details.book summary{cursor:pointer;font-weight:800;color:var(--accent)}
     <p class="note qsrc" data-bb-question-src></p>
     <textarea id="ans" placeholder="想到什麼就寫什麼，一句話也可以。只會存在你自己的手機或電腦裡。"></textarea>
     <div class="row"><button class="btn" type="button" id="save">寫進小本子</button><span class="note" id="st"></span></div>
+    <div class="look" id="look" hidden></div>
     <details class="book"><summary>今日一問參考了哪些書？</summary>
     <p class="note" style="margin:8px 0">題目由本站自己撰寫，只借用書裡的觀念，不是書中原文。這些書都和「自我覺察」有關，想深入可以找來讀。</p>
     <ul class="srcs">
@@ -143,7 +150,7 @@ details.book summary{cursor:pointer;font-weight:800;color:var(--accent)}
   <p class="care">這是給一般成人的大原則。有慢性病、懷孕、受傷或其他特殊狀況，開始新的運動或飲食前，先問醫生。</p>
 </section>
 
-<section class="sec" id="column" style="padding-top:0">
+<section class="sec" id="column" hidden>
   <div class="k">身心專欄・每週一早上更新</div>
   <div class="feed" data-feed="mind">
 <!-- MIND:START -->
@@ -175,6 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const ks = Object.keys(book).sort().reverse();
     document.getElementById('n').textContent = ks.length;
     document.getElementById('book').innerHTML = ks.map(k => `<div class="entry"><b>${k.replace(/-/g, '.')}・${esc(book[k].q)}</b>${esc(book[k].a)}</div>`).join('') || '<p class="note">還沒有寫過。</p>';
+    // 回顧：一個月前、一週前，或上一次寫的
+    const past = ks.filter(k => k < T), pick = [[30, '一個月前的今天'], [7, '一週前的今天']].map(([d, t]) => [window.BB.today(-d), t]).find(([k]) => book[k]) || (past[0] && [past[0], '上次']);
+    const look = document.getElementById('look');
+    if (ks.length) {
+      look.hidden = false;
+      look.innerHTML = `<p class="k2">你已經寫了 <b>${ks.length}</b> 天</p>` + (pick ? `<blockquote><small>${pick[1]}（${pick[0].slice(5).replace('-', '/')}），你回答「${esc(book[pick[0]].q)}」</small><p>${esc(book[pick[0]].a)}</p></blockquote>` : '');
+    }
   }
   list();
   document.getElementById('save').onclick = () => {
@@ -214,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <!-- SITE-FOOT:START -->
-<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">自己</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="facts.html">冷知識</a></li><li><a href="mind.html">休息一下</a></li></ul></div><div><h5>工具</h5><ul><li><a href="pay.html">上班算一算</a></li><li><a href="leave.html">休假中心</a></li><li><a href="memo.html">工作便條</a></li><li><a href="guide.html">按主題查</a></li><li><a href="drinks.html">飲料新品</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="tools.html">全部工具</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
 </body>
 </html>

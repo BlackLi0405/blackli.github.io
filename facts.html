@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>冷知識｜BlackLi Board</title>
+<meta name="description" content="每週六更新：從這週的新聞裡挑 5 個「原來是這樣」，一則一個畫面，3 秒看懂，想深入再展開。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ===== 冷知識：一則一屏，先看畫面，再看兩行答案，想深入再展開 ===== */
+.fx-hero .ph{padding-bottom:28px}
+.fx-hero .meta{font-size:14px;color:rgba(242,239,230,.72);margin:0}
+.fx-hero .meta b{color:var(--hl);font-family:Inter,sans-serif;margin-right:2px}
+.fx-list{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.fx-list a{display:inline-flex;gap:8px;align-items:center;font-size:14px;font-weight:700;color:var(--chalk);text-decoration:none;border:1px solid rgba(242,239,230,.18);border-radius:999px;padding:6px 12px}
+.fx-list a i{font-style:normal;font-family:Inter,sans-serif;color:var(--hl)}
+.fx-list a:hover{border-color:var(--hl)}
+.fx{border-top:1px solid var(--hair);padding:clamp(40px,6vw,72px) 0;scroll-margin-top:66px}
+.fx>.w{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(28px,5vw,72px);align-items:center}
+.fx .no{font-family:Inter,sans-serif;font-weight:800;font-size:14px;color:var(--mute);margin:0 0 10px;display:flex;gap:10px;align-items:center}
+.fx .no span{color:var(--hl-ink,var(--hl));background:rgba(244,211,94,.14);border-radius:6px;padding:2px 8px;font-family:inherit;font-size:13px}
+.fx h2{font-size:clamp(26px,3.4vw,40px);font-weight:900;line-height:1.3;margin:0 0 18px;letter-spacing:-.01em}
+.fx .ans{font-size:clamp(17px,1.6vw,19px);font-weight:700;line-height:1.8;margin:0 0 16px;border-left:3px solid var(--hl);padding-left:14px}
+.fx details{border-top:1px solid var(--hair);padding-top:4px}
+.fx summary{cursor:pointer;font-weight:800;font-size:15px;color:var(--ink2);padding:8px 0;list-style:none}
+.fx summary::-webkit-details-marker{display:none}
+.fx summary::after{content:"＋";margin-left:6px;color:var(--mute)}
+.fx details[open] summary::after{content:"－"}
+.fx details p{font-size:16px;line-height:1.9;margin:4px 0 10px}
+.fx .src{font-size:13.5px;color:var(--mute);margin:0}
+.fx .src a{color:inherit}
+/* 畫面 */
+.vz{background:var(--s1);border:1px solid var(--hair2);border-radius:16px;padding:clamp(20px,3vw,32px);min-height:260px;display:flex;flex-direction:column;justify-content:center}
+.vz .cap{font-size:14px;color:var(--mute);margin:18px 0 0;line-height:1.7}
+.vz .bar{margin:0 0 18px}
+.vz .bar .l{display:flex;justify-content:space-between;gap:10px;font-size:15px;font-weight:700;margin:0 0 6px}
+.vz .bar .l b{font-family:Inter,sans-serif;font-size:22px}
+.vz .bar .t{height:22px;border-radius:6px;background:var(--s2);overflow:hidden}
+.vz .bar .t i{display:block;height:100%;width:0;border-radius:6px;background:var(--ink);opacity:.35;transition:width .9s cubic-bezier(.2,.7,.2,1)}
+.vz .bar.hl .t i{background:var(--hl);opacity:1}
+.vz .bar.hl .l b{color:var(--hl-ink,var(--hl))}
+.vz .ga{position:relative;height:120px;margin:10px 6px 0}
+.vz .ga .rail{position:absolute;left:0;right:0;top:58px;height:10px;border-radius:5px;background:var(--s2)}
+.vz .ga .fill{position:absolute;top:58px;height:10px;background:var(--hl);border-radius:5px;transition:width .9s cubic-bezier(.2,.7,.2,1);width:0}
+.vz .ga .base{position:absolute;top:30px;height:60px;border-left:2px dashed var(--mute)}
+.vz .ga .base span{position:absolute;top:66px;left:0;transform:translateX(-50%);white-space:nowrap;font-size:13px;color:var(--mute);font-weight:700}
+.vz .ga .pin{position:absolute;top:0;transform:translateX(-50%);text-align:center;transition:left .9s cubic-bezier(.2,.7,.2,1)}
+.vz .ga .pin b{display:block;font-family:Inter,sans-serif;font-size:26px;color:var(--hl-ink,var(--hl));line-height:1}
+.vz .ga .pin small{font-size:12px;color:var(--mute);font-weight:700}
+.vz .ga .pin:after{content:"";display:block;width:0;height:0;margin:4px auto 0;border:7px solid transparent;border-top-color:var(--hl)}
+.vz .ga .ends{position:absolute;left:0;right:0;top:100px;display:flex;justify-content:space-between;font-size:12.5px;color:var(--mute)}
+.vz .tl{list-style:none;margin:0;padding:0;position:relative}
+.vz .tl:before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:var(--hair2)}
+.vz .tl li{position:relative;padding:0 0 18px 32px;opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s}
+.vz .tl li:last-child{padding-bottom:0}
+.vz .tl li:before{content:"";position:absolute;left:1px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--s1);border:2px solid var(--mute)}
+.vz .tl li.hl:before{background:var(--hl);border-color:var(--hl)}
+.vz .tl b{display:block;font-family:Inter,"Noto Sans TC",sans-serif;font-size:15px;color:var(--mute)}
+.vz .tl li.hl b{color:var(--hl-ink,var(--hl))}
+.vz .tl span{font-size:16.5px;font-weight:700;line-height:1.6}
+.vz .ac{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;font-family:Inter,sans-serif}
+.vz .ac span{white-space:nowrap;font-size:clamp(20px,2.4vw,26px);font-weight:700;color:var(--mute);opacity:0;transition:opacity .5s}
+.vz .ac span b{font-size:clamp(48px,6vw,72px);font-weight:900;color:var(--hl-ink,var(--hl));margin-right:2px}
+.vz .ac-zh{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:18px 0 0}
+.vz .vs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vz .vs div{border:1px solid var(--hair2);border-radius:12px;padding:16px}
+.vz .vs div.hl{border:2px solid var(--hl)}
+.vz .vs h4{font-family:Inter,sans-serif;font-size:30px;font-weight:900;margin:0 0 6px}
+.vz .vs div.hl h4{color:var(--hl-ink,var(--hl))}
+.vz .vs p{margin:0;font-size:15px;line-height:1.7;font-weight:500}
+.vz.in .tl li{opacity:1;transform:none}
+.vz.in .ac span{opacity:1}
+.vz .tl li:nth-child(2){transition-delay:.25s}.vz .tl li:nth-child(3){transition-delay:.5s}.vz .tl li:nth-child(4){transition-delay:.75s}
+.vz .ac span:nth-child(2){transition-delay:.2s}.vz .ac span:nth-child(3){transition-delay:.4s}.vz .ac span:nth-child(4){transition-delay:.6s}
+/* 收尾 */
+.fx-end{border-top:1px solid var(--hair);padding:clamp(40px,6vw,72px) 0}
+.fx-end .think{font-size:clamp(20px,2.4vw,26px);font-weight:900;line-height:1.6;max-width:760px;margin:0 0 36px}
+.fx-end .think small{display:block;font-size:14px;color:var(--mute);font-weight:700;margin-bottom:8px}
+.fx-end h3{font-size:16px;margin:0 0 6px;color:var(--mute)}
+.arc{list-style:none;margin:0;padding:0;max-width:760px}
+.arc li{border-top:1px solid var(--hair);padding:12px 0}
+.arc a{color:var(--ink);text-decoration:none;font-weight:800}
+.arc a:hover{text-decoration:underline;text-underline-offset:4px}
+.arc p{margin:4px 0 0;font-size:14.5px;color:var(--mute);line-height:1.7}
+/* 右上角：讀到第幾則 */
+.fx-pos{position:fixed;right:16px;top:80px;z-index:20;font-family:Inter,sans-serif;font-weight:800;font-size:14px;background:var(--s2);border:1px solid var(--hair2);border-radius:999px;padding:6px 12px;opacity:0;transition:opacity .2s;pointer-events:none}
+.fx-pos.on{opacity:1}
+.fx-pos b{color:var(--hl-ink,var(--hl))}
+@media (min-width:900px) and (min-height:620px){
+  html{scroll-snap-type:y proximity;scroll-padding-top:66px}
+  .fx-hero{scroll-snap-align:start}
+  .fx{scroll-margin-top:0}
+  .fx{min-height:calc(100svh - 66px);display:flex;align-items:center;scroll-snap-align:start}
+  .fx>.w{width:100%}
+}
+@media (max-width:820px){
+  .fx>.w{grid-template-columns:1fr;gap:20px}
+  .fx .vz{order:2}.fx .tx{display:contents}
+  .fx .no{order:0}.fx h2{order:1;margin:0}.fx .ans{order:3}.fx details{order:4}
+  .vz{min-height:0}
+  .fx-pos{top:auto;bottom:76px}
+}
+@media (prefers-reduced-motion:reduce){.vz *{transition:none!important}}
+</style>
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<script>(function(){var t="dark";try{t=localStorage.getItem("bb-theme")||"dark"}catch(e){}document.documentElement.dataset.theme=t})();</script>
+<meta name="theme-color" content="#1A2C23">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BlackLi">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="site.css">
+<script src="assets/site.js" defer></script>
+<!-- SITE-HEAD:END -->
+</head>
+<body class="hub">
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html" aria-current="page">專欄</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前・今日小考</small></a><a href="weekly.html" aria-current="page">專欄<small>生活・科技・社會・身心・深度拆解・冷知識</small></a><a href="tools.html">工具<small>上班・休假・便條・飲料・出遊・理財</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+<section class="chalkboard fx-hero"><div class="w ph">
+  <h1>冷知識</h1>
+  <p class="meta" id="meta">每週六更新</p>
+  <ul class="fx-list" id="toc"></ul>
+</div></section>
+<main id="main"><p class="w muted" style="padding:40px 0">載入中…</p></main>
+<div class="fx-pos" id="pos" aria-hidden="true"></div>
+<script>
+(async () => {
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+  const md = d => `${+d.slice(5, 7)}/${+d.slice(8)}`;
+  const main = document.getElementById('main');
+  let d;
+  try { d = await (await fetch('data/facts.json', {cache: 'no-cache'})).json(); }
+  catch (e) { main.innerHTML = '<p class="w muted" style="padding:40px 0">資料讀取失敗，請稍後重新整理。</p>'; return; }
+  const want = new URLSearchParams(location.search).get('d');
+  const wk = (want && d.weeks.find(w => w.date === want)) || d.weeks[0];
+  const n = wk.items.length;
+  document.getElementById('meta').innerHTML = `${wk.date.replace(/-/g, '.')}　<b>${n}</b> 則，從這週的新聞挑出來的「原來是這樣」`;
+  document.getElementById('toc').innerHTML = wk.items.map((it, i) => `<li><a href="#f${i + 1}"><i>${i + 1}</i>${esc(it.tag)}</a></li>`).join('');
+
+  const viz = v => {
+    if (!v) return '';
+    const cap = v.note ? `<p class="cap">${esc(v.note)}</p>` : '';
+    if (v.type === 'bars') {
+      const mx = Math.max(...v.items.map(x => x.v));
+      return v.items.map(x => `<div class="bar${x.hl ? ' hl' : ''}"><div class="l"><span>${esc(x.l)}</span><b>${esc(x.v)}<small style="font-size:13px;margin-left:3px">${esc(v.unit || '')}</small></b></div><div class="t"><i data-w="${Math.max(2, x.v / mx * 100)}"></i></div></div>`).join('') + cap;
+    }
+    if (v.type === 'gauge') {
+      const p = x => (x - v.min) / (v.max - v.min) * 100, b = p(v.base), c = p(v.value);
+      return `<div class="ga"><div class="rail"></div><div class="fill" style="left:${Math.min(b, c)}%" data-w="${Math.abs(c - b)}"></div>
+        <div class="base" style="left:${b}%"><span>${esc(v.baseLabel)}</span></div>
+        <div class="pin" style="left:${b}%" data-l="${c}"><b>${esc(v.value)}</b><small>${esc(v.valueLabel || '')}</small></div>
+        <div class="ends"><span>← ${esc(v.lo || '')}</span><span>${esc(v.hi || '')} →</span></div></div>` + cap;
+    }
+    if (v.type === 'timeline') return `<ol class="tl">${v.points.map(x => `<li class="${x.hl ? 'hl' : ''}"><b>${esc(x.y)}</b><span>${esc(x.t)}</span></li>`).join('')}</ol>` + cap;
+    if (v.type === 'acronym') return `<div class="ac">${v.parts.map(([a, r]) => `<span><b>${esc(a)}</b>${esc(r)}</span>`).join('')}</div><p class="ac-zh">＝ ${esc(v.zh)}</p>` + cap;
+    if (v.type === 'versus') return `<div class="vs">${[v.left, v.right].map(x => `<div class="${x.hl ? 'hl' : ''}"><h4>${esc(x.h)}</h4><p>${esc(x.p)}</p></div>`).join('')}</div>` + cap;
+    return '';
+  };
+
+  main.innerHTML = wk.items.map((it, i) => `<section class="fx" id="f${i + 1}" data-i="${i + 1}"><div class="w">
+    <div class="tx"><p class="no">${i + 1} / ${n}<span>${esc(it.tag)}</span></p>
+      <h2>${esc(it.q)}</h2>
+      <p class="ans">${esc(it.a)}</p>
+      <details><summary>看完整說明</summary><p>${esc(it.body)}</p>
+        <p class="src">資料來源：${(it.src || []).map(s => `<a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.t)}</a>`).join('、')}</p></details></div>
+    <div class="vz" aria-hidden="true">${viz(it.viz)}</div>
+  </div></section>`).join('') + `<section class="fx-end"><div class="w">
+    ${wk.think ? `<p class="think"><small>想一想</small>${esc(wk.think)}</p>` : ''}
+    <h3>更早的冷知識</h3><ul class="arc">${[...d.weeks.filter(w => w !== wk).map(w => ({date: w.date, href: '?d=' + w.date, qs: w.items.map(x => x.q)})), ...(d.archive || [])]
+      .map(a => `<li><a href="${esc(a.href)}">${md(a.date)} 的 ${a.qs.length} 則冷知識</a><p>${a.qs.map(esc).join('・')}</p></li>`).join('') || '<li><p>還沒有更早的。</p></li>'}</ul>
+    <p style="margin-top:22px"><a href="weekly.html" style="font-weight:800">回專欄</a></p>
+  </div></section>`;
+
+  const play = el => {
+    el.classList.add('in');
+    el.querySelectorAll('[data-w]').forEach(x => { x.style.width = x.dataset.w + '%'; });
+    el.querySelectorAll('[data-l]').forEach(x => { x.style.left = x.dataset.l + '%'; });
+  };
+  const pos = document.getElementById('pos');
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const v = e.target.querySelector('.vz'); if (v) setTimeout(() => play(v), 150);
+    pos.innerHTML = `<b>${e.target.dataset.i}</b> / ${n}`;
+  }), {threshold: .45});
+  document.querySelectorAll('.fx').forEach(s => io.observe(s));
+  addEventListener('scroll', () => { const h = document.querySelector('.fx-hero').getBoundingClientRect().bottom, e = document.querySelector('.fx-end').getBoundingClientRect().top;
+    pos.classList.toggle('on', h < 60 && e > innerHeight * .5); }, {passive: true});
+  if (location.hash) { const t = document.querySelector(location.hash); if (t) t.scrollIntoView(); }
+})();
+</script>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="facts.html">冷知識</a></li><li><a href="mind.html">休息一下</a></li></ul></div><div><h5>工具</h5><ul><li><a href="pay.html">上班算一算</a></li><li><a href="leave.html">休假中心</a></li><li><a href="memo.html">工作便條</a></li><li><a href="guide.html">按主題查</a></li><li><a href="drinks.html">飲料新品</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="tools.html">全部工具</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>

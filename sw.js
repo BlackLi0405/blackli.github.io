@@ -3,12 +3,12 @@
    - 圖片：先用手機裡存的，背景再更新。
    - 只處理本站的檔案，外部網站（字型、出遊情報的資料來源）不經過這裡。
    改了這個檔案的快取規則時，把 VERSION 加 1。 */
-const VERSION = 'bb-v1';
+const VERSION = 'bb-v2';
 const PAGES = VERSION + '-pages';
 const ASSETS = VERSION + '-assets';
 const CORE = [
-  './', './index.html', './news.html', './weekly.html', './mind.html', './fun.html', './tools.html',
-  './about.html', './method.html', './offline.html', './site.css', './assets/site.js', './assets/logo.svg',
+  './', './index.html', './news.html', './weekly.html', './mind.html', './facts.html', './drinks.html', './tools.html',
+  './about.html', './method.html', './offline.html', './site.css', './assets/site.js', './assets/quiz.js', './assets/logo.svg',
   './data/quiz.json', './manifest.webmanifest', './assets/icons/icon-192.png'
 ];
 const MAX_PAGES = 80; // 最多留幾頁讀過的文章

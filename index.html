@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-/* 首頁：報紙頭版版型（黑板頭條 → 三欄快覽 → 看深一點／休息區 → 向內看／工具箱） */
+/* 首頁：報紙頭版版型（黑板頭條 → 三欄快覽 → 看深一點／冷知識 → 休息一下／工具箱） */
 .hub .dateline .w{min-height:40px}
 .hub .dateline #dl{color:var(--ink);font-weight:700}
 .dl-r{display:flex;gap:16px;align-items:center}
@@ -71,7 +71,7 @@
   .col:first-child{border-top:0;padding-top:0}
 }
 
-/* 第三層：看深一點（左，主）＋ 休息區（右，輕） */
+/* 第三層：看深一點（左，主）＋ 冷知識（右，輕） */
 .duo{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:56px}
 .feat{display:block;text-decoration:none;color:var(--ink);padding-bottom:22px}
 .feat h3{font-family:var(--head);font-size:clamp(24px,2.6vw,30px);font-weight:700;line-height:1.35;margin:8px 0 10px}
@@ -88,8 +88,16 @@
 .lite span{display:block;font-size:14px;color:var(--mute);line-height:1.6;margin-top:2px}
 @media (max-width:860px){.duo{grid-template-columns:1fr;gap:56px}.rows a{grid-template-columns:4em minmax(0,1fr)}.rows .meta{display:none}}
 
-/* 第四層：向內看 × 工具箱 */
+/* 第四層：休息一下 × 工具箱 */
 .duo2{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.ask-k{font-size:13px;font-weight:800;color:var(--mute);margin:0 0 6px}
+.ask-q{font-size:clamp(20px,2.2vw,24px);font-weight:900;line-height:1.5;margin:0 0 14px}
+.ask textarea{width:100%;background:var(--s1);border:1px solid var(--hair2);border-radius:12px;color:var(--ink);font:inherit;font-size:16px;line-height:1.6;padding:10px 12px;resize:vertical}
+.ask textarea:focus{outline:none;border-color:var(--ink)}
+.ask-r{display:flex;align-items:center;gap:12px;margin:10px 0 0;flex-wrap:wrap}
+.ask-r span{font-size:14px;color:var(--mute)}
+.ask-more{display:flex;gap:18px;margin:16px 0 0;font-size:14px}
+.ask-more a{color:var(--mute);font-weight:700}
 .lst{list-style:none;margin:0;padding:0}
 .lst a{display:flex;justify-content:space-between;align-items:baseline;gap:14px;text-decoration:none;color:var(--ink);padding:12px 0;border-top:1px solid var(--line)}
 .lst li:first-child a{border-top:0;padding-top:0}
@@ -113,7 +121,7 @@
 @media (max-width:760px){.hub .dateline .w span.dl-r{display:flex}.sched{display:none}}
 
 /* ===== 2026-11 設計檢查後的調整 =====
-   字級只用 13／15／17／21／28／40；標籤不拉字距；休息區、向內看、工具箱用留白分隔 */
+   字級只用 13／15／17／21／28／40；標籤不拉字距；冷知識、休息一下、工具箱用留白分隔 */
 .meta,.meta b,.side small,.rows .k2,.cl .tg{letter-spacing:0}
 .meta{font-size:13px}
 .side{padding-top:6px}
@@ -149,7 +157,7 @@
   .col.guide{order:-1;padding-left:0;border-left:0}
   .row3:has(.guide) .col:first-child:not(.guide){padding-left:18px;border-left:1px solid var(--line)}
   .col h3{font-size:19px}
-  /* 向內看、工具箱：細線格子，每格有名稱和一行說明 */
+  /* 休息一下、工具箱：細線格子，每格有名稱和一行說明 */
   .duo2{gap:48px}
   .duo2 .lst{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
   .duo2 .lst li{border-bottom:1px solid var(--line);min-width:0}
@@ -198,7 +206,7 @@
 </head>
 <body class="hub">
 <!-- SITE-NAV:START -->
-<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html" aria-current="page">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html" aria-current="page">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html">專欄<small>生活・科技・社會・身心・深度拆解</small></a><a href="tools.html">工具<small>出遊・排行程・理財・休假</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html" aria-current="page">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html" aria-current="page">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前・今日小考</small></a><a href="weekly.html">專欄<small>生活・科技・社會・身心・深度拆解・冷知識</small></a><a href="tools.html">工具<small>上班・休假・便條・飲料・出遊・理財</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
 <div class="dateline"><div class="w"><span id="dl"></span><span class="dl-r"><span class="sched">財經・國際 07:00　盤後 16:30　盤前 20:00</span><a class="sv" id="sv" href="saved.html">我的收藏</a></span></div></div>
 
@@ -213,6 +221,8 @@
   <div class="row3" id="row3"><div class="col sk"><span></span><span></span><span></span></div><div class="col sk"><span></span><span></span><span></span></div><div class="col sk"><span></span><span></span><span></span></div></div>
 </div></section>
 
+<section class="sec" id="quiz" style="padding-top:40px"><div class="w"><div class="qz" id="qz-home"><p class="qz-muted">小考載入中…</p></div></div></section>
+
 <section class="sec"><div class="w duo">
   <div id="deep-sec" hidden>
     <div class="sh"><h2>看深一點</h2><a href="weekly.html">全部專欄</a></div>
@@ -220,31 +230,33 @@
     <ul class="rows" id="rows"></ul>
   </div>
   <div>
-    <div class="sh"><h2>休息區</h2><a href="fun.html">更多</a></div>
-    <ul class="lite">
-      <li><a href="fun.html#quiz"><b class="u">今日小考</b><span id="quiz-q">3 題選擇題，考這兩天的新聞</span></a></li>
-      <li id="fun-li" hidden><a href="fun.html#more" id="fun-a"><b class="u">冷知識</b><span id="fun-t"></span></a></li>
-      <li id="drink-li" hidden><a href="fun.html#drinks"><b class="u">飲料新品</b><span id="drink-t"></span></a></li>
+    <div class="sh"><h2>冷知識</h2><a href="facts.html">全部</a></div>
+    <ul class="lite" id="fq-home">
+      <li><a href="facts.html"><b class="u">這週新聞裡的 5 個「原來是這樣」</b><span>每週六更新，一則一個畫面</span></a></li>
     </ul>
   </div>
 </div></section>
 
 <section class="sec"><div class="w duo2">
   <div>
-    <div class="sh"><h2>向內看</h2><a href="mind.html">全部</a></div>
-    <ul class="lst">
-      <li><a href="mind.html#ask"><b class="u">今日一問</b><span data-bb-question>今天有什麼小事讓你覺得被理解？</span></a></li>
-      <li><a href="mind.html#breathe"><b class="u">呼吸 1 分鐘</b><span>看完新聞，跟著黑板慢下來</span></a></li>
-      <li><a href="mind.html#body"><b class="u">身體基本款</b><span>走路、睡眠、蛋白質，每天打勾</span></a></li>
-    </ul>
+    <div class="sh"><h2>休息一下</h2><a href="mind.html">我的小本子</a></div>
+    <div class="ask">
+      <p class="ask-k">今日一問</p>
+      <p class="ask-q" data-bb-question>今天有什麼小事讓你覺得被理解？</p>
+      <textarea id="ask-a" rows="2" placeholder="寫一句就好，只存在你自己的手機或電腦裡。"></textarea>
+      <div class="ask-r"><button class="btn" type="button" id="ask-s">寫進小本子</button><span id="ask-st"></span></div>
+      <p class="ask-more"><a href="mind.html#breathe">呼吸 1 分鐘</a><a href="mind.html#body">身體基本款</a></p>
+    </div>
   </div>
   <div>
     <div class="sh"><h2>工具箱</h2><a href="tools.html">全部工具</a></div>
     <ul class="lst">
-      <li><a href="calc.html#hc"><b class="u">財務健檢</b><span>預備金、保險、收入怎麼分</span></a></li>
+      <li><a href="pay.html"><b class="u">上班算一算</b><span>實領薪水、加班費、資遣費</span></a></li>
       <li><a href="leave.html"><b class="u">休假中心</b><span>連假、特休、請假扣薪</span></a></li>
+      <li><a href="drinks.html"><b class="u">飲料新品</b><span id="drink-t">這週有什麼新口味</span></a></li>
+      <li><a href="memo.html"><b class="u">工作便條</b><span>想到就丟，下班整理成工作紀錄</span></a></li>
       <li><a href="guide.html"><b class="u">按主題查</b><span>失業、報稅、租屋、生小孩、長照</span></a></li>
-      <li><a href="trip.html"><b class="u">排行程</b><span>依預算、交通和體力排一天</span></a></li>
+      <li><a href="travel.html"><b class="u">出遊情報</b><span>全台展覽、演出、節慶</span></a></li>
     </ul>
   </div>
 </div>
@@ -859,7 +871,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 第三層左：看深一點（深度拆解主打＋各專欄最新一篇）
   const getDoc = u => fetch(u, {cache: 'no-cache'}).then(r => r.ok ? r.text() : '').then(t => new DOMParser().parseFromString(t, 'text/html')).catch(() => null);
   const first = (doc, f) => { const a = doc && doc.querySelector(`.feed[data-feed="${f}"] a.card`); return a ? parse(a) : null; };
-  Promise.all([getDoc('weekly.html'), getDoc('mind.html'), getDoc('deep.html'), getDoc('fun.html')]).then(([w, m, d, fn]) => {
+  Promise.all([getDoc('weekly.html'), getDoc('mind.html'), getDoc('deep.html')]).then(([w, m, d]) => {
     const dp = first(d, 'deep');
     if (dp && !old(dp.date)) {
       const f = document.getElementById('feat'); f.href = dp.href; f.hidden = false;
@@ -870,23 +882,30 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('rows').innerHTML = spec.map(([doc, f, label]) => { const c = first(doc, f); if (!c || old(c.date)) return '';
       return `<li><a href="${esc(c.href)}"><span class="k2">${label}</span><b class="u">${esc(head(c))}</b><span class="meta">${md(c.date)}${tick(c)}</span></a></li>`; }).join('');
     if (!document.getElementById('feat').hidden || document.getElementById('rows').children.length) document.getElementById('deep-sec').hidden = false;
-    // 第三層右：冷知識
-    const fu = first(fn, 'fun');
-    if (fu && !old(fu.date)) { document.getElementById('fun-a').href = fu.href; document.getElementById('fun-t').textContent = `${md(fu.date)}，${head(fu)}`; document.getElementById('fun-li').hidden = false; }
   });
 
-  // 第三層右：今日小考、飲料新品
-  fetch('data/quiz.json', {cache: 'no-cache'}).then(r => r.json()).then(j => {
-    const qz = (j.quizzes || [])[0]; if (!qz) return;
-    const done = window.BB && BB.store.get('quiz', {})[qz.date];
-    document.getElementById('quiz-q').textContent = done ? `${md(qz.date)} 答對 ${done.score}/${qz.questions.length} 題` : `${qz.date === T ? '今天' : md(qz.date)}的 ${qz.questions.length} 題，考這兩天的新聞`;
+  // 今日小考（assets/quiz.js）
+  const qs = document.createElement('script'); qs.src = 'assets/quiz.js'; qs.onload = () => BBQuiz.mount(document.getElementById('qz-home')); document.head.appendChild(qs);
+  // 冷知識：這週前 3 則
+  fetch('data/facts.json', {cache: 'no-cache'}).then(r => r.json()).then(d => {
+    const w = d.weeks && d.weeks[0]; if (!w || old(w.date.replace(/-/g, '.'))) return;
+    document.getElementById('fq-home').innerHTML = w.items.slice(0, 3).map((it, i) => `<li><a href="facts.html#f${i + 1}"><b class="u">${esc(it.q)}</b><span>${esc(it.tag)}</span></a></li>`).join('')
+      + `<li><a href="facts.html"><span>${md(w.date.replace(/-/g, '.'))} 共 ${w.items.length} 則，看全部</span></a></li>`;
   }).catch(() => {});
+  // 今日一問：直接在首頁寫，跟「休息一下」頁同一本小本子
+  if (window.BB) {
+    const book = BB.store.get('journal', {}), ta = document.getElementById('ask-a'), st = document.getElementById('ask-st');
+    if (book[T]) { ta.value = book[T].a; st.textContent = '今天寫過了，可以再改。'; }
+    document.getElementById('ask-s').onclick = () => {
+      const a = ta.value.trim(); if (!a) { st.textContent = '先寫一點點吧。'; return; }
+      const b = BB.store.get('journal', {}); b[T] = {q: BB.question(T), a}; BB.store.set('journal', b);
+      st.innerHTML = `寫好了，你已經寫了 ${Object.keys(b).length} 天。<a href="mind.html">看小本子</a>`;
+    };
+  }
   fetch('data/drinks-new.csv', {cache: 'no-cache'}).then(r => r.ok ? r.text() : '').then(t => {
-    const rows = t.replace(/^﻿/, '').split(/\r?\n/).slice(1).filter(Boolean).map(l => l.split(','))
-      .filter(r => r[1] && (new Date(T) - new Date(r[1])) / 864e5 <= 7 && (new Date(T) - new Date(r[1])) / 864e5 >= -7);
-    if (!rows.length) return;
-    document.getElementById('drink-t').textContent = `這週 ${rows.length} 款，最新：${rows[0][0]}`;
-    document.getElementById('drink-li').hidden = false;
+    const rows = t.replace(/^\uFEFF/, '').split(/\r?\n/).slice(1).filter(Boolean).map(l => l.split(','))
+      .filter(r => r[1] && Math.abs((new Date(T) - new Date(r[1])) / 864e5) <= 7);
+    if (rows.length) document.getElementById('drink-t').textContent = `這週 ${rows.length} 款，最新：${rows[0][0]}`;
   }).catch(() => {});
 
   // 從文章按「返回」時，瀏覽器會直接拿出暫存的首頁、不重跑程式，所以這裡補上剛看過的勾
@@ -905,7 +924,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <!-- SITE-FOOT:START -->
-<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">自己</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="facts.html">冷知識</a></li><li><a href="mind.html">休息一下</a></li></ul></div><div><h5>工具</h5><ul><li><a href="pay.html">上班算一算</a></li><li><a href="leave.html">休假中心</a></li><li><a href="memo.html">工作便條</a></li><li><a href="guide.html">按主題查</a></li><li><a href="drinks.html">飲料新品</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="tools.html">全部工具</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
 </body>
 </html>

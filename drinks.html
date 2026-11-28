@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>飲料新品｜BlackLi Board</title>
+<meta name="description" content="台灣連鎖手搖飲的新品、季節限定和優惠，每天整理：先看本週 3 杯，其他新品一行看完，一鍵找附近門市。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+.dk-hero .meta{font-size:14px;color:rgba(242,239,230,.72);margin:0}
+.dk-hero .meta b{color:var(--hl);font-family:Inter,sans-serif}
+.dk-sec{padding:clamp(32px,5vw,52px) 0 0}
+.dk-sec h2{font-size:clamp(22px,2.4vw,28px);font-weight:900;margin:0 0 4px}
+.dk-sec .sub{color:var(--mute);font-size:14.5px;margin:0 0 18px}
+.top3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.dk-card{background:var(--s1);border:1px solid var(--hair2);border-radius:16px;padding:18px;display:flex;flex-direction:column}
+.dk-card .pic{display:flex;align-items:flex-end;justify-content:center;height:140px;border-radius:12px;margin:0 0 14px;background:var(--s2)}
+.dk-card .pic svg{margin-bottom:-2px}
+.dk-card .br{flex:none;font-size:13.5px;font-weight:800;color:var(--mute);margin:0 0 4px;display:flex;justify-content:space-between;gap:8px}
+.dk-card h3{font-size:18.5px;font-weight:900;line-height:1.45;margin:0 0 8px}
+.dk-card p{font-size:14.5px;line-height:1.75;margin:0 0 12px;flex:1}
+.deal{display:inline-block;font-size:13px;font-weight:800;color:#1F2A24;background:var(--hl);border-radius:6px;padding:2px 8px;margin:0 0 10px;line-height:1.6}
+.acts{display:flex;flex-wrap:wrap;gap:6px}
+.acts a{font-size:13.5px;font-weight:800;text-decoration:none;color:var(--ink);border:1px solid var(--hair2);border-radius:8px;padding:6px 10px;background:var(--s2)}
+.acts a.map{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.acts a:hover{border-color:var(--ink)}
+.flt{display:flex;gap:6px;margin:0 0 10px;flex-wrap:wrap}
+.flt button{font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:transparent;border:1px solid var(--hair2);border-radius:999px;padding:6px 14px;cursor:pointer}
+.flt button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dk-list{list-style:none;margin:0;padding:0;max-width:860px}
+.dk-list>li{border-top:1px solid var(--hair)}
+.dk-list>li:last-child{border-bottom:1px solid var(--hair)}
+.dk-list summary{display:grid;grid-template-columns:30px 3.2em minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;cursor:pointer;list-style:none}
+.dk-list summary::-webkit-details-marker{display:none}
+.dk-list summary .d{font-family:Inter,sans-serif;font-size:13px;color:var(--mute);font-weight:700}
+.dk-list summary .n{font-size:15.5px;line-height:1.5;min-width:0}
+.dk-list summary .n b{font-weight:800;margin-right:6px}
+.dk-list summary .tg{font-size:12px;font-weight:800;color:var(--hl-ink);white-space:nowrap}
+.dk-list .bd{padding:0 0 14px calc(30px + 3.2em + 24px)}
+.dk-list .bd p{margin:0 0 10px;font-size:14.5px;line-height:1.75}
+.dk-empty{color:var(--mute);padding:14px 0}
+.note{font-size:13.5px;color:var(--mute);line-height:1.7;margin:22px 0 0;max-width:860px}
+@media (max-width:900px){.top3{grid-template-columns:1fr}.dk-card{display:grid;grid-template-columns:96px minmax(0,1fr);gap:0 14px}.dk-card .pic{grid-row:span 5;height:auto;min-height:120px;margin:0}}
+@media (max-width:620px){.dk-list summary{grid-template-columns:24px 2.8em minmax(0,1fr)}.dk-list summary .tg{grid-column:3}.dk-list .bd{padding-left:0}}
+</style>
+<!-- SITE-HEAD:START -->
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<script>(function(){var t="dark";try{t=localStorage.getItem("bb-theme")||"dark"}catch(e){}document.documentElement.dataset.theme=t})();</script>
+<meta name="theme-color" content="#1A2C23">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BlackLi">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="site.css">
+<script src="assets/site.js" defer></script>
+<!-- SITE-HEAD:END -->
+</head>
+<body class="hub">
+<!-- SITE-NAV:START -->
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="tools.html" aria-current="page">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前・今日小考</small></a><a href="weekly.html">專欄<small>生活・科技・社會・身心・深度拆解・冷知識</small></a><a href="tools.html" aria-current="page">工具<small>上班・休假・便條・飲料・出遊・理財</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
+<!-- SITE-NAV:END -->
+<section class="chalkboard dk-hero"><div class="w ph">
+  <h1>飲料新品</h1>
+  <p class="meta" id="meta">台灣連鎖手搖飲的新品、季節限定和優惠，每天早上更新。</p>
+</div></section>
+<main><div class="w">
+  <section class="dk-sec">
+    <h2>本週先喝這 3 杯</h2>
+    <p class="sub">這 7 天上市的，有優惠的排前面。</p>
+    <div class="top3" id="top3"><p class="dk-empty">載入中…</p></div>
+  </section>
+  <section class="dk-sec" style="padding-bottom:56px">
+    <h2>其他新品</h2>
+    <p class="sub">最近 45 天，點一下看說明和門市。</p>
+    <div class="flt" role="group" aria-label="篩選"><button type="button" data-f="all" aria-pressed="true">全部</button><button type="button" data-f="week" aria-pressed="false">本週上市</button><button type="button" data-f="deal" aria-pressed="false">有優惠</button></div>
+    <ul class="dk-list" id="list"></ul>
+    <p class="note">杯子是本站依口味畫的示意圖，不是實際照片；想看實際樣子點「看報導」。價格、優惠和上市日以品牌公告為準，各門市可能不同。想看各家完整菜單可以到 <a href="https://findrink.tw/" target="_blank" rel="noopener">Findrink 找菜單</a>（外部網站）。</p>
+  </section>
+</div></main>
+<script src="assets/drinks.js"></script>
+<script>
+(async () => {
+  const D = window.BBDrinks, esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+  const T = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
+  const age = n => (new Date(T) - new Date(n['日期'])) / 864e5;
+  const md = d => `${+d.slice(5, 7)}/${+d.slice(8)}`;
+  let rows;
+  try { rows = await D.load(); } catch (e) { document.getElementById('top3').innerHTML = '<p class="dk-empty">資料讀取失敗，請稍後重新整理。</p>'; return; }
+  const week = rows.filter(n => age(n) <= 7 && age(n) >= -7);
+  document.getElementById('meta').innerHTML = `最近 45 天 <b>${rows.length}</b> 款，這 7 天 <b>${week.length}</b> 款。每天早上更新。`;
+  const acts = n => `<div class="acts"><a class="map" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(n['品牌'])}" target="_blank" rel="noopener">找附近門市</a>${n['官網'] ? `<a href="${esc(n['官網'])}" target="_blank" rel="noopener">官網</a>` : ''}${n['來源網址'] ? `<a href="${esc(n['來源網址'])}" target="_blank" rel="noopener">看報導</a>` : ''}</div>`;
+  const top = [...week].sort((a, b) => (!!D.deal(b) - !!D.deal(a)) || b['日期'].localeCompare(a['日期'])).slice(0, 3);
+  const pool = top.length ? top : rows.slice(0, 3);
+  document.getElementById('top3').innerHTML = pool.map(n => { const dl = D.deal(n); return `<article class="dk-card">
+    <div class="pic">${D.cup(n, 118)}</div>
+    <p class="br"><span>${esc(n['品牌'])}</span><span>${md(n['日期'])} 上市</span></p>
+    <h3>${esc(n['品名'])}</h3>
+    ${dl ? `<span class="deal">${esc(dl.length > 26 ? dl.slice(0, 26) + '…' : dl)}</span>` : ''}
+    <p>${esc(n['說明'])}</p>${acts(n)}</article>`; }).join('') || '<p class="dk-empty">這幾天沒有新品。</p>';
+  const rest = rows.filter(n => !pool.includes(n));
+  const list = document.getElementById('list');
+  const paint = f => {
+    const xs = rest.filter(n => f === 'all' || (f === 'week' ? age(n) <= 7 : !!D.deal(n)));
+    list.innerHTML = xs.map(n => `<li><details><summary>${D.cup(n, 30)}<span class="d">${md(n['日期'])}</span><span class="n"><b>${esc(n['品牌'])}</b>${esc(n['品名'])}</span>${D.deal(n) ? '<span class="tg">有優惠</span>' : ''}</summary>
+      <div class="bd"><p>${esc(n['說明'])}</p>${acts(n)}</div></details></li>`).join('') || '<li class="dk-empty">沒有符合的新品。</li>';
+  };
+  document.querySelector('.flt').onclick = e => { const b = e.target.closest('button'); if (!b) return;
+    document.querySelectorAll('.flt button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); paint(b.dataset.f); };
+  paint('all');
+})();
+</script>
+<!-- SITE-FOOT:START -->
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="facts.html">冷知識</a></li><li><a href="mind.html">休息一下</a></li></ul></div><div><h5>工具</h5><ul><li><a href="pay.html">上班算一算</a></li><li><a href="leave.html">休假中心</a></li><li><a href="memo.html">工作便條</a></li><li><a href="guide.html">按主題查</a></li><li><a href="drinks.html">飲料新品</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="tools.html">全部工具</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<!-- SITE-FOOT:END -->
+</body>
+</html>

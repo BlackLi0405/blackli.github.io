@@ -10,19 +10,19 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 BRAND = "BlackLi Board"
 LINKS = [  # (文字, 路徑, 判斷目前頁面用的 key, 選單裡的小字說明)；點左邊的網站名稱也會回首頁
     ("今天", "index.html", "home", "今日拆解・小考・今日一問"),
-    ("新聞", "news.html", "news", "財經・國際・盤後・盤前"),
-    ("專欄", "weekly.html", "weekly", "生活・科技・社會・身心・深度拆解"),
-    ("工具", "tools.html", "tools", "出遊・排行程・理財・休假"),
+    ("新聞", "news.html", "news", "財經・國際・盤後・盤前・今日小考"),
+    ("專欄", "weekly.html", "weekly", "生活・科技・社會・身心・深度拆解・冷知識"),
+    ("工具", "tools.html", "tools", "上班・休假・便條・飲料・出遊・理財"),
     ("關於", "about.html", "about", "網站初衷與拆解方法"),
 ]
 
 def page_key(rel):
     if re.match(r"reports/(life|tech|society|deep)-|tools/deep", rel): return "weekly"
     if re.match(r"reports/mind-|tools/mind", rel): return "weekly"
-    if re.match(r"reports/fun-|tools/fun", rel): return "fun"
+    if re.match(r"reports/fun-|tools/fun", rel): return "weekly"
     if rel.startswith("reports/") or re.match(r"tools/(brief|close|pre)-", rel): return "news"
     return {"index.html": "home", "news.html": "news", "finance.html": "news", "world.html": "news",
-            "weekly.html": "weekly", "deep.html": "weekly", "mind.html": "weekly", "fun.html": "fun",
+            "weekly.html": "weekly", "deep.html": "weekly", "mind.html": "home", "fun.html": "weekly", "facts.html": "weekly", "drinks.html": "tools",
             "tools.html": "tools", "calc.html": "tools", "trip.html": "tools", "travel.html": "tools",
             "about.html": "about", "method.html": "about", "app.html": "tools", "leave.html": "tools", "skills.html": "tools", "career.html": "tools", "guide.html": "tools", "saved.html": "home", "memo.html": "tools", "pay.html": "tools", "offline.html": ""}.get(rel, "")
 
@@ -50,9 +50,9 @@ def foot(pre):
             f'<p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p>'
             f'<p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div>'
             f'<div><h5>每天讀</h5><ul><li><a href="{p}index.html">今天</a></li><li><a href="{p}news.html">新聞</a></li>'
-            f'<li><a href="{p}weekly.html">專欄</a></li><li><a href="{p}mind.html">自己</a></li><li><a href="{p}fun.html">輕鬆</a></li></ul></div>'
-            f'<div><h5>工具</h5><ul><li><a href="{p}travel.html">出遊情報</a></li><li><a href="{p}trip.html">幫我排行程</a></li>'
-            f'<li><a href="{p}calc.html">理財小工具</a></li><li><a href="{p}leave.html">休假中心</a></li><li><a href="{p}app.html">裝到手機</a></li></ul></div>'
+            f'<li><a href="{p}weekly.html">專欄</a></li><li><a href="{p}facts.html">冷知識</a></li><li><a href="{p}mind.html">休息一下</a></li></ul></div>'
+            f'<div><h5>工具</h5><ul><li><a href="{p}pay.html">上班算一算</a></li><li><a href="{p}leave.html">休假中心</a></li><li><a href="{p}memo.html">工作便條</a></li>'
+            f'<li><a href="{p}guide.html">按主題查</a></li><li><a href="{p}drinks.html">飲料新品</a></li><li><a href="{p}travel.html">出遊情報</a></li><li><a href="{p}tools.html">全部工具</a></li></ul></div>'
             f'<div><h5>關於</h5><ul><li><a href="{p}about.html">關於本站</a></li>'
             f'<li><a href="{p}method.html">我怎麼拆解資訊</a></li><li><a href="{p}method.html#sources">來源原則</a></li>'
             f'<li><a href="{p}about.html#disclaimer">免責聲明</a></li></ul></div>'

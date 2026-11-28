@@ -64,6 +64,15 @@
   .duo,.solo{grid-template-columns:1fr}
   .duo>.tp+.tp{border-left:0;padding-left:0;border-top:1px solid var(--line);margin-top:40px;padding-top:40px}
 }
+.fq{list-style:none;margin:0;padding:0;max-width:900px;counter-reset:none}
+.fq li{border-top:1px solid var(--hair)}
+.fq a{display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:16px 0;color:var(--ink);text-decoration:none}
+.fq a span{font-family:Inter,sans-serif;font-weight:900;font-size:22px;color:var(--hl-ink)}
+.fq a b{font-size:clamp(18px,2vw,22px);font-weight:800;line-height:1.5}
+.fq a em{font-style:normal;font-size:13px;color:var(--mute);font-weight:700}
+.fq a:hover b{text-decoration:underline;text-decoration-color:var(--hl);text-underline-offset:5px}
+.fq li.go a{display:inline-block;font-weight:800;color:var(--accent);padding:16px 0 0;font-size:15px}
+.fq li.go{border-top:1px solid var(--hair)}
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
@@ -82,15 +91,15 @@
 </head>
 <body class="hub">
 <!-- SITE-NAV:START -->
-<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html" aria-current="page">專欄</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前</small></a><a href="weekly.html" aria-current="page">專欄<small>生活・科技・社會・身心・深度拆解</small></a><a href="tools.html">工具<small>出遊・排行程・理財・休假</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
+<div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html" aria-current="page">專欄</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前・今日小考</small></a><a href="weekly.html" aria-current="page">專欄<small>生活・科技・社會・身心・深度拆解・冷知識</small></a><a href="tools.html">工具<small>上班・休假・便條・飲料・出遊・理財</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
 <section class="chalkboard"><div class="w ph">
     <h1>專欄</h1>
-  <p>每週一早上整理生活、科技、社會、身心各一篇：挑出這一週最值得弄懂的事，分清楚事實、觀點、立場與利益，最後告訴你它和你有什麼關係。週四還有一篇深度拆解。</p>
-  <nav class="pills" aria-label="專欄"><a href="#deep">深度拆解</a><a href="#life">生活</a><a href="#mind">身心</a><a href="#tech">科技</a><a href="#society">社會</a></nav>
+  <p>每週一早上整理生活、科技、社會、身心各一篇：挑出這一週最值得弄懂的事，分清楚事實、觀點、立場與利益，最後告訴你它和你有什麼關係。週四有一篇深度拆解，週六有 5 則冷知識。</p>
+  <nav class="pills" aria-label="專欄"><a href="#deep">深度拆解</a><a href="#life">生活</a><a href="#mind">身心</a><a href="#tech">科技</a><a href="#society">社會</a><a href="#facts">冷知識</a></nav>
 </div></section>
 <main>
-<ul class="rail" aria-label="專欄導覽"><li><a href="#deep"><span>深度拆解</span><i></i></a></li><li><a href="#life"><span>生活・身心</span><i></i></a></li><li><a href="#tech"><span>科技・社會</span><i></i></a></li></ul>
+<ul class="rail" aria-label="專欄導覽"><li><a href="#deep"><span>深度拆解</span><i></i></a></li><li><a href="#life"><span>生活・身心</span><i></i></a></li><li><a href="#tech"><span>科技・社會</span><i></i></a></li><li><a href="#facts"><span>冷知識</span><i></i></a></li></ul>
 <section class="ch"><div class="w">
   <div class="tp" id="deep" style="--c:var(--hl)">
     <div class="tp-h"><i></i><h2>深度拆解</h2></div>
@@ -172,6 +181,21 @@
       </div>
     </div>
 </div></section>
+<section class="ch"><div class="w">
+  <div class="tp" id="facts" style="--c:var(--hl)">
+    <div class="tp-h"><i></i><h2>冷知識</h2></div>
+    <p class="tp-d">每週六從這週的新聞挑 5 個「原來是這樣」，一則一個畫面，3 秒看懂。</p>
+    <ol class="fq" id="fq"><li class="empty"><b>這週的冷知識準備中</b>每週六更新。</li></ol>
+  </div>
+</div></section>
+<script>
+fetch('data/facts.json', {cache: 'no-cache'}).then(r => r.json()).then(d => {
+  const w = d.weeks && d.weeks[0]; if (!w) return;
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+  document.getElementById('fq').innerHTML = w.items.map((it, i) => `<li><a href="facts.html#f${i + 1}"><span>${i + 1}</span><b>${esc(it.q)}</b><em>${esc(it.tag)}</em></a></li>`).join('')
+    + `<li class="go"><a href="facts.html">${+w.date.slice(5, 7)}/${+w.date.slice(8)} 的 ${w.items.length} 則，從第 1 則開始看</a></li>`;
+}).catch(() => {});
+</script>
 </main>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -211,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <!-- SITE-FOOT:START -->
-<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">自己</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
+<div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="facts.html">冷知識</a></li><li><a href="mind.html">休息一下</a></li></ul></div><div><h5>工具</h5><ul><li><a href="pay.html">上班算一算</a></li><li><a href="leave.html">休假中心</a></li><li><a href="memo.html">工作便條</a></li><li><a href="guide.html">按主題查</a></li><li><a href="drinks.html">飲料新品</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="tools.html">全部工具</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
 </body>
 </html>
