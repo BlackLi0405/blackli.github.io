@@ -457,3 +457,23 @@ nav.toc a b{display:none}
 .bi label{min-height:44px;display:flex;align-items:center;gap:10px}
 .bi input[type=checkbox]{width:24px;height:24px}
 a.brand{min-height:44px!important;display:inline-flex!important;align-items:center}
+
+/* ===== 手機：標題字數不砍，字稍微縮小，長標題盡量兩行內看完（電腦版不變） ===== */
+@media (max-width:620px){
+  .lead h1{font-size:24px!important;line-height:1.38!important}
+  .hero .wrap > h1{font-size:22px!important;line-height:1.4!important}
+  #list .hub .card li:first-child,.hub #list .card li:first-child{font-size:19px}
+}
+
+/* ===== 分享 ===== */
+.bb-share-row{margin:14px 0 0;position:relative}
+.bb-share-one{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 2px;background:none;border:0;font:inherit;font-size:14px;font-weight:700;color:var(--mute);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.bb-share-one::before{content:"";width:15px;height:15px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6'/%3E%3C/svg%3E") center/contain no-repeat}
+.bb-share-one:hover{color:var(--ink)}
+.bb-tools{position:relative}
+.bb-share-pop{position:absolute;z-index:30;display:flex;flex-direction:column;min-width:170px;margin-top:6px;padding:6px;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.bb-tools .bb-share-pop{top:100%}
+.bb-share-row .bb-share-pop{top:100%;left:0}
+.bb-share-pop a,.bb-share-pop button{display:flex;align-items:center;min-height:44px;padding:0 12px;border-radius:8px;background:none;border:0;font:inherit;font-size:15px;font-weight:700;color:var(--ink);text-decoration:none;cursor:pointer;text-align:left}
+.bb-share-pop a:hover,.bb-share-pop button:hover{background:var(--panel2)}
+@media print{.bb-share-row{display:none}}

@@ -119,6 +119,35 @@
     addEventListener('scroll', tick, {passive: true}); tick();
   });
 
+  /* ---------- 分享：手機叫出系統分享（可選 LINE 等 App），電腦出現小選單 ----------
+     任何 <button data-share data-title="標題" data-hash="b1"> 都能用；沒有 data-hash 就分享整頁 */
+  const shareUrl = h => location.href.split('#')[0].replace(/[?&]x=\d+/, '') + (h ? '#' + h : '');
+  const closeShare = () => document.querySelectorAll('.bb-share-pop').forEach(p => p.remove());
+  document.addEventListener('click', async e => {
+    const b = e.target.closest('[data-share]');
+    if (!b) { if (!e.target.closest('.bb-share-pop')) closeShare(); return; }
+    const title = b.dataset.title || document.title, url = shareUrl(b.dataset.hash);
+    if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+      try { await navigator.share({title, url}); } catch (err) {} return;
+    }
+    if (b.nextElementSibling && b.nextElementSibling.classList.contains('bb-share-pop')) { closeShare(); return; }
+    closeShare();
+    const u = encodeURIComponent(url), t = encodeURIComponent(title);
+    const pop = document.createElement('div'); pop.className = 'bb-share-pop';
+    pop.innerHTML = `<a href="https://social-plugins.line.me/lineit/share?url=${u}" target="_blank" rel="noopener">LINE</a>` +
+      `<a href="https://www.facebook.com/sharer/sharer.php?u=${u}" target="_blank" rel="noopener">Facebook</a>` +
+      `<a href="https://www.threads.net/intent/post?text=${t}%20${u}" target="_blank" rel="noopener">Threads</a>` +
+      `<button type="button" data-copy>複製連結</button>`;
+    b.after(pop);
+    if (b.closest('.bb-tools')) pop.style.left = b.offsetLeft + 'px'; // 選單對齊「分享」那顆按鈕
+    pop.querySelector('[data-copy]').onclick = async ev => {
+      const c = ev.currentTarget;
+      try { await navigator.clipboard.writeText(url); c.textContent = '已複製'; } catch (err) { prompt('複製這個連結', url); }
+      setTimeout(closeShare, 900);
+    };
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeShare(); });
+
   /* ---------- 文章閱讀工具 ---------- */
   const isArticle = /\/reports\/[^/]+\.html$/.test(location.pathname) && document.querySelector('main');
   if (isArticle) {
@@ -132,8 +161,17 @@
     bar.innerHTML = '<button type="button" data-t="short" aria-pressed="false">30 秒版</button>' +
       ('speechSynthesis' in window ? '<button type="button" data-t="listen" aria-pressed="false">聽文章</button>' : '') +
       '<button type="button" data-t="big" aria-pressed="false">Aa 大字</button>' +
-      '<button type="button" data-t="save" aria-pressed="false">收藏</button>';
+      '<button type="button" data-t="save" aria-pressed="false">收藏</button>' +
+      '<button type="button" data-share>分享</button>';
     if (anchor) anchor.after(bar);
+    // 每則拆解、快訊最後放「分享這則」，分享出去的連結會直接跳到那一則
+    document.querySelectorAll('article#main, article.brief[id]').forEach(art => {
+      const h = art.querySelector('h2') || document.querySelector('header h1');
+      const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'bb-share-one'; btn.dataset.share = '';
+      btn.dataset.title = (h ? h.textContent.trim() : document.title) + '｜BlackLi Board'; btn.dataset.hash = art.id;
+      btn.textContent = '分享這則';
+      const wrap = document.createElement('p'); wrap.className = 'bb-share-row'; wrap.appendChild(btn); art.appendChild(wrap);
+    });
     // 收藏：存在讀者自己的瀏覽器，首頁日期列和 saved.html 會列出來
     const saveBtn = bar.querySelector('[data-t="save"]');
     const isSaved = () => store.get('saved', []).some(x => x.u === me);
@@ -166,7 +204,7 @@
       if (t === 'listen') {
         if (speaking) { speechSynthesis.cancel(); speaking = false; b.setAttribute('aria-pressed', 'false'); b.textContent = '聽文章'; return; }
         const parts = [document.querySelector('header h1'), ...main.querySelectorAll('h2,h3,p,li,td,.tldr,.box')]
-          .filter(el => el && el.offsetParent !== null && !el.closest('.src,.bb-short-note'))
+          .filter(el => el && el.offsetParent !== null && !el.closest('.src,.bb-short-note,.bb-share-row'))
           .map(el => el.innerText.trim()).filter(Boolean);
         const text = parts.join('。\n').replace(/[【】]/g, '');
         const voices = speechSynthesis.getVoices();

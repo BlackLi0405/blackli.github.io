@@ -97,7 +97,7 @@
 @media (max-width:820px){
   .fx>.w{grid-template-columns:1fr;gap:20px}
   .fx .vz{order:2}.fx .tx{display:contents}
-  .fx .no{order:0}.fx h2{order:1;margin:0}.fx .ans{order:3}.fx details{order:4}
+  .fx .no{order:0}.fx h2{order:1;margin:0}.fx .ans{order:3}.fx details{order:4}.fx .bb-share-row{order:5;margin:0}
   .vz{min-height:0}
   .fx-pos{top:auto;bottom:76px}
 }
@@ -176,7 +176,8 @@
       <h2>${esc(it.q)}</h2>
       <p class="ans">${esc(it.a)}</p>
       <details><summary>看完整說明</summary><p>${esc(it.body)}</p>
-        <p class="src">資料來源：${(it.src || []).map(s => `<a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.t)}</a>`).join('、')}</p></details></div>
+        <p class="src">資料來源：${(it.src || []).map(s => `<a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.t)}</a>`).join('、')}</p></details>
+      <p class="bb-share-row"><button type="button" class="bb-share-one" data-share data-title="${esc(it.q)}｜BlackLi Board 冷知識" data-hash="f${i + 1}">分享這則</button></p></div>
     <div class="vz" aria-hidden="true">${viz(it.viz)}</div>
   </div></section>`).join('') + `<section class="fx-end"><div class="w">
     ${wk.think ? `<p class="think"><small>想一想</small>${esc(wk.think)}</p>` : ''}
