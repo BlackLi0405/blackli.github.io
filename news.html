@@ -24,7 +24,8 @@
 .hub .card li a:hover{color:var(--accent)}
 .hub .card .more a{color:inherit;text-decoration:none}
 .hub div.card:hover{transform:none}
-.sched{display:flex;flex-wrap:wrap;gap:4px 18px}.sched b{color:var(--hl);margin-right:6px;font-family:Inter,sans-serif}
+.nx{font-size:14px!important;color:rgba(242,239,230,.7);margin:14px 0 0!important}
+.nx b{color:var(--hl);font-weight:800;margin:0 4px}
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
@@ -47,7 +48,7 @@
 <!-- SITE-NAV:END -->
 <section class="chalkboard"><div class="w ph">
   <h1>新聞</h1>
-  <p class="sched"><span><b>07:00</b>財經・國際</span><span><b>16:30</b>台股盤後</span><span><b>20:00</b>美股盤前</span></p>
+  <p class="nx" id="nx" hidden></p>
   <div class="pills" id="tabs" role="group" aria-label="篩選"></div>
 </div></section>
 <main><div class="w sec" id="list"><p class="msg">載入中…</p></div></main>
@@ -93,6 +94,18 @@ document.addEventListener('DOMContentLoaded', () => {
     render();
   }).catch(() => { document.getElementById('list').innerHTML = '<p class="msg">列表暫時無法載入，請回到<a href="index.html">首頁</a>。</p>'; });
 });
+</script>
+<script>
+// 下一篇預計什麼時候出來：早報每天 07:00；盤後 16:30、盤前 20:00 只在平日
+(() => {
+  const S = [['07:00', '財經・國際', false], ['16:30', '台股盤後', true], ['20:00', '美股盤前', true]];
+  const tw = new Date(Date.now() + 8 * 3600e3), now = tw.toISOString().slice(11, 16);
+  for (let d = 0; d < 4; d++) {
+    const day = new Date(tw.getTime() + d * 864e5), wd = day.getUTCDay(), weekday = wd > 0 && wd < 6;
+    const hit = S.find(([t, , wk]) => (d > 0 || t > now) && (!wk || weekday));
+    if (hit) { const el = document.getElementById('nx'); el.innerHTML = `下一篇預計<b>${d === 0 ? '今天' : d === 1 ? '明天' : `${day.getUTCMonth() + 1}/${day.getUTCDate()}`} ${hit[0]}</b>${hit[1]}`; el.hidden = false; break; }
+  }
+})();
 </script>
 <!-- SITE-FOOT:START -->
 <div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="mind.html">自己</a></li><li><a href="fun.html">輕鬆</a></li></ul></div><div><h5>工具</h5><ul><li><a href="travel.html">出遊情報</a></li><li><a href="trip.html">幫我排行程</a></li><li><a href="calc.html">理財小工具</a></li><li><a href="leave.html">休假中心</a></li><li><a href="app.html">裝到手機</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
