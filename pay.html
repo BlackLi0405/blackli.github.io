@@ -13,40 +13,23 @@
 .py-tabs button{font:inherit;font-size:16px;font-weight:700;color:var(--chalk);background:rgba(242,239,230,.08);border:1.5px solid rgba(242,239,230,.2);border-radius:99px;padding:8px 18px;cursor:pointer}
 .py-tabs button[aria-selected="true"]{background:var(--hl);border-color:var(--hl);color:#1F2A24}
 .py-yr{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--mute);margin:26px 0 0}
-.py-yr button{font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:99px;padding:3px 12px;cursor:pointer}
-.py-yr button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .pane{display:none;padding:10px 0 20px}.pane.on{display:block}
 .py-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px;align-items:start}
-@media (max-width:820px){.py-grid{grid-template-columns:1fr;gap:18px}}
-.fm{display:grid;gap:16px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px}
-.fm label{display:grid;gap:6px;font-weight:700;font-size:15px}
-.fm label small{font-weight:500;color:var(--mute);font-size:13px;line-height:1.6}
-.fm input,.fm select{font:inherit;font-size:17px;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:9px 11px;width:100%;box-sizing:border-box}
-.fm input:focus,.fm select:focus{outline:2px solid var(--hl);outline-offset:1px}
-.fm .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.seg{display:flex;flex-wrap:wrap;gap:6px}
-.seg button{font:inherit;font-size:14.5px;font-weight:700;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:99px;padding:5px 13px;cursor:pointer}
-.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
-.res{border-top:4px solid var(--hl);padding:4px 0 0}
-.res .big{font-size:15px;color:var(--mute);margin:12px 0 2px}
-.res .num{font-size:clamp(38px,6vw,52px);font-weight:900;line-height:1.15;margin:0;color:var(--ink);letter-spacing:-.01em}
-.res .num small{font-size:18px;margin-left:4px}
-.res .sub{color:var(--ink2);margin:4px 0 0;font-size:15px}
-.tb{width:100%;border-collapse:collapse;margin:18px 0 0;font-size:15.5px}
-.tb td{padding:9px 0;border-bottom:1px solid var(--line);vertical-align:top}
-.tb td:last-child{text-align:right;font-weight:700;white-space:nowrap;padding-left:12px}
-.tb td small{display:block;color:var(--mute);font-size:12.5px;font-weight:500;line-height:1.6}
-.tb tr.minus td:last-child{color:var(--ink2)}
-.tb tr.tot td{border-bottom:0;border-top:2px solid var(--ink);font-weight:900}
 .note{font-size:14px;color:var(--mute);line-height:1.8;margin:16px 0 0}
 .note li{margin:2px 0}
-.warn{background:var(--hl-soft);border-radius:8px;padding:10px 12px;font-size:14.5px;line-height:1.7;margin:14px 0 0;color:var(--ink)}
 .ot-rows{display:grid;gap:8px}
 .ot-row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) auto;gap:8px;align-items:center}
 .ot-row button{font:inherit;font-size:20px;line-height:1;color:var(--mute);background:transparent;border:0;cursor:pointer;padding:4px 6px}
 .add{font:inherit;font-size:14.5px;font-weight:700;color:var(--ink);background:transparent;border:1.5px dashed var(--line);border-radius:8px;padding:8px;cursor:pointer}
 .links{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14.5px;margin:18px 0 0}
 .src{font-size:13px;color:var(--mute);margin:28px 0 40px;line-height:1.8}
+@media (max-width:820px){.py-grid{grid-template-columns:1fr;gap:16px}main .w{padding-bottom:84px}}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tl-in .ot-row select,.tl-in .ot-row input{font:inherit;font-size:16px;font-variant-numeric:tabular-nums;color:var(--ink);background:var(--s2);border:1px solid var(--hair2);border-radius:10px;padding:10px 11px;width:100%;box-sizing:border-box;min-height:44px}
+.tl-in .ot-row select:focus,.tl-in .ot-row input:focus{outline:0;border-color:var(--hl);box-shadow:0 0 0 3px var(--hl-soft)}
+.add{border-color:var(--hair2)!important}
+.tl-res .note{border-top:1px solid var(--hair);padding-top:12px;margin-top:18px}
+.tl-lab{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
@@ -78,23 +61,23 @@
   </div>
 </div></section>
 <main><div class="w">
-  <div class="py-yr">用哪一年的規定算：<span class="seg" id="yr"></span><span id="yrnote"></span></div>
+  <div class="py-yr">用哪一年的規定算：<span class="tl-seg" id="yr"></span><span id="yrnote"></span></div>
 
   <!-- 實領薪水 -->
   <section class="pane" id="p-net">
     <div class="py-grid">
-      <div class="fm">
-        <label>每月薪水（稅前）<small>本薪加上每個月固定的津貼，不含加班費和年終。</small><input id="n-s" type="number" inputmode="numeric" min="0" step="100" value="40000"></label>
-        <label>健保要幫幾位家人一起保<small>配偶、小孩、沒工作的父母掛在你名下才算，最多算 3 位。</small>
-          <span class="seg" id="n-d"></span></label>
-        <label>勞退自提<small>自己願意多存進勞退帳戶的比例，可以不提。提了這個月會少拿，但會存進你的退休帳戶，也可以從所得扣除。</small>
-          <span class="seg" id="n-r"></span></label>
+      <div class="tl-in">
+        <label class="tl-f">每月薪水（稅前）<small>本薪加上每個月固定的津貼，不含加班費和年終。</small><span class="tl-box"><input id="n-s" type="text" inputmode="numeric" autocomplete="off" value="40,000"><span class="tl-u">元</span></span></label>
+        <label class="tl-f">健保要幫幾位家人一起保<small>配偶、小孩、沒工作的父母掛在你名下才算，最多算 3 位。</small>
+          <span class="tl-seg" id="n-d"></span></label>
+        <label class="tl-f">勞退自提<small>自己願意多存進勞退帳戶的比例，可以不提。提了這個月會少拿，但會存進你的退休帳戶，也可以從所得扣除。</small>
+          <span class="tl-seg" id="n-r"></span></label>
       </div>
-      <div class="res" aria-live="polite">
-        <p class="big">每月實際拿到（大約）</p>
-        <p class="num" id="n-out">—</p>
-        <p class="sub" id="n-sub"></p>
-        <table class="tb" id="n-tb"></table>
+      <div class="tl-res" aria-live="polite">
+        <p class="tl-lab">每月實際拿到<span class="tl-tag est">估算</span></p>
+        <p class="tl-big" id="n-out">—</p>
+        <p class="tl-sub" id="n-sub"></p>
+        <table class="tl-rows" id="n-tb"></table>
         <div id="n-warn"></div>
         <ul class="note">
           <li>保費依「投保級距」算：你的薪水會對到分級表裡剛好高於或等於它的那一級。</li>
@@ -108,17 +91,17 @@
   <!-- 加班費 -->
   <section class="pane" id="p-ot">
     <div class="py-grid">
-      <div class="fm">
-        <label>每月薪水<small>本薪加每個月固定的津貼。時薪 = 月薪 ÷ 30 ÷ 8。</small><input id="o-s" type="number" inputmode="numeric" min="0" step="100" value="40000"></label>
+      <div class="tl-in">
+        <label class="tl-f">每月薪水<small>本薪加每個月固定的津貼。時薪 = 月薪 ÷ 30 ÷ 8。</small><span class="tl-box"><input id="o-s" type="text" inputmode="numeric" autocomplete="off" value="40,000"><span class="tl-u">元</span></span></label>
         <div><b style="font-size:15px">這個月加了哪些班</b><p style="margin:4px 0 10px;font-size:13px;color:var(--mute);line-height:1.6">一天一列。例如平日加班 3 小時、週六休息日上班 8 小時，就填兩列。</p>
           <div class="ot-rows" id="o-rows"></div>
           <button type="button" class="add" id="o-add" style="margin-top:8px;width:100%">＋ 再加一天</button></div>
       </div>
-      <div class="res" aria-live="polite">
-        <p class="big">這個月加班費（至少）</p>
-        <p class="num" id="o-out">—</p>
-        <p class="sub" id="o-sub"></p>
-        <table class="tb" id="o-tb"></table>
+      <div class="tl-res" aria-live="polite">
+        <p class="tl-lab">這個月加班費<span class="tl-tag law">法律最低標準</span></p>
+        <p class="tl-big" id="o-out">—</p>
+        <p class="tl-sub" id="o-sub"></p>
+        <table class="tl-rows" id="o-tb"></table>
         <div id="o-warn"></div>
         <ul class="note">
           <li>平日延長工時：前 2 小時每小時加給 1/3，第 3、4 小時加給 2/3（勞基法第 24 條）。</li>
@@ -135,20 +118,20 @@
   <!-- 資遣費 -->
   <section class="pane" id="p-sev">
     <div class="py-grid">
-      <div class="fm">
+      <div class="tl-in">
         <div class="two">
-          <label>到職日<input id="s-a" type="date" value="2022-03-01"></label>
-          <label>最後工作日<input id="s-b" type="date"></label>
+          <label class="tl-f">到職日<input id="s-a" type="date" class="tl-date" value="2022-03-01"></label>
+          <label class="tl-f">最後工作日<input id="s-b" type="date" class="tl-date"></label>
         </div>
-        <label>平均月薪<small>離職前 6 個月的薪水平均，要算進加班費、固定津貼，不算年終和三節獎金。</small><input id="s-s" type="number" inputmode="numeric" min="0" step="100" value="40000"></label>
-        <label>公司有沒有提前通知
-          <span class="seg" id="s-n"></span></label>
+        <label class="tl-f">平均月薪<small>離職前 6 個月的薪水平均，要算進加班費、固定津貼，不算年終和三節獎金。</small><span class="tl-box"><input id="s-s" type="text" inputmode="numeric" autocomplete="off" value="40,000"><span class="tl-u">元</span></span></label>
+        <label class="tl-f">公司有沒有提前通知
+          <span class="tl-seg" id="s-n"></span></label>
       </div>
-      <div class="res" aria-live="polite">
-        <p class="big">資遣費（至少）</p>
-        <p class="num" id="s-out">—</p>
-        <p class="sub" id="s-sub"></p>
-        <table class="tb" id="s-tb"></table>
+      <div class="tl-res" aria-live="polite">
+        <p class="tl-lab">資遣費<span class="tl-tag law">法律最低標準</span></p>
+        <p class="tl-big" id="s-out">—</p>
+        <p class="tl-sub" id="s-sub"></p>
+        <table class="tl-rows" id="s-tb"></table>
         <div id="s-warn"></div>
         <ul class="note">
           <li>適用 2005 年 7 月 1 日以後的勞退新制年資：每滿 1 年給 0.5 個月平均工資，未滿 1 年照比例，最多 6 個月（勞工退休金條例第 12 條）。</li>
@@ -162,7 +145,9 @@
   </section>
 
   <p class="src">規定來源：<a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=N0030001" target="_blank" rel="noopener">勞動基準法</a>、<a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=N0030020" target="_blank" rel="noopener">勞工退休金條例</a>、<a href="https://www.bli.gov.tw/0005475.html" target="_blank" rel="noopener">勞保局投保薪資分級表</a>、<a href="https://www.bli.gov.tw/0101077.html" target="_blank" rel="noopener">勞工退休金月提繳分級表</a>、衛福部健保署投保金額分級表。<br>試算結果僅供參考，實際金額以公司薪資單、勞保局和健保署核定為準。</p>
-</div></main>
+</div>
+<div class="tl-bar off" id="bar" aria-hidden="true"><span id="bar-l"></span><b id="bar-v"></b></div>
+</main>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   // ===== 各年度規定（數字來自勞保局、勞動部、健保署公告） =====
@@ -183,6 +168,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let yr = YRS.filter(y => now >= y + '-01-01').pop() || YRS[0];
   const $ = id => document.getElementById(id);
   const fmt = n => Math.round(n).toLocaleString('zh-TW');
+  const num = id => +($(id).value.replace(/[^\d.]/g, '')) || 0;
+  // 金額欄位：邊打邊加千分位
+  document.querySelectorAll('.tl-box input').forEach(el => el.addEventListener('input', () => {
+    const end = el.value.length - el.selectionEnd, d = el.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '');
+    el.value = d ? (+d).toLocaleString('zh-TW') : ''; const p = Math.max(0, el.value.length - end); el.setSelectionRange(p, p); }));
   const grade = (list, v) => list.find(g => g >= v) ?? list[list.length - 1];
   const tbl = rows => rows.map(r => `<tr class="${r[2] || ''}"><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('');
   const seg = (el, opts, val, cb) => {
@@ -193,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== 實領薪水 =====
   let dep = 0, rate = 0;
   const net = () => {
-    const c = Y[yr], s = +$('n-s').value || 0;
+    const c = Y[yr], s = num('n-s') || 0;
     const liG = grade([...c.low, ...UP], s), peG = grade([...c.low, ...UP, ...MID], s);
     let hiG, hiEst = false;
     if (s <= 219500) hiG = grade([...c.low, ...UP, ...MID, ...HI_TOP], s); else { hiG = Math.min(s, HI_MAX); hiEst = true; }
@@ -214,7 +204,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (s > 90500) w.push('月薪超過 9 萬多，公司可能每月先預扣所得稅（依財政部扣繳稅額表，或你選擇的 5%），實領會再少一些。');
     if (!c.hiOk) w.push(`${yr} 年的健保投保金額分級表還沒公告，健保費先用最低工資 ${fmt(c.min)} 當第一級推算。`);
     if (hiEst) w.push('月薪超過 21.95 萬，健保級距這裡用月薪估算，實際以健保署分級表為準。');
-    $('n-warn').innerHTML = w.map(x => `<p class="warn">${x}</p>`).join('');
+    $('n-warn').innerHTML = w.map(x => `<p class="tl-warn">${x}</p>`).join('');
+    if (s) try { localStorage.setItem('bb-pay-last', JSON.stringify({s, out, yr})); } catch (e) {}
+    bar();
   };
   seg('n-d', [[0, '只有自己'], [1, '+1 位'], [2, '+2 位'], [3, '+3 位以上']], 0, v => { dep = +v; net(); });
   seg('n-r', [[0, '不提'], [1, '1%'], [3, '3%'], [6, '6%']], 0, v => { rate = +v; net(); });
@@ -237,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return [h > 0 ? hr * 8 + a * hr * 4 / 3 + b * hr * 5 / 3 : 0, `多給一天（8 小時）${a ? ` + ${a} 小時 × 4/3` : ''}${b ? ` + ${b} 小時 × 5/3` : ''}`];
   };
   const ot = () => {
-    const s = +$('o-s').value || 0, hr = s / 240;
+    const s = num('o-s') || 0, hr = s / 240;
     let tot = 0, hours = 0; const w = [];
     const tr = rows.map(r => { const h = Math.max(0, +r.h || 0); hours += h; const [m, how] = pay(r.t, h, hr); tot += m;
       if (r.t === 'wd' && h > 4) w.push('平日一天加班最多 4 小時（加上正常 8 小時，一天最多 12 小時）。超過 4 小時的部分這裡沒算進去。');
@@ -247,7 +239,8 @@ document.addEventListener('DOMContentLoaded', () => {
     $('o-out').innerHTML = s ? `${fmt(tot)}<small>元</small>` : '—';
     $('o-sub').textContent = s ? `時薪 ${fmt(s)} ÷ 30 ÷ 8 ≈ ${hr.toFixed(1)} 元，共加班 ${hours} 小時` : '';
     $('o-tb').innerHTML = s ? tbl([...tr, ['合計', fmt(tot), 'tot']]) : '';
-    $('o-warn').innerHTML = [...new Set(w)].map(x => `<p class="warn">${x}</p>`).join('');
+    bar();
+    $('o-warn').innerHTML = [...new Set(w)].map(x => `<p class="tl-warn">${x}</p>`).join('');
   };
   $('o-rows').addEventListener('input', e => { const row = e.target.closest('.ot-row'); if (!row) return; const r = rows[+row.dataset.i];
     if (e.target.tagName === 'SELECT') r.t = e.target.value; else r.h = e.target.value; ot(); });
@@ -266,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return [y, m, d];
   };
   const sev = () => {
-    const A = $('s-a').value, B = $('s-b').value, s = +$('s-s').value || 0, w = [];
+    const A = $('s-a').value, B = $('s-b').value, s = num('s-s') || 0, w = [];
     $('s-tb').innerHTML = ''; $('s-warn').innerHTML = '';
     if (!A || !B || B < A) { $('s-out').textContent = '—'; $('s-sub').textContent = A && B ? '最後工作日要在到職日之後。' : ''; return; }
     const from = A < '2005-07-01' ? '2005-07-01' : A;
@@ -283,18 +276,27 @@ document.addEventListener('DOMContentLoaded', () => {
       [`預告期 ${nd} 天<small>${nd ? (notified === 'no' ? `沒有提前通知，要多付 ${nd} 天工資（月薪 ÷ 30 × ${nd}）` : '公司有提前通知，不用另外付') : '做未滿 3 個月，法律沒有規定預告期'}</small>`, fmt(np)],
       ['合計', fmt(money + np), 'tot']]);
     if (yrs * 0.5 > 6) w.push('勞退新制的資遣費最多 6 個月平均工資，年資 12 年以上就到上限了。');
-    $('s-warn').innerHTML = w.map(x => `<p class="warn">${x}</p>`).join('');
+    bar();
+    $('s-warn').innerHTML = w.map(x => `<p class="tl-warn">${x}</p>`).join('');
   };
   seg('s-n', [['no', '沒有，直接資遣'], ['yes', '有，提前通知了']], 'no', v => { notified = v; sev(); });
   $('s-b').value = now;
   ['s-a', 's-b', 's-s'].forEach(id => $(id).addEventListener('input', sev));
 
+  // ===== 手機底部結果列：結果卡不在畫面上時才出現 =====
+  let cur = 'net', resVis = true;
+  function bar() { const p = document.getElementById('p-' + cur); if (!p) return;
+    $('bar-l').textContent = p.querySelector('.tl-lab').firstChild.textContent.trim();
+    $('bar-v').textContent = p.querySelector('.tl-big').textContent.replace('元', ' 元');
+    $('bar').classList.toggle('off', resVis || $('bar-v').textContent === '—'); }
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => { es.forEach(e => { if (e.target.closest('.pane').id === 'p-' + cur) resVis = e.isIntersecting; }); bar(); }) : null;
+  if (io) document.querySelectorAll('.tl-res').forEach(r => io.observe(r));
   // ===== 年度、分頁 =====
   const all = () => { $('yrnote').textContent = `最低工資每月 ${fmt(Y[yr].min)} 元`; net(); ot(); sev(); };
   seg('yr', YRS.map(y => [y, y + ' 年']), yr, v => { yr = +v; all(); });
   const tabs = document.querySelectorAll('.py-tabs button');
   const show = p => { if (!['net', 'ot', 'sev'].includes(p)) p = 'net';
-    tabs.forEach(b => b.setAttribute('aria-selected', b.dataset.p === p)); document.querySelectorAll('.pane').forEach(x => x.classList.toggle('on', x.id === 'p-' + p)); };
+    cur = p; tabs.forEach(b => b.setAttribute('aria-selected', b.dataset.p === p)); document.querySelectorAll('.pane').forEach(x => x.classList.toggle('on', x.id === 'p-' + p)); };
   tabs.forEach(b => b.addEventListener('click', () => { history.replaceState(null, '', '#' + b.dataset.p); show(b.dataset.p); }));
   show(location.hash.slice(1)); drawRows(); all();
 });

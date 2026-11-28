@@ -362,3 +362,46 @@ nav.toc a b{display:none}
 .bb-theme button{font:inherit;font-size:14px;font-weight:700;color:var(--mute);background:none;border:0;padding:4px 0;cursor:pointer}
 .bb-theme button:hover{color:var(--ink)}
 .bb-theme button[aria-pressed="true"]{color:var(--ink);box-shadow:inset 0 -2px 0 var(--hl)}
+
+/* ===== 層次與細線（2026-11 改版：參考 Linear 的深色層次） =====
+   s1 卡片、s2 浮起的元件；hair 是 1px 的低透明度細線 */
+:root{--s1:#FFFDF8;--s2:#F1EDE3;--hair:rgba(31,42,36,.10);--hair2:rgba(31,42,36,.18)}
+:root:not([data-theme="light"]){--s1:#1F3329;--s2:#263B30;--hair:rgba(242,239,230,.08);--hair2:rgba(242,239,230,.15)}
+
+/* ===== 工具共用元件 =====
+   tl-in 輸入卡、tl-f 一個欄位、tl-u 單位、tl-seg 選項、tl-res 結果、tl-big 主角數字、tl-rows 明細、tl-tag 狀態標籤、tl-warn 提醒 */
+.tl-in{display:grid;gap:18px;background:var(--s1);border:1px solid var(--hair);border-radius:14px;padding:20px}
+.tl-f{display:grid;gap:6px;font-weight:700;font-size:15px;color:var(--ink)}
+.tl-f small{font-weight:500;color:var(--mute);font-size:13px;line-height:1.6}
+.tl-box{position:relative;display:flex;align-items:center}
+.tl-box input,.tl-in select,.tl-in input[type=date]{font:inherit;font-size:17px;font-variant-numeric:tabular-nums;color:var(--ink);background:var(--s2);border:1px solid var(--hair2);border-radius:10px;padding:11px 12px;width:100%;box-sizing:border-box;min-height:46px;transition:border-color .15s,box-shadow .15s}
+.tl-box input{padding-right:2.6em}
+.tl-u{position:absolute;right:12px;color:var(--mute);font-size:15px;font-weight:500;pointer-events:none}
+.tl-in input:focus,.tl-in select:focus{outline:0;border-color:var(--hl);box-shadow:0 0 0 3px var(--hl-soft)}
+.tl-seg{display:flex;flex-wrap:wrap;gap:6px}
+.tl-seg button{font:inherit;font-size:14.5px;font-weight:700;color:var(--ink2);background:transparent;border:1px solid var(--hair2);border-radius:99px;padding:7px 14px;min-height:38px;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.tl-seg button:hover{border-color:var(--ink2)}
+.tl-seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.tl-res{background:var(--s1);border:1px solid var(--hair);border-radius:14px;padding:20px 22px}
+.tl-lab{font-size:14px;color:var(--mute);margin:0 0 4px}
+.tl-big{font-size:clamp(40px,6vw,56px);font-weight:900;line-height:1.1;margin:0;color:var(--hl-ink);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.tl-big small{font-size:18px;margin-left:4px;color:var(--ink2);font-weight:700}
+.tl-sub{color:var(--ink2);margin:6px 0 0;font-size:15px}
+.tl-rows{width:100%;border-collapse:collapse;margin:18px 0 0;font-size:15.5px;font-variant-numeric:tabular-nums}
+.tl-rows td{padding:10px 0;border-top:1px solid var(--hair);vertical-align:top}
+.tl-rows td:last-child{text-align:right;font-weight:700;white-space:nowrap;padding-left:12px}
+.tl-rows td small{display:block;color:var(--mute);font-size:12.5px;font-weight:500;line-height:1.6;margin-top:2px}
+.tl-rows tr.tot td{border-top:1px solid var(--hair2);font-weight:900;color:var(--ink)}
+.tl-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;letter-spacing:.02em;border-radius:6px;padding:2px 8px;border:1px solid currentColor;line-height:1.6;vertical-align:middle}
+.tl-tag.law{color:var(--interest)}.tl-tag.est{color:var(--stance)}.tl-tag.co{color:var(--fact)}
+.tl-warn{display:flex;gap:8px;background:var(--hl-soft);border-radius:10px;padding:10px 12px;font-size:14.5px;line-height:1.7;margin:12px 0 0;color:var(--ink)}
+.tl-warn::before{content:"!";flex:none;width:20px;height:20px;border-radius:50%;background:var(--hl);color:#1F2A24;font-weight:900;font-size:13px;display:grid;place-items:center;margin-top:2px}
+/* 手機：底部固定一條結果列，改數字時也看得到 */
+.tl-bar{display:none}
+@media (max-width:820px){
+  .tl-bar{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:30;align-items:baseline;justify-content:space-between;gap:10px;background:var(--s2);border:1px solid var(--hair2);border-radius:14px;padding:12px 16px;box-shadow:0 10px 30px rgba(0,0,0,.35);transition:transform .25s,opacity .25s}
+  .tl-bar span{font-size:13.5px;color:var(--mute)}
+  .tl-bar b{font-size:24px;font-weight:900;color:var(--hl-ink);font-variant-numeric:tabular-nums}
+  .tl-bar.off{transform:translateY(140%);opacity:0;pointer-events:none}
+}
+@media (prefers-reduced-motion:reduce){.tl-bar{transition:none}}
