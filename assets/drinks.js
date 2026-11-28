@@ -23,7 +23,11 @@
     return {color: f[1], flavor: n['口味'] || f[2], milk: /奶|拿鐵|雪|歐蕾|鮮乳|燕麥/.test(n['品名']), cream: /奶霜|奶蓋|雪|厚奶/.test(n['品名'] + n['說明']),
       pearls: /波波|珍珠|Q|糰子|凍/.test(n['品名'])};
   };
-  const deal = n => n['優惠'] || ((n['說明'].match(/[^，。；]*(買一送一|第二杯|折|半價|送)[^，。；]*/) || [])[0] || '');
+  // 優惠：有「優惠」欄就用它（過了「優惠到」就不顯示），沒有就從說明裡找
+  const deal = n => {
+    if (n['優惠到'] && n['優惠到'] < new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10)) return '';
+    return n['優惠'] || ((n['說明'].match(/[^，。；]*(買一送一|第二杯|折|半價|送)[^，。；]*/) || [])[0] || '');
+  };
   const mix = (hex, w) => { const c = parseInt(hex.slice(1), 16), r = c >> 16, g = c >> 8 & 255, b = c & 255, m = v => Math.round(v + (255 - v) * w);
     return '#' + ((1 << 24) + (m(r) << 16) + (m(g) << 8) + m(b)).toString(16).slice(1); };
   // 一杯飲料（SVG）
