@@ -26,6 +26,21 @@
 .hub div.card:hover{transform:none}
 .nx{font-size:14px!important;color:rgba(242,239,230,.7);margin:14px 0 0!important}
 .nx b{color:var(--hl);font-weight:800;margin:0 4px}
+.qz-side{display:none}
+@media (min-width:980px){
+  .ph:has(.qz-side){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,460px);grid-template-rows:auto auto 1fr;column-gap:56px;align-items:start}
+  .ph>:not(.qz-side){grid-column:1}
+  .qz-side{display:block;grid-column:2;grid-row:1/span 3;padding:18px 20px;max-width:none}
+  .qz-side .qz-head h3{font-size:17px}
+  .ph .qz-side .qz-rec{font-size:12.5px;margin:4px 0 0;opacity:1}
+  .ph .qz-side p{max-width:none}
+  .qz-side .qz-prog{margin:10px 0}
+  .qz-side .qz-q{font-size:15.5px;margin:0 0 10px}
+  .qz-side .qz-opts{gap:6px}
+  .qz-side .qz-opts button{font-size:14px;padding:8px 10px}
+  .qz-side .qz-ex{font-size:14px;line-height:1.7}
+  .qz-side .qz-big{font-size:40px}
+}
 </style>
 <!-- SITE-HEAD:START -->
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
@@ -50,10 +65,16 @@
   <h1>新聞</h1>
   <p class="nx" id="nx" hidden></p>
   <div class="pills" id="tabs" role="group" aria-label="篩選"></div>
+  <div class="qz qz-side" id="quiz"></div>
 </div></section>
-<main><div class="w" style="padding-top:clamp(28px,4vw,40px)"><div class="qz" id="quiz"><p class="qz-muted">小考載入中…</p></div></div><div class="w sec" id="list"><p class="msg">載入中…</p></div></main>
-<script src="assets/quiz.js"></script>
-<script>BBQuiz.mount(document.getElementById('quiz'), {pick: true});</script>
+<main><div class="w sec" id="list"><p class="msg">載入中…</p></div></main>
+<script>
+// 今日小考：只在電腦版放在標題旁邊，手機和平板不顯示
+if (matchMedia('(min-width: 980px)').matches) {
+  const s = document.createElement('script'); s.src = 'assets/quiz.js';
+  s.onload = () => BBQuiz.mount(document.getElementById('quiz')); document.head.appendChild(s);
+}
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const KINDS = [['all', '全部'], ['brief', '財經早報'], ['world', '國際早報'], ['close', '台股盤後'], ['pre', '美股盤前']];
