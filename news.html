@@ -27,6 +27,14 @@
 .nx{font-size:14px!important;color:rgba(242,239,230,.7);margin:14px 0 0!important}
 .nx b{color:var(--hl);font-weight:800;margin:0 4px}
 .qz-side{display:none}
+@media (min-width:980px){
+  .cb #tabs{display:none}
+  .qz-side{--ink:#1F2A24;--ink2:#3B4A41;--mute:#5F6A62;--line:#D9D2C2;--paper:#FFFDF8;--panel:#FFFDF8;--panel2:#EFEBE1;--accent:#2F5A45;--on-accent:#FFFDF8;--hl-ink:#7A5B00;
+    background:#F6F1E4!important;color:#1F2A24;border:0!important;border-radius:2px!important;box-shadow:0 14px 30px rgba(0,0,0,.35);transform:rotate(-.8deg);position:relative}
+  .qz-side::before{content:"";position:absolute;top:-9px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff8a7a,#d7263d 60%,#8f1424);box-shadow:0 3px 5px rgba(0,0,0,.4)}
+  .qz-side .qz-opts button{background:#FFFDF8;border-color:#D9D2C2;color:#1F2A24}
+  .qz-side .qz-q,.qz-side h3{color:#1F2A24}
+}
 .nl{display:none}
 /* 電腦版：日期放在每天上面當標題，卡片照當天篇數自動排滿整排，不留空格 */
 @media (min-width:980px){
@@ -83,13 +91,22 @@
 <!-- SITE-NAV:START -->
 <div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html" aria-current="page">新聞</a><a href="weekly.html">專欄</a><a href="tools.html">工具</a><a href="about.html">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html" aria-current="page">新聞<small>財經・國際・盤後・盤前・今日小考</small></a><a href="weekly.html">專欄<small>生活・科技・社會・身心・深度拆解・冷知識</small></a><a href="tools.html">工具<small>上班・休假・便條・飲料・出遊・理財</small></a><a href="about.html">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
-<section class="chalkboard"><div class="w ph">
+<section class="chalkboard cb"><div class="w ph">
   <h1>新聞</h1>
   <p class="nx" id="nx" hidden></p>
   <a class="nl" id="nl" hidden></a>
   <div class="pills" id="tabs" role="group" aria-label="篩選"></div>
   <div class="qz qz-side" id="quiz"></div>
-</div></section>
+</div>
+<div class="cb-ledge"><div class="w" id="chalks" role="group" aria-label="用粉筆選分類">
+  <span class="hint">拿一支粉筆，只看這一類</span><span class="sp"></span>
+  <button type="button" data-k="all"><span class="cb-stick"></span>全部</button>
+  <button type="button" data-k="brief"><span class="cb-stick y"></span>財經</button>
+  <button type="button" data-k="world"><span class="cb-stick b"></span>國際</button>
+  <button type="button" data-k="close"><span class="cb-stick p"></span>台股盤後</button>
+  <button type="button" data-k="pre"><span class="cb-stick g"></span>美股盤前</button>
+</div></div>
+</section>
 <main><div class="w sec" id="list"><p class="msg">載入中…</p></div></main>
 <script>
 // 今日小考：只在電腦版放在標題旁邊，手機和平板不顯示
@@ -119,9 +136,18 @@ document.addEventListener('DOMContentLoaded', () => {
       + (rest > 0 ? `<button type="button" class="older">看更早的 ${Math.min(rest, 7)} 天</button>` : '');
   }
   document.getElementById('list').addEventListener('click', e => { if (e.target.closest('.older')) { days += 7; render(); } });
+  // 木條上的粉筆：跟文字分類同一個功能
+  const chalks = document.getElementById('chalks');
+  const paintChalk = () => chalks && chalks.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.k === cur)));
+  if (chalks) chalks.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return; cur = b.dataset.k; days = 7;
+    history.replaceState(null, '', location.pathname + (cur === 'all' ? '' : '?type=' + cur)); render(); paintChalk();
+    document.getElementById('list').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+  });
+  paintChalk();
   document.getElementById('tabs').addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return; cur = b.dataset.k; days = 7;
-    history.replaceState(null, '', location.pathname + (cur === 'all' ? '' : '?type=' + cur)); render();
+    history.replaceState(null, '', location.pathname + (cur === 'all' ? '' : '?type=' + cur)); render(); paintChalk();
   });
   fetch('index.html', {cache: 'no-cache'}).then(r => r.text()).then(t => {
     const doc = new DOMParser().parseFromString(t, 'text/html');

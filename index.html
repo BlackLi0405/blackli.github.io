@@ -188,6 +188,17 @@
 /* 頁尾上方：四層說明 */
 .how{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;margin-top:clamp(56px,7vw,80px);padding:20px 0 0;border-top:1px solid var(--line);color:var(--ink2);font-size:15px;text-decoration:none}
 .how .go{color:var(--accent);font-weight:700;margin-left:auto}
+/* 黑板右上角：像教室黑板寫日期和值日的那一格 */
+.duty{display:none}
+@media (min-width:861px){
+  .side-col .duty:not([hidden]){display:block;margin:0 0 18px 32px}
+  /* 黑板右上角已經寫了日期和下一份，日期列只留「我的收藏」 */
+  .dateline:has(~ .chalkboard #duty:not([hidden])) #dl,.dateline:has(~ .chalkboard #duty:not([hidden])) .sched{display:none}
+  .dateline:has(~ .chalkboard #duty:not([hidden])) .w{justify-content:flex-end}
+  .duty b{display:block;font-size:22px;font-weight:700;letter-spacing:.04em}
+  .duty span{display:block;margin-top:6px;font-size:14px;font-weight:700;color:rgba(242,239,230,.8)}
+  .duty span em{font-style:normal;color:#F4D35E}
+}
 </style>
 <!-- SITE-HEAD:START -->
 <meta property="og:site_name" content="BlackLi Board">
@@ -216,11 +227,15 @@
 <!-- SITE-NAV:END -->
 <div class="dateline"><div class="w"><span id="dl"></span><span class="dl-r"><span class="sched">財經・國際 07:00　盤後 16:30　盤前 20:00</span><a class="sv" id="sv" href="saved.html">我的收藏</a></span></div></div>
 
-<section class="chalkboard"><div class="w front">
+<section class="chalkboard cb"><div class="w front">
   <div class="lead" id="lead"><span class="meta"><b>財經拆解</b></span><h1 class="sk" aria-label="載入中"><span></span><span></span></h1><p class="sk"><span></span><span></span><span></span></p></div>
+  <div class="side-col"><div class="duty chalk-box chalk-t" id="duty" hidden></div>
   <div class="side" id="side"><p class="sk"><span></span><span></span></p><p class="sk"><span></span><span></span></p></div>
+  </div>
   <p class="intro"><b class="say">每天幾分鐘，看懂一件事。</b><span class="how2">每篇都拆成<span class="layer fact">事實</span><span class="layer view">觀點</span><span class="layer stance">立場</span><span class="layer interest">利益</span><a href="method.html">怎麼拆的</a></span></p>
-</div></section>
+</div>
+<div class="cb-ledge" aria-hidden="true"><div class="w"><span class="sp"></span><span class="cb-stick"></span><span class="cb-stick y"></span><span class="cb-stick"></span></div></div>
+</section>
 
 <main>
 <section class="sec"><div class="w">
@@ -933,5 +948,27 @@ document.addEventListener('DOMContentLoaded', () => {
 <!-- SITE-FOOT:START -->
 <div class="sf"><div class="sf-in"><div><div class="sf-brand"><img src="assets/logo.svg" alt="" width="30" height="30">BlackLi <b>Board</b></div><p>把複雜的事寫在黑板上：分清楚事實、觀點、立場與利益，用幾分鐘看懂。</p><p class="bb-theme" role="group" aria-label="外觀">外觀<button type="button" data-set-theme="dark">黑板</button><button type="button" data-set-theme="light">白天</button></p></div><div><h5>每天讀</h5><ul><li><a href="index.html">今天</a></li><li><a href="news.html">新聞</a></li><li><a href="weekly.html">專欄</a></li><li><a href="facts.html">冷知識</a></li><li><a href="mind.html">休息一下</a></li></ul></div><div><h5>工具</h5><ul><li><a href="pay.html">上班算一算</a></li><li><a href="leave.html">休假中心</a></li><li><a href="memo.html">工作便條</a></li><li><a href="guide.html">按主題查</a></li><li><a href="drinks.html">飲料新品</a></li><li><a href="travel.html">出遊情報</a></li><li><a href="tools.html">全部工具</a></li></ul></div><div><h5>關於</h5><ul><li><a href="about.html">關於本站</a></li><li><a href="method.html">我怎麼拆解資訊</a></li><li><a href="method.html#sources">來源原則</a></li><li><a href="about.html#disclaimer">免責聲明</a></li></ul></div></div><div class="sf-bottom"><span>© 2026 BlackLi Board</span><span>內容整理自公開資料與新聞報導，僅供參考，不構成投資建議。</span></div></div>
 <!-- SITE-FOOT:END -->
+<script>
+// 黑板右上角：今天日期＋下一份什麼時候出
+(() => {
+  const el = document.getElementById('duty'); if (!el) return;
+  const S = [['07:00', '財經・國際早報', false], ['16:30', '台股盤後', true], ['20:00', '美股盤前', true]];
+  const tw = new Date(Date.now() + 8 * 3600e3), WD = '日一二三四五六';
+  const hm = tw.getUTCHours() * 60 + tw.getUTCMinutes();
+  let hit = null;
+  for (let d = 0; d < 8 && !hit; d++) {
+    const day = new Date(tw.getTime() + d * 864e5), wd = day.getUTCDay();
+    for (const [t, n, weekday] of S) {
+      if (weekday && (wd === 0 || wd === 6)) continue;
+      const m = +t.slice(0, 2) * 60 + +t.slice(3);
+      if (d === 0 && m <= hm) continue;
+      hit = {d, day, t, n}; break;
+    }
+  }
+  const when = !hit ? '' : hit.d === 0 ? '今天' : hit.d === 1 ? '明天' : `${hit.day.getUTCMonth() + 1}/${hit.day.getUTCDate()}`;
+  el.innerHTML = `<b>${tw.getUTCMonth() + 1} 月 ${tw.getUTCDate()} 日（${WD[tw.getUTCDay()]}）</b>` + (hit ? `<span>下一份：<em>${when} ${hit.t}</em> ${hit.n}</span>` : '');
+  el.hidden = false;
+})();
+</script>
 </body>
 </html>

@@ -345,16 +345,14 @@ nav.toc a b{display:none}
   .sb.bb-hide{transform:translateY(calc(-100% + 2px))}
 }
 @media (prefers-reduced-motion:reduce){.sb{transition:none}}
-/* 「正在讀」和「回到頂端」：電腦在左右下角，手機合成底部一條 */
+/* 「正在讀」和「回到頂端」：浮在左右下角的小圓角按鈕（手機也是，不做成貼底的一整條） */
 .bb-dock{position:fixed;left:0;right:0;bottom:0;z-index:45;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));pointer-events:none}
 .bb-dock .bb-layer,.bb-dock .bb-top{position:static}
 .bb-dock .bb-top{margin-left:auto}
+/* 手機：離螢幕底邊遠一點，避免 iPhone Safari 第一下被當成叫出瀏覽器工具列（要按兩次） */
 @media (max-width:760px){
-  .bb-dock{padding:0 16px env(safe-area-inset-bottom,0px);border-top:1px solid transparent;transition:background .2s,border-color .2s}
-  .bb-dock:has(.on){background:var(--paper);border-top-color:var(--line)}
-  .bb-dock .bb-layer,.bb-dock .bb-top{border:0;box-shadow:none;background:none;border-radius:0;padding:12px 0;transform:none}
-  .bb-dock .bb-top{color:var(--accent)}
-  body:has(.bb-dock){padding-bottom:46px}
+  .bb-dock{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+  .bb-dock .bb-top{min-height:44px;padding:0 16px;display:inline-flex;align-items:center;touch-action:manipulation}
 }
 
 /* 頁尾的外觀切換：黑板（預設）／白天 */
@@ -480,3 +478,25 @@ a.brand{min-height:44px!important;display:inline-flex!important;align-items:cent
 
 /* 版面欄位不能被裡面的東西撐得比螢幕寬（iPhone Safari 會把可折行的整排算成一整條） */
 .front>*,.row3>*,.duo>*,.duo2>*{min-width:0}
+
+/* ===== 黑板：深色標題區上緣細木框、下緣放粉筆的木條（今天、新聞、專欄、工具、關於共用） ===== */
+.hub .chalkboard.cb{border-top:5px solid #6b4325!important;border-bottom:0!important;padding-bottom:0}
+.cb-ledge{position:relative;height:12px;background:linear-gradient(#7a4e2c,#5a381f);box-shadow:0 -1px 0 rgba(0,0,0,.35),inset 0 2px 0 rgba(255,255,255,.12)}
+.cb-ledge .w{display:none}
+@media (min-width:980px){
+  .cb-ledge{height:auto}
+  .cb-ledge .w{display:flex;align-items:center;gap:12px;min-height:48px}
+}
+.cb-ledge .sp{flex:1}
+.cb-ledge .hint{font-size:13px;font-weight:700;color:rgba(242,239,230,.85)}
+.cb-stick{display:inline-block;width:38px;height:9px;border-radius:5px;background:#F2EFE6;box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
+.cb-stick.y{background:#F4D35E}.cb-stick.p{background:#F2A6B3}.cb-stick.b{background:#8FB7EA}.cb-stick.g{background:#7EC8B8}
+.cb-ledge button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 10px;border:0;border-radius:8px;background:none;font:inherit;font-size:13.5px;font-weight:700;color:#F2EFE6;cursor:pointer}
+.cb-ledge button:hover{background:rgba(255,255,255,.08)}
+.cb-ledge button:hover .cb-stick{transform:translateY(-3px) rotate(-4deg)}
+.cb-ledge button[aria-pressed="true"]{background:rgba(0,0,0,.22)}
+.cb-ledge button[aria-pressed="true"] .cb-stick{width:30px}
+.cb-stick{transition:transform .2s,width .2s}
+/* 粉筆字：直接寫在黑板上的字 */
+.chalk-t{color:#F2EFE6;text-shadow:0 0 1px rgba(242,239,230,.6),0 0 6px rgba(242,239,230,.12)}
+.chalk-box{border:1.5px solid rgba(242,239,230,.55);border-radius:3px 6px 4px 7px;padding:14px 18px;box-shadow:1px 1px 0 rgba(242,239,230,.12)}

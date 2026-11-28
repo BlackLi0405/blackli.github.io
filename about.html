@@ -28,6 +28,21 @@
 .ab .fine{font-size:15px;color:var(--mute)}
 .hero-go{display:inline-block;margin-top:18px;font-weight:700;color:var(--chalk);text-decoration:none;border-bottom:2px solid var(--hl);padding-bottom:2px}
 .hero-go[hidden]{display:none}
+/* 黑板右邊：粉筆畫的四格 */
+.ab-lesson{display:none}
+@media (min-width:980px){
+  .ab-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,460px);gap:56px;align-items:center}
+  .ab-lesson{display:block;position:relative;padding-left:28px;border-left:1px dashed rgba(242,239,230,.18)}
+}
+.ab-lh{font-size:13px;font-weight:700;letter-spacing:.08em;color:rgba(242,239,230,.6);margin:0 0 12px}
+.ab-g{display:grid;grid-template-columns:1fr 1fr;border:1.5px solid rgba(242,239,230,.5);border-radius:3px 6px 4px 7px}
+.ab-g div{padding:14px 16px;font-size:15px;font-weight:700;line-height:1.55;color:rgba(242,239,230,.9)}
+.ab-g div:nth-child(odd){border-right:1.5px solid rgba(242,239,230,.4)}
+.ab-g div:nth-child(-n+2){border-bottom:1.5px solid rgba(242,239,230,.4)}
+.ab-g b{display:block;font-size:20px;color:var(--c);margin-bottom:4px}
+.ab-arrow{width:96px;height:32px;margin:10px 0 0 40%}
+.ab-you{margin:0;font-size:15px;font-weight:700;color:rgba(242,239,230,.85)}
+.ab-you b{color:#F4D35E}
 .demo .hl{font-size:clamp(21px,4.6vw,28px);font-weight:700;line-height:1.5;color:var(--ink);margin:0 0 6px}
 .demo .hl mark{background:none;color:inherit;box-shadow:inset 0 -.32em 0 var(--hl-soft);transition:box-shadow .4s}
 .demo.open .hl mark{box-shadow:inset 0 -.32em 0 var(--hl)}
@@ -75,12 +90,27 @@
 <!-- SITE-NAV:START -->
 <div class="sb"><div class="sb-in"><a class="sb-logo" href="index.html" aria-label="BlackLi Board 首頁"><img src="assets/logo.svg" alt="" width="36" height="36">BlackLi <b>Board</b></a><nav class="sb-links" aria-label="主選單"><a href="index.html">今天</a><a href="news.html">新聞</a><a href="weekly.html">專欄</a><a href="tools.html">工具</a><a href="about.html" aria-current="page">關於</a></nav><details class="sb-menu"><summary aria-label="開啟選單"><span class="bars"></span>選單</summary><nav class="sb-drop" aria-label="主選單"><a href="index.html">今天<small>今日拆解・小考・今日一問</small></a><a href="news.html">新聞<small>財經・國際・盤後・盤前・今日小考</small></a><a href="weekly.html">專欄<small>生活・科技・社會・身心・深度拆解・冷知識</small></a><a href="tools.html">工具<small>上班・休假・便條・飲料・出遊・理財</small></a><a href="about.html" aria-current="page">關於<small>網站初衷與拆解方法</small></a></nav></details></div></div>
 <!-- SITE-NAV:END -->
-<section class="chalkboard"><div class="w ph">
+<section class="chalkboard cb"><div class="w ph ab-top">
+  <div>
   <div class="kick">關於</div>
   <h1>同一則新聞，<em>拆開來看就不一樣</em></h1>
   <p>事實、觀點、立場、利益，分開標好。結論你自己下。</p>
   <a class="hero-go" id="today" href="index.html" hidden></a>
-</div></section>
+  </div>
+  <div class="ab-lesson chalk-t" aria-label="黑板上的四格">
+    <p class="ab-lh">一則新聞，拆成四格</p>
+    <div class="ab-g">
+      <div style="--c:#F2EFE6"><b>事實</b>發生了什麼？<br>誰證實的？</div>
+      <div style="--c:#F4D35E"><b>觀點</b>各方<br>怎麼解讀？</div>
+      <div style="--c:#F2A6B3"><b>立場</b>各方站在<br>哪一邊？</div>
+      <div style="--c:#7EC8B8"><b>利益</b>誰會得到<br>好處？</div>
+    </div>
+    <svg class="ab-arrow" viewBox="0 0 120 40" aria-hidden="true"><path d="M4 30 C30 6, 70 4, 108 18" fill="none" stroke="#F4D35E" stroke-width="2.2" stroke-linecap="round"/><path d="M100 10 L110 18 L99 25" fill="none" stroke="#F4D35E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <p class="ab-you">最後一格留給你：<b>結論你自己下</b></p>
+  </div>
+</div>
+<div class="cb-ledge" aria-hidden="true"><div class="w"><span class="sp"></span><span class="cb-stick"></span><span class="cb-stick y"></span><span class="cb-stick p"></span><span class="cb-stick g"></span></div></div>
+</section>
 <main><div class="w sec ab">
 
 <section class="rw" id="try">
