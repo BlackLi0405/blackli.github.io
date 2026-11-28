@@ -48,7 +48,7 @@
 .side small{display:block;font-size:12px;font-weight:800;color:rgba(242,239,230,.6);letter-spacing:.08em;margin-bottom:2px}
 .side b{font-size:16px;line-height:1.6;font-weight:700}
 @media (max-width:860px){
-  .front{grid-template-columns:1fr;padding-top:30px;padding-bottom:32px}
+  .front{grid-template-columns:minmax(0,1fr);padding-top:30px;padding-bottom:32px}
   .lead{padding-right:0;border-right:0;padding-bottom:22px;border-bottom:1px solid rgba(242,239,230,.2)}
   .side{padding-left:0;padding-top:12px}
 }
@@ -66,7 +66,7 @@
 @keyframes bb-guide{to{background-size:100% 2px}}
 @media (prefers-reduced-motion:reduce){.col.guide .u{animation:none;background-size:100% 2px}}
 @media (max-width:860px){
-  .row3{grid-template-columns:1fr}
+  .row3{grid-template-columns:minmax(0,1fr)}
   .col,.col:first-child,.col:last-child{padding:20px 0;border-left:0;border-top:1px solid var(--line)}
   .col:first-child{border-top:0;padding-top:0}
 }
@@ -86,10 +86,10 @@
 .lite li:first-child a{border-top:0;padding-top:0}
 .lite b{display:block;font-size:15px;font-weight:800}
 .lite span{display:block;font-size:14px;color:var(--mute);line-height:1.6;margin-top:2px}
-@media (max-width:860px){.duo{grid-template-columns:1fr;gap:56px}.rows a{grid-template-columns:4em minmax(0,1fr)}.rows .meta{display:none}}
+@media (max-width:860px){.duo{grid-template-columns:minmax(0,1fr);gap:56px}.rows a{grid-template-columns:4em minmax(0,1fr)}.rows .meta{display:none}}
 
 /* 第四層：休息一下 × 工具箱 */
-.duo2{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.duo2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:56px}
 .ask-k{font-size:13px;font-weight:800;color:var(--mute);margin:0 0 6px}
 .ask-q{font-size:clamp(20px,2.2vw,24px);font-weight:900;line-height:1.5;margin:0 0 14px}
 .ask textarea{width:100%;background:var(--s1);border:1px solid var(--hair2);border-radius:12px;color:var(--ink);font:inherit;font-size:16px;line-height:1.6;padding:10px 12px;resize:vertical}
@@ -103,7 +103,7 @@
 .lst li:first-child a{border-top:0;padding-top:0}
 .lst a b{font-weight:800;font-size:16px;white-space:nowrap}
 .lst a span{color:var(--mute);font-size:14px;text-align:right}
-@media (max-width:760px){.duo2{grid-template-columns:1fr;gap:48px}.lst a{flex-direction:column;gap:2px}.lst a span{text-align:left}}
+@media (max-width:760px){.duo2{grid-template-columns:minmax(0,1fr);gap:48px}.lst a{flex-direction:column;gap:2px}.lst a span{text-align:left}}
 
 /* 黑板最下方：一句定位＋四層 */
 .intro{grid-column:1/-1;margin:34px 0 0;padding-top:16px;border-top:1px solid rgba(242,239,230,.16);font-size:14px;color:rgba(242,239,230,.78);display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}

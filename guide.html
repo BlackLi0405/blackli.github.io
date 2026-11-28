@@ -14,7 +14,7 @@
 .tp[hidden]{display:none}
 .tp h2{font-size:clamp(30px,6vw,44px);line-height:1.1;margin:0 0 6px;color:var(--accent)}
 .tl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 36px;margin:0;padding:0;list-style:none}
-@media (max-width:760px){.tl{grid-template-columns:1fr}}
+@media (max-width:760px){.tl{grid-template-columns:minmax(0,1fr)}}
 .tl a{display:block;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--line);padding:14px 0 13px}
 .tl h3{font-size:19px;font-weight:700;margin:0 0 3px;line-height:1.4}
 .tl p{margin:0;font-size:15px;color:var(--ink2)}
@@ -28,7 +28,7 @@
 .tv .meta{font-size:14px;color:var(--mute);margin:0 0 18px}
 .lab{display:inline-block;font-size:12px;font-weight:700;border:1px solid var(--accent);color:var(--accent);border-radius:2px;padding:0 6px;margin-right:6px;vertical-align:1px}
 .rw{display:grid;grid-template-columns:6.5em 1fr;gap:6px 16px;border-top:1px solid var(--line);padding:16px 0}
-@media (max-width:560px){.rw{grid-template-columns:1fr}}
+@media (max-width:560px){.rw{grid-template-columns:minmax(0,1fr)}}
 .rw>h3{font-size:15px;font-weight:700;color:var(--accent);margin:2px 0 0}
 .rw ul,.rw ol{margin:0;padding-left:1.25em;font-size:16.5px;color:var(--ink)}
 .rw li{margin:0 0 6px}

@@ -113,7 +113,7 @@ body.bb-big main p,body.bb-big main li{font-size:19px}
 .hub .grid{display:grid;gap:20px}
 .hub .g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-width:980px){.hub .g4{grid-template-columns:repeat(2,minmax(0,1fr))}.hub .g3{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:640px){.hub .g2,.hub .g3,.hub .g4{grid-template-columns:1fr}}
+@media (max-width:640px){.hub .g2,.hub .g3,.hub .g4{grid-template-columns:minmax(0,1fr)}}
 .hub .nb{display:block;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:4px 14px 14px 4px;padding:18px 18px 16px 22px;position:relative;box-shadow:var(--shadow);transition:transform .15s}
 .hub .nb:hover{transform:translateY(-2px)}
 .hub .nb::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;border-radius:4px 0 0 4px;background:var(--c,var(--accent))}
@@ -440,12 +440,12 @@ nav.toc a b{display:none}
 .qz-again{background:none;border:0;font:inherit;font-size:14px;font-weight:700;color:var(--ink2);text-decoration:underline;text-underline-offset:4px;cursor:pointer}
 .qz-muted{color:var(--mute);margin:0}
 .qz-art{margin:40px auto 0}
-@media (max-width:620px){.qz-opts{grid-template-columns:1fr}}
+@media (max-width:620px){.qz-opts{grid-template-columns:minmax(0,1fr)}}
 
 /* ===== 好點：手指點的地方至少 44px 高（WCAG 2.5.5），用鍵盤時看得到停在哪 ===== */
 .sb-logo,.sf a,.bb-theme button,.pills a,.pills button,.sh a,.acts a,.flt button,.tl-seg button,
 .ask-more a,.fx-list a,.arc a,.lead .go,.side .all,.more-b,.qz-again,.qz-row a,.mo-act button,.tabs button,
-.hub .btn,.qz .btn,.bb-tools button,.top a,.brand,a.go,.sv,.how2,.all{min-height:44px!important;display:inline-flex!important;align-items:center}
+.hub .btn,.qz .btn,.bb-tools button,.top a,.brand,a.go,a.sv,a.all,.how2 a{min-height:44px!important;display:inline-flex!important;align-items:center}
 .bb-theme button{min-width:44px;justify-content:center}
 .sf li{margin:0}
 .dk-list summary,.fx summary,details.book summary,details summary{min-height:44px;display:flex;align-items:center}
@@ -453,7 +453,7 @@ nav.toc a b{display:none}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 .chalkboard :focus-visible,.sb :focus-visible{outline-color:var(--hl)}
 .hub .card li a{min-height:44px;align-items:center}
-.toc .wrap a,footer .wrap a.top,footer .top a,.top a,.hero .brand,a.brand,.go,.how2{min-height:44px;display:inline-flex;align-items:center}
+.toc .wrap a,footer .wrap a.top,footer .top a,.top a,.hero .brand,a.brand,a.go{min-height:44px;display:inline-flex;align-items:center}
 .bi label{min-height:44px;display:flex;align-items:center;gap:10px}
 .bi input[type=checkbox]{width:24px;height:24px}
 a.brand{min-height:44px!important;display:inline-flex!important;align-items:center}
@@ -477,3 +477,6 @@ a.brand{min-height:44px!important;display:inline-flex!important;align-items:cent
 .bb-share-pop a,.bb-share-pop button{display:flex;align-items:center;min-height:44px;padding:0 12px;border-radius:8px;background:none;border:0;font:inherit;font-size:15px;font-weight:700;color:var(--ink);text-decoration:none;cursor:pointer;text-align:left}
 .bb-share-pop a:hover,.bb-share-pop button:hover{background:var(--panel2)}
 @media print{.bb-share-row{display:none}}
+
+/* 版面欄位不能被裡面的東西撐得比螢幕寬（iPhone Safari 會把可折行的整排算成一整條） */
+.front>*,.row3>*,.duo>*,.duo2>*{min-width:0}

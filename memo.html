@@ -45,7 +45,7 @@
 .n .menu button.del{color:#9A2B1F}
 .tabs{display:none}
 @media (max-width:760px){
-  .board{grid-template-columns:1fr;padding:10px;border-width:6px;min-height:300px}
+  .board{grid-template-columns:minmax(0,1fr);padding:10px;border-width:6px;min-height:300px}
   .col{display:none}.col.on{display:flex}
   .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:8px 0 0}
   .tabs button{font:inherit;font-size:14px;font-weight:700;color:var(--ink2);background:transparent;border:0;border-bottom:2px solid var(--line);padding:8px 0;cursor:pointer}

@@ -71,7 +71,7 @@ h1{font-size:clamp(32px,8vw,46px);font-weight:900;line-height:1.2;margin:10px 0 
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--paper);border:1px solid var(--gold);color:var(--ink);padding:10px 16px;border-radius:12px;font-size:14px;z-index:99;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
 main{padding-bottom:60px}
-@media (max-width:560px){.grid{grid-template-columns:1fr}.filters{position:static}}
+@media (max-width:560px){.grid{grid-template-columns:minmax(0,1fr)}.filters{position:static}}
 .ev .img.noimg{aspect-ratio:auto;height:96px;font-size:40px;background:linear-gradient(135deg,var(--tc,var(--line)),var(--panel2) 75%)}
 .ev .img.noimg .ph{filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
 .ev[data-ty=expo]{--tc:#3D5A8C}.ev[data-ty=music]{--tc:#7A4E8F}.ev[data-ty=stage]{--tc:#8C4A5A}.ev[data-ty=kids]{--tc:#3F7F6B}.ev[data-ty=talk]{--tc:#5A6B8C}.ev[data-ty=film]{--tc:#5C5470}.ev[data-ty=fest]{--tc:#8C6A2E}.ev[data-ty=other]{--tc:#4A5A70}

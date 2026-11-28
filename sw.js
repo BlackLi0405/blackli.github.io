@@ -3,7 +3,7 @@
    - 圖片：先用手機裡存的，背景再更新。
    - 只處理本站的檔案，外部網站（字型、出遊情報的資料來源）不經過這裡。
    改了這個檔案的快取規則時，把 VERSION 加 1。 */
-const VERSION = 'bb-v4';
+const VERSION = 'bb-v5';
 const PAGES = VERSION + '-pages';
 const ASSETS = VERSION + '-assets';
 const CORE = [

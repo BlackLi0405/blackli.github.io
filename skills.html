@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 .sks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px}
-@media (max-width:760px){.sks{grid-template-columns:1fr}}
+@media (max-width:760px){.sks{grid-template-columns:minmax(0,1fr)}}
 .sk{border-top:2px solid var(--line);padding:22px 0 26px}
 .sk:first-child{grid-column:1/-1}
 .sk:first-child h2{font-size:clamp(34px,7vw,52px)}

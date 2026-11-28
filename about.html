@@ -9,13 +9,13 @@
 <style>
 .ab{max-width:860px}
 .ab .rw{display:grid;grid-template-columns:8em 1fr;gap:8px 24px;border-top:1px solid var(--line);padding:26px 0 18px;scroll-margin-top:70px}
-@media (max-width:640px){.ab .rw{grid-template-columns:1fr;padding-top:22px}}
+@media (max-width:640px){.ab .rw{grid-template-columns:minmax(0,1fr);padding-top:22px}}
 .ab h2{font-size:17px;font-weight:700;color:var(--accent);margin:3px 0 0;line-height:1.5}
 .ab p{margin:0 0 14px;font-size:17px;line-height:1.85;color:var(--ink2)}
 .ab p b{color:var(--ink)}
 .ab .big{font-size:20px;line-height:1.7;color:var(--ink);font-weight:700}
 .ab .l4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 24px;margin:4px 0 18px}
-@media (max-width:480px){.ab .l4{grid-template-columns:1fr}}
+@media (max-width:480px){.ab .l4{grid-template-columns:minmax(0,1fr)}}
 .ab .l4 div{font-size:15.5px;color:var(--ink2);line-height:1.6}
 .ab .l4 .layer{display:block;margin:0 0 4px;font-size:15px}
 .ab .pr{margin:0 0 6px;padding-left:1.2em;font-size:17px;line-height:1.85;color:var(--ink2)}
@@ -42,7 +42,7 @@
 .demo:not(.open) .rows,.demo:not(.open) .after{height:0;overflow:hidden;margin:0}
 @media (prefers-reduced-motion:reduce){.demo .row,.demo .after{transition:none}}
 .nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 28px;margin:2px 0 6px}
-@media (max-width:640px){.nums{grid-template-columns:1fr}}
+@media (max-width:640px){.nums{grid-template-columns:minmax(0,1fr)}}
 .nums h3{font-size:15px;font-weight:700;color:var(--mute);margin:0 0 2px}
 .nums .n{font-size:30px;font-weight:700;color:var(--ink);line-height:1.2;margin:0 0 4px}
 .nums .n small{font-size:16px;font-weight:700;margin-left:2px}
